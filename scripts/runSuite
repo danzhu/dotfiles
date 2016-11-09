@@ -1,0 +1,66 @@
+#!/bin/bash
+
+# prints usage to stderr
+usage() {
+    echo "Usage: $0 suite-file program" >&2
+}
+
+# check for number of args
+if [ $# -ne 2 ]; then
+    echo "Incorrect number of arguments (2 expected, $# given)" >&2
+    usage
+    exit 2
+fi
+
+# assign args
+suite=$1
+program=$2
+
+failed=0
+
+for tst in $(cat $suite); do
+    # check for existence and readability of the in / out files
+    if [ ! -r "$tst.in" ]; then
+        echo "File not readable: $tst.in" >&2
+        exit 2
+    elif [ ! -r "$tst.out" ]; then
+        echo "File not readable: $tst.out" >&2
+        exit 2
+    fi
+
+    # if args file exists and readable, pass them as command-line args
+    if [ -r "$tst.args" ]; then
+        args=$(cat "$tst.args")
+    else
+        args=
+    fi
+
+    # create temp file for output
+    # note that we do it here so the checks above do not need to cleanup
+    tmp=$(mktemp)
+
+    # run the program and get the output
+    "$program" $args < "$tst.in" > "$tmp"
+
+    # run diff to test if output matches
+    diff -q "$tst.out" "$tmp" > /dev/null
+
+    # check diff result
+    if [ $? -ne 0 ]; then
+        # test failed, print details
+        echo "Test failed: $tst"
+        echo "Input:"
+        cat "$tst.in"
+        echo "Expected:"
+        cat "$tst.out"
+        echo "Actual:"
+        cat "$tmp"
+
+        failed=1
+    fi
+
+    # remove temp file
+    rm "$tmp"
+done
+
+exit $failed

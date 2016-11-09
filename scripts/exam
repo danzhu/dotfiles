@@ -1,0 +1,105 @@
+#!/bin/bash
+
+if [ "$#" -lt 1 ] || [ "$#" -gt 2 ]; then
+    echo "usage: $0 program"
+    exit 2
+fi
+
+shopt -s nullglob
+
+out=$(mktemp)
+err=$(mktemp)
+val=$(mktemp)
+
+program=$1
+tests="${2-./}"
+width="$(tput cols)"
+cmd="valgrind --log-file=$val"
+diff="diff -y --width=$((width - 8))"
+passed=0
+failed=0
+
+list() {
+    local f
+    for f in $tests/*.in $tests/*.args; do
+        echo "${f%.*}"
+    done
+}
+
+display() {
+    if [ -s "$2" ]; then
+        echo "$1"
+        nl "$2"
+    fi
+}
+
+pass() {
+    tput setaf 2
+    echo "[ PASSED ]"
+    tput sgr0
+
+    passed=$(($passed + 1))
+}
+
+fail() {
+    tput setaf 1
+    echo "[ $1 ]"
+    tput sgr0
+
+    failed=$(($failed + 1))
+
+    # if [ -n "$args" ]; then
+    #     echo "Args: $args"
+    # fi
+
+    sed 's/^/\t/'
+
+    # display "In:" "$in"
+    # display "Expected output:" "$tst.out"
+    # display "Actual output:" "$out"
+    # display "Expected error:" "$tst.err"
+    # display "Actual error:" "$err"
+}
+
+echo "  Testing $program..."
+for tst in $(list | sort -u); do
+    printf "    %-$((width - 14))s" "$(basename $tst)"
+
+    if [ -r "$tst.args" ]; then
+        args=$(cat $tst.args)
+    else
+        args=
+    fi
+
+    if [ -r "$tst.in" ]; then
+        in="$tst.in"
+    else
+        in="/dev/null"
+    fi
+
+    $cmd "$program" $args < "$in" > "$out" 2> "$err"
+    ret=$?
+    readarray lost < <(sed -nr 's/.*lost: ([0-9]+) bytes.*/\1/p' "$val")
+
+    if [ -r "$tst.out" ] && ! dout=$($diff "$tst.out" "$out"); then
+        echo "$dout" | fail "STDOUT"
+    elif [ -r "$tst.err" ] && ! derr=$($diff "$tst.err" "$err"); then
+        echo "$derr" | fail "STDERR"
+    elif [ ${lost[0]-0} -gt 0 ] || [ ${lost[1]-0} -gt 0 ] || [ ${lost[2]-0} -gt 0 ]; then
+        grep -o -E '[a-z]+ lost: [0-9]+ bytes in [0-9]+ blocks' "$val" | fail "MEMORY"
+    else
+        pass
+    fi
+done
+
+rm "$out"
+rm "$err"
+rm "$val"
+
+echo "  Summary:"
+echo "    $passed passed"
+echo "    $failed failed"
+
+if [ $failed -gt 0 ]; then
+    exit 1
+fi
