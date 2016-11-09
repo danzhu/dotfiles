@@ -1,0 +1,23 @@
+# Lines configured by zsh-newuser-install
+HISTFILE=~/.histfile
+HISTSIZE=1000
+SAVEHIST=1000
+setopt appendhistory extendedglob
+bindkey -e
+# End of lines configured by zsh-newuser-install
+# The following lines were added by compinstall
+zstyle :compinstall filename '/home/daniel/.zshrc'
+
+autoload -Uz compinit
+compinit
+# End of lines added by compinstall
+
+typeset -U path
+path=(~/bin $path[@])
+
+alias ls='ls -h --color=auto'
+alias la='ls -A'
+alias ll='ls -l'
+
+PROMPT='%B%0K %m %k%(?.. %1F%?%f)%4F %~ %f%b
+%7F%#%f '
