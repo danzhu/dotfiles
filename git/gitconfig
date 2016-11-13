@@ -4,3 +4,5 @@
 [filter "sort"]
 	clean = sort
 	smudge = cat
+[commit]
+	verbose = true
