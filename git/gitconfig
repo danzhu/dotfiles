@@ -6,3 +6,8 @@
 	smudge = cat
 [commit]
 	verbose = true
+[format]
+	pretty = oneline
+[log]
+	abbrevCommit = true
+	decorate = short
