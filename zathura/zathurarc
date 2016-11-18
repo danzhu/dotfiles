@@ -1,2 +1,4 @@
 set recolor
 set recolor-keephue
+set recolor-darkcolor "#d9dddd"
+set recolor-lightcolor "#222425"

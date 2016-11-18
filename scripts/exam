@@ -13,8 +13,8 @@ val=$(mktemp)
 
 program="$(realpath $1)"
 width="$(tput cols)"
-cmd="valgrind --log-file=$val"
-diff="diff -y --width=$((width - 8))"
+cmd="timeout 20s valgrind --log-file=$val --error-exitcode=246 --leak-check=full"
+diff="diff -y --width=$((width - 10))"
 passed=0
 failed=0
 
@@ -27,13 +27,6 @@ list() {
     for f in *.in *.args; do
         echo "${f%.*}"
     done
-}
-
-display() {
-    if [ -s "$2" ]; then
-        echo "$1"
-        nl "$2"
-    fi
 }
 
 pass() {
@@ -50,18 +43,6 @@ fail() {
     tput sgr0
 
     failed=$(($failed + 1))
-
-    # if [ -n "$args" ]; then
-    #     echo "Args: $args"
-    # fi
-
-    sed 's/^/\t/'
-
-    # display "In:" "$in"
-    # display "Expected output:" "$tst.out"
-    # display "Actual output:" "$out"
-    # display "Expected error:" "$tst.err"
-    # display "Actual error:" "$err"
 }
 
 echo "  Testing $program..."
@@ -80,16 +61,23 @@ for tst in $(list | sort -u); do
         in="/dev/null"
     fi
 
-    $cmd "$program" $args < "$in" > "$out" 2> "$err"
+    { $cmd "$program" $args < "$in" > "$out" 2> "$err"; } 2> /dev/null
     ret=$?
     readarray lost < <(sed -nr 's/.*lost: ([0-9]+) bytes.*/\1/p' "$val")
 
-    if [ -r "$tst.out" ] && ! dout=$($diff "$tst.out" "$out"); then
-        echo "$dout" | fail "STDOUT"
+    if [ $ret -eq 139 ]; then
+        fail "SEG FT"
+    elif [ $ret -eq 124 ]; then
+        fail " TIME "
+    elif [ -r "$tst.out" ] && ! dout=$($diff "$tst.out" "$out"); then
+        fail "STDOUT"
+        echo "$dout" | sed 's/^/\t/'
     elif [ -r "$tst.err" ] && ! derr=$($diff "$tst.err" "$err"); then
-        echo "$derr" | fail "STDERR"
-    elif [ ${lost[0]-0} -gt 0 ] || [ ${lost[1]-0} -gt 0 ] || [ ${lost[2]-0} -gt 0 ]; then
-        grep -o -E '[a-z]+ lost: [0-9]+ bytes in [0-9]+ blocks' "$val" | fail "MEMORY"
+        fail "STDERR"
+        echo "$derr" | sed 's/^/\t/'
+    elif [ $ret -eq 246 ]; then
+        fail "MEMORY"
+        grep -o -E ' *[a-z]+ lost: [0-9]+ bytes in [0-9]+ blocks' "$val" | sed 's/^/    /'
     else
         pass
     fi
