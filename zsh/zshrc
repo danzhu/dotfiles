@@ -6,7 +6,12 @@ setopt appendhistory extendedglob
 bindkey -e
 # End of lines configured by zsh-newuser-install
 # The following lines were added by compinstall
-zstyle :compinstall filename '/home/daniel/.zshrc'
+
+zstyle ':completion:*' glob 1
+zstyle ':completion:*' group-name ''
+zstyle ':completion:*' list-colors ''
+zstyle ':completion:*' matcher-list '' 'm:{[:lower:]}={[:upper:]} r:|[._-]=* r:|=*' 'l:|=* r:|=*'
+zstyle :compinstall filename '~/.zshrc'
 
 autoload -Uz compinit
 compinit
@@ -19,5 +24,33 @@ alias ls='ls -h --color=auto'
 alias la='ls -A'
 alias ll='ls -l'
 
-PROMPT='%B%0K %m %k%(?.. %1F%?%f)%4F %~ %f%b
-%7F%#%f '
+autoload -Uz add-zsh-hook
+add-zsh-hook precmd prompt
+
+function prompt() {
+    local branch gitstatus
+    print ''
+    print -nP '%B%K'
+    if [[ $UID -eq 0 ]]; then
+        print -nP ' %1F%n%f@%m'
+    elif [[ -n "$SSH_CONNECTION" ]]; then
+        print -nP ' %m'
+    fi
+    print -nP ' %k %4F%~%f%b'
+    if branch=$(git rev-parse --abbrev-ref HEAD 2> /dev/null); then
+        gitstatus=$(git status --porcelain 2> /dev/null)
+        if echo "$gitstatus" | grep -qE '^[MADRCU].'; then
+            print -nP '%2F'
+        elif echo "$gitstatus" | grep -qE '^.[MADRCU]'; then
+            print -nP '%1F'
+        elif echo "$gitstatus" | grep -qE '^\?\?'; then
+            print -nP '%3F'
+        else
+            print -nP '%7F'
+        fi
+        print -nP " $branch%f"
+    fi
+    print ''
+}
+
+PROMPT='%K%(?. .%1F!%f)%k '
