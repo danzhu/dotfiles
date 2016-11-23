@@ -2,7 +2,7 @@
 	email = danzhu24@hotmail.com
 	name = Daniel Zhu
 [filter "sort"]
-	clean = sort
+	clean = sort -n
 	smudge = cat
 [commit]
 	verbose = true
