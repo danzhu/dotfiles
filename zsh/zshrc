@@ -2,11 +2,12 @@
 HISTFILE=~/.histfile
 HISTSIZE=1000
 SAVEHIST=1000
-setopt appendhistory extendedglob
+setopt appendhistory extendedglob histignorealldups sharehistory
 bindkey -e
 # End of lines configured by zsh-newuser-install
 # The following lines were added by compinstall
 
+zstyle ':completion:*' format 'Completing %d'
 zstyle ':completion:*' glob 1
 zstyle ':completion:*' group-name ''
 zstyle ':completion:*' list-colors ''
