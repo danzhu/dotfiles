@@ -54,4 +54,8 @@ function prompt() {
     print ''
 }
 
+function mkcdir() {
+    mkdir -p -- "$1" && cd -P -- "$1"
+}
+
 PROMPT='%K%(?. .%1F!%f)%k '
