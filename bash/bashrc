@@ -5,5 +5,9 @@
 # If not running interactively, don't do anything
 [[ $- != *i* ]] && return
 
-alias ls='ls --color=auto'
-PS1='[\u@\h \W]\$ '
+[[ -f /etc/bash.bashrc ]] && source /etc/bash.bashrc
+
+# PS1='[\u@\h \W]\$ '
+
+source ~/.dotfiles/common/aliases
+source ~/.dotfiles/common/functions

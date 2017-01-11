@@ -18,13 +18,6 @@ autoload -Uz compinit
 compinit
 # End of lines added by compinstall
 
-typeset -U path
-path=(~/bin $path[@])
-
-alias ls='ls -h --color=auto'
-alias la='ls -A'
-alias ll='ls -l'
-
 autoload -Uz add-zsh-hook
 add-zsh-hook precmd prompt
 
@@ -54,8 +47,7 @@ function prompt() {
     print ''
 }
 
-function mkcdir() {
-    mkdir -p -- "$1" && cd -P -- "$1"
-}
-
 PROMPT='%K%(?. .%1F!%f)%k '
+
+source ~/.dotfiles/common/aliases
+source ~/.dotfiles/common/functions

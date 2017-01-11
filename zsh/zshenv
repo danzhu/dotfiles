@@ -1,1 +1,1 @@
-export EDITOR=vim
+source ~/.dotfiles/common/env
