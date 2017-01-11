@@ -11,3 +11,5 @@
 
 source ~/.dotfiles/common/aliases
 source ~/.dotfiles/common/functions
+
+[[ -f ~/.dotfiles/bash/bashrc.local ]] && source ~/.dotfiles/bash/bashrc.local
