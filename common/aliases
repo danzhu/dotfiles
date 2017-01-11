@@ -2,3 +2,5 @@ alias ls='ls -h --color=auto'
 alias la='ls -A'
 alias ll='ls -l'
 alias grep='grep --color=auto'
+
+[[ -f ~/.dotfiles/common/aliases.local ]] && source ~/.dotfiles/common/aliases.local

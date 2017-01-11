@@ -1,3 +1,5 @@
 mkcdir() {
     mkdir -p -- "$1" && cd -P -- "$1"
 }
+
+[[ -f ~/.dotfiles/common/functions.local ]] && source ~/.dotfiles/common/functions.local
