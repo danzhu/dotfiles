@@ -23,7 +23,7 @@ general {
 
 ethernet _first_ {
     format_up = "%ip"
-    format_down = "No Connection"
+    format_down = "offline"
 }
 
 battery 0 {
