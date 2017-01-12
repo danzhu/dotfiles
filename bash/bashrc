@@ -5,11 +5,15 @@
 # If not running interactively, don't do anything
 [[ $- != *i* ]] && return
 
-[[ -f /etc/bash.bashrc ]] && source /etc/bash.bashrc
+if [[ -f /etc/bash.bashrc ]]; then
+    source /etc/bash.bashrc
+fi
 
 # PS1='[\u@\h \W]\$ '
 
 source ~/.dotfiles/common/aliases
 source ~/.dotfiles/common/functions
 
-[[ -f ~/.dotfiles/bash/bashrc.local ]] && source ~/.dotfiles/bash/bashrc.local
+if [[ -f ~/.dotfiles/bash/bashrc.local ]]; then
+    source ~/.dotfiles/bash/bashrc.local
+fi
