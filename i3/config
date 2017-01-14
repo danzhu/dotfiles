@@ -11,6 +11,37 @@
 
 set $mod Mod4
 
+set $black "#222425"
+set $grey1 "#35393a"
+set $grey2 "#4e5152"
+set $grey3 "#8a8a8d"
+set $grey4 "#d9dddd"
+set $white "#eff3f4"
+
+set $red "#dd5e64"
+set $green "#47c750"
+set $yellow "#bcbf58"
+set $blue "#7485d8"
+set $purple "#9f78cd"
+set $cyan "#60bb9d"
+set $lightred "#f48893"
+set $lightgreen "#7ee06d"
+set $lightyellow "#eec673"
+set $lightblue "#83c6e8"
+set $lightpurple "#e497e4"
+set $lightcyan "#71e2d1"
+
+set $ws1 "1 web"
+set $ws2 "2 dir"
+set $ws3 "3 dev"
+set $ws4 "4"
+set $ws5 "5"
+set $ws6 "6"
+set $ws7 "7"
+set $ws8 "8"
+set $ws9 "9"
+set $ws0 "10"
+
 # Font for window titles. Will also be used by the bar unless a different font
 # is used in the bar {} block below.
 font pango:monospace 9
@@ -95,28 +126,28 @@ bindsym $mod+a focus parent
 #bindsym $mod+d focus child
 
 # switch to workspace
-bindsym $mod+1 workspace 1
-bindsym $mod+2 workspace 2
-bindsym $mod+3 workspace 3
-bindsym $mod+4 workspace 4
-bindsym $mod+5 workspace 5
-bindsym $mod+6 workspace 6
-bindsym $mod+7 workspace 7
-bindsym $mod+8 workspace 8
-bindsym $mod+9 workspace 9
-bindsym $mod+0 workspace 10
+bindsym $mod+1 workspace number $ws1
+bindsym $mod+2 workspace number $ws2
+bindsym $mod+3 workspace number $ws3
+bindsym $mod+4 workspace number $ws4
+bindsym $mod+5 workspace number $ws5
+bindsym $mod+6 workspace number $ws6
+bindsym $mod+7 workspace number $ws7
+bindsym $mod+8 workspace number $ws8
+bindsym $mod+9 workspace number $ws9
+bindsym $mod+0 workspace number $ws0
 
 # move focused container to workspace
-bindsym $mod+Shift+1 move container to workspace 1
-bindsym $mod+Shift+2 move container to workspace 2
-bindsym $mod+Shift+3 move container to workspace 3
-bindsym $mod+Shift+4 move container to workspace 4
-bindsym $mod+Shift+5 move container to workspace 5
-bindsym $mod+Shift+6 move container to workspace 6
-bindsym $mod+Shift+7 move container to workspace 7
-bindsym $mod+Shift+8 move container to workspace 8
-bindsym $mod+Shift+9 move container to workspace 9
-bindsym $mod+Shift+0 move container to workspace 10
+bindsym $mod+Shift+1 move container to workspace number $ws1
+bindsym $mod+Shift+2 move container to workspace number $ws2
+bindsym $mod+Shift+3 move container to workspace number $ws3
+bindsym $mod+Shift+4 move container to workspace number $ws4
+bindsym $mod+Shift+5 move container to workspace number $ws5
+bindsym $mod+Shift+6 move container to workspace number $ws6
+bindsym $mod+Shift+7 move container to workspace number $ws7
+bindsym $mod+Shift+8 move container to workspace number $ws8
+bindsym $mod+Shift+9 move container to workspace number $ws9
+bindsym $mod+Shift+0 move container to workspace number $ws0
 
 # reload the configuration file
 bindsym $mod+Shift+c reload
@@ -124,6 +155,15 @@ bindsym $mod+Shift+c reload
 bindsym $mod+Shift+r restart
 # exit i3 (logs you out of your X session)
 bindsym $mod+Shift+e exec --no-startup-id "i3-nagbar -t warning -m 'Exit i3?' -b 'Yes' 'i3-msg exit'"
+
+# class                 border      background  text        indicator   child_border
+client.focused          $lightblue  $grey1      $lightblue  $grey3      $grey1
+client.focused_inactive $grey3      $black      $grey4      $grey2      $black
+client.unfocused        $grey2      $black      $grey3      $grey1      $black
+client.urgent           $lightred   $grey1      $lightred   $grey3      $grey1
+client.placeholder      $black      $grey1      $grey4      $black      $grey1
+
+client.background       $black
 
 # resize window (you can also use the mouse for that)
 mode "resize" {
@@ -157,4 +197,18 @@ bar {
     status_command i3status
     position top
     tray_output primary
+    separator_symbol "/"
+
+    colors {
+        background $black
+        statusline $grey4
+        separator $grey3
+
+        # colorclass        border          background      text
+        focused_workspace   $lightblue      $grey1          $lightblue
+        active_workspace    $grey3          $grey1          $lightblue
+        inactive_workspace  $grey2          $black          $grey3
+        urgent_workspace    $lightred       $grey1          $lightred
+        binding_mode        $lightyellow    $grey1          $lightyellow
+    }
 }

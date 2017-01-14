@@ -6,11 +6,14 @@
 # ß
 # If the above line is not correctly displayed, fix your editor first!
 
+order += "run_watch vbox"
+order += "path_exists shared"
 order += "ethernet _first_"
 order += "load"
 order += "cpu_usage"
 order += "disk /"
 order += "battery 0"
+order += "volume master"
 order += "time"
 
 general {
@@ -22,27 +25,48 @@ general {
 }
 
 ethernet _first_ {
-    format_up = "%ip"
+    format_up = "net %ip"
     format_down = "offline"
 }
 
 battery 0 {
     format = "%status %percentage"
     integer_battery_capacity = true
-    status_chr = "+"
-    status_bat = "-"
-    status_full = "="
+    status_chr = "chr"
+    status_bat = "bat"
+    status_full = "ful"
     low_threshold = 20
 }
 
 time {
-    format = "%a %d %b %I:%M:%S %p"
+    format = "%a %b %d %I:%M:%S %p"
 }
 
 load {
-    format = "%1min"
+    format = "load %1min"
 }
 
 disk "/" {
-    format = "%avail [%percentage_avail]"
+    format = "disk %avail [%percentage_avail]"
+}
+
+cpu_usage {
+    format = "cpu %usage"
+}
+
+volume master {
+    format = "vol %volume"
+    format_muted = "mute"
+}
+
+run_watch vbox {
+    format = "vs"
+    format_down = "vs"
+    pidfile = "~/.vboxclient-clipboard.pid"
+}
+
+path_exists shared {
+    format = "sf"
+    format_down = "sf"
+    path = "/media/sf_home/Documents"
 }
