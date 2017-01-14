@@ -2,6 +2,11 @@ alias ls='ls -h --color=auto'
 alias la='ls -A'
 alias ll='ls -l'
 alias grep='grep --color=auto'
+alias mv='mv -i'
+alias cp='cp -i'
+alias ln='ln -i'
+alias rm='rm -Iv'
+alias mkdir='mkdir -pv'
 
 if [[ -f ~/.dotfiles/common/aliases.local ]]; then
     source ~/.dotfiles/common/aliases.local
