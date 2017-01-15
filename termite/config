@@ -15,23 +15,23 @@ color1  = #dd5e64
 color9  = #f48893
 
 # green
-color2  = #47c750
+color2  = #42cc4c
 color10 = #7ee06d
 
 # yellow
-color3  = #bcbf58
+color3  = #c8d450
 color11 = #eec673
 
 # blue
-color4  = #7485d8
+color4  = #6c62e7
 color12 = #83c6e8
 
 # magenta
-color5  = #9f78cd
+color5  = #a671e5
 color13 = #e497e4
 
 # cyan
-color6  = #60bb9d
+color6  = #45c693
 color14 = #71e2d1
 
 # white
