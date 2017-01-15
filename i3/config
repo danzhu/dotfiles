@@ -156,6 +156,8 @@ bindsym $mod+Shift+r restart
 # exit i3 (logs you out of your X session)
 bindsym $mod+Shift+e exec --no-startup-id "i3-nagbar -t warning -m 'Exit i3?' -b 'Yes' 'i3-msg exit'"
 
+workspace $ws1 output VGA-1
+
 # class                 border      background  text        indicator   child_border
 client.focused          $lightblue  $grey1      $lightblue  $grey3      $grey1
 client.focused_inactive $grey3      $black      $grey4      $grey2      $black
