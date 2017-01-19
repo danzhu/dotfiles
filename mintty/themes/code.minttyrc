@@ -1,13 +1,3 @@
-BoldAsFont=-1
-AllowBlinking=yes
-CtrlShiftShortcuts=yes
-Columns=160
-Rows=48
-Scrollbar=none
-Term=xterm-256color
-BellType=0
-CursorType=block
-Font=DejaVu Sans Mono
 BackgroundColour=34,36,37
 ForegroundColour=217,221,221
 CursorColour=217,221,221

@@ -1,0 +1,10 @@
+BoldAsFont=yes
+CtrlShiftShortcuts=yes
+Columns=160
+Rows=48
+Scrollbar=none
+Term=xterm-256color
+BellType=0
+CursorType=block
+Font=DejaVu Sans Mono
+ThemeFile=code.minttyrc
