@@ -8,3 +8,5 @@ BellType=0
 CursorType=block
 Font=DejaVu Sans Mono
 ThemeFile=code.minttyrc
+Locale=C
+Charset=UTF-8
