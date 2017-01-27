@@ -5,3 +5,5 @@ mkcdir() {
 if [[ -f ~/.dotfiles/common/functions.local ]]; then
     source ~/.dotfiles/common/functions.local
 fi
+
+# vim: ft=sh

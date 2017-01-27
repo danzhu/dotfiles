@@ -49,5 +49,7 @@ function prompt() {
 
 PROMPT='%K%(?. .%1F!%f)%k '
 
+source ~/.dotfiles/zsh/aliases
+
 source ~/.dotfiles/common/aliases
 source ~/.dotfiles/common/functions

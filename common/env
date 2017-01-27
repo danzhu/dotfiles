@@ -4,3 +4,5 @@ export PATH="$HOME/bin:$HOME/.local/bin:$PATH"
 if [[ -f ~/.dotfiles/common/env.local ]]; then
     source ~/.dotfiles/common/env.local
 fi
+
+# vim: ft=sh
