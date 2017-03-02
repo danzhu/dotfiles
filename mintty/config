@@ -10,3 +10,4 @@ Font=DejaVu Sans Mono
 ThemeFile=code.minttyrc
 Locale=C
 Charset=UTF-8
+AllowBlinking=yes
