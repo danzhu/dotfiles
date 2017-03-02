@@ -6,4 +6,9 @@ if [[ -f ~/.bashrc ]]; then
     . ~/.bashrc
 fi
 
+# start zsh if in ssh
+if [[ -n "$SSH_CONNECTION" ]]; then
+    exec zsh -
+fi
+
 source ~/.dotfiles/common/env
