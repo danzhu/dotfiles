@@ -1,2 +1,21 @@
+# machine-local directories and files
+/vim/swp/
+/vim/undo/
+/vim/view/
+/vim/local.vim
+
+# generated binary files
+/vim/spell/*.spl
+
+# plugin manager
+/vim/autoload/plug.vim*
+/vim/plugged/
+
+# history
+/vim/.netrwhist
+
+# windows
+desktop.ini
+
 # local files
 *.local
