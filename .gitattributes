@@ -2,4 +2,4 @@
 
 # spell files should always use unix line endings,
 # and sort them before checking in
-spell/*.add text eol=lf filter=sort
+/vim/spell/*.add text eol=lf filter=sort
