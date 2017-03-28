@@ -6,12 +6,14 @@ Dameng
 GC
 Hongjian
 LHS
+LaTeX
 Laplacian
 MVC
 NPC
 NPCs
 OO
 RAII
+RHS
 SQL
 STL
 SVN
@@ -48,6 +50,7 @@ ctor
 ctors
 ctrl
 customizable
+datapath
 deallocate
 deallocated
 decrement
@@ -87,6 +90,7 @@ initializations
 ints
 invariants
 js
+kd
 learned
 lvalue
 makefile
@@ -96,6 +100,7 @@ msgs
 mutator
 namespace
 noexcept
+nop
 nothrow
 nullptr
 objs
@@ -103,6 +108,7 @@ opcode
 param
 parameterized
 params
+pipelined
 plugin
 polymorphism
 popup
@@ -138,10 +144,14 @@ subtree
 subtype
 superclass
 superclasses
+th
 tmp
 tokenize
 treap
+treaps
+trie
 unary
+unflagged
 unhandled
 url
 usr
@@ -154,12 +164,3 @@ vtable
 whitespace
 x64
 x86
-treaps
-trie
-unflagged
-LaTeX
-RHS
-kd
-pipelined
-datapath
-nop
