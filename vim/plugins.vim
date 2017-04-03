@@ -70,10 +70,10 @@ Map n <silent> <Space> :<C-U>Unite -start-insert file<CR>
 " Plug 'flazz/vim-colorschemes' " {{{
 " }}}
 
-Plug 'tpope/vim-endwise' " {{{
+Plug 'danzhu/vim-pairs' " {{{
 " }}}
 
-Plug 'danzhu/vim-pairs' " {{{
+Plug 'tpope/vim-endwise' " {{{
 " }}}
 " }}}
 

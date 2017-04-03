@@ -86,6 +86,7 @@ i.e.
 iff
 impl.
 indices
+init
 initializations
 ints
 invariants
@@ -103,6 +104,7 @@ noexcept
 nop
 nothrow
 nullptr
+num
 objs
 opcode
 param
