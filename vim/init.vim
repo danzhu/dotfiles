@@ -449,7 +449,7 @@ Map n <silent> <Leader>L :<C-U>edit $VIMDIR/local.vim<CR>
 Map n <silent> <Leader>P :<C-U>edit $VIMDIR/plugins.vim<CR>
 Map n <silent> <Leader>C :<C-U>edit $VIMDIR/colors/code.vim<CR>
 Map n <silent> <Leader>A :<C-U>edit $VIMDIR/autoload/airline/themes/code.vim<CR>
-Map n <silent> <Leader>R :<C-U>edit $VIMDIR/plugin/pairs.vim<CR>
+Map n <silent> <Leader>R :<C-U>edit $VIMDIR/plugged/vim-pairs/plugin/pairs.vim<CR>
 Map n <silent> <Leader>I :<C-U>edit $CONFIG/i3/config<CR>
 Map n <silent> <Leader>T :<C-U>edit $CONFIG/termite/config<CR>
 Map n <silent> <Leader>Z :<C-U>edit $CONFIG/zathura/zathurarc<CR>

@@ -142,6 +142,8 @@ subclasses
 subfield
 subfields
 subgraph
+substring
+substrings
 subtree
 subtype
 superclass
