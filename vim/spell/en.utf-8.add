@@ -35,6 +35,8 @@ biocultural
 bipartition
 bitwise
 bool
+boolean
+br
 bugfix
 bugfixes
 cmd
@@ -53,7 +55,9 @@ customizable
 datapath
 deallocate
 deallocated
+deallocation
 decrement
+dedent
 destructor
 destructors
 dir
@@ -68,6 +72,7 @@ enums
 env
 eof
 eol
+eq
 esc
 etc.
 exn
@@ -77,6 +82,7 @@ f'n
 f'ns
 filesystem
 filetype
+ge
 getter
 getters
 globbing
@@ -92,14 +98,18 @@ ints
 invariants
 js
 kd
+le
 learned
+lt
 lvalue
 makefile
 maxima
 minima
 msgs
+mult
 mutator
 namespace
+ne
 noexcept
 nop
 nothrow
