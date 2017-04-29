@@ -611,7 +611,7 @@ endif
 
 " Color scheme {{{
 if Has('/colors/code.vim')
-    let s:colors = expand('~/.colors')
+    let s:colors = expand($VIMDIR . '/colorscheme')
     if filereadable(s:colors)
         let g:colors = readfile(s:colors)
     endif

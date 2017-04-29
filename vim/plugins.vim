@@ -145,11 +145,6 @@ if has('python') || has('python3') " {{{
     let g:ycm_global_ycm_extra_conf                    = $VIMDIR.'/ycm_extra_conf.py'
     let g:ycm_min_num_of_chars_for_completion          = 1
     let g:ycm_seed_identifiers_with_syntax             = 1
-    if has('win32')
-        let g:ycm_server_python_interpreter = 'C:\Program Files\Python35\python.exe'
-    else
-        let g:ycm_server_python_interpreter = '/usr/bin/python3'
-    endif
     " }}}
 endif " }}}
 
