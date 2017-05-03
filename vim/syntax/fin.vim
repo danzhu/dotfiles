@@ -15,7 +15,8 @@ syn keyword finType int bool
 
 syn match finComment "#.*$" contains=@Spell
 syn match finNumber "\<\%([1-9]\d*\|0\)\>"
-syn match finOperator ":*\%([*/%+-]\|\)="
+syn match finOperator "[*/%+-]="
+syn match finOperator ":*="
 syn match finOperator "[()*/%+-]"
 syn match finOperator "[<>]=\?"
 
