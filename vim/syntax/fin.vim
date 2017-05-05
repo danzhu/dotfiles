@@ -11,6 +11,7 @@ syn keyword finDecl let mut var def
 syn keyword finConditional if else
 syn keyword finRepeat while
 syn keyword finOperator and or not
+syn keyword finKeyword break continue return
 
 syn keyword finInclude import
 
@@ -23,23 +24,28 @@ syn match finComment /#.*/ contains=@Spell,finTodo
 
 syn match finNumber /\<\%([1-9]\d*\|0\)\>/
 
+syn match finDelimiter /[()\[\]{}:.]/
+
 syn match finOperator /[*/%+-]=/
 syn match finOperator /:*=/
 syn match finOperator /[*/%+-]/
 syn match finOperator /[<>]=\?/
 
 syn match finClass /\<\u\i\+\>/
+syn match finField /@\<\i\+\>/
+syn match finField /\(var \+\)\@<=\<\i\+\>/
+syn match finField /\.\@<=\<\I\i*\>/
 syn match finConstant /\<\u[A-Z0-9_]*\>/
-syn match finFunction /\<\I\i\+\>(\@=/
+syn match finFunction /\<\I\i*\>(\@=/
 
 syn match finSpecialChar /\\./ contained
-syn match finDelimiter /[()]/
 
 syn region finString start=/'/ skip=/\\'/ end=/'/ contains=finSpecialChar
 syn region finString start=/"/ skip=/\\"/ end=/"/ contains=finSpecialChar
 
 hi def link finComment Comment
 
+hi def link finField Identifier
 hi def link finFunction Function
 
 hi def link finConstant Constant
@@ -52,6 +58,7 @@ hi def link finDecl Statement
 hi def link finConditional Conditional
 hi def link finRepeat Repeat
 hi def link finOperator Operator
+hi def link finKeyword Keyword
 
 hi def link finInclude Include
 
