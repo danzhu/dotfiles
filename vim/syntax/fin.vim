@@ -24,12 +24,13 @@ syn match finComment /#.*/ contains=@Spell,finTodo
 
 syn match finNumber /\<\%([1-9]\d*\|0\)\>/
 
-syn match finDelimiter /[()\[\]{}:.]/
+syn match finDelimiter /[()\[\]{}.]/
 
 syn match finOperator /[*/%+-]=/
 syn match finOperator /:*=/
 syn match finOperator /[*/%+-]/
 syn match finOperator /[<>]=\?/
+syn match finOperator /\.\./
 
 syn match finClass /\<\u\i\+\>/
 syn match finField /@\<\i\+\>/
