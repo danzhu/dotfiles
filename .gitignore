@@ -4,8 +4,9 @@
 /vim/view/
 /vim/local.vim
 
-# generated binary files
+# spell files
 /vim/spell/*.spl
+/vim/spell/*.sug
 
 # plugin manager
 /vim/autoload/plug.vim*
