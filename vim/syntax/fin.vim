@@ -35,14 +35,13 @@ syn match finOperator /\.\./
 syn match finClass /\<\u\i\+\>/
 syn match finField /@\<\i\+\>/
 syn match finField /\(var \+\)\@<=\<\i\+\>/
-syn match finField /\.\@<=\<\I\i*\>/
 syn match finConstant /\<\u[A-Z0-9_]*\>/
 syn match finFunction /\<\I\i*\>(\@=/
 
 syn match finSpecialChar /\\./ contained
 
-syn region finString start=/'/ skip=/\\'/ end=/'/ contains=finSpecialChar
 syn region finString start=/"/ skip=/\\"/ end=/"/ contains=finSpecialChar
+syn region finCharacter start=/'/ skip=/\\'/ end=/'/ contains=finSpecialChar
 
 hi def link finComment Comment
 
@@ -51,6 +50,7 @@ hi def link finFunction Function
 
 hi def link finConstant Constant
 hi def link finString String
+hi def link finCharacter Character
 hi def link finNumber Number
 hi def link finBoolean Boolean
 hi def link finFloat Float
