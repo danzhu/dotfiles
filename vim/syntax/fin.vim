@@ -22,8 +22,6 @@ syn keyword finTodo TODO FIXME XXX contained
 
 syn match finComment /#.*/ contains=@Spell,finTodo
 
-syn match finNumber /\<\%([1-9]\d*\|0\)\>/
-
 syn match finDelimiter /[()\[\]{}.]/
 
 syn match finOperator /[*/%+-]=/
@@ -31,6 +29,9 @@ syn match finOperator /:*=/
 syn match finOperator /[*/%+-]/
 syn match finOperator /[<>]=\?/
 syn match finOperator /\.\./
+
+syn match finNumber /\%(-\?\<[1-9]\d*\|\<0\)\>/
+syn match finFloat /-\?\<\%([1-9]\d*\|0\)\.[0-9]\+\>/
 
 syn match finClass /\<\u\i\+\>/
 syn match finField /@\<\i\+\>/

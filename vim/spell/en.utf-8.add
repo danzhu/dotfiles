@@ -1,5 +1,6 @@
 API
 AngularJS
+CMake
 CPUs
 CSS
 Dameng
@@ -31,6 +32,7 @@ assignee
 associativity
 automorphism
 automorphisms
+backtrace
 biocultural
 bipartition
 bitwise
@@ -39,6 +41,7 @@ boolean
 br
 bugfix
 bugfixes
+cmake
 cmd
 codename
 colemak
@@ -58,6 +61,7 @@ deallocated
 deallocation
 decrement
 dedent
+defs
 destructor
 destructors
 dir
@@ -101,6 +105,7 @@ kd
 le
 learned
 lerp
+lexer
 lt
 lvalue
 makefile
@@ -132,6 +137,7 @@ ptr
 ptrs
 python2
 python3
+readme
 recurse
 resize
 runtime
@@ -161,6 +167,7 @@ superclass
 superclasses
 th
 tmp
+todo
 tokenize
 treap
 treaps

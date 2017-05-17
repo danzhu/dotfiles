@@ -145,6 +145,8 @@ if has('python') || has('python3') " {{{
     let g:ycm_global_ycm_extra_conf                    = $VIMDIR.'/ycm_extra_conf.py'
     let g:ycm_min_num_of_chars_for_completion          = 1
     let g:ycm_seed_identifiers_with_syntax             = 1
+
+    Map n <silent> <Leader>g :YcmCompleter GoTo<CR>
     " }}}
 endif " }}}
 
