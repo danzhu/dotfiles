@@ -17,3 +17,5 @@ source ~/.dotfiles/common/functions
 if [[ -f ~/.dotfiles/bash/bashrc.local ]]; then
     source ~/.dotfiles/bash/bashrc.local
 fi
+
+export HISTCONTROL=ignoreboth:erasedups
