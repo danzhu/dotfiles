@@ -8,10 +8,10 @@ set cpo&vim
 syn keyword finBoolean true false
 
 syn keyword finDecl let mut var def
-syn keyword finConditional if else
+syn keyword finConditional if elif else
 syn keyword finRepeat while
 syn keyword finOperator and or not
-syn keyword finKeyword break continue return
+syn keyword finKeyword begin break continue redo return
 
 syn keyword finInclude import
 
@@ -33,11 +33,10 @@ syn match finOperator /\.\./
 syn match finNumber /\%(-\?\<[1-9]\d*\|\<0\)\>/
 syn match finFloat /-\?\<\%([1-9]\d*\|0\)\.[0-9]\+\>/
 
-syn match finClass /\<\u\i\+\>/
-syn match finField /@\<\i\+\>/
-syn match finField /\(var \+\)\@<=\<\i\+\>/
+syn match finFunction /\<\I\i*\>\%((\|{\)\@=/
 syn match finConstant /\<\u[A-Z0-9_]*\>/
-syn match finFunction /\<\I\i*\>(\@=/
+syn match finClass /\<\u\i*\l\i*\>/
+syn match finField /@\i*/
 
 syn match finSpecialChar /\\./ contained
 
