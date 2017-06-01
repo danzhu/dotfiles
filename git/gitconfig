@@ -13,3 +13,4 @@
 	decorate = short
 [alias]
 	ce = commit --allow-empty-message -m ''
+	dc = diff --cached
