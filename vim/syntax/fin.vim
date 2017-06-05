@@ -7,11 +7,12 @@ set cpo&vim
 
 syn keyword finBoolean TRUE FALSE
 
+syn keyword finStatement begin break continue redo skip return
 syn keyword finDecl let mut var def
 syn keyword finConditional if elif else
 syn keyword finRepeat while
 syn keyword finOperator and or not
-syn keyword finKeyword begin break continue redo return
+syn keyword finKeyword alloc dealloc
 
 syn keyword finInclude import
 
@@ -22,7 +23,7 @@ syn keyword finTodo TODO FIXME XXX contained
 
 syn match finComment /#.*/ contains=@Spell,finTodo
 
-syn match finDelimiter /[()\[\]{}.]/
+syn match finDelimiter /[()\[\]{}.,]/
 
 syn match finOperator /[*/%+-]=/
 syn match finOperator /:*=/
@@ -56,6 +57,7 @@ hi def link finBoolean Boolean
 hi def link finFloat Float
 
 hi def link finDecl Statement
+hi def link finStatement Statement
 hi def link finConditional Conditional
 hi def link finRepeat Repeat
 hi def link finOperator Operator

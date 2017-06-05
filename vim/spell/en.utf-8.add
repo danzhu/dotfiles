@@ -25,6 +25,7 @@ Zhu
 accessor
 accessors
 alg
+alloc
 arg
 args
 ascii
@@ -41,6 +42,7 @@ boolean
 br
 bugfix
 bugfixes
+builtin
 cmake
 cmd
 codename
@@ -56,6 +58,7 @@ ctors
 ctrl
 customizable
 datapath
+dealloc
 deallocate
 deallocated
 deallocation
