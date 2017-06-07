@@ -9,10 +9,10 @@ syn keyword finBoolean TRUE FALSE
 
 syn keyword finStatement begin break continue redo skip return
 syn keyword finDecl let mut var def
-syn keyword finConditional if elif else
+syn keyword finConditional if elif else match
 syn keyword finRepeat while
 syn keyword finOperator and or not
-syn keyword finKeyword alloc dealloc
+syn keyword finKeyword alloc dealloc realloc
 
 syn keyword finInclude import
 
@@ -25,7 +25,7 @@ syn match finComment /#.*/ contains=@Spell,finTodo
 
 syn match finDelimiter /[()\[\]{}.,]/
 
-syn match finOperator /[*/%+-]=/
+syn match finOperator /[!*/%+-=]=/
 syn match finOperator /:*=/
 syn match finOperator /[*/%+-]/
 syn match finOperator /[<>]=\?/

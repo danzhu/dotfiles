@@ -143,6 +143,7 @@ ptrs
 python2
 python3
 readme
+realloc
 recurse
 resize
 runtime
