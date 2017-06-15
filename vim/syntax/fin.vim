@@ -23,7 +23,7 @@ syn keyword finTodo TODO FIXME XXX contained
 
 syn match finComment /#.*/ contains=@Spell,finTodo
 
-syn match finDelimiter /[()\[\]{}.,]/
+syn match finDelimiter /[()\[\]{}.,;]/
 
 syn match finOperator /[!*/%+-=]=/
 syn match finOperator /:*=/

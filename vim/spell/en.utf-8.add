@@ -93,6 +93,7 @@ filetype
 ge
 getter
 getters
+globals
 globbing
 grep
 http
@@ -135,6 +136,7 @@ pipelined
 plugin
 polymorphism
 popup
+postfix
 pre
 proven
 pseudocode
@@ -181,6 +183,7 @@ trie
 unary
 unflagged
 unhandled
+unsized
 url
 usr
 vertices
