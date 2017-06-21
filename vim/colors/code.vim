@@ -88,6 +88,8 @@ call s:hl('Visual',         15,  8)
 call s:hl('VisualNOS',       9,  8)
 call s:hl('WarningMsg',     11, 17)
 call s:hl('WildMenu',       12,  0)
+
+call s:hl('QuickFixLine',   -1,  8)
 " }}}
 
 " Syntax components {{{
