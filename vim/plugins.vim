@@ -110,8 +110,7 @@ Plug 'rust-lang/rust.vim' " {{{
 Plug 'vim-syntastic/syntastic' " {{{
 let g:syntastic_always_populate_loc_list = 1
 let g:syntastic_auto_loc_list = 1
-let g:syntastic_check_on_open = 1
-let g:syntastic_python_checkers = ['python', 'mypy', 'pylint']
+let g:syntastic_python_checkers = ['python', 'mypy', 'pylint', 'flake8']
 " }}}
 " }}}
 

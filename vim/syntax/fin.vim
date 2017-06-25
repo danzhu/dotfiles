@@ -24,6 +24,7 @@ syn keyword finTodo TODO FIXME XXX contained
 syn match finComment /#.*/ contains=@Spell,finTodo
 
 syn match finDelimiter /[()\[\]{}.,;]/
+syn match finDelimiter /::/
 
 syn match finOperator /[!*/%+-=]=/
 syn match finOperator /:*=/
@@ -34,6 +35,7 @@ syn match finOperator /\.\./
 syn match finNumber /\%(-\?\<[1-9]\d*\|\<0\)\>/
 syn match finFloat /-\?\<\%([1-9]\d*\|0\)\.[0-9]\+\>/
 
+syn match finScope /\<\I\i*\>\%(::\)\@=/
 syn match finFunction /\<\I\i*\>\%((\|{\)\@=/
 syn match finType /\<\u\i*\>/
 syn match finConstant /\<\u[A-Z0-9_]\+\>/
@@ -69,6 +71,7 @@ hi def link finType Type
 hi def link finStorageClass StorageClass
 hi def link finStructure Structure
 
+hi def link finScope Special
 hi def link finSpecialChar SpecialChar
 hi def link finDelimiter Delimiter
 

@@ -416,8 +416,6 @@ Map no <silent>        U       :<C-U>call search('\u')<CR>
 " }}}
 
 " Editing {{{
-Map n        p         p`[=`]
-Map n        P         P`[=`]
 Map n        S         ~hi
 Map i <expr> <Tab>     pumvisible() ? "\<C-N>" : "\<Tab>"
 Map i <expr> <S-Tab>   pumvisible() ? "\<C-P>" : ''
