@@ -21,7 +21,7 @@ syn keyword finStructure struct enum
 
 syn keyword finTodo TODO FIXME XXX contained
 
-syn match finComment /#.*/ contains=@Spell,finTodo
+syn match finComment /# .*/ contains=@Spell,finTodo
 
 syn match finDelimiter /[()\[\]{}.,;]/
 syn match finDelimiter /::/
@@ -33,7 +33,7 @@ syn match finOperator /[<>]=\?/
 syn match finOperator /\.\./
 
 syn match finNumber /\%(-\?\<[1-9]\d*\|\<0\)\>/
-syn match finFloat /-\?\<\%([1-9]\d*\|0\)\.[0-9]\+\>/
+syn match finFloat /-\?\<\%([1-9]\d*\|0\)\.\%(\d\+\>\)\?/
 
 syn match finScope /\<\I\i*\>\%(::\)\@=/
 syn match finFunction /\<\I\i*\>\%((\|{\)\@=/
