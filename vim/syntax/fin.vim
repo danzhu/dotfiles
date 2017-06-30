@@ -22,6 +22,10 @@ syn keyword finStructure struct enum
 syn keyword finTodo TODO FIXME XXX contained
 
 syn match finComment /# .*/ contains=@Spell,finTodo
+syn match finTag /#\I\i*/
+
+syn match finCharacter /'\%([^\\]\|\\.\)'/ contains=finSpecialChar
+syn match finLabel /'\I\i*/
 
 syn match finDelimiter /[()\[\]{}.,;]/
 syn match finDelimiter /::/
@@ -44,7 +48,6 @@ syn match finField /@\i*/
 syn match finSpecialChar /\\./ contained
 
 syn region finString start=/"/ skip=/\\"/ end=/"/ contains=finSpecialChar
-syn region finCharacter start=/'/ skip=/\\'/ end=/'/ contains=finSpecialChar
 
 hi def link finComment Comment
 
@@ -54,6 +57,7 @@ hi def link finFunction Function
 hi def link finConstant Constant
 hi def link finString String
 hi def link finCharacter Character
+hi def link finLabel Character
 hi def link finNumber Number
 hi def link finBoolean Boolean
 hi def link finFloat Float
@@ -73,6 +77,7 @@ hi def link finStructure Structure
 
 hi def link finScope Special
 hi def link finSpecialChar SpecialChar
+hi def link finTag Tag
 hi def link finDelimiter Delimiter
 
 hi def link finTodo Todo
