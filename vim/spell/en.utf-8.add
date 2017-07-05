@@ -44,6 +44,7 @@ br
 bugfix
 bugfixes
 builtin
+builtins
 cmake
 cmd
 codename
@@ -68,6 +69,7 @@ dedent
 defs
 destructor
 destructors
+destructuring
 dir
 dtor
 dtors
