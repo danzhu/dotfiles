@@ -12,6 +12,7 @@ zstyle ':completion:*' glob 1
 zstyle ':completion:*' group-name ''
 zstyle ':completion:*' list-colors ''
 zstyle ':completion:*' matcher-list '' 'm:{[:lower:]}={[:upper:]} r:|[._-]=* r:|=*' 'l:|=* r:|=*'
+zstyle ':completion:*' rehash true
 zstyle :compinstall filename '~/.zshrc'
 
 autoload -Uz compinit
@@ -49,7 +50,13 @@ function prompt() {
 
 PROMPT='%K%(?. .%1F!%f)%k '
 
+SYN_HL=/usr/share/zsh/plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
+if [[ -f "$SYN_HL" ]]; then
+    source "$SYN_HL"
+fi
+
 source ~/.dotfiles/zsh/aliases
 
+source ~/.dotfiles/common/path
 source ~/.dotfiles/common/aliases
 source ~/.dotfiles/common/functions
