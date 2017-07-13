@@ -1,3 +1,8 @@
 Host se
     HostName linux.student.cs.uwaterloo.ca
     User h94zhu
+
+Host vm
+    HostName localhost
+    User daniel
+    Port 3022
