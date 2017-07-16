@@ -644,8 +644,8 @@ augroup vimrc
     " }}}
 
     " Auto source / make on write {{{
-    " TODO: monitor plugins.vim when loaded
-    autocmd BufWritePost $VIMDIR/init.vim,$VIMDIR/local.vim
+    " set filetype to bring vim-specific ftplugins back
+    autocmd BufWritePost $VIMDIR/init.vim,$VIMDIR/local.vim,$VIMDIR/plugins.vim
                 \ source $MYVIMRC |
                 \ setlocal filetype=vim
     autocmd BufWritePost $VIMDIR/spell/*.add
@@ -664,6 +664,10 @@ augroup vimrc
 
     " Undo file {{{
     autocmd BufWritePre /var/tmp/* setlocal noundofile
+    " }}}
+
+    " Exclude quickfix from buffer list {{{
+    autocmd FileType qf set nobuflisted
     " }}}
 
     if !&diff
