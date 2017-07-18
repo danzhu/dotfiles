@@ -15,6 +15,11 @@
 # history
 /vim/.netrwhist
 
+# ssh
+/ssh/id_rsa*
+/ssh/authorized_keys
+/ssh/known_hosts
+
 # windows
 desktop.ini
 

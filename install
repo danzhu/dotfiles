@@ -1,0 +1,43 @@
+#!/bin/bash
+
+function link()
+{
+    src="$PWD/$2"
+    tar="$HOME/$1"
+
+    printf "%-20s" "$1"
+
+    if [[ ! -e "$tar" ]]; then
+        ln -s "$src" "$tar"
+        echo "successfully installed"
+    elif [[ ! -h "$tar" ]]; then
+        echo "exists and is not a symlink"
+    else
+        sym=$(readlink "$tar")
+        if [[ "$src" = "$sym" ]]; then
+            echo "already installed"
+        else
+            echo "linked to the wrong path ($sym)"
+        fi
+    fi
+}
+
+link .Xresources xorg/Xresources
+link .bash_profile bash/bash_profile 
+link .bashrc bash/bashrc 
+link .config/git git 
+link .config/i3 i3 
+link .config/i3status i3status 
+link .config/nvim vim 
+link .config/termite termite
+link .config/zathura zathura 
+link .flake8 vim/flake8 
+link .pylintrc vim/pylintrc 
+link .ssh ssh 
+link .tern-config vim/tern-config 
+link .vim vim 
+link .vimrc vim/init.vim 
+link .xinitrc xorg/xinitrc
+link .zprofile zsh/zprofile 
+link .zshenv zsh/zshenv 
+link .zshrc zsh/zshrc 
