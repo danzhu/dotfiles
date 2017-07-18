@@ -5,21 +5,30 @@ function link()
     src="$PWD/$2"
     tar="$HOME/$1"
 
+    tput bold
     printf "%-20s" "$1"
+    tput sgr0
 
     if [[ ! -e "$tar" ]]; then
         ln -s "$src" "$tar"
+
+        tput setaf 2
         echo "successfully installed"
     elif [[ ! -h "$tar" ]]; then
+        tput setaf 3
         echo "exists and is not a symlink"
     else
         sym=$(readlink "$tar")
         if [[ "$src" = "$sym" ]]; then
-            echo "already installed"
+            # already installed
+            echo
         else
-            echo "linked to the wrong path ($sym)"
+            tput setaf 1
+            echo "linked to a different path ($sym)"
         fi
     fi
+
+    tput sgr0
 }
 
 link .Xresources xorg/Xresources
