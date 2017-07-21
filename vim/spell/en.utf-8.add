@@ -52,6 +52,7 @@ colemak
 commutativity
 config
 const
+constexpr
 consts
 ct'd
 ctd
