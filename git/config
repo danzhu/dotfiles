@@ -18,5 +18,7 @@
 [filter "sort"]
 	clean = LC_ALL=C sort
 	smudge = cat
+[include]
+	path = ~/.dotfiles/git/config.local
 
 # vim: ft=gitconfig
