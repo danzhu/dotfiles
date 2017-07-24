@@ -11,6 +11,10 @@ fi
 
 # PS1='[\u@\h \W]\$ '
 
+alias ..='cd ..'
+alias ...='cd ../..'
+alias ....='cd ../../..'
+
 source ~/.dotfiles/common/aliases
 source ~/.dotfiles/common/functions
 

@@ -1,27 +1,46 @@
-# Lines configured by zsh-newuser-install
+# --- basic settings ---
 HISTFILE=~/.histfile
 HISTSIZE=1000
 SAVEHIST=1000
 setopt appendhistory extendedglob histignorealldups sharehistory
+setopt autocd
 bindkey -e
-# End of lines configured by zsh-newuser-install
-# The following lines were added by compinstall
 
+
+# --- completion ---
 zstyle ':completion:*' format 'Completing %d'
 zstyle ':completion:*' glob 1
 zstyle ':completion:*' group-name ''
 zstyle ':completion:*' list-colors ''
 zstyle ':completion:*' matcher-list '' 'm:{[:lower:]}={[:upper:]} r:|[._-]=* r:|=*' 'l:|=* r:|=*'
 zstyle ':completion:*' rehash true
-zstyle :compinstall filename '~/.zshrc'
+zstyle ':completion:*:cd:*' ignore-parents parent pwd
 
 autoload -Uz compinit
 compinit
-# End of lines added by compinstall
 
 autoload -Uz add-zsh-hook
 add-zsh-hook precmd prompt
 
+autoload -Uz run-help
+unalias run-help
+
+
+# --- key bindings ---
+function rationalise-dot() {
+    if [[ $LBUFFER = *.. ]]; then
+        LBUFFER+=/..
+    else
+        LBUFFER+=.
+    fi
+}
+zle -N rationalise-dot
+bindkey . rationalise-dot
+
+WORDCHARS=''
+
+
+# --- shell prompt ---
 function prompt() {
     local branch gitstatus
     print ''
@@ -50,13 +69,21 @@ function prompt() {
 
 PROMPT='%K%(?. .%1F!%f)%k '
 
-SYN_HL=/usr/share/zsh/plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
-if [[ -f "$SYN_HL" ]]; then
-    source "$SYN_HL"
+
+# --- syntax highlighting ---
+HL=/usr/share/zsh/plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
+if [[ -f "$HL" ]]; then
+    ZSH_HIGHLIGHT_HIGHLIGHTERS=(main brackets)
+    source "$HL"
 fi
+unset HL
 
-source ~/.dotfiles/zsh/aliases
 
-source ~/.dotfiles/common/path
+# --- zsh-specific aliases ---
+alias -s cc=vim
+alias -s h=vim
+
+
+# --- common ---
 source ~/.dotfiles/common/aliases
 source ~/.dotfiles/common/functions

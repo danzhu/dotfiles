@@ -12,9 +12,6 @@ alias gc='git commit'
 alias mkdir='mkdir -pv'
 alias grep='grep --color=auto'
 alias diff='diff --color=auto'
-alias ..='cd ..'
-alias ...='cd ../..'
-alias ....='cd ../../..'
 
 if [[ -f ~/.dotfiles/common/aliases.local ]]; then
     source ~/.dotfiles/common/aliases.local
