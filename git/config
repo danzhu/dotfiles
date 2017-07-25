@@ -7,6 +7,8 @@
 	showUntrackedFiles = all
 [commit]
 	verbose = true
+[pull]
+	ff = only
 [log]
 	abbrevCommit = true
 	decorate = short
