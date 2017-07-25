@@ -2,12 +2,16 @@
 HISTFILE=~/.histfile
 HISTSIZE=1000
 SAVEHIST=1000
-setopt appendhistory extendedglob histignorealldups sharehistory
-setopt autocd
+setopt appendhistory histignorealldups sharehistory
+setopt extendedglob
+setopt autocd autopushd pushdsilent
 bindkey -e
 
 
 # --- completion ---
+autoload -Uz compinit
+compinit
+
 zstyle ':completion:*' format 'Completing %d'
 zstyle ':completion:*' glob 1
 zstyle ':completion:*' group-name ''
@@ -15,15 +19,16 @@ zstyle ':completion:*' list-colors ''
 zstyle ':completion:*' matcher-list '' 'm:{[:lower:]}={[:upper:]} r:|[._-]=* r:|=*' 'l:|=* r:|=*'
 zstyle ':completion:*' rehash true
 zstyle ':completion:*:cd:*' ignore-parents parent pwd
-
-autoload -Uz compinit
-compinit
+zstyle ':completion::*:(rm|vim):*' ignore-line true
 
 autoload -Uz add-zsh-hook
-add-zsh-hook precmd prompt
+
+autoload -Uz chpwd_recent_dirs cdr
+add-zsh-hook chpwd chpwd_recent_dirs
 
 autoload -Uz run-help
 unalias run-help
+alias help='run-help'
 
 
 # --- key bindings ---
@@ -37,12 +42,13 @@ function rationalise-dot() {
 zle -N rationalise-dot
 bindkey . rationalise-dot
 
+bindkey ' ' magic-space
+
 WORDCHARS=''
 
 
 # --- shell prompt ---
 function prompt() {
-    local branch gitstatus
     print ''
     print -nP '%B%K'
     if [[ $UID -eq 0 ]]; then
@@ -51,8 +57,10 @@ function prompt() {
         print -nP ' %m'
     fi
     print -nP ' %k %4F%~%f%b'
+
+    local branch
     if branch=$(git rev-parse --abbrev-ref HEAD 2> /dev/null); then
-        gitstatus=$(git status --porcelain 2> /dev/null)
+        local gitstatus=$(git status --porcelain 2> /dev/null)
         if echo "$gitstatus" | grep -qE '^[MADRCU].'; then
             print -nP '%2F'
         elif echo "$gitstatus" | grep -qE '^.[MADRCU]'; then
@@ -64,8 +72,10 @@ function prompt() {
         fi
         print -nP " $branch%f"
     fi
+
     print ''
 }
+add-zsh-hook precmd prompt
 
 PROMPT='%K%(?. .%1F!%f)%k '
 
@@ -82,6 +92,9 @@ unset HL
 # --- zsh-specific aliases ---
 alias -s cc=vim
 alias -s h=vim
+
+alias -g G='| grep'
+alias -g L='| less'
 
 
 # --- common ---
