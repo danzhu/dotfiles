@@ -27,7 +27,7 @@ autoload -Uz chpwd_recent_dirs cdr
 add-zsh-hook chpwd chpwd_recent_dirs
 
 autoload -Uz run-help
-unalias run-help
+unalias run-help 2> /dev/null
 alias help='run-help'
 
 
@@ -58,19 +58,46 @@ function prompt() {
     fi
     print -nP ' %k %4F%~%f%b'
 
-    local branch
-    if branch=$(git rev-parse --abbrev-ref HEAD 2> /dev/null); then
-        local gitstatus=$(git status --porcelain 2> /dev/null)
-        if echo "$gitstatus" | grep -qE '^[MADRCU].'; then
-            print -nP '%2F'
-        elif echo "$gitstatus" | grep -qE '^.[MADRCU]'; then
-            print -nP '%1F'
-        elif echo "$gitstatus" | grep -qE '^\?\?'; then
-            print -nP '%3F'
+    local gs
+    if gs="$(git status --porcelain=v2 --branch 2> /dev/null)"; then
+        local lines
+        if lines="$(echo "$gs" | grep -E '^u')"; then
+            # unmerged
+            color='%5F'
+        elif lines="$(echo "$gs" | grep -E '^[12] [MADRCU].')"; then
+            # added
+            color='%2F'
+        elif lines="$(echo "$gs" | grep -E '^[12] .[MADRCU]')"; then
+            # changed
+            color='%1F'
+        elif lines="$(echo "$gs" | grep -E '^\?')"; then
+            # untracked
+            color='%3F'
         else
-            print -nP '%7F'
+            # normal
+            color='%7F'
         fi
-        print -nP " $branch%f"
+
+        local count="$(echo "$lines" | wc -l)"
+        if [[ "$lines" != "" && $count > 0 ]]; then
+            count=" $count"
+        else
+            count=''
+        fi
+
+        local branch="$(echo "$gs" | sed -nE 's/^# branch\.head (.*)$/\1/p')"
+
+        local ahead="$(echo "$gs" | sed -nE 's/^# branch.ab( \+.*) .*$/\1/p')"
+        if [[ "$ahead" = ' +0' ]]; then
+            ahead=''
+        fi
+
+        local behind="$(echo "$gs" | sed -nE 's/^# branch.ab .*( -.*)$/\1/p')"
+        if [[ "$behind" = ' -0' ]]; then
+            behind=''
+        fi
+
+        print -nP " $color$branch$count%f$ahead$behind"
     fi
 
     print ''
