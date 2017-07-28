@@ -49,7 +49,12 @@ WORDCHARS=''
 
 # --- shell prompt ---
 function prompt() {
+    local code=$?
     print ''
+
+    if [[ $code -ne 0 ]]; then
+        print -P "%1F%K %k %B$code%b%f"
+    fi
 
     print -nP '%B%K'
     if [[ $UID -eq 0 ]]; then
@@ -61,37 +66,45 @@ function prompt() {
     fi
 
     # path
-    print -nP ' %k %4F%~%f%b'
+    print -nP ' %k %4F%~%f'
 
     # git prompt
     local gs
     if gs="$(git status --porcelain=v2 --branch 2> /dev/null)"; then
         local branch="$(prompt-grab "$gs" '# branch\.head (.*)')"
 
+        print -nP ' %K '
+
         if [[ "$branch" = '(detached)' ]]; then
             # detached head
-            branch="$(git rev-parse --short HEAD)"
+            print -nP "%3F$(git rev-parse --short HEAD)%f"
+        elif [[ -f "$(git rev-parse --git-dir)/MERGE_HEAD" ]]; then
+            # merging
+            print -nP "%1F$branch%f"
+        elif echo "$gs" | grep -qE '^# branch\.upstream .*$'; then
+            # has upstream
+            print -nP "%5F$branch%f"
+
+            prompt-diverge "$gs" '# branch\.ab \+(.*) -.*' '%2F+'
+            prompt-diverge "$gs" '# branch\.ab \+.* -(.*)' '%3F-'
+        else
+            # local branch
+            print -nP "%2F$branch%f"
         fi
 
-        # branch
-        print -nP " %7F$branch%f"
+        print -nP " %k"
 
-        # ahead
-        prompt-diverge "$gs" '# branch\.ab \+(.*) .*' '%6F' 'A%f'
-        # behind
-        prompt-diverge "$gs" '# branch\.ab .* -(.*)' '%5F' 'B%f'
-
-        # unmerged
-        prompt-count "$gs" '^u' '%1F' '!%f'
         # added
-        prompt-count "$gs" '^[12] [MADRCU].' '%2F' '+%f'
+        prompt-count "$gs" '^[12] [MADRCU].' '%2F+'
         # changed
-        prompt-count "$gs" '^[12] .[MADRCU]' '%3F' '~%f'
+        prompt-count "$gs" '^[12] .[MADRCU]' '%3F~'
+        # unmerged
+        prompt-count "$gs" '^u' '%1F!'
         # untracked
-        prompt-count "$gs" '^\?' '%4F' '?%f'
+        prompt-count "$gs" '^\?' '%6F?'
     fi
 
-    print ''
+    print -P '%b'
 }
 add-zsh-hook precmd prompt
 
@@ -102,18 +115,18 @@ function prompt-grab() {
 function prompt-diverge() {
     local count=$(prompt-grab "$1" "$2")
     if [[ $count -ne 0 ]]; then
-        print -nP " $3$count$4"
+        print -nP " $3$count%f"
     fi
 }
 
 function prompt-count() {
-    local lines
-    if lines="$(echo "$1" | grep -E "$2")"; then
-        print -nP " $3$(echo "$lines" | wc -l)$4"
+    local count
+    if count="$(echo "$1" | grep -cE "$2")"; then
+        print -nP " $3$count%f"
     fi
 }
 
-PROMPT='%K%(?. .%1F!%f)%k '
+PROMPT='%K %k '
 
 
 # --- syntax highlighting ---
