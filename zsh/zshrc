@@ -50,59 +50,68 @@ WORDCHARS=''
 # --- shell prompt ---
 function prompt() {
     print ''
+
     print -nP '%B%K'
     if [[ $UID -eq 0 ]]; then
-        print -nP ' %1F%n%f@%m'
+        # root
+        print -nP ' %1F%m%f'
     elif [[ -n "$SSH_CONNECTION" ]]; then
+        # ssh
         print -nP ' %m'
     fi
+
+    # path
     print -nP ' %k %4F%~%f%b'
 
+    # git prompt
     local gs
     if gs="$(git status --porcelain=v2 --branch 2> /dev/null)"; then
-        local lines
-        if lines="$(echo "$gs" | grep -E '^u')"; then
-            # unmerged
-            color='%5F'
-        elif lines="$(echo "$gs" | grep -E '^[12] [MADRCU].')"; then
-            # added
-            color='%2F'
-        elif lines="$(echo "$gs" | grep -E '^[12] .[MADRCU]')"; then
-            # changed
-            color='%1F'
-        elif lines="$(echo "$gs" | grep -E '^\?')"; then
-            # untracked
-            color='%3F'
-        else
-            # normal
-            color='%7F'
+        local branch="$(prompt-grab "$gs" '# branch\.head (.*)')"
+
+        if [[ "$branch" = '(detached)' ]]; then
+            # detached head
+            branch="$(git rev-parse --short HEAD)"
         fi
 
-        local count="$(echo "$lines" | wc -l)"
-        if [[ "$lines" != "" && $count > 0 ]]; then
-            count=" $count"
-        else
-            count=''
-        fi
+        # branch
+        print -nP " %7F$branch%f"
 
-        local branch="$(echo "$gs" | sed -nE 's/^# branch\.head (.*)$/\1/p')"
+        # ahead
+        prompt-diverge "$gs" '# branch\.ab \+(.*) .*' '%6F' 'A%f'
+        # behind
+        prompt-diverge "$gs" '# branch\.ab .* -(.*)' '%5F' 'B%f'
 
-        local ahead="$(echo "$gs" | sed -nE 's/^# branch.ab( \+.*) .*$/\1/p')"
-        if [[ "$ahead" = ' +0' ]]; then
-            ahead=''
-        fi
-
-        local behind="$(echo "$gs" | sed -nE 's/^# branch.ab .*( -.*)$/\1/p')"
-        if [[ "$behind" = ' -0' ]]; then
-            behind=''
-        fi
-
-        print -nP " $color$branch$count%f$ahead$behind"
+        # unmerged
+        prompt-count "$gs" '^u' '%1F' '!%f'
+        # added
+        prompt-count "$gs" '^[12] [MADRCU].' '%2F' '+%f'
+        # changed
+        prompt-count "$gs" '^[12] .[MADRCU]' '%3F' '~%f'
+        # untracked
+        prompt-count "$gs" '^\?' '%4F' '?%f'
     fi
 
     print ''
 }
 add-zsh-hook precmd prompt
+
+function prompt-grab() {
+    echo "$1" | sed -nE "s/^$2$/\\1/p"
+}
+
+function prompt-diverge() {
+    local count=$(prompt-grab "$1" "$2")
+    if [[ $count -ne 0 ]]; then
+        print -nP " $3$count$4"
+    fi
+}
+
+function prompt-count() {
+    local lines
+    if lines="$(echo "$1" | grep -E "$2")"; then
+        print -nP " $3$(echo "$lines" | wc -l)$4"
+    fi
+}
 
 PROMPT='%K%(?. .%1F!%f)%k '
 
