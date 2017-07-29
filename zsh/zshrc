@@ -71,29 +71,40 @@ function prompt-print() {
 
     # git prompt
     local gs
-    if gs="$(git status --porcelain=v2 --branch 2> /dev/null)"; then
+    if gs="$(git status --porcelain=v2 --branch --untracked-files=all \
+            2> /dev/null)"; then
         local branch="$(prompt-grab "$gs" '# branch\.head (.*)')"
 
         print -nP ' %K '
 
         if [[ "$branch" = '(detached)' ]]; then
             # detached head
-            print -nP "%3F$(git rev-parse --short HEAD)%f"
+            branch="$(git rev-parse --short HEAD)"
+            print -nP '%3F'
         elif [[ -f "$(git rev-parse --git-dir)/MERGE_HEAD" ]]; then
             # merging
-            print -nP "%1F$branch%f"
+            print -nP '%1F'
         elif echo "$gs" | grep -qE '^# branch\.upstream .*$'; then
             # has upstream
-            print -nP "%5F$branch%f"
-
-            prompt-diverge "$gs" '# branch\.ab \+(.*) -.*' '%2F+'
-            prompt-diverge "$gs" '# branch\.ab \+.* -(.*)' '%3F-'
+            print -nP '%5F'
         else
             # local branch
-            print -nP "%2F$branch%f"
+            print -nP '%2F'
         fi
 
-        print -nP " %k"
+        print -nP "$branch%f"
+
+        local tag
+        if tag="$(git describe --tags --exact-match 2> /dev/null)"; then
+            print -nP " #$tag"
+        fi
+
+        # ahead
+        prompt-diverge "$gs" '# branch\.ab \+(.*) -.*' '%2FA'
+        # behind
+        prompt-diverge "$gs" '# branch\.ab \+.* -(.*)' '%3FB'
+
+        print -nP ' %k'
 
         # added
         prompt-count "$gs" '^[12] [MADRCU].' '%2F+'
@@ -102,7 +113,7 @@ function prompt-print() {
         # unmerged
         prompt-count "$gs" '^u' '%1F!'
         # untracked
-        prompt-count "$gs" '^\?' '%6F?'
+        prompt-count "$gs" '^\?' '%5F?'
     fi
 
     print -P '%b'

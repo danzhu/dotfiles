@@ -6,7 +6,6 @@
 [status]
 	short = true
 	branch = true
-	showUntrackedFiles = all
 [commit]
 	verbose = true
 [pull]
