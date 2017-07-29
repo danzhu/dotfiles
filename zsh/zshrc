@@ -5,6 +5,7 @@ SAVEHIST=1000
 setopt appendhistory histignorealldups sharehistory
 setopt extendedglob
 setopt autocd autopushd pushdsilent
+setopt complete_in_word glob_complete
 setopt noprompt_sp
 bindkey -e
 
@@ -142,15 +143,6 @@ PS1='%K %k '
 PS2='%K%7F %(1_.%_.>) %f%k '
 
 
-# --- syntax highlighting ---
-HL=/usr/share/zsh/plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
-if [[ -f "$HL" ]]; then
-    ZSH_HIGHLIGHT_HIGHLIGHTERS=(main brackets)
-    source "$HL"
-fi
-unset HL
-
-
 # --- zsh-specific aliases ---
 alias -s cc=vim
 alias -s h=vim
@@ -162,3 +154,12 @@ alias -g L='| less'
 # --- common ---
 source ~/.dotfiles/common/aliases
 source ~/.dotfiles/common/functions
+
+
+# --- syntax highlighting ---
+HL=/usr/share/zsh/plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
+if [[ -f "$HL" ]]; then
+    ZSH_HIGHLIGHT_HIGHLIGHTERS=(main brackets)
+    source "$HL"
+fi
+unset HL
