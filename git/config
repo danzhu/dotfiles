@@ -4,6 +4,8 @@
 [format]
 	pretty = oneline
 [status]
+	short = true
+	branch = true
 	showUntrackedFiles = all
 [commit]
 	verbose = true

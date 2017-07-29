@@ -5,10 +5,11 @@ SAVEHIST=1000
 setopt appendhistory histignorealldups sharehistory
 setopt extendedglob
 setopt autocd autopushd pushdsilent
+setopt noprompt_sp
 bindkey -e
 
 
-# --- completion ---
+# --- autoload ---
 autoload -Uz compinit
 compinit
 
@@ -44,11 +45,11 @@ bindkey . rationalise-dot
 
 bindkey ' ' magic-space
 
-WORDCHARS=''
+# WORDCHARS=''
 
 
 # --- shell prompt ---
-function prompt() {
+function prompt-print() {
     local code=$?
     print ''
 
@@ -106,14 +107,14 @@ function prompt() {
 
     print -P '%b'
 }
-add-zsh-hook precmd prompt
+add-zsh-hook precmd prompt-print
 
 function prompt-grab() {
-    echo "$1" | sed -nE "s/^$2$/\\1/p"
+    echo "$1" | sed -nE "s/^$2\$/\\1/p"
 }
 
 function prompt-diverge() {
-    local count=$(prompt-grab "$1" "$2")
+    local count="$(prompt-grab "$1" "$2")"
     if [[ $count -ne 0 ]]; then
         print -nP " $3$count%f"
     fi
@@ -126,7 +127,8 @@ function prompt-count() {
     fi
 }
 
-PROMPT='%K %k '
+PS1='%K %k '
+PS2='%K%7F %(1_.%_.>) %f%k '
 
 
 # --- syntax highlighting ---
