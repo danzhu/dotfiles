@@ -1,6 +1,6 @@
 # start zsh if in ssh
 if [[ -n "$SSH_CONNECTION" ]]; then
-    exec zsh -
+    exec zsh --login
 fi
 
 if [[ -f ~/.profile ]]; then
