@@ -54,10 +54,12 @@ function prompt-print() {
     local code=$?
     print ''
 
+    # exit code
     if [[ $code -ne 0 ]]; then
         print -P "%1F%K %k %B$code%b%f"
     fi
 
+    # host
     print -nP '%B%K'
     if [[ $UID -eq 0 ]]; then
         # root
@@ -68,7 +70,15 @@ function prompt-print() {
     fi
 
     # path
-    print -nP ' %k %4F%~%f'
+    print -nP ' %k '
+    if [[ ! -w "$PWD" ]]; then
+        print -nP '%1F'
+    elif [[ -L "$PWD" ]]; then
+        print -nP '%6F'
+    else
+        print -nP '%4F'
+    fi
+    print -nP '%~%f'
 
     # git prompt
     local gs
@@ -114,7 +124,13 @@ function prompt-print() {
         # unmerged
         prompt-count "$gs" '^u' '%1F!'
         # untracked
-        prompt-count "$gs" '^\?' '%5F?'
+        prompt-count "$gs" '^\?' '%4F?'
+
+        # stashes
+        local stash="$(git stash list | wc -l)"
+        if [[ $stash -ne 0 ]]; then
+            print -nP " %5F&$stash%f"
+        fi
     fi
 
     print -P '%b'
@@ -140,7 +156,7 @@ function prompt-count() {
 }
 
 PS1='%K %k '
-PS2='%K%7F %(1_.%_.>) %f%k '
+PS2='%K%7F+%f%k '
 
 
 # --- zsh-specific aliases ---
