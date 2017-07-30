@@ -51,6 +51,9 @@ bindkey ' ' magic-space
 
 # --- shell prompt ---
 function prompt-print() {
+    emulate -L zsh
+    setopt glob_subst
+
     local code=$?
     print ''
 
@@ -68,17 +71,32 @@ function prompt-print() {
         # ssh
         print -nP ' %m'
     fi
+    print -nP ' %k '
 
     # path
-    print -nP ' %k '
-    if [[ ! -w "$PWD" ]]; then
-        print -nP '%1F'
-    elif [[ -L "$PWD" ]]; then
-        print -nP '%6F'
-    else
-        print -nP '%4F'
-    fi
-    print -nP '%~%f'
+    local dir olddir
+    local i=1
+    while dir="$(print -P "%-$i~")" && [[ "$dir" != "$olddir" ]]; do
+        if [[ ! -r $dir ]]; then
+            # non-readable
+            print -nP '%1F'
+        elif [[ ! -w $dir ]]; then
+            # non-writable
+            print -nP '%3F'
+        elif [[ -L $dir ]]; then
+            # symlink
+            print -nP '%6F'
+        else
+            # regular
+            print -nP '%4F'
+        fi
+
+        # print segment
+        print -nP "${dir[${#olddir} + 1,${#dir}]}%f"
+
+        i=$((i + 1))
+        olddir="$dir"
+    done
 
     # git prompt
     local gs
