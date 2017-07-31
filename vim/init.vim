@@ -667,7 +667,7 @@ augroup vimrc
     " }}}
 
     " Exclude quickfix from buffer list {{{
-    autocmd FileType qf set nobuflisted
+    autocmd FileType qf setlocal nobuflisted
     " }}}
 
     if !&diff
