@@ -3,6 +3,11 @@
 	name = Daniel Zhu
 [format]
 	pretty = oneline
+[advice]
+	statusHints = false
+	commitBeforeMerge = false
+	implicitIdentity = false
+	detachedHead = false
 [status]
 	short = true
 	branch = true
