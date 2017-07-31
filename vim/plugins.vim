@@ -19,6 +19,10 @@ Map! nxo ?  <Plug>(incsearch-backward)
 " Plug 'sickill/vim-pasta'
 
 Plug 'terryma/vim-multiple-cursors'
+" {{{
+let g:multiple_cursor_exit_from_visual_mode = 0
+let g:multiple_cursor_exit_from_insert_mode = 0
+" }}}
 
 Plug 'tpope/vim-commentary'
 

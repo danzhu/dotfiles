@@ -12,7 +12,6 @@ syn keyword finDecl let mut var def
 syn keyword finConditional if elif else match
 syn keyword finRepeat while
 syn keyword finOperator and or not
-syn keyword finKeyword alloc dealloc realloc
 
 syn keyword finInclude import
 
@@ -67,7 +66,6 @@ hi def link finStatement Statement
 hi def link finConditional Conditional
 hi def link finRepeat Repeat
 hi def link finOperator Operator
-hi def link finKeyword Keyword
 
 hi def link finInclude Include
 
