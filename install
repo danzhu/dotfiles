@@ -18,7 +18,7 @@ function link()
         tput setaf 3
         echo "exists and is not a symlink"
     else
-        sym=$(readlink "$tar")
+        sym="$(readlink "$tar")"
         if [[ "$src" = "$sym" ]]; then
             # already installed
             echo
@@ -41,6 +41,7 @@ link .config/nvim vim
 link .config/termite termite
 link .config/zathura zathura 
 link .flake8 vim/flake8 
+link .inputrc readline/inputrc
 link .pylintrc vim/pylintrc 
 link .ssh ssh 
 link .tern-config vim/tern-config 
