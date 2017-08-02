@@ -78,10 +78,11 @@ function title() {
 
     case "$TERM" in
         xterm*|rxvt*)
-            print -nP "\e]2;$1:q\a"
+            print -nP "\e]2;$2:q\a" # window
+            print -nP "\e]1;$1:q\a" # tab
             ;;
-        screen*)
-            print -nP "\ek$1:q\e\\"
+        screen*|tmux*)
+            print -nP "\ek$1:q\e\\" # tab
             ;;
         *)
             if [[ -n "$terminfo[fs1]" && -n "$terminfo[ts1]" ]]; then
@@ -94,12 +95,13 @@ function title() {
 }
 
 function title-precmd() {
-    title '%m: %~'
+    title 'zsh' '%m: %~'
 }
 
 function title-preexec() {
-    local cmd="$2"
-    title '%m: $cmd'
+    local cmd="${1[(wr)^(*=*|sudo|ssh|-*)]:gs/%/%%}"
+    local line="${2:gs/%/%%}"
+    title '$cmd' '%m: $line'
 }
 
 add-zsh-hook precmd title-precmd

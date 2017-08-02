@@ -50,6 +50,7 @@ link .inputrc readline/inputrc
 link .pylintrc vim/pylintrc 
 link .ssh ssh 
 link .tern-config vim/tern-config 
+link .tmux.conf tmux/tmux.conf
 link .vim vim 
 link .vimrc vim/init.vim 
 link .xinitrc xorg/xinitrc

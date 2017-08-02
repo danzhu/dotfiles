@@ -448,19 +448,12 @@ Map n <silent> <Leader>V :<C-U>edit $VIMDIR/init.vim<CR>
 Map n <silent> <Leader>L :<C-U>edit $VIMDIR/local.vim<CR>
 Map n <silent> <Leader>P :<C-U>edit $VIMDIR/plugins.vim<CR>
 Map n <silent> <Leader>C :<C-U>edit $VIMDIR/colors/code.vim<CR>
-Map n <silent> <Leader>A :<C-U>edit $VIMDIR/autoload/airline/themes/code.vim<CR>
 Map n <silent> <Leader>R :<C-U>edit $VIMDIR/plugged/vim-pairs/plugin/pairs.vim<CR>
 Map n <silent> <Leader>I :<C-U>edit $CONFIG/i3/config<CR>
-Map n <silent> <Leader>T :<C-U>edit $CONFIG/termite/config<CR>
-Map n <silent> <Leader>Z :<C-U>edit $CONFIG/zathura/zathurarc<CR>
-Map n <silent> <Leader>D :<C-U>edit $CONFIG/dunst/dunstrc<CR>
-Map n <silent> <Leader>H :<C-U>edit $SystemRoot/System32/drivers/etc/hosts<CR>
+Map n <silent> <Leader>G :<C-U>edit $CONFIG/git/config<CR>
 Map n <silent> <Leader>S :<C-U>edit ~/.zshrc<CR>
-Map n <silent> <Leader>B :<C-U>edit ~/.i3blocks.conf<CR>
 Map n <silent> <Leader>X :<C-U>edit ~/.Xresources<CR>
-Map n <silent> <Leader>M :<C-U>edit ~/.tmux.conf<CR>
-Map n <silent> <Leader>G :<C-U>edit ~/.gitconfig<CR>
-Map n <silent> <Leader>W :<C-U>edit ~/.vsvimrc<CR>
+Map n <silent> <Leader>T :<C-U>edit ~/.tmux.conf<CR>
 " }}}
 
 " Misc {{{
