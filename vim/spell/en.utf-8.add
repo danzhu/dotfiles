@@ -68,6 +68,8 @@ deallocation
 decrement
 dedent
 defs
+deserialization
+deserialize
 destructor
 destructors
 destructuring
