@@ -144,4 +144,8 @@ if executable('ctags') " {{{
     let g:tagbar_sort        = 0
     " }}}
 endif " }}}
+
+if executable('tmux') " {{{
+    Plug 'christoomey/vim-tmux-navigator'
+endif " }}}
 " }}}
