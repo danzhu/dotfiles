@@ -82,6 +82,7 @@ function title() {
             print -nP "\e]1;$1:q\a" # tab
             ;;
         screen*|tmux*)
+            print -nP "\e]2;$2:q\a" # window
             print -nP "\ek$1:q\e\\" # tab
             ;;
         *)
