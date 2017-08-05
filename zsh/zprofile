@@ -4,14 +4,14 @@ fi
 
 source ~/.dotfiles/common/path
 
-# auto start ssh
-if [[ -z "$TMUX" ]]; then
-    exec tmux new -A -s develop
-fi
-
 # auto start X
 if [ -z "$DISPLAY" ] && [ -n "$XDG_VTNR" ] && [ "$XDG_VTNR" -eq 1 ]; then
     exec startx
+fi
+
+# auto start tmux
+if [[ -z "$TMUX" ]]; then
+    exec tmux new -A -s develop
 fi
 
 # vim: ft=zsh
