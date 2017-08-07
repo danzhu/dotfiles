@@ -10,7 +10,7 @@ if [ -z "$DISPLAY" ] && [ -n "$XDG_VTNR" ] && [ "$XDG_VTNR" -eq 1 ]; then
 fi
 
 # auto start tmux
-if [[ -z "$TMUX" ]]; then
+if [[ -n "$SSH_CONNECTION" && -z "$TMUX" ]]; then
     exec tmux new -A -s develop
 fi
 
