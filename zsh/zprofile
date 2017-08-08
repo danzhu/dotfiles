@@ -1,9 +1,3 @@
-if [[ -f ~/.profile ]]; then
-    source ~/.profile
-fi
-
-source ~/.dotfiles/common/path
-
 # auto start X
 if [ -z "$DISPLAY" ] && [ -n "$XDG_VTNR" ] && [ "$XDG_VTNR" -eq 1 ]; then
     exec startx
@@ -13,5 +7,11 @@ fi
 if [[ -n "$SSH_CONNECTION" && -z "$TMUX" ]]; then
     exec tmux new -A -s develop
 fi
+
+if [[ -f ~/.profile ]]; then
+    source ~/.profile
+fi
+
+source ~/.dotfiles/common/path
 
 # vim: ft=zsh

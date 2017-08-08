@@ -54,6 +54,7 @@ link .tmux.conf tmux/tmux.conf
 link .vim vim 
 link .vimrc vim/init.vim 
 link .xinitrc xorg/xinitrc
+link .xprofile xorg/xprofile
 link .zprofile zsh/zprofile 
 link .zshenv zsh/zshenv 
 link .zshrc zsh/zshrc 

@@ -42,4 +42,7 @@ VBoxClient-all
 xrandr --dpi 240
 setxkbmap -variant dvp -option ctrl:swapcaps
 
+[ -f /etc/xprofile ] && . /etc/xprofile
+[ -f ~/.xprofile ] && . ~/.xprofile
+
 exec i3
