@@ -28,13 +28,12 @@ zstyle ':completion::*:(rm|vim):*' ignore-line true
 # --- directory ---
 setopt autocd autopushd pushdsilent
 
-autoload -Uz chpwd_recent_dirs cdr
-add-zsh-hook chpwd chpwd_recent_dirs
-
 
 # --- help ---
 autoload -Uz run-help
-unalias run-help 2> /dev/null
+if (( $+aliases[run-help] )); then
+    unalias run-help
+fi
 alias help='run-help'
 
 
@@ -255,6 +254,10 @@ alias -s js=$EDITOR
 alias -s md=$EDITOR
 alias -s txt=$EDITOR
 alias -s vim=$EDITOR
+
+
+# --- freeze tty ---
+ttyctl -f
 
 
 # --- syntax highlighting ---

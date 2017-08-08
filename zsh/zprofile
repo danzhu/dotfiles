@@ -1,3 +1,7 @@
+if [[ -f ~/.profile ]]; then
+    source ~/.profile
+fi
+
 source ~/.dotfiles/common/path
 
 # auto start X
@@ -10,10 +14,6 @@ fi
 if [[ -n "$SSH_CONNECTION" && -z "$TMUX" ]] &&
     (( $+commands[tmux] )); then
     exec tmux new -A -s develop
-fi
-
-if [[ -f ~/.profile ]]; then
-    source ~/.profile
 fi
 
 # vim: ft=zsh
