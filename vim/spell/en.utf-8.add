@@ -185,6 +185,7 @@ superclasses
 symlink
 th
 tmp
+tmux
 todo
 tokenize
 treap
@@ -199,6 +200,7 @@ unstaged
 url
 usr
 vertices
+vim
 vimrc
 virt.
 vptr
