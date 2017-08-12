@@ -96,10 +96,10 @@ call s:hl('QuickFixLine',   -1,  8)
 call s:hl('Comment',         7, -1)
 
 call s:hl('Constant',        9, -1)
-call s:hl('String',         11, -1)
+call s:hl('String',         11, -1, 'bold')
 call s:hl('Character',      11, -1)
 
-call s:hl('Identifier',      5, -1)
+call s:hl('Identifier',     13, -1)
 call s:hl('Function',       13, -1, 'bold')
 
 call s:hl('Statement',      12, -1)
@@ -108,6 +108,7 @@ call s:hl('Repeat',         12, -1, 'bold')
 call s:hl('Operator',        7, -1)
 
 call s:hl('PreProc',         4, -1)
+call s:hl('Macro',           5, -1)
 
 call s:hl('Type',           14, -1, 'bold')
 call s:hl('StorageClass',    6, -1)
@@ -117,7 +118,7 @@ call s:hl('Special',        10, -1)
 call s:hl('SpecialChar',    10, -1, 'bold')
 call s:hl('Tag',            10, -1, 'underline')
 call s:hl('Delimiter',       7, -1)
-call s:hl('SpecialComment',  2, -1)
+call s:hl('SpecialComment',  4, -1)
 call s:hl('Debug',          10, -1, 'italic')
 
 call s:hl('Underlined',      4, -1, 'underline')
@@ -130,6 +131,13 @@ call s:hl('Noise',           7, -1)
 
 call s:hl('htmlBold',       15, -1, 'bold')
 call s:hl('htmlItalic',     -1, -1, 'italic')
+" }}}
+
+" Colour Coded {{{
+call s:hl('Member',         16, -1, 'bold')
+call s:hl('Variable',        7, -1)
+call s:hl('Namespace',      10, -1)
+call s:hl('EnumConstant',    9, -1, 'bold')
 " }}}
 
 " Cleanup {{{
