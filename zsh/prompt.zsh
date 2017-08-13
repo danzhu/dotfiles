@@ -1,4 +1,3 @@
-
 function prompt-grab() {
     echo "$1" | sed -nE "s/^$2\$/\\1/p"
 }
@@ -122,6 +121,7 @@ function prompt-precmd() {
     print -P '%b'
 }
 
+autoload -Uz add-zsh-hook
 add-zsh-hook precmd prompt-precmd
 
 setopt noprompt_sp

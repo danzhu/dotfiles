@@ -7,7 +7,7 @@ set cpo&vim
 
 syn keyword finBoolean TRUE FALSE
 
-syn keyword finStatement begin break continue redo skip return
+syn keyword finStatement break continue redo skip return then do
 syn keyword finDecl let mut var def
 syn keyword finConditional if elif else match
 syn keyword finRepeat while
@@ -26,20 +26,19 @@ syn match finTag /#\I\i*/
 syn match finCharacter /'\%([^\\]\|\\.\)'/ contains=finSpecialChar
 syn match finLabel /'\I\i*/
 
-syn match finDelimiter /[()\[\]{}.,;]/
-syn match finDelimiter /::/
+syn match finDelimiter /[()\[\]{},:;]/
 
 syn match finOperator /[!*/%+-=]=/
 syn match finOperator /:*=/
 syn match finOperator /[*/%+-]/
 syn match finOperator /[<>]=\?/
-syn match finOperator /\.\./
+syn match finOperator /\./
 
 syn match finNumber /\%(-\?\<[1-9]\d*\|\<0\)\>/
 syn match finFloat /-\?\<\%([1-9]\d*\|0\)\.\%(\d\+\>\)\?/
 
-syn match finScope /\<\I\i*\>\%(::\)\@=/
-syn match finFunction /\<\I\i*\>\%((\|{\)\@=/
+syn match finScope /\<\I\i*\>:\@=/
+syn match finFunction /\<\I\i*\>\%(\s*[{(]\)\@=/
 syn match finType /\<\u\i*\>/
 syn match finConstant /\<\u[A-Z0-9_]\+\>/
 syn match finField /@\i*/
