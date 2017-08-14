@@ -13,6 +13,9 @@ if has('python') " {{{
 
     let g:gundo_close_on_revert = 1
     let g:gundo_preview_bottom  = 1
+
+    hi link diffAdded DiffAdd
+    hi link diffRemoved DiffDelete
     " }}}
 endif " }}}
 

@@ -460,7 +460,6 @@ Map n <silent> <Leader>T :<C-U>edit ~/.tmux.conf<CR>
 Map nx <silent> Q         :<C-U>quitall<CR>
 Map n  <silent> <BS>      :<C-U>nohlsearch<CR>
 Map n  <silent> <Leader>s :<C-U>set spell!<CR>
-Map n  <silent> <Leader>t :<C-U>! ~/test/test.sh % 3<CR>
 Map n  <silent> <Leader>c :<C-U>echo SyntaxInfo()<CR>
 " }}}
 " }}}
@@ -470,11 +469,6 @@ Map n  <silent> <Leader>c :<C-U>echo SyntaxInfo()<CR>
 " }}}
 
 " Highlight links {{{
-" Gundo {{{
-hi link diffAdded DiffAdd
-hi link diffRemoved DiffDelete
-" }}}
-
 " Markdown {{{
 hi link markdownCode Statement
 " }}}
@@ -604,9 +598,8 @@ endif
 
 " Color scheme {{{
 if Has('/colors/code.vim')
-    let s:colors = expand($VIMDIR . '/colorscheme')
-    if filereadable(s:colors)
-        let g:colors = readfile(s:colors)
+    if Has('/colorscheme')
+        let g:colors = readfile($VIMDIR . '/colorscheme')
     endif
     colorscheme code
 endif
