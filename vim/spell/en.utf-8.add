@@ -45,6 +45,7 @@ bugfix
 bugfixes
 builtin
 builtins
+bytecode
 cmake
 cmd
 codename
@@ -72,6 +73,7 @@ deserialization
 deserialize
 destructor
 destructors
+destructure
 destructuring
 diff
 dir
@@ -140,6 +142,7 @@ opcode
 param
 parameterized
 params
+pc
 pipelined
 plugin
 plugins
