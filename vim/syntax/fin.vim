@@ -9,7 +9,7 @@ syn keyword finBoolean TRUE FALSE
 
 syn keyword finDecl let mut var def
 syn keyword finCtrlFlow break continue redo skip return
-syn keyword finConditional if then elif else match
+syn keyword finConditional if then else match
 syn keyword finRepeat while do
 syn keyword finOperator and or not
 syn keyword finKeyword begin

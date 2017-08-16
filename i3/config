@@ -4,25 +4,24 @@
 
 set $mod Mod4
 
-set $black "#222425"
-set $grey1 "#35393a"
-set $grey2 "#4e5152"
-set $grey3 "#8a8a8d"
-set $grey4 "#d9dddd"
-set $white "#eff3f4"
-
-set $red "#dd5e64"
-set $green "#42cc4c"
-set $yellow "#c8d450"
-set $blue "#6c62e7"
-set $purple "#a671e5"
-set $cyan "#45c693"
-set $lightred "#f48893"
-set $lightgreen "#7ee06d"
-set $lightyellow "#eec673"
-set $lightblue "#83c6e8"
-set $lightpurple "#e497e4"
-set $lightcyan "#71e2d1"
+set $c00 "#383c3c"
+set $c01 "#e85a45"
+set $c02 "#6bc021"
+set $c03 "#cacd28"
+set $c04 "#5a89e6"
+set $c05 "#af68ed"
+set $c06 "#29c87e"
+set $c07 "#7c848a"
+set $c08 "#555b5c"
+set $c09 "#f68090"
+set $c10 "#83e17f"
+set $c11 "#edc77f"
+set $c12 "#74c7f6"
+set $c13 "#f3a1f4"
+set $c14 "#36e9c0"
+set $c15 "#f0f3f4"
+set $c16 "#d3d7d8"
+set $c17 "#232425"
 
 set $ws1 "1 web"
 set $ws2 "2 dir"
@@ -44,7 +43,7 @@ floating_modifier $mod
 
 # start a terminal
 bindsym $mod+Return exec i3-sensible-terminal
-bindsym $mod+c exec chromium
+bindsym $mod+c exec $BROWSER
 
 # kill focused window
 bindsym $mod+Shift+minus kill
@@ -137,14 +136,14 @@ bindsym $mod+Shift+0 move container to workspace number $ws0
 
 workspace $ws1 output VGA-1
 
-# class                 border      background  text        indicator   child_border
-client.focused          $lightblue  $grey1      $lightblue  $grey3      $grey1
-client.focused_inactive $grey3      $black      $grey4      $grey2      $black
-client.unfocused        $grey2      $black      $grey3      $grey1      $black
-client.urgent           $lightred   $grey1      $lightred   $grey3      $grey1
-client.placeholder      $black      $grey1      $grey4      $black      $grey1
+# class                 border  bg      text    ind     child_border
+client.focused          $c12    $c00    $c12    $c07    $c00
+client.focused_inactive $c07    $c17    $c16    $c08    $c17
+client.unfocused        $c08    $c17    $c07    $c00    $c17
+client.urgent           $c09    $c00    $c09    $c07    $c00
+client.placeholder      $c17    $c00    $c16    $c17    $c00
 
-client.background       $black
+client.background       $c17
 
 mode "system" {
     # reload the configuration file
@@ -198,15 +197,15 @@ bar {
     separator_symbol "/"
 
     colors {
-        background $black
-        statusline $grey4
-        separator $grey3
+        background $c17
+        statusline $c16
+        separator $c07
 
-        # colorclass        border          background      text
-        focused_workspace   $lightblue      $grey1          $lightblue
-        active_workspace    $grey3          $grey1          $lightblue
-        inactive_workspace  $grey2          $black          $grey3
-        urgent_workspace    $lightred       $grey1          $lightred
-        binding_mode        $lightyellow    $grey1          $lightyellow
+        # colorclass        border  bg      text
+        focused_workspace   $c12    $c00    $c12
+        active_workspace    $c07    $c00    $c12
+        inactive_workspace  $c08    $c17    $c07
+        urgent_workspace    $c09    $c00    $c09
+        binding_mode        $c11    $c00    $c11
     }
 }

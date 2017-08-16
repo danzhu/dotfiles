@@ -259,11 +259,25 @@ command! -nargs=1 Error echohl ErrorMsg | echo <args> | echohl None
 
 " Options {{{
 " Variables {{{
-let g:mapleader                 = ','
-let g:tex_flavor                = 'latex'
-let g:xml_syntax_folding        = 1
-let g:c_comment_strings         = 1
-let g:markdown_fenced_languages = ['c', 'cpp', 'scheme', 'haskell', 'sh', 'make']
+let g:c_comment_strings            = 1
+let g:is_bash                      = 1
+let g:java_highlight_debug         = 1
+let g:java_highlight_functions     = 'style'
+let g:java_highlight_java_lang_ids = 1
+let g:mapleader                    = ','
+let g:sh_fold_enabled              = 1
+let g:tex_flavor                   = 'latex'
+let g:tex_fold_enabled             = 1
+let g:xml_syntax_folding           = 1
+let g:zsh_fold_enable              = 1
+
+let g:markdown_fenced_languages = [
+            \ 'c',
+            \ 'cpp',
+            \ 'scheme',
+            \ 'haskell',
+            \ 'sh',
+            \ 'make']
 " }}}
 
 " Editing {{{
@@ -522,6 +536,13 @@ hi link vimUserFunc Function
 " C++ {{{
 hi link cppModifier StorageClass
 hi link cppSTLexception Type
+" }}}
+
+" Java {{{
+hi link javaBraces Delimiter
+hi link javaParen Delimiter
+hi link javaParen1 Delimiter
+hi link javaParen2 Delimiter
 " }}}
 " }}}
 

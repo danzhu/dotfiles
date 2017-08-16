@@ -116,8 +116,9 @@ call s:hl('Structure',      12, -1)
 
 call s:hl('Special',         7, -1)
 call s:hl('SpecialChar',    10, -1, 'bold')
+call s:hl('Tag',            10, -1, 'underline')
 call s:hl('SpecialComment',  7, -1, 'italic')
-call s:hl('Debug',          10, -1, 'italic')
+call s:hl('Debug',           5, -1)
 
 call s:hl('Underlined',      4, -1, 'underline')
 
