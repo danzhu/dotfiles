@@ -1,9 +1,25 @@
 $include /etc/inputrc
 
-set editing-mode vi
-
+# --- completion ---
 set show-all-if-unmodified on
+set colored-stats on
+
+# --- editing ---
+set editing-mode vi
+set bind-tty-special-chars off
 set echo-control-characters off
 
+# --- key bindings ---
 "\e[A":history-search-backward
 "\e[B":history-search-forward
+
+$if mode=vi
+    set keymap vi-insert
+
+    "\C-p":history-search-backward
+    "\C-n":history-search-forward
+    "\C-a":beginning-of-line
+    "\C-e":end-of-line
+    "\C-u":kill-whole-line
+    "\C-w":unix-filename-rubout
+$endif
