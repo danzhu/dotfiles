@@ -1,10 +1,13 @@
 " Interface {{{
-if has('python3') " {{{
-    Plug 'Shougo/denite.nvim'
-    " {{{
-    Map n <silent> <Space> :<C-U>Denite file_rec<CR>
-    " }}}
+Plug 'ctrlpvim/ctrlp.vim'
+" {{{
+let g:ctrlp_match_window = 'bottom,order:ttb,min:1,max:10,results:10'
+
+if executable('ag') " {{{
+    let g:ctrlp_user_command = 'ag -l --nocolor -g "" %s'
+    let g:ctrlp_use_caching  = 0
 endif " }}}
+" }}}
 
 if has('python') " {{{
     Plug 'sjl/gundo.vim'
@@ -91,6 +94,8 @@ let g:syntastic_check_on_wq = 0
 let g:syntastic_python_checkers = ['python', 'mypy', 'pylint', 'flake8']
 let g:syntastic_asm_checkers = []
 " }}}
+
+Plug 'tpope/vim-unimpaired'
 
 if !has('nvim') && has('lua') && executable('g++') " {{{
     Plug 'jeaye/color_coded'

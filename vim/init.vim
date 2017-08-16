@@ -292,7 +292,9 @@ set mouse=a                     " enable all mouse operations
 set mousefocus                  " mouse focus on hover
 set mousemodel=extend           " right mouse extends selection
 set nojoinspaces                " don't add space when joining paragraphs
+set nrformats=bin,hex           " zero-prefixed numbers aren't octal
 set textwidth=80                " auto hard-break on 80 chars
+set ttimeout                    " timeout on key codes
 set ttimeoutlen=10              " short timeout for <Esc> key
 set updatetime=250              " reduce update interval
 " }}}
@@ -403,6 +405,10 @@ set smartcase  " only lower case matches both upper and lower
 if !&hlsearch
     set hlsearch " highlight all matches when searching
 endif
+
+if executable('ag')
+    set grepprg=ag\ --nogroup\ --nocolor
+endif
 " }}}
 
 " Language mappings {{{
@@ -426,22 +432,24 @@ Map nx          <expr> $       HMovement('$')
 Map nx                 g$      $
 Map nx                 g0      0
 Map nx                 '       `
+Map nx                 `       '
 Map no <silent>        U       :<C-U>call search('\u')<CR>
 " }}}
 
 " Editing {{{
-Map n        S         ~hi
-Map i <expr> <Tab>     pumvisible() ? "\<C-N>" : "\<Tab>"
-Map i <expr> <S-Tab>   pumvisible() ? "\<C-P>" : ''
-Map i        <C-B>     <C-G>U<Left>
-Map i        <C-F>     <C-G>U<Right>
-Map i        <C-E>     <C-G>U<End>
-Map i        <C-U>     <C-G>u<C-U>
-Map i        <C-C>     <C-]><Esc>
-Map x        Y         "+y
-Map x        D         "+d
-Map x        P         "+p
-Map x        R         y/\<<C-R>"\><CR>:redraw!<CR>:%s//
+Map n                 S         ~hi
+Map i          <expr> <Tab>     pumvisible() ? "\<C-N>" : "\<Tab>"
+Map i          <expr> <S-Tab>   pumvisible() ? "\<C-P>" : ''
+Map i                 <C-B>     <C-G>U<Left>
+Map i                 <C-F>     <C-G>U<Right>
+Map i                 <C-E>     <C-G>U<End>
+Map i                 <C-U>     <C-G>u<C-U>
+Map i                 <C-C>     <C-]><Esc>
+Map x <silent>        s         :sort<CR>
+Map x                 Y         "+y
+Map x                 D         "+d
+Map x                 P         "+p
+Map x                 R         y/\<<C-R>"\><CR>:redraw!<CR>:%s//
 " }}}
 
 " File {{{
@@ -449,12 +457,9 @@ Map n <silent> <expr> <CR> Write()
 Map n <silent>        M    :<C-U>tabnew<CR>
 Map n <silent>        H    :<C-U>bprevious<CR>
 Map n <silent>        L    :<C-U>bnext<CR>
-" Map n <silent>        +    :<C-U>enew<CR>
 Map n <silent>        -    :<C-U>call BufferDelete(0)<CR>
 Map n <silent>        _    :<C-U>call BufferDelete(1)<CR>
 Map n <silent>        ZF   :<C-U>cwindow 9<CR>
-Map n <silent>        ZP   :<C-U>cprevious<CR>
-Map n <silent>        ZN   :<C-U>cnext<CR>
 " }}}
 
 " Common files {{{
@@ -473,7 +478,6 @@ Map n <silent> <Leader>T :<C-U>edit ~/.tmux.conf<CR>
 " Misc {{{
 Map nx <silent> Q         :<C-U>quitall<CR>
 Map n  <silent> <BS>      :<C-U>nohlsearch<CR>
-Map n  <silent> <Leader>s :<C-U>set spell!<CR>
 Map n  <silent> <Leader>c :<C-U>echo SyntaxInfo()<CR>
 " }}}
 " }}}
@@ -578,7 +582,7 @@ elseif has('nvim') " Nvim
     " tnoremap <Esc> <C-\><C-n>
 elseif has('win32') " Windows
     " ignore terminal escape sequences
-elseif &term=~'linux' " Virtual Terminal
+elseif &term=~'linux' " Linux Console
     if has('terminfo')
         set t_Co=16
         " We use the blink attribute for bright background (console_codes(4)) and the
@@ -650,25 +654,6 @@ augroup vimrc
                 \ endif
     " }}}
 
-    " Auto source / make on write {{{
-    " set filetype to bring vim-specific ftplugins back
-    autocmd BufWritePost $VIMDIR/init.vim,$VIMDIR/local.vim,$VIMDIR/plugins.vim
-                \ source $MYVIMRC |
-                \ setlocal filetype=vim
-    autocmd BufWritePost $VIMDIR/spell/*.add
-                \ mkspell! <afile>
-    " }}}
-
-    " Conceal markers {{{
-    " au BufRead,BufNewFile *
-    " \ syn match foldMarker contains= contained conceal /{{{[1-9]\?\|}}}[1-9]\?/
-    " }}}
-
-    " Auto popup menu {{{
-    " TODO: resolve conflict with YCM
-    " autocmd InsertCharPre * call AutoPopupMenu()
-    " }}}
-
     " Undo file {{{
     autocmd BufWritePre /var/tmp/* setlocal noundofile
     " }}}
@@ -676,17 +661,5 @@ augroup vimrc
     " Exclude quickfix from buffer list {{{
     autocmd FileType qf setlocal nobuflisted
     " }}}
-
-    if !&diff
-        " Cursorline / colorcolumn {{{
-        " autocmd InsertEnter * set nocursorline colorcolumn=+1
-        " autocmd InsertLeave * set cursorline colorcolumn=
-        " }}}
-
-        " Auto-toggle relative number {{{
-        " autocmd FocusGained,WinEnter * if &number | set relativenumber | endif
-        " autocmd FocusLost,WinLeave * set norelativenumber
-        " }}}
-    endif
 augroup END
 " }}}
