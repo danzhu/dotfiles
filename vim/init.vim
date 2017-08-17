@@ -13,12 +13,8 @@ else
     let $CONFIG = expand(empty($XDG_CONFIG_HOME) ? '~/.config' : $XDG_CONFIG_HOME)
 endif
 
-" Vim directory detection
-if has('nvim')
-    let $VIMDIR = expand($CONFIG . '/nvim')
-else
-    let $VIMDIR = expand(has('win32') ? '~/vimfiles' : '~/.vim')
-endif
+" Vim directory
+let $VIMDIR = expand('~/.dotfiles/vim')
 " }}}
 " }}}
 
@@ -52,21 +48,8 @@ function! BufferDelete(force) " {{{
     endtry
 endfunction " }}}
 
-function! Tab() " {{{
-    let c = matchstr(getline('.'), '\%' . (col('.') - 1) . 'c\a')
-    " complete if previous char is a letter
-    return pumvisible() || !empty(c) ? "\<C-N>" : "\<Tab>"
-endfunction " }}}
-
 function! CtrlSpace() " {{{
     return pumvisible() ? "\<C-Y>" : "\<C-N>\<C-P>\<Down>"
-endfunction " }}}
-
-function! AutoPopupMenu() " {{{
-    " show popup when inserting an identifier char
-    if !pumvisible() && v:char =~ '\h'
-        call feedkeys("\<C-N>\<C-P>")
-    endif
 endfunction " }}}
 
 function! SyntaxInfo() " {{{
@@ -122,16 +105,6 @@ function! Map(bang, args) " {{{
     for md in split(modes, '\zs')
         exec md . cmd
     endfor
-endfunction " }}}
-
-function! Has(...) " {{{
-    for file in a:000
-        if !filereadable($VIMDIR . file)
-            return 0
-        endif
-    endfor
-
-    return 1
 endfunction " }}}
 
 function! EscapeMagic(text) " {{{
@@ -407,6 +380,7 @@ if !&hlsearch
 endif
 
 if executable('ag')
+    " use the silver searcher for grep if available
     set grepprg=ag\ --nogroup\ --nocolor
 endif
 " }}}
@@ -607,8 +581,13 @@ endif
 " }}}
 
 " Setup {{{
+" Color scheme {{{
+let g:colors = readfile($VIMDIR . '/colorscheme')
+colorscheme code
+" }}}
+
 " Plugins {{{
-if Has('/plugins.vim', '/autoload/plug.vim')
+if filereadable($VIMDIR . '/autoload/plug.vim')
     call plug#begin()
     source $VIMDIR/plugins.vim
     call plug#end()
@@ -616,17 +595,8 @@ endif
 " }}}
 
 " local.vim {{{
-if Has('/local.vim')
+if filereadable($VIMDIR . '/local.vim')
     source $VIMDIR/local.vim
-endif
-" }}}
-
-" Color scheme {{{
-if Has('/colors/code.vim')
-    if Has('/colorscheme')
-        let g:colors = readfile($VIMDIR . '/colorscheme')
-    endif
-    colorscheme code
 endif
 " }}}
 
@@ -652,6 +622,15 @@ augroup vimrc
                 \ if line("'\"") >= 1 && line("'\"") <= line("$") |
                 \   exe "normal! g`\"" |
                 \ endif
+    " }}}
+
+    " Auto source / make on write {{{
+    " note: set filetype to bring vim-specific ftplugins back
+    autocmd BufWritePost $VIMDIR/init.vim,$VIMDIR/local.vim,$VIMDIR/plugins.vim
+                \ source $MYVIMRC |
+                \ setlocal filetype=vim
+    autocmd BufWritePost $VIMDIR/spell/*.add
+                \ mkspell! <afile>
     " }}}
 
     " Undo file {{{

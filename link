@@ -1,60 +1,117 @@
 #!/bin/bash
 
-function link()
-{
-    local tar="$PWD/$2"
-    local src="$HOME/$1"
+OPTIONS=df
+LONG_OPTIONS=dry,force
 
-    local msg color
+OPT=$(getopt --options=$OPTIONS --longoptions=$LONG_OPTIONS --name "$0" -- "$@")
+if [[ $? -ne 0 ]]; then
+    exit 2
+fi
 
-    if [[ ! -e "$tar" ]]; then
-        color=1
-        msg="link target not found"
-    elif [[ ! -e "$src" ]]; then
-        ln -s "$tar" "$src"
+eval set -- "$OPT"
 
-        color=2
-        msg="successfully installed"
-    elif [[ ! -h "$src" ]]; then
-        color=3
-        msg="not a symlink"
-    else
-        local sym="$(readlink "$src")"
-        if [[ "$tar" != "$sym" ]]; then
-            color=4
-            msg="linked to $sym"
-        else
-            # already installed
-            return 0
-        fi
-    fi
+while true; do
+    case "$1" in
+        -d|--dry)
+            DRY=true
+            shift
+            ;;
+        -f|--force)
+            FORCE=true
+            shift
+            ;;
+        --)
+            shift
+            break
+            ;;
+        *)
+            echo "oops"
+            exit 3
+            ;;
+    esac
+done
 
+if [[ $# -ne 0 ]]; then
+    echo "$0: selective install not yet supported"
+    exit 2
+fi
+
+function msg() {
     tput bold
-    printf "%-20s" "$1"
-    tput setaf $color
-    echo "$msg"
+    tput setaf $1
+    echo -en " $2"
     tput sgr0
 }
 
-link .Xresources xorg/Xresources
-link .bash_profile bash/bash_profile 
-link .bashrc bash/bashrc 
-link .config/git git 
-link .config/i3 i3 
-link .config/i3status i3status 
-link .config/nvim vim 
-link .config/termite termite
-link .config/zathura zathura 
-link .flake8 vim/flake8 
-link .inputrc readline/inputrc
-link .pylintrc vim/pylintrc 
-link .ssh ssh 
-link .tern-config vim/tern-config 
-link .tmux.conf tmux/tmux.conf
-link .vim vim 
-link .vimrc vim/init.vim 
-link .xinitrc xorg/xinitrc
-link .xprofile xorg/xprofile
-link .zprofile zsh/zprofile 
-link .zshenv zsh/zshenv 
-link .zshrc zsh/zshrc 
+function link() {
+    local tar="$PWD/$2"
+    local src="$HOME/$1"
+
+    printf "%-20s" "$1"
+
+    if [[ ! -e "$tar" ]]; then
+        msg 1 "symlink target $tar not found\n"
+
+        return 0
+    elif [[ -L "$src" ]]; then
+        local sym="$(readlink "$src")"
+
+        if [[ "$tar" = "$sym" ]]; then
+            msg 8 "already installed\n"
+
+            return 0
+        elif [[ $FORCE != true ]]; then
+            msg 3 "linked to $sym\n"
+
+            return 0
+        else
+            msg 4 "forced symlink override"
+        fi
+    elif [[ -e "$src" ]]; then
+        if [[ $FORCE != true ]]; then
+            msg 3 "file exists\n"
+
+            return 0
+        else
+            msg 4 "forced file override"
+        fi
+    fi
+
+    if [[ $DRY = true ]]; then
+        msg 2 "will be"
+    else
+        mkdir -p "$(dirname "$src")"
+        if [[ $FORCE = true ]]; then
+            ln -sf "$tar" "$src"
+        else
+            ln -s "$tar" "$src"
+        fi
+
+        msg 2 "successfully"
+    fi
+
+    msg 2 "installed\n"
+}
+
+link .Xresources      xorg/Xresources
+link .bash_profile    bash/bash_profile
+link .bashrc          bash/bashrc
+link .config/git      git
+link .config/i3       i3
+link .config/i3status i3status
+link .config/nvim     vim
+link .config/termite  termite
+link .config/zathura  zathura
+link .flake8          flake8/flake8
+link .inputrc         readline/inputrc
+link .pylintrc        pylint/pylintrc
+link .ssh/config      ssh/config
+link .tern-config     tern/tern-config
+link .tmux.conf       tmux/tmux.conf
+link .vim             vim
+link .vimrc           vim/init.vim
+link .xinitrc         xorg/xinitrc
+link .xprofile        xorg/xprofile
+link .zprofile        zsh/zprofile
+link .zshenv          zsh/zshenv
+link .zshrc           zsh/zshrc
