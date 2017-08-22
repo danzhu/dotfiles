@@ -96,6 +96,7 @@ function link() {
 link .Xresources      xorg/Xresources
 link .bash_profile    bash/bash_profile
 link .bashrc          bash/bashrc
+link .clang-format    clang/clang-format
 link .config/git      git
 link .config/i3       i3
 link .config/i3status i3status

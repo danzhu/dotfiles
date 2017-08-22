@@ -134,7 +134,7 @@ Plug 'flazz/vim-colorschemes'
 " }}}
 
 " Filetypes {{{
-Plug 'tpope/vim-markdown'
+" Plug 'tpope/vim-markdown'
 
 Plug 'mattn/emmet-vim'
 
