@@ -453,6 +453,7 @@ Map n <silent> <Leader>T :<C-U>edit ~/.tmux.conf<CR>
 Map nx <silent> Q         :<C-U>quitall<CR>
 Map n  <silent> <BS>      :<C-U>nohlsearch<CR>
 Map n  <silent> <Leader>c :<C-U>echo SyntaxInfo()<CR>
+Map nx <silent> <Leader>f :pyf /usr/share/clang/clang-format.py<CR>
 " }}}
 " }}}
 
