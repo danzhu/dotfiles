@@ -9,7 +9,7 @@ if executable('ag') " {{{
 endif " }}}
 " }}}
 
-if has('python') " {{{
+if has('python')
     Plug 'sjl/gundo.vim'
     " {{{
     Map n <silent> <C-G> :<C-U>GundoToggle<CR>
@@ -20,9 +20,9 @@ if has('python') " {{{
     hi link diffAdded DiffAdd
     hi link diffRemoved DiffDelete
     " }}}
-endif " }}}
+endif
 
-if executable('git') " {{{
+if executable('git')
     Plug 'airblade/vim-gitgutter'
     " {{{
     let g:gitgutter_override_sign_column_highlight = 0
@@ -34,9 +34,9 @@ if executable('git') " {{{
     " }}}
 
     Plug 'tpope/vim-fugitive'
-endif " }}}
+endif
 
-if executable('ctags') " {{{
+if executable('ctags')
     Plug 'majutsushi/tagbar'
     " {{{
     Map n <silent> <C-T> :<C-U>TagbarToggle<CR>
@@ -45,11 +45,11 @@ if executable('ctags') " {{{
     let g:tagbar_autopreview = 1
     let g:tagbar_sort        = 0
     " }}}
-endif " }}}
+endif
 
-if executable('tmux') " {{{
+if executable('tmux')
     Plug 'christoomey/vim-tmux-navigator'
-endif " }}}
+endif
 " }}}
 
 " Editing {{{
@@ -97,13 +97,13 @@ let g:syntastic_asm_checkers = []
 
 Plug 'tpope/vim-unimpaired'
 
-if !has('nvim') && has('lua') && executable('g++') " {{{
+if !has('nvim') && has('lua') && executable('g++')
     Plug 'jeaye/color_coded'
 else
     Plug 'octol/vim-cpp-enhanced-highlight'
-endif " }}}
+endif
 
-if has('python') || has('python3') " {{{
+if has('python') || has('python3')
     Plug 'SirVer/ultisnips' | Plug 'honza/vim-snippets'
     " {{{
     let g:UltiSnipsExpandTrigger = '<C-j>'
@@ -124,7 +124,7 @@ if has('python') || has('python3') " {{{
 
     Map n <silent> <Leader>g :<C-U>YcmCompleter GoTo<CR>
     " }}}
-endif " }}}
+endif
 " }}}
 
 " Utility {{{
@@ -142,34 +142,34 @@ Plug 'pangloss/vim-javascript'
 
 " Plug 'hdima/python-syntax'
 
-if executable('tsc') " {{{
+if executable('tsc')
     Plug 'leafgarland/typescript-vim'
-endif " }}}
+endif
 
-if has('win32') || executable('mono') " {{{
+if has('win32') || executable('mono')
     Plug 'OrangeT/vim-csharp'
-endif " }}}
+endif
 
-if executable('racket') " {{{
+if executable('racket')
     Plug 'wlangstroth/vim-racket'
     " {{{
     let g:markdown_fenced_languages += ['racket']
     " }}}
-endif " }}}
+endif
 
-if executable('latex') " {{{
+if executable('latex')
     Plug 'lervag/vimtex'
-endif " }}}
+endif
 
-if executable('rustc') " {{{
+if executable('rustc')
     Plug 'rust-lang/rust.vim'
-endif " }}}
+endif
 " }}}
 
 " Misc {{{
-if has('win32') " {{{
+if has('win32')
     Plug 'xolox/vim-misc'
 
     Plug 'xolox/vim-shell'
-endif " }}}
+endif
 " }}}
