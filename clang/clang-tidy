@@ -3,7 +3,9 @@ Checks: "\
 clang-diagnostic-*,\
 clang-analyzer-*,\
 *,\
+-cert-err58-cpp,\
 -cppcoreguidelines-no-malloc,\
+-cppcoreguidelines-pro-bounds-array-to-pointer-decay,\
 -cppcoreguidelines-pro-bounds-constant-array-index,\
 -cppcoreguidelines-pro-bounds-pointer-arithmetic,\
 -cppcoreguidelines-pro-type-reinterpret-cast,\
@@ -12,6 +14,7 @@ clang-analyzer-*,\
 -google-runtime-references,\
 -llvm-header-guard,\
 -misc-unused-parameters,\
+-modernize-use-equals-default,\
 -readability-braces-around-statements,\
 -readability-named-parameter,\
 "
