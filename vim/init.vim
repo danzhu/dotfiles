@@ -218,6 +218,11 @@ function! TabLine() " {{{
 
     return line
 endfunction " }}}
+
+function! ClangFormat() " {{{
+    let l:formatdiff = 1
+    pyf /usr/share/clang/clang-format.py
+endfunction " }}}
 " }}}
 
 " Commands {{{
@@ -640,6 +645,10 @@ augroup vimrc
 
     " Exclude quickfix from buffer list {{{
     autocmd FileType qf setlocal nobuflisted
+    " }}}
+
+    " Clang-format on save {{{
+    autocmd BufWritePre *.h,*.cc,*.cpp call ClangFormat()
     " }}}
 augroup END
 " }}}

@@ -26,9 +26,6 @@
 [filter "sort"]
 	clean = LC_ALL=C sort
 	smudge = cat
-[filter "clang"]
-	clean = clang-format -style=file -
-	smudge = cat
 [include]
 	path = config.local
 

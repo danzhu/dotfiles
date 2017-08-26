@@ -20,8 +20,7 @@ import glob
 import ycm_core
 
 
-HDR_EXTS = ['.h', '.hxx', '.hpp', '.hh']
-CXX_EXTS = ['.cc', '.cpp', '.cxx', '.c', '.m', '.mm']
+CXX_EXTS = ['.cc', '.cpp', '.cxx']
 SRC_DIRS = ['src', 'source', '']
 
 
@@ -34,25 +33,43 @@ FLAGS = [
     '-std=c++14',
     '-x',
     'c++',
-    '-isystem',
-    '/usr/include',
-    '-isystem',
-    '/usr/local/include',
 ]
 
 
+def sys_flags():
+    flags = [
+        '-isystem',
+        '/usr/include',
+        '-isystem',
+        '/usr/local/include',
+    ]
+
+    dirs = glob.glob('/usr/include/c++/*')
+    if len(dirs) > 0:
+        # use newest version
+        flags.extend(['-isystem', next(reversed(sorted(dirs)))])
+
+    return flags
+
+
+SYS_FLAGS = sys_flags()
+
+
 def find_db():
-    dbs = glob.glob('*/compile_commands.json')
-    if len(dbs) == 0:
-        return None
+    if os.path.exists('compile_commands.json'):
+        return ycm_core.CompilationDatabase(os.getcwd())
 
-    db_file = os.path.join(os.getcwd(), dbs[0])
-    directory = os.path.dirname(db_file)
+    for globbed in glob.glob('*/compile_commands.json'):
+        db_file = os.path.join(os.getcwd(), globbed)
+        directory = os.path.dirname(db_file)
 
-    if not os.path.exists(directory):
-        return None
+        if os.path.exists(directory):
+            return ycm_core.CompilationDatabase(directory)
 
-    return ycm_core.CompilationDatabase(directory)
+    return None
+
+
+database = find_db()
 
 
 def resolve_paths(flags, working_directory):
@@ -140,14 +157,11 @@ def get_info(filename):
 
 def FlagsForFile(filename, **kwargs):
     if not database:
-        return { 'flags': FLAGS }
+        return {'flags': FLAGS + SYS_FLAGS}
 
     info = get_info(filename)
     if info:
         flags = resolve_paths(info.compiler_flags_, info.compiler_working_dir_)
-        return { 'flags': flags }
+        return {'flags': flags + SYS_FLAGS}
 
     return None
-
-
-database = find_db()

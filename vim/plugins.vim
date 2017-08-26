@@ -49,6 +49,14 @@ endif
 
 if executable('tmux')
     Plug 'christoomey/vim-tmux-navigator'
+
+    let g:tmux_navigator_no_mappings = 1
+
+    Map n <silent> <C-h> :TmuxNavigateLeft<cr>
+    Map n <silent> <C-l> :TmuxNavigateRight<cr>
+    Map n <silent> <C-j> :TmuxNavigateDown<cr>
+    Map n <silent> <C-k> :TmuxNavigateUp<cr>
+    Map n <silent> <C-\> :TmuxNavigatePrevious<cr>
 endif
 " }}}
 
@@ -113,7 +121,6 @@ if has('python') || has('python3')
     " {{{
     " let g:ycm_autoclose_preview_window_after_completion = 1
     let g:ycm_autoclose_preview_window_after_insertion = 1
-    let g:ycm_confirm_extra_conf                       = 0
     let g:ycm_global_ycm_extra_conf                    = $VIMDIR.'/ycm_extra_conf.py'
     let g:ycm_min_num_of_chars_for_completion          = 1
     let g:ycm_seed_identifiers_with_syntax             = 1
