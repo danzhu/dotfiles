@@ -1,0 +1,6 @@
+# temp files
+*~
+
+# python cache
+*.pyc
+.mypy_cache

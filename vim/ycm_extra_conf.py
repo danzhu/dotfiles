@@ -16,12 +16,14 @@
 # along with ycmd.  If not, see <http://www.gnu.org/licenses/>.
 
 import os
+import pathlib
 import glob
 import ycm_core
 
 
-CXX_EXTS = ['.cc', '.cpp', '.cxx']
-SRC_DIRS = ['src', 'source', '']
+HDR_EXTS = ['.h', '.hpp', '.hh', '.hxx']
+CXX_EXTS = ['.cc', '.cpp', '.cxx', '.c']
+SRC_DIRS = ['src', 'lib', '']
 
 
 FLAGS = [
@@ -55,21 +57,22 @@ def sys_flags():
 SYS_FLAGS = sys_flags()
 
 
-def find_db():
-    if os.path.exists('compile_commands.json'):
-        return ycm_core.CompilationDatabase(os.getcwd())
+def find_root():
+    root = pathlib.Path.cwd()
+    # find dir with compile_commands, but ignore CMake build dir
+    while not (root / 'compile_commands.json').exists() or \
+            (root / 'CMakeCache.txt').exists():
+        new_root = root.parent.resolve()
+        if new_root == root:
+            # not found
+            return pathlib.Path.cwd(), None
 
-    for globbed in glob.glob('*/compile_commands.json'):
-        db_file = os.path.join(os.getcwd(), globbed)
-        directory = os.path.dirname(db_file)
+        root = new_root
 
-        if os.path.exists(directory):
-            return ycm_core.CompilationDatabase(directory)
-
-    return None
+    return root, ycm_core.CompilationDatabase(str(root))
 
 
-database = find_db()
+ROOT, DATABASE = find_root()
 
 
 def resolve_paths(flags, working_directory):
@@ -104,62 +107,91 @@ def resolve_paths(flags, working_directory):
     return new_flags
 
 
-def try_get_info(filename):
-    if not os.path.exists(filename):
+def try_database(filename):
+    if not filename.exists():
         return None
 
-    compilation_info = database.GetCompilationInfoForFile(filename)
-    if not compilation_info.compiler_flags_:
+    info = DATABASE.GetCompilationInfoForFile(str(filename))
+    if not info.compiler_flags_:
         return None
 
-    return compilation_info
+    return info
+
+
+def try_extension(filename, ext):
+    # search in same directory
+    info = try_database(filename)
+    if info:
+        return info
+
+    # search in source directory
+    for src_dir in SRC_DIRS:
+        src = ROOT / src_dir
+
+        if not src.exists():
+            continue
+
+        parts = filename.parts
+        if 'include' in parts:
+            idx = parts.index('include')
+
+            # strip project name
+            if idx < len(parts) - 2:
+                rel = pathlib.Path(*parts[idx + 2:])
+            else:
+                rel = pathlib.Path(*parts[idx + 1:])
+
+            info = try_database(src / rel)
+            if info:
+                return info
+
+    return None
+
+
+def try_random(ext):
+    for src_dir in SRC_DIRS:
+        src = ROOT / src_dir
+
+        if not src.exists():
+            continue
+
+        # random file in source directory
+        for random_file in src.rglob('*' + ext):
+            info = try_database(random_file)
+            if info:
+                return info
+
+    return None
 
 
 def get_info(filename):
     # use existing info if available
-    info = try_get_info(filename)
+    info = try_database(filename)
     if info:
-        return try_get_info(filename)
-
-    # it's either a header file, or newly created source
-
-    base_path = os.path.splitext(filename)[0]
+        return info
 
     # try each C++ source extension
     for ext in CXX_EXTS:
-        name = base_path + ext
-
-        # search in same directory
-        info = try_get_info(name)
-        if info:
-            return info
-
-        basename = os.path.basename(name)
-
-        # search in source directory
-        for src_dir in SRC_DIRS:
-            src = os.path.join(os.getcwd(), src_dir)
-
-            # file with same basename
-            info = try_get_info(os.path.join(src, basename))
+        # if header file
+        if filename.suffix in HDR_EXTS:
+            info = try_extension(filename.with_suffix(ext), ext)
             if info:
                 return info
 
-            # random file in source directory
-            for random_file in glob.glob(src + '/*' + ext):
-                info = try_get_info(random_file)
-                if info:
-                    return info
+        # try random source files
+        info = try_random(ext)
+        if info:
+            return info
 
     # there's nothing we can do now :(
     return None
 
 
 def FlagsForFile(filename, **kwargs):
-    if not database:
+    if not DATABASE:
         return {'flags': FLAGS + SYS_FLAGS}
 
-    info = get_info(filename)
+    info = get_info(pathlib.Path(filename))
     if info:
         flags = resolve_paths(info.compiler_flags_, info.compiler_working_dir_)
         return {'flags': flags + SYS_FLAGS}
