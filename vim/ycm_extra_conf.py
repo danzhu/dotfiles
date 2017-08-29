@@ -118,11 +118,19 @@ def try_database(filename):
     return info
 
 
-def try_extension(filename, ext):
-    # search in same directory
-    info = try_database(filename)
-    if info:
-        return info
+def try_glob(directory, ext):
+    for random_file in directory.glob('*' + ext):
+        info = try_database(random_file)
+        if info:
+            return info
+
+
+def try_impl(filename):
+    parts = filename.parts
+    if 'include' not in parts:
+        return None
+
+    idx = parts.index('include')
 
     # search in source directory
     for src_dir in SRC_DIRS:
@@ -131,19 +139,15 @@ def try_extension(filename, ext):
         if not src.exists():
             continue
 
-        parts = filename.parts
-        if 'include' in parts:
-            idx = parts.index('include')
+        # strip project name
+        if idx < len(parts) - 2:
+            rel = pathlib.Path(*parts[idx + 2:])
+        else:
+            rel = pathlib.Path(*parts[idx + 1:])
 
-            # strip project name
-            if idx < len(parts) - 2:
-                rel = pathlib.Path(*parts[idx + 2:])
-            else:
-                rel = pathlib.Path(*parts[idx + 1:])
-
-            info = try_database(src / rel)
-            if info:
-                return info
+        info = try_database(src / rel)
+        if info:
+            return info
 
     return None
 
@@ -170,18 +174,45 @@ def get_info(filename):
     if info:
         return info
 
-    # try each C++ source extension
-    for ext in CXX_EXTS:
-        # if header file
-        if filename.suffix in HDR_EXTS:
-            info = try_extension(filename.with_suffix(ext), ext)
+    if filename.suffix in HDR_EXTS:
+        # header file, try each C++ source extension
+        for ext in CXX_EXTS:
+            impl = filename.with_suffix(ext)
+
+            # search in same directory
+            info = try_database(impl)
             if info:
                 return info
 
-        # try random source files
+            # search corresponding implementation file in source directories
+            info = try_impl(impl)
+            if info:
+                return info
+
+            # try random file in same directory
+            info = try_glob(filename.parent, ext)
+            if info:
+                return info
+
+            # try random source files in source directories
+            info = try_random(ext)
+            if info:
+                return info
+    elif filename.suffix in CXX_EXTS:
+        # implementation file, use same source extension
+        ext = filename.suffix
+
+        # try random file in same directory
+        info = try_glob(filename.parent, ext)
+        if info:
+            return info
+
+        # try random source files in source directories
         info = try_random(ext)
         if info:
             return info
+
+    # else, unknown file type
 
     # there's nothing we can do now :(
     return None
