@@ -147,7 +147,10 @@ Plug 'mattn/emmet-vim'
 
 Plug 'pangloss/vim-javascript'
 
-" Plug 'hdima/python-syntax'
+Plug 'vim-python/python-syntax'
+" {{{
+let g:python_highlight_all = 1
+" }}}
 
 if executable('tsc')
     Plug 'leafgarland/typescript-vim'
