@@ -49,14 +49,15 @@ endif
 
 if executable('tmux')
     Plug 'christoomey/vim-tmux-navigator'
-
-    let g:tmux_navigator_no_mappings = 1
-
+    " {{{
     Map n <silent> <C-h> :TmuxNavigateLeft<cr>
     Map n <silent> <C-l> :TmuxNavigateRight<cr>
     Map n <silent> <C-j> :TmuxNavigateDown<cr>
     Map n <silent> <C-k> :TmuxNavigateUp<cr>
     Map n <silent> <C-\> :TmuxNavigatePrevious<cr>
+
+    let g:tmux_navigator_no_mappings = 1
+    " }}}
 endif
 " }}}
 
@@ -120,17 +121,17 @@ if has('python') || has('python3')
 
     Plug 'Valloric/YouCompleteMe'
     " {{{
-    " let g:ycm_autoclose_preview_window_after_completion = 1
+    Map n <silent> <Leader>g :<C-U>YcmCompleter GoTo<CR>
+
+    let g:ycm_global_ycm_extra_conf = $VIMDIR . '/ycm_extra_conf.py'
+
     let g:ycm_autoclose_preview_window_after_insertion = 1
-    let g:ycm_global_ycm_extra_conf                    = $VIMDIR.'/ycm_extra_conf.py'
     let g:ycm_min_num_of_chars_for_completion          = 1
     let g:ycm_seed_identifiers_with_syntax             = 1
 
     let g:ycm_semantic_triggers = {
                 \   'css': [ 're!^\s{4}', 're!:\s+' ],
                 \ }
-
-    Map n <silent> <Leader>g :<C-U>YcmCompleter GoTo<CR>
     " }}}
 endif
 " }}}
