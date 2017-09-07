@@ -152,12 +152,16 @@ function! BufName(nr) " {{{
     return name
 endfunction " }}}
 
+function! TabInfo() " {{{
+    return '%f'
+endfunction " }}}
+
 function! TabLine() " {{{
     let line = '%#StatusLine#'
 
     " if there are more than 1 tab
     if tabpagenr('$') > 1
-        let line .= ' Tab '
+        let line .= ' tab '
 
         " for each tab
         for i in range(1, tabpagenr('$'))
@@ -192,7 +196,7 @@ function! TabLine() " {{{
             let line .= ' '
         endfor
     else
-        let line .= ' Buf '
+        let line .= ' buf '
 
         for i in range(1, bufnr('$'))
             if !buflisted(i)
@@ -212,9 +216,9 @@ function! TabLine() " {{{
         endfor
     endif
 
-    let line .= '%#TabLineFill#%T%=%#StatusLine#'
-
-    let line .= ' %<%f '
+    let line .= '%#TabLineFill#%T%=%#StatusLine#%( '
+    let line .= TabInfo()
+    let line .= ' %)'
 
     return line
 endfunction " }}}
@@ -367,8 +371,9 @@ let &statusline .= ' %t '
 let &statusline .= '%#TabLineSel# %<%(%{LastUpdated()} %)'
 let &statusline .= '%m%r'
 let &statusline .= '%='
-let &statusline .= '%(%{&filetype} | %)%{&fileencoding}[%{&fileformat}] '
-let &statusline .= '%* %3p%% : %3l/%L : %2v '
+let &statusline .= '%(%{&filetype} | %)'
+let &statusline .= '%{&fileencoding}[%{&fileformat}] '
+let &statusline .= '%* %3l / %L : %2v '
 
 set tabline=%!TabLine()
 " }}}
@@ -641,10 +646,6 @@ augroup vimrc
 
     " Undo file {{{
     autocmd BufWritePre /var/tmp/* setlocal noundofile
-    " }}}
-
-    " Exclude quickfix from buffer list {{{
-    autocmd FileType qf setlocal nobuflisted
     " }}}
 
     " Clang-format on save {{{

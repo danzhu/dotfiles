@@ -34,6 +34,11 @@ if executable('git')
     " }}}
 
     Plug 'tpope/vim-fugitive'
+    " {{{
+    function! TabInfo()
+        return '%{fugitive#head(7)}'
+    endfunction
+    " }}}
 endif
 
 if executable('ctags')
