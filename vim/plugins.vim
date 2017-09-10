@@ -16,9 +16,6 @@ if has('python')
 
     let g:gundo_close_on_revert = 1
     let g:gundo_preview_bottom  = 1
-
-    hi link diffAdded DiffAdd
-    hi link diffRemoved DiffDelete
     " }}}
 endif
 
@@ -26,11 +23,6 @@ if executable('git')
     Plug 'airblade/vim-gitgutter'
     " {{{
     let g:gitgutter_override_sign_column_highlight = 0
-
-    hi link GitGutterAdd DiffAdd
-    hi link GitGutterChange DiffChange
-    hi link GitGutterDelete DiffDelete
-    hi link GitGutterChangeDelete DiffChange
     " }}}
 
     Plug 'tpope/vim-fugitive'

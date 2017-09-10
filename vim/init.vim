@@ -9,8 +9,10 @@ set background=dark
 " Environment variables {{{
 if has('win32')
     let $CONFIG = expand($USERPROFILE . '/AppData/Local')
+elseif empty($XDG_CONFIG_HOME)
+    let $CONFIG = expand('~/.config')
 else
-    let $CONFIG = expand(empty($XDG_CONFIG_HOME) ? '~/.config' : $XDG_CONFIG_HOME)
+    let $CONFIG = expand($XDG_CONFIG_HOME)
 endif
 
 " Vim directory
@@ -136,8 +138,7 @@ function! FoldText() " {{{
         let text = substitute(text, '\s*$', ' ', '')
     endif
 
-    let lines = v:foldend - v:foldstart
-    return text . '[' . lines . ']'
+    return text
 endfunction " }}}
 
 function! BufName(nr) " {{{
@@ -241,12 +242,13 @@ command! -nargs=1 Error echohl ErrorMsg | echo <args> | echohl None
 
 " Options {{{
 " Variables {{{
+let g:mapleader = ','
+
 let g:c_comment_strings            = 1
 let g:is_bash                      = 1
 let g:java_highlight_debug         = 1
 let g:java_highlight_functions     = 'style'
 let g:java_highlight_java_lang_ids = 1
-let g:mapleader                    = ','
 let g:sh_fold_enabled              = 1
 let g:tex_flavor                   = 'latex'
 let g:tex_fold_enabled             = 1
@@ -256,10 +258,11 @@ let g:zsh_fold_enable              = 1
 let g:markdown_fenced_languages = [
             \ 'c',
             \ 'cpp',
-            \ 'scheme',
             \ 'haskell',
+            \ 'make',
+            \ 'scheme',
             \ 'sh',
-            \ 'make']
+            \ ]
 " }}}
 
 " Editing {{{
@@ -335,9 +338,9 @@ set colorcolumn=+1      " highlight textwidth
 set conceallevel=2      " use symbols for conceal
 set cursorline          " highlight current cursor line
 set display=lastline    " show partial lines when too long
-set fillchars=          " don't fill vert or fold
+set fillchars=fold:-    " text for filling separators
 set foldclose=all       " auto close folds
-set foldcolumn=2        " column to display folds
+set foldcolumn=0        " column to display folds
 set foldlevel=10        " level of folds auto expanded
 set foldmethod=syntax   " method to detect folds
 set foldnestmax=10      " max level of folds
@@ -345,8 +348,9 @@ set foldtext=FoldText() " custom text to display on folded lines
 set laststatus=2        " always show status line
 set lazyredraw          " reduce redraw
 set linebreak           " break at special chars
+set nonumber            " line numbers
 set noshowmatch         " don't jump cursor at matching brackets
-set number              " line numbers
+set numberwidth=3       " width of line numbers
 set previewheight=9     " height of preview window
 set relativenumber      " relative line numbers
 set ruler               " show status in status line
@@ -356,6 +360,7 @@ set showcmd             " show entered partial commands
 set showmode            " show current editing mode
 set showtabline=2       " always show tabline
 set sidescrolloff=5     " columns to show in advance
+set signcolumn=yes      " always show sign column
 set spell               " enables spell check by default
 set spelllang=en_ca     " use Canadian English for spell checking
 set splitbelow          " open horizontal splits to the bottom
@@ -538,9 +543,10 @@ hi link javaParen2 Delimiter
 " Special cases {{{
 " Diff mode {{{
 if &diff
-    " don't show cursorline and relativenumber when diff
+    set number
     set nocursorline
     set norelativenumber
+    set signcolumn=no
 endif
 " }}}
 
@@ -649,7 +655,9 @@ augroup vimrc
     " }}}
 
     " Clang-format on save {{{
-    autocmd BufWritePre *.h,*.cc,*.cpp call ClangFormat()
+    if filereadable('/usr/share/clang/clang-format.py')
+        autocmd BufWritePre *.h,*.cc,*.cpp call ClangFormat()
+    endif
     " }}}
 augroup END
 " }}}
