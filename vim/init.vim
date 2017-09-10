@@ -324,7 +324,7 @@ set suffixes+=.log
 " Tabs {{{
 set expandtab     " expand tab to spaces
 set shiftround    " align indent to multiple of shiftwidth
-set shiftwidth=4  " spaces to indent / unindent
+set shiftwidth=0  " spaces to indent / unindent, 0 to default to tabstop
 set smarttab      " smarter tab insertion
 set tabstop=4     " spaces of a tab
 " }}}
