@@ -149,10 +149,10 @@ call s:hl('SyntasticWarningSign',  11,  0, 'bold')
 " }}}
 
 " Git Gutter {{{
-call s:hl('GitGutterAdd',          10,  0, 'bold')
-call s:hl('GitGutterChange',       11,  0, 'bold')
-call s:hl('GitGutterDelete',        9,  0, 'bold')
-call s:hl('GitGutterChangeDelete', 11,  0, 'bold')
+call s:hl('GitGutterAdd',          2,  0)
+call s:hl('GitGutterChange',       3,  0)
+call s:hl('GitGutterDelete',       1,  0)
+call s:hl('GitGutterChangeDelete', 3,  0)
 " }}}
 
 " Cleanup {{{

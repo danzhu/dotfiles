@@ -582,16 +582,18 @@ elseif &term=~'linux' " Linux Console
         set t_AB=[%?%p1%{7}%>%t5%p1%{8}%-%e25%p1%;m[4%dm
         set t_AF=[%?%p1%{7}%>%t1%p1%{8}%-%e22%p1%;m[3%dm
     endif
-elseif &term=~'screen-256color' " Tmux
-    if has('terminfo')
-        set t_Co=256 " fix tmux 256 color detection
-    endif
 else " Terminal Emulator
     " change cursor shape in supported terminal emulators
     if has('terminfo')
         let &t_SI = "\<Esc>[5 q" " entering insert mode
         let &t_SR = "\<Esc>[3 q" " entering replace mode
         let &t_EI = "\<Esc>[1 q" " exiting insert mode
+    endif
+
+    if has('mouse_sgr')
+        set ttymouse=sgr
+    else
+        set ttymouse=xterm2
     endif
 endif
 " }}}

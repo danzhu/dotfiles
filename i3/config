@@ -146,16 +146,21 @@ client.placeholder      $c17    $c00    $c16    $c17    $c00
 client.background       $c17
 
 mode "system" {
+    # run i3 lock
+    bindsym l exec --no-startup-id i3lock -c 000000; mode "default"
+
     # reload the configuration file
     bindsym c reload; mode "default"
-    # restart i3 inplace (preserves your layout/session, can be used to upgrade i3)
+    # restart i3 inplace (preserves your layout/session, can be used to upgrade
+    # i3)
     bindsym r restart
+
     # exit i3 (logs you out of your X session)
     bindsym Shift+e exit
     # shutdown
-    bindsym Shift+s exec shutdown now
+    bindsym Shift+s exec --no-startup-id shutdown now
     # rebbot
-    bindsym Shift+r exec reboot
+    bindsym Shift+r exec --no-startup-id reboot
 
     bindsym Escape mode "default"
 }
