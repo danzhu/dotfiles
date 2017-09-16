@@ -32,7 +32,7 @@ while true; do
 done
 
 if [[ $# -ne 0 ]]; then
-    echo "$0: selective install not yet supported"
+    echo "$0: selective linking not yet supported"
     exit 2
 fi
 
@@ -57,7 +57,7 @@ function link() {
         local sym="$(readlink "$src")"
 
         if [[ "$tar" = "$sym" ]]; then
-            msg 8 "already installed\n"
+            msg 8 "already linked\n"
 
             return 0
         elif [[ $FORCE != true ]]; then
@@ -90,7 +90,7 @@ function link() {
         msg 2 "successfully"
     fi
 
-    msg 2 "installed\n"
+    msg 2 "linked\n"
 }
 
 link .Xresources      xorg/Xresources
@@ -109,6 +109,7 @@ link .inputrc         readline/inputrc
 link .pylintrc        pylint/pylintrc
 link .ssh/config      ssh/config
 link .tern-config     tern/tern-config
+link .tmux            tmux
 link .tmux.conf       tmux/tmux.conf
 link .vim             vim
 link .vimrc           vim/init.vim

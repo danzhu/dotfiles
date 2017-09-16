@@ -1,6 +1,29 @@
 #!/bin/bash
 
-if [[ ! -e vim/autoload/plug.vim ]]; then
+function msg() {
+    tput bold
+    tput setaf $1
+    echo -en " $2"
+    tput sgr0
+}
+
+function need() {
+    printf "%-30s" "$1"
+
+    if [[ -e "$1" ]]; then
+        msg 8 "already installed\n"
+        return 1
+    else
+        msg 2 "installing...\n"
+        return 0
+    fi
+}
+
+if need 'vim/autoload/plug.vim'; then
     curl -fLo vim/autoload/plug.vim \
         https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
+fi
+
+if need 'tmux/plugins/tpm'; then
+    git clone https://github.com/tmux-plugins/tpm tmux/plugins/tpm
 fi

@@ -31,29 +31,6 @@ function! HMovement(key) " {{{
     return (&wrap ? 'g' : '') . a:key
 endfunction " }}}
 
-function! BufferDelete(force) " {{{
-    if &modified && !a:force
-        Error 'No write since last change'
-        return
-    endif
-
-    let num = bufnr('%')
-    try
-        bnext
-    catch
-    endtry
-
-    try
-        exec 'bdelete! ' . num
-    catch
-        Error 'Cannot delete current buffer'
-    endtry
-endfunction " }}}
-
-function! CtrlSpace() " {{{
-    return pumvisible() ? "\<C-Y>" : "\<C-N>\<C-P>\<Down>"
-endfunction " }}}
-
 function! SyntaxInfo() " {{{
     let id = synID(line('.'), col('.'), 1)
     let tr = synIDtrans(id)
@@ -157,6 +134,10 @@ function! TabInfo() " {{{
     return '%f'
 endfunction " }}}
 
+function! SwitchBuffer(id, clicks, buttons, mods) " {{{
+    exec 'buffer ' . a:id
+endfunction " }}}
+
 function! TabLine() " {{{
     let line = '%#StatusLine#'
 
@@ -191,8 +172,7 @@ function! TabLine() " {{{
                 let line .= mod . ' '
             endif
 
-            " name of current buffer
-            let line .= BufName(buflist[winnr - 1])
+            let line .= '%{BufName(' . buflist[winnr - 1] . ')}'
 
             let line .= ' '
         endfor
@@ -205,13 +185,15 @@ function! TabLine() " {{{
             endif
 
             let line .= i == bufnr('%') ? '%#TabLineSel# ' : '%#TabLine# '
+            if has('tablineat')
+                let line .= '%' . i . '@SwitchBuffer@'
+            endif
 
             if getbufvar(i, '&modified')
                 let line .= '+ '
             endif
 
-            " buffer name
-            let line .= BufName(i)
+            let line .= '%{BufName(' . i . ')}'
 
             let line .= ' '
         endfor
@@ -405,6 +387,12 @@ set nolangremap
 set langmap+=[{}(=*)+]!;7531902468
 set langmap+=7531902468;[{}(=*)+]!
 " }}}
+
+" Neovim {{{
+if has('nvim')
+    set inccommand=nosplit
+endif
+" }}}
 " }}}
 
 " Mappings {{{
@@ -446,8 +434,8 @@ Map n <silent> <expr> <CR> Write()
 Map n <silent>        M    :<C-U>tabnew<CR>
 Map n <silent>        H    :<C-U>bprevious<CR>
 Map n <silent>        L    :<C-U>bnext<CR>
-Map n <silent>        -    :<C-U>call BufferDelete(0)<CR>
-Map n <silent>        _    :<C-U>call BufferDelete(1)<CR>
+Map n <silent>        -    :<C-U>bdelete<CR>
+Map n <silent>        _    :<C-U>bdelete!<CR>
 Map n <silent>        ZF   :<C-U>cwindow 9<CR>
 " }}}
 
@@ -569,8 +557,11 @@ if has('gui_running') " GUI
     else
         set guifont=Monospace\ 9        " font
     endif
-elseif has('nvim') " Nvim
+elseif has('nvim') " Neovim
     " tnoremap <Esc> <C-\><C-n>
+
+    " Cursor styling
+    set guicursor=n-v-c-sm:block,i-ci-ve:ver25,r-cr-o:hor20,a:blinkon500-blinkoff500
 elseif has('win32') " Windows
     " ignore terminal escape sequences
 elseif &term=~'linux' " Linux Console
@@ -611,6 +602,10 @@ if filereadable($VIMDIR . '/autoload/plug.vim')
     source $VIMDIR/plugins.vim
     call plug#end()
 endif
+" }}}
+
+" Add-ons {{{
+runtime! ftplugin/man.vim
 " }}}
 
 " local.vim {{{

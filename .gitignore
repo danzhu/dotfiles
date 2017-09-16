@@ -1,19 +1,18 @@
-# machine-local directories and files
+# machine-local configuration
+*.local
+/vim/local.vim
+
+# generated files
+/vim/.netrwhist
 /vim/swp/
 /vim/undo/
 /vim/view/
-/vim/local.vim
 
-# spell files
+# downloaded files
+/vim/autoload/plug.vim*
 /vim/spell/*.spl
 /vim/spell/*.sug
 
-# plugin manager
-/vim/autoload/plug.vim*
+# installed plugins
 /vim/plugged/
-
-# history
-/vim/.netrwhist
-
-# local files
-*.local
+/tmux/plugins/
