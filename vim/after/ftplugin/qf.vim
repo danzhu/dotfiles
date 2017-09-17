@@ -2,6 +2,7 @@ setlocal foldcolumn=0
 setlocal nobuflisted
 setlocal nonumber
 setlocal norelativenumber
+setlocal signcolumn=auto
 setlocal textwidth=0
 
 function! QuickfixTitle()
