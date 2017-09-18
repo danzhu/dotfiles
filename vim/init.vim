@@ -443,6 +443,7 @@ Map n <silent>        ZF   :<C-U>cwindow 9<CR>
 Map n <silent> <Leader>V :<C-U>edit $VIMDIR/init.vim<CR>
 Map n <silent> <Leader>L :<C-U>edit $VIMDIR/local.vim<CR>
 Map n <silent> <Leader>P :<C-U>edit $VIMDIR/plugins.vim<CR>
+Map n <silent> <Leader>Y :<C-U>edit $VIMDIR/ycm_extra_conf.py<CR>
 Map n <silent> <Leader>C :<C-U>edit $VIMDIR/colors/code.vim<CR>
 Map n <silent> <Leader>R :<C-U>edit $VIMDIR/plugged/vim-pairs/plugin/pairs.vim<CR>
 Map n <silent> <Leader>I :<C-U>edit $CONFIG/i3/config<CR>

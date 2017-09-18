@@ -38,25 +38,6 @@ FLAGS = [
 ]
 
 
-def sys_flags():
-    flags = [
-        '-isystem',
-        '/usr/include',
-        '-isystem',
-        '/usr/local/include',
-    ]
-
-    dirs = glob.glob('/usr/include/c++/*')
-    if len(dirs) > 0:
-        # use newest version
-        flags.extend(['-isystem', next(reversed(sorted(dirs)))])
-
-    return flags
-
-
-SYS_FLAGS = sys_flags()
-
-
 def find_root():
     root = pathlib.Path.cwd()
     # find dir with compile_commands, but ignore CMake build dir
@@ -220,11 +201,11 @@ def get_info(filename):
 
 def FlagsForFile(filename, **kwargs):
     if not DATABASE:
-        return {'flags': FLAGS + SYS_FLAGS}
+        return {'flags': FLAGS}
 
     info = get_info(pathlib.Path(filename))
     if info:
         flags = resolve_paths(info.compiler_flags_, info.compiler_working_dir_)
-        return {'flags': flags + SYS_FLAGS}
+        return {'flags': flags}
 
     return None
