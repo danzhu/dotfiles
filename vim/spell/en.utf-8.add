@@ -27,6 +27,7 @@ accessor
 accessors
 alg
 alloc
+allocator
 arg
 args
 ascii
@@ -127,6 +128,7 @@ lvalue
 makefile
 maxima
 minima
+msg
 msgs
 mult
 mutator
