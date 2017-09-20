@@ -106,6 +106,7 @@ link .config/termite  termite
 link .config/zathura  zathura
 link .flake8          flake8/flake8
 link .inputrc         readline/inputrc
+link .npmrc           npm/npmrc
 link .pylintrc        pylint/pylintrc
 link .ssh/config      ssh/config
 link .tern-config     tern/tern-config
