@@ -128,6 +128,8 @@ if has('python') || has('python3')
 
     let g:ycm_semantic_triggers = {
                 \   'css': [ 're!^\s{4}', 're!:\s+' ],
+                \   'scss': [ 're!^\s{4}', 're!:\s+' ],
+                \   'sass': [ 're!^\s{4}', 're!:\s+' ],
                 \ }
     " }}}
 endif
