@@ -9,6 +9,13 @@ function rationalize-dot() {
 }
 zle -N rationalize-dot
 
+function foreground() {
+    zle push-input
+    BUFFER='fg'
+    zle accept-line
+}
+zle -N foreground
+
 autoload -Uz history-search-end
 zle -N history-beginning-search-backward-end history-search-end
 zle -N history-beginning-search-forward-end history-search-end
@@ -29,6 +36,7 @@ bindkey -v '^A' beginning-of-line
 bindkey -v '^E' end-of-line
 bindkey -v '^U' kill-whole-line
 bindkey -v '^Q' push-line-or-edit
+bindkey -v '^F' foreground
 bindkey -v '.' rationalize-dot
 bindkey -v ' ' magic-space
 bindkey -a '!' edit-command-line
