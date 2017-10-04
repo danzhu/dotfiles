@@ -4,8 +4,9 @@ Plug 'ctrlpvim/ctrlp.vim'
 let g:ctrlp_match_window = 'bottom,order:ttb,min:1,max:10,results:10'
 
 if executable('ag')
-    let g:ctrlp_user_command = 'ag -l --nocolor -g "" %s'
-    let g:ctrlp_use_caching  = 0
+    let g:ctrlp_user_command  = 'ag -l --nocolor -g "" %s'
+    let g:ctrlp_use_caching   = 0
+    let g:ctrlp_open_new_file = 'r'
 endif
 " }}}
 
@@ -98,8 +99,9 @@ let g:syntastic_always_populate_loc_list = 1
 let g:syntastic_auto_loc_list            = 1
 let g:syntastic_check_on_wq              = 0
 
-let g:syntastic_python_checkers = ['python', 'mypy', 'pylint', 'flake8']
-let g:syntastic_asm_checkers    = []
+let g:syntastic_python_checkers     = ['python', 'mypy', 'pylint', 'flake8']
+let g:syntastic_asm_checkers        = []
+let g:syntastic_javascript_checkers = ['eslint']
 " }}}
 
 Plug 'tpope/vim-unimpaired'
