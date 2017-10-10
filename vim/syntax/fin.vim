@@ -7,7 +7,7 @@ set cpo&vim
 
 syn keyword finBoolean TRUE FALSE
 
-syn keyword finDecl let mut var def
+syn keyword finDecl let mut var def as
 syn keyword finCtrlFlow break continue redo skip return
 syn keyword finConditional if then else match
 syn keyword finRepeat while do
