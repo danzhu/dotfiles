@@ -258,7 +258,6 @@ set hidden                      " don't unload buffer when switching to another
 set mouse=a                     " enable all mouse operations
 set mousefocus                  " mouse focus on hover
 set mousemodel=extend           " right mouse extends selection
-set nojoinspaces                " don't add space when joining paragraphs
 set nrformats=bin,hex           " zero-prefixed numbers aren't octal
 set textwidth=80                " auto hard-break on 80 chars
 set ttimeout                    " timeout on key codes
