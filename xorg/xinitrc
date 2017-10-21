@@ -40,7 +40,6 @@ fi
 
 VBoxClient-all
 xrandr --dpi 240
-setxkbmap -variant dvp -option ctrl:swapcaps -option altwin:swap_lalt_lwin
 
 [ -f /etc/xprofile ] && . /etc/xprofile
 [ -f ~/.xprofile ] && . ~/.xprofile

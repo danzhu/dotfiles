@@ -41,6 +41,8 @@ font pango:monospace 9
 # Use Mouse+$mod to drag floating windows to their wanted position
 floating_modifier $mod
 
+exec --no-startup-id setxkbmap -variant dvp -option ctrl:swapcaps
+
 # start a terminal
 bindsym $mod+Return exec i3-sensible-terminal
 bindsym $mod+c exec --no-startup-id $BROWSER

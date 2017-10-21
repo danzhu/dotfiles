@@ -33,15 +33,10 @@ endfunction " }}}
 
 function! SyntaxInfo() " {{{
     let id = synID(line('.'), col('.'), 1)
+    exec 'hi ' . synIDattr(id, 'name')
+
     let tr = synIDtrans(id)
-
-    let msg = synIDattr(id, 'name')
-
-    if id != tr
-        let msg .= ' -> ' . synIDattr(tr, 'name')
-    endif
-
-    return msg
+    exec 'hi '. synIDattr(tr, 'name')
 endfunction " }}}
 
 function! Write() " {{{
@@ -455,7 +450,7 @@ Map n <silent> <Leader>T :<C-U>edit ~/.tmux.conf<CR>
 " Misc {{{
 Map nx <silent> Q         :<C-U>quitall<CR>
 Map n  <silent> <BS>      :<C-U>nohlsearch<CR>
-Map n  <silent> <Leader>c :<C-U>echo SyntaxInfo()<CR>
+Map n  <silent> <Leader>c :<C-U>call SyntaxInfo()<CR>
 Map nx <silent> <Leader>f :pyf /usr/share/clang/clang-format.py<CR>
 " }}}
 " }}}
