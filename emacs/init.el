@@ -11,52 +11,55 @@
 (setq scroll-step 1)
 (show-paren-mode t)
 (tool-bar-mode -1)
-;; (mouse-avoidance-mode 'animate)
-;; (setq mouse-avoidance-threshold 10)
-;; (setq prettify-symbols-unprettify-at-point t)
 ;; (global-linum-mode t)
+;; (setq prettify-symbols-unprettify-at-point t)
 ;; (setq-default word-wrap t)
-;; (setq inhibit-startup-echo-area-message "h94zhu")
 
 ;; (setq scroll-conservatively 0)
 ;; (setq-default scroll-up-aggressively 0.01
 ;;               scroll-down-aggressively 0.01)
-
-(defun my-prog-common-hook ()
-  (font-lock-add-keywords
-   nil
-   '(("\\<\\(TODO\\|FIXME\\|XXX\\|HACK\\):" 1 font-lock-warning-face t))))
-(add-hook 'prog-common-hook 'my-prog-common-hook)
 
                                         ; editing
 (auto-compression-mode t)
 (electric-pair-mode 1)
 (electric-indent-mode 1)
 (global-auto-revert-mode t)
-;; (setq c-basic-offset 4)
+(setq c-basic-offset 4)
 (setq c-default-style "bsd")
 (setq require-final-newline t)
 (setq-default fill-column 80)
-;; (setq-default indent-tabs-mode nil)
-(setq-default tab-width 8)
+(setq-default indent-tabs-mode nil)
+(setq-default tab-width 4)
 
                                         ; editor
 (savehist-mode 1)
 (setq gc-cons-threshold 50000000)
 (setq make-backup-files nil)
+(setq vc-follow-symlinks t)
+
+                                        ; custom
 (setq custom-file "~/.emacs.d/custom.el")
-;; (load custom-file)
+(load custom-file)
 
+                                        ; hooks
+(defun my-text-mode-hook ()
+  (linum-mode 1))
+(add-hook 'text-mode-hook 'my-text-mode-hook)
 
-                                        ; filetypes
-;; (defun my-c-mode-common-hook ()
-;;  (setq c-basic-offset 4)
-;;  (c-set-offset 'substatement-open 0))
-;; (add-hook 'c-mode-common-hook 'my-c-mode-common-hook)
+(defun my-prog-mode-hook ()
+  (linum-mode 1)
+  (font-lock-add-keywords
+   nil
+   '(("\\<\\(TODO\\|FIXME\\|XXX\\|HACK\\):" 1 font-lock-warning-face t))))
+(add-hook 'prog-mode-hook 'my-prog-mode-hook)
 
-;; (defun my-org-mode-hook ()
-;;   (visual-line-mode))
-;; (add-hook 'org-mode-hook 'my-org-mode-hook)
+(defun my-org-mode-hook ()
+  (visual-line-mode))
+(add-hook 'org-mode-hook 'my-org-mode-hook)
+
+(defun my-term-mode-hook ()
+  (hl-line-mode -1))
+(add-hook 'term-mode-hook 'my-term-mode-hook)
 
                                         ; fixes
 ;; (add-hook 'shell-mode-hook 'ansi-color-for-comint-mode-on)
@@ -83,13 +86,9 @@
 
 (use-package saveplace
   :config
-  ;; (setq save-place-file "~/.emacs.d/saveplace")
   (save-place-mode t))
 
 (use-package bookmark)
-  ;; :init
-  ;; (setq bookmark-default-file "~/.emacs.d/bookmarks")
-  ;; (setq bookmark-save-flag t))
 
 (use-package mouse
   :config
@@ -114,11 +113,6 @@
   :diminish undo-tree-mode
   :config
   (global-undo-tree-mode))
-
-;; (use-package evil-mc
-;;   :ensure t
-;;   :config
-;;   (global-evil-mc-mode 1))
 
 ;; (defun my-company-tab ()
 ;;   (interactive)
@@ -200,10 +194,7 @@
   (ivy-mode 1)
   :bind
   (:map global-map
-	("C-c C-r" . ivy-resume)
-	;; :map ivy-minibuffer-map
-	;; ("TAB" . ivy-insert-current))
-	))
+	("C-c C-r" . ivy-resume)))
 
 (use-package counsel
   :ensure t
@@ -332,7 +323,6 @@
   (setq evil-vsplit-window-right t)
   (setq evil-want-C-u-scroll t)
   (setq evil-want-Y-yank-to-eol t)
-  ;; (setq evil-shift-round t)
   :config
   (evil-define-key 'normal emacs-lisp-mode-map
     (kbd "K") 'elisp-slime-nav-describe-elisp-thing-at-point)
