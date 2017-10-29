@@ -311,6 +311,16 @@
 ;;   (add-hook 'js2-mode-hook 'js2-refactor-mode)
 ;;   (js2r-add-keybindings-with-prefix "C-c r"))
 
+(use-package tern
+  :ensure t
+  :config
+  (add-hook 'js-mode-hook 'tern-mode))
+
+(use-package company-tern
+  :ensure t
+  :config
+  (add-to-list 'company-backends 'company-tern))
+
 (use-package ess
   :ensure t
   :init
@@ -355,8 +365,9 @@
         ("-" . evil-delete-buffer)
         ("H" . evil-prev-buffer)
         ("L" . evil-next-buffer)
-	("C-u" . evil-scroll-up)
-	("C-d" . evil-scroll-down)
+        ("C-u" . evil-scroll-up)
+        ("C-d" . evil-scroll-down)
+        ("M-." . nil)
         :map evil-visual-state-map
         ("j" . evil-next-visual-line)
         ("k" . evil-previous-visual-line)
