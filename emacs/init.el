@@ -227,6 +227,7 @@
 
 (use-package projectile
   :ensure t
+  :diminish projectile-mode
   :config
   (setq projectile-completion-system 'ivy)
   (projectile-mode))
@@ -296,6 +297,19 @@
   :ensure t
   :config
   (company-auctex-init))
+
+(use-package js2-mode
+  :ensure t
+  :config
+  (add-to-list 'auto-mode-alist '("\\.js\\'" . js2-mode))
+  (add-to-list 'auto-mode-alist '("\\.jsx\\'" . js2-jsx-mode))
+  (add-to-list 'interpreter-mode-alist '("node" . js2-mode)))
+
+;; (use-package js2-refactor
+;;   :ensure t
+;;   :config
+;;   (add-hook 'js2-mode-hook 'js2-refactor-mode)
+;;   (js2r-add-keybindings-with-prefix "C-c r"))
 
 (use-package ess
   :ensure t
