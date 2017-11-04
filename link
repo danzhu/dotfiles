@@ -105,6 +105,7 @@ link .config/nvim     vim
 link .config/termite  termite
 link .config/zathura  zathura
 link .emacs.d/init.el emacs/init.el
+link .emacs.d/themes  emacs/themes
 link .flake8          flake8/flake8
 link .inputrc         readline/inputrc
 link .npmrc           npm/npmrc
