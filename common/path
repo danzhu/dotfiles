@@ -1,4 +1,4 @@
-export PATH="$HOME/bin:$HOME/.local/bin:$HOME/.npm/bin:$PATH"
+export PATH="$HOME/bin:$HOME/.local/bin:$HOME/.cargo/bin:$HOME/.npm/bin:$PATH"
 
 if [[ -f ~/.dotfiles/common/path.local ]]; then
     source ~/.dotfiles/common/path.local

@@ -83,15 +83,14 @@
 
 ;; ------------ third party packages ------------
 
+;; utility
 (use-package diminish
   :ensure t)
 
-(use-package editorconfig
-  :ensure t
-  :diminish editorconfig-mode
-  :config
-  (editorconfig-mode 1))
+(use-package autothemer
+  :ensure t)
 
+;; interface
 (use-package nlinum
   :ensure t
   :config
@@ -111,6 +110,13 @@
   (setq undo-tree-history-directory-alist
         '((".*" . "~/.emacs.d/undo-history/")))
   (global-undo-tree-mode))
+
+;; editing
+(use-package editorconfig
+  :ensure t
+  :diminish editorconfig-mode
+  :config
+  (editorconfig-mode 1))
 
 (use-package ws-butler
   :ensure t
@@ -209,6 +215,7 @@
 (use-package ivy-hydra
   :ensure t)
 
+;; project
 (use-package magit
   :ensure t
   :config
@@ -229,6 +236,7 @@
   :config
   (counsel-projectile-on))
 
+;; languages
 (use-package irony
   :ensure t
   :config
@@ -322,6 +330,12 @@
 (use-package gitconfig-mode
   :ensure t)
 
+(use-package elpy
+  :ensure t
+  :config
+  (elpy-enable))
+
+;; evil
 (use-package evil-surround
   :ensure t
   :config
