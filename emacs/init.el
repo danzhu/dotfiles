@@ -1,76 +1,5 @@
-                                        ; display
-(column-number-mode t)
-(global-hl-line-mode t)
-(global-prettify-symbols-mode)
-(global-visual-line-mode 1)
-(menu-bar-mode -1)
-(scroll-bar-mode -1)
-(setq inhibit-startup-screen t)
-(setq initial-scratch-message nil)
-(setq scroll-margin 5)
-(setq scroll-step 1)
-(show-paren-mode t)
-(tool-bar-mode -1)
-;; (global-linum-mode t)
-;; (setq prettify-symbols-unprettify-at-point t)
-;; (setq-default word-wrap t)
+;; ------------ bootstrap ------------
 
-;; (setq scroll-conservatively 0)
-;; (setq-default scroll-up-aggressively 0.01
-;;               scroll-down-aggressively 0.01)
-
-                                        ; editing
-(auto-compression-mode t)
-(electric-pair-mode 1)
-(electric-indent-mode 1)
-(global-auto-revert-mode t)
-(setq c-basic-offset 4)
-(setq c-default-style "bsd")
-(setq require-final-newline t)
-(setq-default fill-column 80)
-(setq-default indent-tabs-mode nil)
-(setq-default tab-width 4)
-
-                                        ; editor
-(savehist-mode 1)
-(setq gc-cons-threshold 50000000)
-(setq make-backup-files nil)
-(setq vc-follow-symlinks t)
-
-                                        ; custom
-(setq custom-file "~/.emacs.d/custom.el")
-(load custom-file)
-
-                                        ; hooks
-(defun my-text-mode-hook ()
-  (linum-mode 1))
-(add-hook 'text-mode-hook 'my-text-mode-hook)
-
-(defun my-prog-mode-hook ()
-  (linum-mode 1)
-  (font-lock-add-keywords
-   nil
-   '(("\\<\\(TODO\\|FIXME\\|XXX\\|HACK\\):" 1 font-lock-warning-face t))))
-(add-hook 'prog-mode-hook 'my-prog-mode-hook)
-
-(defun my-org-mode-hook ()
-  (visual-line-mode))
-(add-hook 'org-mode-hook 'my-org-mode-hook)
-
-(defun my-term-mode-hook ()
-  (hl-line-mode -1))
-(add-hook 'term-mode-hook 'my-term-mode-hook)
-
-                                        ; fixes
-;; (add-hook 'shell-mode-hook 'ansi-color-for-comint-mode-on)
-
-                                        ; common files
-;; (set-register ?e user-init-file)
-
-					; key bindings
-(global-set-key (kbd "C-x C-b") 'buffer-menu-other-window)
-
-                                        ; packages
 (require 'package)
 (add-to-list 'package-archives '("melpa" . "http://melpa.org/packages/"))
 (add-to-list 'package-archives '("org" . "http://orgmode.org/elpa/"))
@@ -84,41 +13,112 @@
 (eval-when-compile
   (require 'use-package))
 
+;; ------------ builtin packages ------------
+
+(use-package simple
+  :config
+  (column-number-mode t)
+  (global-visual-line-mode 1)
+  (size-indication-mode 1))
+
+(use-package menu-bar
+  :config
+  (menu-bar-mode -1))
+
+(use-package scroll-bar
+  :config
+  (scroll-bar-mode -1))
+
+(use-package tool-bar
+  :config
+  (tool-bar-mode -1))
+
+(use-package prog-mode
+  :config
+  (global-prettify-symbols-mode))
+
 (use-package saveplace
   :config
   (save-place-mode t))
 
-(use-package bookmark)
-
-(use-package mouse
-  :config
-  (xterm-mouse-mode t)
-  (mouse-wheel-mode t))
-
-(use-package dracula-theme
-  :ensure t
-  :config
-  (load-theme 'dracula t))
-
-(use-package diminish
-  :ensure t)
+(use-package buff-menu
+  :bind
+  (:map global-map
+        ("C-x C-b" . buffer-menu-other-window)))
 
 (use-package eldoc
   :diminish eldoc-mode
   :init
   (setq eldoc-idle-delay 0.1))
 
+(use-package autorevert
+  :config
+  (global-auto-revert-mode t))
+
+(use-package elec-pair
+  :config
+  (electric-pair-mode 1))
+
+(use-package electric
+  :config
+  (electric-indent-mode 1))
+
+(use-package hl-line
+  :config
+  (setq hl-line-sticky-flag nil)
+  (global-hl-line-mode t))
+
+(use-package paren
+  :config
+  (setq show-paren-delay 0)
+  (show-paren-mode t))
+
+(use-package xt-mouse
+  :config
+  (xterm-mouse-mode t))
+
+(use-package mwheel
+  :config
+  (mouse-wheel-mode t))
+
+;; ------------ third party packages ------------
+
+(use-package diminish
+  :ensure t)
+
+(use-package editorconfig
+  :ensure t
+  :diminish editorconfig-mode
+  :config
+  (editorconfig-mode 1))
+
+(use-package nlinum
+  :ensure t
+  :config
+  (setq nlinum-format " %d ")
+  (setq nlinum-highlight-current-line t))
+
+(use-package paradox
+  :ensure t
+  :config
+  (setq paradox-execute-asynchronously t))
+
 (use-package undo-tree
   :ensure t
   :diminish undo-tree-mode
   :config
+  (setq undo-tree-auto-save-history t)
+  (setq undo-tree-history-directory-alist
+        '((".*" . "~/.emacs.d/undo-history/")))
   (global-undo-tree-mode))
 
-;; (defun my-company-tab ()
-;;   (interactive)
-;;   (if company-candidates
-;;       (company-complete)
-;;     (company-template-forward-field)))
+(use-package ws-butler
+  :ensure t
+  :diminish ws-butler-mode
+  :config
+  (setq ws-butler-keep-whitespace-before-point nil)
+  (ws-butler-global-mode 1))
+
 (use-package company
   :ensure t
   :diminish company-mode
@@ -126,48 +126,37 @@
   (setq company-idle-delay 0)
   (setq company-minimum-prefix-length 1)
   (setq company-selection-wrap-around t)
-  (setq company-tooltip-align-annotations t)
   (global-company-mode)
+  (company-tng-configure-default)
   :bind
   (:map company-mode-map
         ("C-SPC" . company-complete)
         :map company-active-map
-        ("<tab>" . company-complete)
-        ("TAB" . company-complete)
-        ("C-n" . company-select-next)
-        ("C-p" . company-select-previous)
-        ("<return>" . nil)
-        ("RET" . nil)
         ("C-w" . nil)
-	:map company-template-nav-map
-	("<tab>" . nil)
-	("TAB" . nil)
-	("M-n" . company-template-forward-field)))
+        :map company-template-nav-map
+        ("<tab>" . nil)
+        ("TAB" . nil)
+        ("M-n" . company-template-forward-field)))
 
-;; (use-package yasnippet
-;;   :ensure t
-;;   :config
-;;   (yas-global-mode 1)
-;;   ;; :bind
-;;   ;; (:map yas-minor-mode-map
-;;   ;; 	("<tab>" . nil)
-;;   ;; 	("TAB" . nil)
-;;   ;; 	("SPC" . yas-expand))
-;;   )
+(use-package yasnippet
+  :ensure t
+  :diminish yas-minor-mode
+  :config
+  (yas-global-mode 1)
+  :bind
+  (:map yas-keymap
+        ("<tab>" . yas-maybe-expand)
+        ("TAB" . yas-maybe-expand)
+        ("<backtab>" . nil)
+        ("S-TAB" . nil)
+        ("M-n" . yas-next-field)
+        ("M-p" . yas-prev-field)))
 
 (use-package flycheck
   :ensure t
   :config
   (setq flycheck-checkers (delq 'emacs-lisp-checkdoc flycheck-checkers))
   (global-flycheck-mode))
-
-;; (use-package helm-config
-;;   :ensure helm
-;;   :config
-;;   (global-set-key (kbd "M-x") 'helm-M-x)
-;;   (global-set-key (kbd "C-x r b") 'helm-filtered-bookmarks)
-;;   (global-set-key (kbd "C-x C-f") 'helm-find-files)
-;;   (helm-mode t))
 
 (use-package dumb-jump
   :ensure t
@@ -178,12 +167,15 @@
 (use-package avy
   :ensure t
   :config
-  (setq avy-keys '(?a ?o ?e ?u ?h ?t ?n ?s))
+  (setq avy-keys (number-sequence ?a ?z))
   (avy-setup-default)
   :bind
   (:map global-map
-        ("M-g f" . avy-goto-line)
-        ("M-g w" . avy-goto-word)))
+        ("M-g j" . avy-goto-line-below)
+        ("M-g k" . avy-goto-line-above)
+        ("M-g l" . avy-goto-line)
+        ("M-g w" . avy-goto-word)
+        ("M-g c" . avy-goto-char-timer)))
 
 (use-package ivy
   :ensure t
@@ -194,25 +186,25 @@
   (ivy-mode 1)
   :bind
   (:map global-map
-	("C-c C-r" . ivy-resume)))
+        ("C-c C-r" . ivy-resume)))
 
 (use-package counsel
   :ensure t
   :bind
   (:map global-map
-	("M-x" . counsel-M-x)
-	("C-x C-f" . counsel-find-file)
-	("C-h f" . counsel-describe-function)
-	("C-h v" . counsel-describe-variable)
-	("C-c g" . counsel-git)
-	("C-c k" . counsel-ag)
-	("C-x l" . counsel-locate)))
+        ("M-x" . counsel-M-x)
+        ("C-x C-f" . counsel-find-file)
+        ("C-h f" . counsel-describe-function)
+        ("C-h v" . counsel-describe-variable)
+        ("C-c g" . counsel-git)
+        ("C-c k" . counsel-ag)
+        ("C-x l" . counsel-locate)))
 
 (use-package swiper
   :ensure t
   :bind
   (:map global-map
-	("C-s" . swiper)))
+        ("C-s" . swiper)))
 
 (use-package ivy-hydra
   :ensure t)
@@ -265,6 +257,14 @@
   :config
   (add-hook 'irony-mode-hook 'irony-eldoc))
 
+(use-package rust-mode
+  :ensure t)
+
+(use-package cargo
+  :ensure t
+  :config
+  (add-hook 'rust-mode-hook 'cargo-minor-mode))
+
 (use-package racer
   :ensure t
   :config
@@ -283,15 +283,13 @@
   (add-hook 'emacs-lisp-mode-hook 'elisp-slime-nav-mode)
   (add-hook 'emacs-lisp-mode-hook 'eldoc-mode))
 
-;; (use-package auctex
-;;   :ensure t
-;;   :init
-(setq TeX-auto-save t)
-(setq TeX-parse-self t)
-(setq TeX-save-query nil)
-(setq TeX-PDF-mode t)
-;;   ;; (setq-default TeX-master nil)
-;;   )
+(use-package tex-mode
+  :ensure auctex
+  :config
+  (setq TeX-auto-save t)
+  (setq TeX-parse-self t)
+  (setq TeX-save-query nil)
+  (setq TeX-PDF-mode t))
 
 (use-package company-auctex
   :ensure t
@@ -300,16 +298,8 @@
 
 (use-package js2-mode
   :ensure t
-  :config
-  (add-to-list 'auto-mode-alist '("\\.js\\'" . js2-mode))
-  (add-to-list 'auto-mode-alist '("\\.jsx\\'" . js2-jsx-mode))
-  (add-to-list 'interpreter-mode-alist '("node" . js2-mode)))
-
-;; (use-package js2-refactor
-;;   :ensure t
-;;   :config
-;;   (add-hook 'js2-mode-hook 'js2-refactor-mode)
-;;   (js2r-add-keybindings-with-prefix "C-c r"))
+  :mode "\\.js\\'"
+  :interpreter "node")
 
 (use-package tern
   :ensure t
@@ -321,22 +311,21 @@
   :config
   (add-to-list 'company-backends 'company-tern))
 
+(use-package markdown-mode
+  :ensure t)
+
 (use-package ess
   :ensure t
   :init
   (setq ess-eval-visibly nil))
 
+(use-package gitconfig-mode
+  :ensure t)
+
 (use-package evil-surround
   :ensure t
   :config
   (global-evil-surround-mode t))
-
-;; (use-package evil-leader
-;;   :ensure t
-;;   :config
-;;   (global-evil-leader-mode)
-;;   (evil-leader/set-leader ",")
-;;   (evil-leader/set-key "e" 'find-file))
 
 (use-package evil
   :ensure t
@@ -348,13 +337,14 @@
   (setq evil-want-C-u-scroll t)
   (setq evil-want-Y-yank-to-eol t)
   :config
+  (evil-mode t)
   (evil-define-key 'normal emacs-lisp-mode-map
     (kbd "K") 'elisp-slime-nav-describe-elisp-thing-at-point)
   (evil-define-key 'normal dired-mode-map
     (kbd "h") 'dired-up-directory)
   (evil-define-key 'normal dired-mode-map
     (kbd "l") 'dired-find-alternate-file)
-  (evil-mode t)
+  (evil-set-initial-state 'paradox-menu-mode 'motion)
   :bind
   (:map evil-normal-state-map
         ("j" . evil-next-visual-line)
@@ -373,12 +363,86 @@
         ("k" . evil-previous-visual-line)
         ("$" . evil-end-of-visual-line)
         ("^" . evil-first-non-blank-of-visual-line)
-        ))
+        ("C-u" . evil-scroll-up)
+        ("C-d" . evil-scroll-down)
+        :map evil-motion-state-map
+        ("SPC" . nil)
+        ("C-u" . evil-scroll-up)
+        ("C-d" . evil-scroll-down)
+        :map evil-insert-state-map
+        ("C-d" . nil)))
 
-;; (defun backward-delete-word (arg)
-;;   (interactive "p")
-;;   (delete-region (point) (progn (backward-word arg) (point))))
-;; (define-key minibuffer-local-map (kbd "C-w") 'backward-delete-word)
+;; ------------ theme ------------
 
-;; end
+(add-to-list 'custom-theme-load-path "~/.emacs.d/themes")
+(load-theme 'code t)
+
+;; ------------ options ------------
+
+;; startup
+(setq inhibit-startup-screen t)
+(setq initial-major-mode 'fundamental-mode)
+(setq initial-scratch-message nil)
+
+;; display
+(setq ring-bell-function 'ignore)
+(setq scroll-margin 5)
+(setq scroll-preserve-screen-position t)
+(setq scroll-step 1)
+(setq use-dialog-box nil)
+(setq-default fringes-outside-margins t)
+
+;; editing
+(auto-compression-mode t)
+(setq c-basic-offset 4)
+(setq c-default-style "bsd")
+(setq-default fill-column 80)
+(setq-default indent-tabs-mode nil)
+(setq-default require-final-newline t)
+(setq-default tab-width 4)
+
+;; editor
+(savehist-mode 1)
+(setq gc-cons-threshold 50000000)
+(setq make-backup-files nil)
+(setq vc-follow-symlinks t)
+(setq auto-save-file-name-transforms
+      '((".*" "~/.emacs.d/auto-save-list/" t)))
+(fset 'yes-or-no-p 'y-or-n-p)
+
+;; ------------ custom ------------
+
+(setq custom-file "~/.emacs.d/custom.el")
+(if (file-readable-p "~/.emacs.d/custom.el")
+    (load custom-file))
+
+;; ------------ hooks ------------
+
+(defun my-text-mode-hook ()
+  (nlinum-mode 1)
+  (flyspell-mode 1))
+(add-hook 'text-mode-hook 'my-text-mode-hook)
+
+(defun my-prog-mode-hook ()
+  (nlinum-mode 1)
+  (flyspell-prog-mode)
+  (font-lock-add-keywords
+   nil
+   '(("\\<\\(TODO\\|FIXME\\|XXX\\|HACK\\):" 1 font-lock-warning-face t))))
+(add-hook 'prog-mode-hook 'my-prog-mode-hook)
+
+(defun my-conf-mode-hook ()
+  (nlinum-mode 1))
+(add-hook 'conf-mode-hook 'my-conf-mode-hook)
+
+(defun my-org-mode-hook ()
+  (visual-line-mode))
+(add-hook 'org-mode-hook 'my-org-mode-hook)
+
+(defun my-term-mode-hook ()
+  (hl-line-mode -1))
+(add-hook 'term-mode-hook 'my-term-mode-hook)
+
+;; ------------ misc ------------
+
 (put 'dired-find-alternate-file 'disabled nil)
