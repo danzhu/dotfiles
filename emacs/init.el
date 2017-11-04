@@ -454,7 +454,8 @@
 (add-hook 'org-mode-hook 'my-org-mode-hook)
 
 (defun my-term-mode-hook ()
-  (hl-line-mode -1))
+  (setq-local global-hl-line-mode nil)
+  (setq-local scroll-margin 0))
 (add-hook 'term-mode-hook 'my-term-mode-hook)
 
 ;; ------------ misc ------------
