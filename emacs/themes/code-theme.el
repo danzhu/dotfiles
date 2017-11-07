@@ -145,6 +145,15 @@
   ;; latex
   (font-latex-bold-face (:bold t))
   (font-latex-italic-face (:slant 'italic))
+  (font-latex-script-char-face (:foreground code-gray))
+  (font-latex-verbatim-face (:inherit 'fixed-pitch :background code-darker))
+  (font-latex-warning-face (:foreground code-red :bold t))
+  (font-latex-string-face (:foreground code-light-yellow))
+  (font-latex-sedate-face (:foreground code-gray))
+  (font-latex-math-face (:foreground code-light-green))
+
+  ;; markdown
+  (markdown-code-face (:inherit 'fixed-pitch :background code-darker))
   )
 
  (custom-theme-set-variables

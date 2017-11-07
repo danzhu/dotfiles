@@ -324,7 +324,9 @@
 
 (use-package ess
   :ensure t
-  :init
+  :mode "\\.R\\'"
+  :interpreter "R"
+  :config
   (setq ess-eval-visibly nil))
 
 (use-package gitconfig-mode
@@ -334,6 +336,12 @@
   :ensure t
   :config
   (elpy-enable))
+
+(use-package flycheck-mypy
+  :ensure t
+  ;; :config
+  ;; (flycheck-add-next-checker 'python-flake8 'python-mypy)
+  )
 
 ;; evil
 (use-package evil-surround
@@ -419,16 +427,11 @@
 (savehist-mode 1)
 (setq gc-cons-threshold 50000000)
 (setq make-backup-files nil)
+(setq save-abbrevs 'silently)
 (setq vc-follow-symlinks t)
 (setq auto-save-file-name-transforms
       '((".*" "~/.emacs.d/auto-save-list/" t)))
 (fset 'yes-or-no-p 'y-or-n-p)
-
-;; ------------ custom ------------
-
-(setq custom-file "~/.emacs.d/custom.el")
-(if (file-readable-p "~/.emacs.d/custom.el")
-    (load custom-file))
 
 ;; ------------ hooks ------------
 
@@ -439,7 +442,6 @@
 
 (defun my-prog-mode-hook ()
   (nlinum-mode 1)
-  (flyspell-prog-mode)
   (font-lock-add-keywords
    nil
    '(("\\<\\(TODO\\|FIXME\\|XXX\\|HACK\\):" 1 font-lock-warning-face t))))
@@ -461,3 +463,13 @@
 ;; ------------ misc ------------
 
 (put 'dired-find-alternate-file 'disabled nil)
+
+;; ------------ custom ------------
+
+(setq custom-file "~/.emacs.d/custom.el")
+(if (file-readable-p "~/.emacs.d/custom.el")
+    (load custom-file))
+
+;; ------------ local config ------------
+(if (file-readable-p "~/.emacs.d/local.el")
+  (load "~/.emacs.d/local.el"))
