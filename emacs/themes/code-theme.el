@@ -44,8 +44,6 @@
   (linum (:foreground code-dark :background code-bg))
   (minibuffer-prompt (:foreground code-light-blue))
   (match (:background code-dark))
-  (isearch (:background code-dark))
-  (isearch-fail (:foreground code-red :background code-dark))
   (escape-glyph (:foreground code-light-blue))
 
   ;; window
@@ -63,9 +61,6 @@
   (mode-line-highlight (:foreground code-light-red))
   (mode-line-emphasis (:foreground code-light-red))
   (mode-line-buffer-id (:bold t))
-
-  (compilation-info (:foreground code-green))
-  (compilation-mode-line-fail (:foreground code-red))
 
   ;; font lock
   (font-lock-builtin-face (:foreground code-magenta))
@@ -86,6 +81,11 @@
   (show-paren-match-expression (:inherit 'show-paren-match))
   (show-paren-mismatch (:foreground code-light-red :background code-dark :bold t))
 
+  ;; isearch
+  (isearch (:background code-dark))
+  (isearch-fail (:foreground code-light-red :bold t))
+  (lazy-highlight (:background code-dark))
+
   ;; flyspell
   (flyspell-duplicate (:underline (:style 'wave :color code-yellow)))
   (flyspell-incorrect (:underline (:style 'wave :color code-red)))
@@ -102,9 +102,25 @@
   (term-default-fg-color (:foreground code-fg))
   (term-default-bg-color (:foreground code-bg))
 
+  ;; compilation
+  (compilation-info (:foreground code-blue))
+  (compilation-mode-line-fail (:inherit 'error))
+
+  ;; evil
+  (evil-ex-info (:foreground code-light-blue :slant 'italic))
+  (evil-ex-commands (:slant 'italic :underline t))
+  (evil-ex-search (:inherit 'isearch))
+  (evil-ex-lazy-highlight (:inherit 'lazy-highlight))
+  (evil-ex-substitute-matches (:foreground code-light-red :background code-darker :bold t :strike-through t))
+  (evil-ex-substitute-replacement (:foreground code-light-blue :background code-darker :bold t))
+
   ;; nlinum
   (nlinum (:foreground code-dark :background code-bg))
   (nlinum-current-line (:foreground code-gray))
+
+  ;; highlight indentation
+  (highlight-indentation-current-column-face (:background code-dark))
+  (highlight-indentation-face (:background code-darker))
 
   ;; company
   (company-template-field (:background code-dark))
@@ -117,12 +133,12 @@
   (company-scrollbar-fg (:background code-gray))
   (company-tooltip (:background code-darker))
   (company-tooltip-selection (:background code-bg))
+  (company-tooltip-common (:foreground code-gray))
+  (company-tooltip-search (:foreground code-light-red))
+  (company-tooltip-annotation (:foreground code-light-blue))
   (company-tooltip-mouse (:inherit 'company-tooltip-selection))
-  (company-tooltip-common (:foreground code-light-blue :bold t))
-  (company-tooltip-common-selection (:foreground code-light-blue :background code-bg :bold t))
-  (company-tooltip-search (:inherit 'company-tooltip-selection))
+  (company-tooltip-common-selection (:inherit 'company-tooltip-common))
   (company-tooltip-search-selection (:inherit 'company-tooltip-search))
-  (company-tooltip-annotation (:foreground code-gray))
   (company-tooltip-annotation-selection (:inherit 'company-tooltip-annotation))
 
   ;; flycheck
@@ -132,6 +148,23 @@
   (flycheck-fringe-info (:inherit 'success))
   (flycheck-fringe-warning (:inherit 'warning))
   (flycheck-fringe-error (:inherit 'error))
+
+  ;; ivy
+  (ivy-prompt-match (:inherit 'ivy-current-match))
+  (ivy-highlight-face (:inherit 'highlight))
+  (ivy-action (:foreground code-light-blue))
+  (ivy-virtual (:foreground code-light-yellow))
+  (ivy-remote (:foreground code-light-magenta))
+  (ivy-modified-buffer (:foreground code-light-green))
+  (ivy-subdir (:foreground code-light-blue :bold t))
+  (ivy-match-required-face (:inherit 'minibuffer-prompt :foreground code-red))
+  (ivy-confirm-face (:inherit 'minibuffer-prompt :foreground code-green))
+  (ivy-minibuffer-match-face-4 (:foreground code-light-yellow :bold t))
+  (ivy-minibuffer-match-face-3 (:foreground code-light-green :bold t))
+  (ivy-minibuffer-match-face-2 (:foreground code-light-blue :bold t))
+  (ivy-minibuffer-match-face-1 (:foreground code-light-magenta))
+  (ivy-current-match (:background code-darker))
+  (ivy-cursor (:foreground code-fg :background code-bg))
 
   ;; avy
   (avy-lead-face-0 (:foreground code-light-blue :background code-darker))
@@ -151,6 +184,13 @@
   (font-latex-string-face (:foreground code-light-yellow))
   (font-latex-sedate-face (:foreground code-gray))
   (font-latex-math-face (:foreground code-light-green))
+
+  ;; web mode
+  (web-mode-doctype-face (:foreground code-gray))
+  (web-mode-html-tag-bracket-face (:foreground code-gray))
+  (web-mode-html-attr-equal-face (:foreground code-gray))
+  (web-mode-html-attr-name-face (:foreground code-light-green))
+  (web-mode-html-tag-face (:foreground code-light-blue))
 
   ;; markdown
   (markdown-code-face (:inherit 'fixed-pitch :background code-darker))

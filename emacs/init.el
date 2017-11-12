@@ -12,14 +12,19 @@
   (package-install 'use-package))
 (eval-when-compile
   (require 'use-package))
+(require 'diminish)
+(require 'bind-key)
 
 ;; ------------ builtin packages ------------
 
 (use-package simple
+  :diminish visual-line-mode
   :config
   (column-number-mode t)
   (global-visual-line-mode 1)
-  (size-indication-mode 1))
+  (size-indication-mode 1)
+  (setq shift-select-mode nil)
+  (add-hook 'org-mode-hook 'visual-line-mode))
 
 (use-package menu-bar
   :config
@@ -37,9 +42,18 @@
   :config
   (global-prettify-symbols-mode))
 
+(use-package flyspell
+  :config
+  (add-hook 'text-mode-hook
+            (lambda () (flyspell-mode 1))))
+
 (use-package saveplace
   :config
   (save-place-mode t))
+
+(use-package savehist
+  :config
+  (savehist-mode 1))
 
 (use-package buff-menu
   :bind
@@ -63,6 +77,11 @@
   :config
   (electric-indent-mode 1))
 
+(use-package subword
+  :diminish subword-mode
+  :config
+  (global-subword-mode 1))
+
 (use-package hl-line
   :config
   (setq hl-line-sticky-flag nil)
@@ -83,19 +102,21 @@
 
 ;; ------------ third party packages ------------
 
-;; utility
-(use-package diminish
-  :ensure t)
-
-(use-package autothemer
-  :ensure t)
-
 ;; interface
+(use-package autothemer
+  :ensure t
+  :config
+  (add-to-list 'custom-theme-load-path "~/.emacs.d/themes")
+  (load-theme 'code t))
+
 (use-package nlinum
   :ensure t
   :config
   (setq nlinum-format " %d ")
-  (setq nlinum-highlight-current-line t))
+  (setq nlinum-highlight-current-line t)
+  (dolist (hook '(text-mode-hook prog-mode-hook conf-mode-hook))
+    (add-hook hook
+              (lambda () (nlinum-mode 1)))))
 
 (use-package paradox
   :ensure t
@@ -128,6 +149,7 @@
 (use-package company
   :ensure t
   :diminish company-mode
+  :defines company-template-nav-map
   :config
   (setq company-idle-delay 0)
   (setq company-minimum-prefix-length 1)
@@ -139,6 +161,8 @@
         ("C-SPC" . company-complete)
         :map company-active-map
         ("C-w" . nil)
+        ("M-n" . nil)
+        ("M-p" . nil)
         :map company-template-nav-map
         ("<tab>" . nil)
         ("TAB" . nil)
@@ -150,11 +174,16 @@
   :config
   (yas-global-mode 1)
   :bind
-  (:map yas-keymap
-        ("<tab>" . yas-maybe-expand)
-        ("TAB" . yas-maybe-expand)
+  (:map yas-minor-mode-map
+        ("<tab>" . nil)
+        ("TAB" . nil)
+        ("M-SPC" . yas-expand)
+        :map yas-keymap
+        ("<tab>" . nil)
+        ("TAB" . nil)
         ("<backtab>" . nil)
         ("S-TAB" . nil)
+        ("M-SPC" . yas-maybe-expand)
         ("M-n" . yas-next-field)
         ("M-p" . yas-prev-field)))
 
@@ -229,6 +258,9 @@
   :diminish projectile-mode
   :config
   (setq projectile-completion-system 'ivy)
+  ;; (setq projectile-mode-line
+  ;;       '(:eval (format " [%s]" (projectile-project-name))))
+  (setq projectile-track-known-projects-automatically nil)
   (projectile-mode))
 
 (use-package counsel-projectile
@@ -266,7 +298,8 @@
   (add-hook 'irony-mode-hook 'irony-eldoc))
 
 (use-package rust-mode
-  :ensure t)
+  :ensure t
+  :mode "\\.rs\\'")
 
 (use-package cargo
   :ensure t
@@ -293,16 +326,22 @@
 
 (use-package tex-mode
   :ensure auctex
+  :defines TeX-auto-save TeX-parse-self TeX-save-query TeX-PDF-mode
   :config
   (setq TeX-auto-save t)
   (setq TeX-parse-self t)
   (setq TeX-save-query nil)
-  (setq TeX-PDF-mode t))
+  (setq TeX-PDF-mode t)
+  (add-hook 'LaTeX-mode-hook 'LaTeX-math-mode))
 
 (use-package company-auctex
   :ensure t
   :config
   (company-auctex-init))
+
+(use-package web-mode
+  :ensure t
+  :mode ("\\.html\\'" "\\.xml\\'" "\\.svg\\'"))
 
 (use-package js2-mode
   :ensure t
@@ -319,8 +358,15 @@
   :config
   (add-to-list 'company-backends 'company-tern))
 
+(use-package rjsx-mode
+  :ensure t
+  :mode "\\.jsx\\'")
+
 (use-package markdown-mode
-  :ensure t)
+  :ensure t
+  :mode (("README\\.md\\'" . gfm-mode)
+         ("\\.md\\'" . markdown-mode)
+         ("\\.markdown\\'" . markdown-mode)))
 
 (use-package ess
   :ensure t
@@ -332,10 +378,19 @@
 (use-package gitconfig-mode
   :ensure t)
 
+(use-package cmake-mode
+  :ensure t)
+
+(use-package llvm-mode
+  :ensure t
+  :mode "\\.ll\\'")
+
 (use-package elpy
   :ensure t
   :config
-  (elpy-enable))
+  (elpy-enable)
+  (add-hook 'elpy-mode-hook
+            (lambda () (highlight-indentation-mode -1))))
 
 (use-package flycheck-mypy
   :ensure t
@@ -351,6 +406,8 @@
 
 (use-package evil
   :ensure t
+  :defines evil-want-Y-yank-to-eol
+  :functions evil-delay evil-set-initial-state
   :init
   (setq evil-flash-delay 5)
   (setq evil-split-window-below t)
@@ -367,6 +424,7 @@
   (evil-define-key 'normal dired-mode-map
     (kbd "l") 'dired-find-alternate-file)
   (evil-set-initial-state 'paradox-menu-mode 'motion)
+  (evil-set-initial-state 'term-mode 'emacs)
   :bind
   (:map evil-normal-state-map
         ("j" . evil-next-visual-line)
@@ -394,11 +452,6 @@
         :map evil-insert-state-map
         ("C-d" . nil)))
 
-;; ------------ theme ------------
-
-(add-to-list 'custom-theme-load-path "~/.emacs.d/themes")
-(load-theme 'code t)
-
 ;; ------------ options ------------
 
 ;; startup
@@ -407,9 +460,12 @@
 (setq initial-scratch-message nil)
 
 ;; display
+(setq echo-keystrokes 0.1)
+(setq frame-title-format '("%b"))
 (setq ring-bell-function 'ignore)
+(setq scroll-conservatively 100)
 (setq scroll-margin 5)
-(setq scroll-preserve-screen-position t)
+(setq scroll-preserve-screen-position 'always)
 (setq scroll-step 1)
 (setq use-dialog-box nil)
 (setq-default fringes-outside-margins t)
@@ -420,40 +476,27 @@
 (setq c-default-style "bsd")
 (setq-default fill-column 80)
 (setq-default indent-tabs-mode nil)
-(setq-default require-final-newline t)
 (setq-default tab-width 4)
 
-;; editor
-(savehist-mode 1)
-(setq gc-cons-threshold 50000000)
+;; files
 (setq make-backup-files nil)
-(setq save-abbrevs 'silently)
-(setq vc-follow-symlinks t)
+(setq save-abbrevs nil)
+(setq-default require-final-newline t)
 (setq auto-save-file-name-transforms
       '((".*" "~/.emacs.d/auto-save-list/" t)))
+
+;; editor
+(setq gc-cons-threshold 50000000)
+(setq vc-follow-symlinks t)
 (fset 'yes-or-no-p 'y-or-n-p)
 
 ;; ------------ hooks ------------
 
-(defun my-text-mode-hook ()
-  (nlinum-mode 1)
-  (flyspell-mode 1))
-(add-hook 'text-mode-hook 'my-text-mode-hook)
-
 (defun my-prog-mode-hook ()
-  (nlinum-mode 1)
   (font-lock-add-keywords
    nil
    '(("\\<\\(TODO\\|FIXME\\|XXX\\|HACK\\):" 1 font-lock-warning-face t))))
 (add-hook 'prog-mode-hook 'my-prog-mode-hook)
-
-(defun my-conf-mode-hook ()
-  (nlinum-mode 1))
-(add-hook 'conf-mode-hook 'my-conf-mode-hook)
-
-(defun my-org-mode-hook ()
-  (visual-line-mode))
-(add-hook 'org-mode-hook 'my-org-mode-hook)
 
 (defun my-term-mode-hook ()
   (setq-local global-hl-line-mode nil)
@@ -464,7 +507,7 @@
 
 (put 'dired-find-alternate-file 'disabled nil)
 
-;; ------------ custom ------------
+;; ------------ custom file ------------
 
 (setq custom-file "~/.emacs.d/custom.el")
 (if (file-readable-p "~/.emacs.d/custom.el")
