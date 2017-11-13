@@ -28,20 +28,20 @@
  (
   ;; text
   (default (:foreground code-fg :background code-bg))
-  (bold (:weight 'bold))
-  (italic (:slant 'italic))
-  (bold-italic (:weight 'bold :slant 'italic))
+  (bold (:foreground code-white :bold t))
+  (italic (:italic t))
+  (bold-italic (:foreground code-white :bold t :italic t))
   (underline (:underline t))
   (shadow (:foreground code-gray))
   (link (:foreground code-light-blue :underline t))
   (link-visited (:foreground code-light-magenta :underline t))
-  (highlight (:foreground code-light-cyan :background code-darker))
+  (highlight (:foreground code-white :background code-dark :bold t))
 
   (cursor (:background code-fg))
   (success (:foreground code-green))
   (warning (:foreground code-yellow))
   (error (:foreground code-red))
-  (linum (:foreground code-dark :background code-bg))
+  (linum (:foreground code-dark :background code-bg :bold nil :italic nil :underline nil :strike-through nil))
   (minibuffer-prompt (:foreground code-light-blue))
   (match (:background code-dark))
   (escape-glyph (:foreground code-light-blue))
@@ -86,6 +86,9 @@
   (isearch-fail (:foreground code-light-red :bold t))
   (lazy-highlight (:background code-dark))
 
+  ;; eldoc
+  (eldoc-highlight-function-argument (:foreground code-light-blue :bold t))
+
   ;; flyspell
   (flyspell-duplicate (:underline (:style 'wave :color code-yellow)))
   (flyspell-incorrect (:underline (:style 'wave :color code-red)))
@@ -115,8 +118,20 @@
   (evil-ex-substitute-replacement (:foreground code-light-blue :background code-darker :bold t))
 
   ;; nlinum
-  (nlinum (:foreground code-dark :background code-bg))
-  (nlinum-current-line (:foreground code-gray))
+  (nlinum (:foreground code-dark :background code-bg :bold nil :italic nil :underline nil :strike-through nil))
+  (nlinum-current-line (:foreground code-gray :background code-darker :bold nil :italic nil :underline nil :strike-through nil))
+
+  ;; git gutter
+  (git-gutter:added (:foreground code-green))
+  (git-gutter:modified (:foreground code-yellow))
+  (git-gutter:deleted (:foreground code-red))
+  (git-gutter:unchanged (:background code-darker))
+  (git-gutter:separator (:foreground code-darker))
+
+  ;; git gutter fringe
+  (git-gutter-fr:deleted (:inherit ('git-gutter:deleted 'fringe)))
+  (git-gutter-fr:added (:inherit ('git-gutter:added 'fringe)))
+  (git-gutter-fr:modified (:inherit ('git-gutter:modified 'fringe)))
 
   ;; highlight indentation
   (highlight-indentation-current-column-face (:background code-dark))
@@ -150,30 +165,27 @@
   (flycheck-fringe-error (:inherit 'error))
 
   ;; ivy
+  (ivy-minibuffer-match-face-1 nil)
+  (ivy-minibuffer-match-face-2 (:foreground code-gray))
+  (ivy-minibuffer-match-face-3 (:inherit 'ivy-minibuffer-match-face-2))
+  (ivy-minibuffer-match-face-4 (:inherit 'ivy-minibuffer-match-face-2))
+  (ivy-cursor (:foreground code-fg :background code-bg))
+  (ivy-current-match (:background code-darker))
   (ivy-prompt-match (:inherit 'ivy-current-match))
-  (ivy-highlight-face (:inherit 'highlight))
+  (ivy-highlight-face (:foreground code-light-cyan))
   (ivy-action (:foreground code-light-blue))
-  (ivy-virtual (:foreground code-light-yellow))
+  (ivy-virtual (:foreground code-light-green))
   (ivy-remote (:foreground code-light-magenta))
-  (ivy-modified-buffer (:foreground code-light-green))
+  (ivy-modified-buffer (:foreground code-light-yellow))
   (ivy-subdir (:foreground code-light-blue :bold t))
   (ivy-match-required-face (:inherit 'minibuffer-prompt :foreground code-red))
-  (ivy-confirm-face (:inherit 'minibuffer-prompt :foreground code-green))
-  (ivy-minibuffer-match-face-4 (:foreground code-light-yellow :bold t))
-  (ivy-minibuffer-match-face-3 (:foreground code-light-green :bold t))
-  (ivy-minibuffer-match-face-2 (:foreground code-light-blue :bold t))
-  (ivy-minibuffer-match-face-1 (:foreground code-light-magenta))
-  (ivy-current-match (:background code-darker))
-  (ivy-cursor (:foreground code-fg :background code-bg))
+  (ivy-confirm-face (:inherit 'minibuffer-prompt :foreground code-light-blue))
 
   ;; avy
   (avy-lead-face-0 (:foreground code-light-blue :background code-darker))
   (avy-lead-face-1 (:foreground code-light-magenta :background code-darker))
   (avy-lead-face-2 (:foreground code-light-green :background code-darker))
   (avy-lead-face (:foreground code-light-red :background code-darker))
-
-  ;; eldoc
-  (eldoc-highlight-function-argument (:foreground code-light-blue :bold t))
 
   ;; latex
   (font-latex-bold-face (:bold t))

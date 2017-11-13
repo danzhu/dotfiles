@@ -1,3 +1,66 @@
+;; ------------ options ------------
+
+;; startup
+(setq inhibit-startup-screen t)
+(setq initial-major-mode 'fundamental-mode)
+(setq initial-scratch-message nil)
+
+;; display
+(setq echo-keystrokes 0.1)
+(setq frame-title-format '("%b"))
+(setq ring-bell-function 'ignore)
+(setq scroll-conservatively 100)
+(setq scroll-margin 5)
+(setq scroll-preserve-screen-position 'always)
+(setq scroll-step 1)
+(setq use-dialog-box nil)
+(setq-default fringes-outside-margins t)
+
+;; editing
+(auto-compression-mode t)
+(setq-default fill-column 80)
+(setq-default indent-tabs-mode nil)
+(setq-default tab-width 4)
+
+;; files
+(setq make-backup-files nil)
+(setq save-abbrevs nil)
+(setq-default require-final-newline t)
+(setq auto-save-file-name-transforms
+      '((".*" "~/.emacs.d/auto-save-list/" t)))
+
+;; editor
+(setq gc-cons-threshold 50000000)
+(setq vc-follow-symlinks t)
+(fset 'yes-or-no-p 'y-or-n-p)
+
+;; ------------ hooks ------------
+
+(defun my-prog-mode-hook ()
+  (font-lock-add-keywords
+   nil
+   '(("\\<\\(TODO\\|FIXME\\|XXX\\|HACK\\):" 1 highlight t))))
+(add-hook 'prog-mode-hook 'my-prog-mode-hook)
+
+(defun my-term-mode-hook ()
+  (setq-local global-hl-line-mode nil)
+  (setq-local scroll-margin 0))
+(add-hook 'term-mode-hook 'my-term-mode-hook)
+
+;; ------------ misc ------------
+
+(put 'dired-find-alternate-file 'disabled nil)
+
+;; ------------ custom file ------------
+
+(setq custom-file "~/.emacs.d/custom.el")
+(if (file-readable-p "~/.emacs.d/custom.el")
+    (load custom-file))
+
+;; ------------ local config ------------
+(if (file-readable-p "~/.emacs.d/local.el")
+    (load "~/.emacs.d/local.el"))
+
 ;; ------------ bootstrap ------------
 
 (require 'package)
@@ -84,7 +147,7 @@
 
 (use-package hl-line
   :config
-  (setq hl-line-sticky-flag nil)
+  (setq global-hl-line-sticky-flag t)
   (global-hl-line-mode t))
 
 (use-package paren
@@ -100,7 +163,20 @@
   :config
   (mouse-wheel-mode t))
 
+(use-package gdb-mi
+  :config
+  (setq gdb-many-windows t))
+
+(use-package cc-vars
+  :config
+  (setq c-basic-offset 4)
+  (setq c-default-style "bsd"))
+
 ;; ------------ third party packages ------------
+
+;; utility
+(use-package fringe-helper
+  :ensure t)
 
 ;; interface
 (use-package autothemer
@@ -120,8 +196,10 @@
 
 (use-package paradox
   :ensure t
+  :functions paradox-enable
   :config
-  (setq paradox-execute-asynchronously t))
+  (setq paradox-execute-asynchronously t)
+  (paradox-enable))
 
 (use-package undo-tree
   :ensure t
@@ -191,7 +269,10 @@
   :ensure t
   :config
   (setq flycheck-checkers (delq 'emacs-lisp-checkdoc flycheck-checkers))
-  (global-flycheck-mode))
+  (setq flycheck-display-errors-delay 0.2)
+  ;; (setq flycheck-indication-mode 'right-fringe)
+  (add-hook 'prog-mode-hook
+            (lambda () (flycheck-mode 1))))
 
 (use-package dumb-jump
   :ensure t
@@ -218,6 +299,7 @@
   :config
   (setq ivy-use-virtual-buffers t)
   (setq ivy-count-format "%d/%d ")
+  (setq ivy-format-function 'ivy-format-function-arrow)
   (ivy-mode 1)
   :bind
   (:map global-map
@@ -253,14 +335,31 @@
   (:map global-map
         ("C-x g" . magit-status)))
 
+(use-package git-gutter-fringe
+  :ensure t
+  :diminish git-gutter-mode
+  :config
+  (global-git-gutter-mode 1)
+  (add-hook 'focus-in-hook 'git-gutter:update-all-windows)
+  (fringe-helper-define 'git-gutter-fr:added '(center repeated)
+    "XX......")
+  (fringe-helper-define 'git-gutter-fr:modified '(center repeated)
+    "XX......")
+  (fringe-helper-define 'git-gutter-fr:deleted 'bottom
+    "X......."
+    "XX......"
+    "XXX....."
+    "XXXX...."
+    "XXXXX..."
+    "XXXXXX.."))
+
 (use-package projectile
   :ensure t
-  :diminish projectile-mode
   :config
   (setq projectile-completion-system 'ivy)
-  ;; (setq projectile-mode-line
-  ;;       '(:eval (format " [%s]" (projectile-project-name))))
   (setq projectile-track-known-projects-automatically nil)
+  (setq projectile-mode-line
+        '(:eval (format " Proj[%s]" (projectile-project-name))))
   (projectile-mode))
 
 (use-package counsel-projectile
@@ -427,92 +526,20 @@
   (evil-set-initial-state 'term-mode 'emacs)
   :bind
   (:map evil-normal-state-map
+        ("RET" . save-buffer)
+        ("C-p" . nil)
+        ("M-." . nil)
+        :map evil-motion-state-map
         ("j" . evil-next-visual-line)
         ("k" . evil-previous-visual-line)
         ("$" . evil-end-of-visual-line)
         ("^" . evil-first-non-blank-of-visual-line)
-        ("RET" . save-buffer)
         ("-" . evil-delete-buffer)
         ("H" . evil-prev-buffer)
         ("L" . evil-next-buffer)
-        ("C-u" . evil-scroll-up)
-        ("C-d" . evil-scroll-down)
-        ("M-." . nil)
-        :map evil-visual-state-map
-        ("j" . evil-next-visual-line)
-        ("k" . evil-previous-visual-line)
-        ("$" . evil-end-of-visual-line)
-        ("^" . evil-first-non-blank-of-visual-line)
-        ("C-u" . evil-scroll-up)
-        ("C-d" . evil-scroll-down)
-        :map evil-motion-state-map
         ("SPC" . nil)
         ("C-u" . evil-scroll-up)
         ("C-d" . evil-scroll-down)
-        :map evil-insert-state-map
-        ("C-d" . nil)))
+        ("C-p" . counsel-projectile)))
 
-;; ------------ options ------------
-
-;; startup
-(setq inhibit-startup-screen t)
-(setq initial-major-mode 'fundamental-mode)
-(setq initial-scratch-message nil)
-
-;; display
-(setq echo-keystrokes 0.1)
-(setq frame-title-format '("%b"))
-(setq ring-bell-function 'ignore)
-(setq scroll-conservatively 100)
-(setq scroll-margin 5)
-(setq scroll-preserve-screen-position 'always)
-(setq scroll-step 1)
-(setq use-dialog-box nil)
-(setq-default fringes-outside-margins t)
-
-;; editing
-(auto-compression-mode t)
-(setq c-basic-offset 4)
-(setq c-default-style "bsd")
-(setq-default fill-column 80)
-(setq-default indent-tabs-mode nil)
-(setq-default tab-width 4)
-
-;; files
-(setq make-backup-files nil)
-(setq save-abbrevs nil)
-(setq-default require-final-newline t)
-(setq auto-save-file-name-transforms
-      '((".*" "~/.emacs.d/auto-save-list/" t)))
-
-;; editor
-(setq gc-cons-threshold 50000000)
-(setq vc-follow-symlinks t)
-(fset 'yes-or-no-p 'y-or-n-p)
-
-;; ------------ hooks ------------
-
-(defun my-prog-mode-hook ()
-  (font-lock-add-keywords
-   nil
-   '(("\\<\\(TODO\\|FIXME\\|XXX\\|HACK\\):" 1 font-lock-warning-face t))))
-(add-hook 'prog-mode-hook 'my-prog-mode-hook)
-
-(defun my-term-mode-hook ()
-  (setq-local global-hl-line-mode nil)
-  (setq-local scroll-margin 0))
-(add-hook 'term-mode-hook 'my-term-mode-hook)
-
-;; ------------ misc ------------
-
-(put 'dired-find-alternate-file 'disabled nil)
-
-;; ------------ custom file ------------
-
-(setq custom-file "~/.emacs.d/custom.el")
-(if (file-readable-p "~/.emacs.d/custom.el")
-    (load custom-file))
-
-;; ------------ local config ------------
-(if (file-readable-p "~/.emacs.d/local.el")
-  (load "~/.emacs.d/local.el"))
+;; ------------ end ------------
