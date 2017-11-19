@@ -28,9 +28,9 @@
  (
   ;; text
   (default (:foreground code-fg :background code-bg))
-  (bold (:foreground code-white :bold t))
+  (bold (:bold t))
   (italic (:italic t))
-  (bold-italic (:foreground code-white :bold t :italic t))
+  (bold-italic (:bold t :italic t))
   (underline (:underline t))
   (shadow (:foreground code-gray))
   (link (:foreground code-light-blue :underline t))

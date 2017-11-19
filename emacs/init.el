@@ -11,13 +11,12 @@
 (setq ring-bell-function 'ignore)
 (setq scroll-conservatively 100)
 (setq scroll-margin 5)
-(setq scroll-preserve-screen-position 'always)
+(setq scroll-preserve-screen-position t)
 (setq scroll-step 1)
 (setq use-dialog-box nil)
 (setq-default fringes-outside-margins t)
 
 ;; editing
-(auto-compression-mode t)
 (setq-default fill-column 80)
 (setq-default indent-tabs-mode nil)
 (setq-default tab-width 4)
@@ -30,9 +29,8 @@
       '((".*" "~/.emacs.d/auto-save-list/" t)))
 
 ;; editor
-(setq gc-cons-threshold 50000000)
-(setq vc-follow-symlinks t)
-(fset 'yes-or-no-p 'y-or-n-p)
+(setq gc-cons-threshold (* 16 1024 1024))
+(defalias 'yes-or-no-p 'y-or-n-p)
 
 ;; ------------ hooks ------------
 
@@ -47,19 +45,19 @@
   (setq-local scroll-margin 0))
 (add-hook 'term-mode-hook 'my-term-mode-hook)
 
-;; ------------ misc ------------
+;; ------------ disabled features ------------
 
-(put 'dired-find-alternate-file 'disabled nil)
+(dolist (feature '(dired-find-alternate-file))
+  (put feature 'disabled nil))
 
 ;; ------------ custom file ------------
 
 (setq custom-file "~/.emacs.d/custom.el")
-(if (file-readable-p "~/.emacs.d/custom.el")
-    (load custom-file))
+(load custom-file :noerror t)
 
 ;; ------------ local config ------------
-(if (file-readable-p "~/.emacs.d/local.el")
-    (load "~/.emacs.d/local.el"))
+
+(load "~/.emacs.d/local.el" :noerror t)
 
 ;; ------------ bootstrap ------------
 
@@ -101,6 +99,11 @@
   :config
   (tool-bar-mode -1))
 
+(use-package frame
+  :config
+  (setq blink-cursor-blinks 0)
+  (blink-cursor-mode 1))
+
 (use-package prog-mode
   :config
   (global-prettify-symbols-mode))
@@ -123,6 +126,10 @@
   (:map global-map
         ("C-x C-b" . buffer-menu-other-window)))
 
+(use-package winner
+  :config
+  (winner-mode 1))
+
 (use-package eldoc
   :diminish eldoc-mode
   :init
@@ -130,7 +137,11 @@
 
 (use-package autorevert
   :config
-  (global-auto-revert-mode t))
+  (global-auto-revert-mode 1))
+
+(use-package jka-compr-hook
+  :config
+  (auto-compression-mode 1))
 
 (use-package elec-pair
   :config
@@ -153,19 +164,28 @@
 (use-package paren
   :config
   (setq show-paren-delay 0)
-  (show-paren-mode t))
+  (show-paren-mode 1))
 
 (use-package xt-mouse
   :config
-  (xterm-mouse-mode t))
+  (xterm-mouse-mode 1))
 
 (use-package mwheel
   :config
-  (mouse-wheel-mode t))
+  (mouse-wheel-mode 1))
+
+(use-package vc-hooks
+  :config
+  (setq vc-follow-symlinks t))
 
 (use-package gdb-mi
   :config
   (setq gdb-many-windows t))
+
+(use-package browse-url
+  :config
+  ;; TODO: setup auto detect
+  (setq browse-url-browser-function 'browse-url-chromium))
 
 (use-package cc-vars
   :config
@@ -206,24 +226,12 @@
   :diminish undo-tree-mode
   :config
   (setq undo-tree-auto-save-history t)
+  (setq undo-tree-enable-undo-in-region nil)
   (setq undo-tree-history-directory-alist
         '((".*" . "~/.emacs.d/undo-history/")))
   (global-undo-tree-mode))
 
 ;; editing
-(use-package editorconfig
-  :ensure t
-  :diminish editorconfig-mode
-  :config
-  (editorconfig-mode 1))
-
-(use-package ws-butler
-  :ensure t
-  :diminish ws-butler-mode
-  :config
-  (setq ws-butler-keep-whitespace-before-point nil)
-  (ws-butler-global-mode 1))
-
 (use-package company
   :ensure t
   :diminish company-mode
@@ -271,27 +279,7 @@
   (setq flycheck-checkers (delq 'emacs-lisp-checkdoc flycheck-checkers))
   (setq flycheck-display-errors-delay 0.2)
   ;; (setq flycheck-indication-mode 'right-fringe)
-  (add-hook 'prog-mode-hook
-            (lambda () (flycheck-mode 1))))
-
-(use-package dumb-jump
-  :ensure t
-  :config
-  (setq dumb-jump-selector 'ivy)
-  (dumb-jump-mode))
-
-(use-package avy
-  :ensure t
-  :config
-  (setq avy-keys (number-sequence ?a ?z))
-  (avy-setup-default)
-  :bind
-  (:map global-map
-        ("M-g j" . avy-goto-line-below)
-        ("M-g k" . avy-goto-line-above)
-        ("M-g l" . avy-goto-line)
-        ("M-g w" . avy-goto-word)
-        ("M-g c" . avy-goto-char-timer)))
+  (global-flycheck-mode 1))
 
 (use-package ivy
   :ensure t
@@ -325,6 +313,38 @@
 
 (use-package ivy-hydra
   :ensure t)
+
+(use-package avy
+  :ensure t
+  :config
+  (setq avy-keys (number-sequence ?a ?z))
+  (avy-setup-default)
+  :bind
+  (:map global-map
+        ("M-g j" . avy-goto-line-below)
+        ("M-g k" . avy-goto-line-above)
+        ("M-g l" . avy-goto-line)
+        ("M-g w" . avy-goto-word)
+        ("M-g c" . avy-goto-char-timer)))
+
+(use-package dumb-jump
+  :ensure t
+  :config
+  (setq dumb-jump-selector 'ivy)
+  (dumb-jump-mode))
+
+(use-package editorconfig
+  :ensure t
+  :diminish editorconfig-mode
+  :config
+  (editorconfig-mode 1))
+
+(use-package ws-butler
+  :ensure t
+  :diminish ws-butler-mode
+  :config
+  (setq ws-butler-keep-whitespace-before-point nil)
+  (ws-butler-global-mode 1))
 
 ;; project
 (use-package magit
@@ -463,22 +483,26 @@
 
 (use-package markdown-mode
   :ensure t
-  :mode (("README\\.md\\'" . gfm-mode)
-         ("\\.md\\'" . markdown-mode)
+  :mode (("\\.md\\'" . gfm-mode)
          ("\\.markdown\\'" . markdown-mode)))
 
 (use-package ess
   :ensure t
-  :mode "\\.R\\'"
-  :interpreter "R"
   :config
   (setq ess-eval-visibly nil))
+
+(use-package gitattributes-mode
+  :ensure t)
 
 (use-package gitconfig-mode
   :ensure t)
 
-(use-package cmake-mode
+(use-package gitignore-mode
   :ensure t)
+
+(use-package cmake-mode
+  :ensure t
+  :mode ("CMakeLists.txt" "\\.cmake\\'"))
 
 (use-package llvm-mode
   :ensure t
@@ -508,6 +532,7 @@
   :defines evil-want-Y-yank-to-eol
   :functions evil-delay evil-set-initial-state
   :init
+  (setq evil-ex-substitute-global t)
   (setq evil-flash-delay 5)
   (setq evil-split-window-below t)
   (setq evil-symbol-word-search t)
@@ -527,11 +552,11 @@
   :bind
   (:map evil-normal-state-map
         ("RET" . save-buffer)
-        ("C-p" . nil)
+        ("C-p" . counsel-projectile)
         ("M-." . nil)
         :map evil-motion-state-map
-        ("j" . evil-next-visual-line)
-        ("k" . evil-previous-visual-line)
+        ("j" . next-line)
+        ("k" . previous-line)
         ("$" . evil-end-of-visual-line)
         ("^" . evil-first-non-blank-of-visual-line)
         ("-" . evil-delete-buffer)
@@ -539,7 +564,6 @@
         ("L" . evil-next-buffer)
         ("SPC" . nil)
         ("C-u" . evil-scroll-up)
-        ("C-d" . evil-scroll-down)
-        ("C-p" . counsel-projectile)))
+        ("C-d" . evil-scroll-down)))
 
 ;; ------------ end ------------
