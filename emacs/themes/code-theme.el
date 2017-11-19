@@ -56,11 +56,12 @@
   (tooltip (:background code-darker))
 
   ;; mode line
-  (mode-line (:foreground code-light-blue :background code-darker))
+  (mode-line (:foreground code-white :background code-dark))
   (mode-line-inactive (:foreground code-gray :background code-darker))
-  (mode-line-highlight (:foreground code-light-red))
-  (mode-line-emphasis (:foreground code-light-red))
   (mode-line-buffer-id (:bold t))
+  (mode-line-buffer-id-inactive (:inherit 'mode-line-inactive :foreground code-fg))
+  (mode-line-highlight (:foreground code-light-red))
+  (mode-line-emphasis (:foreground code-light-green))
 
   ;; font lock
   (font-lock-builtin-face (:foreground code-magenta))
@@ -120,6 +121,12 @@
   ;; nlinum
   (nlinum (:foreground code-dark :background code-bg :bold nil :italic nil :underline nil :strike-through nil))
   (nlinum-current-line (:foreground code-gray :background code-darker :bold nil :italic nil :underline nil :strike-through nil))
+
+  ;; powerline
+  (powerline-active1 (:foreground code-light-blue :background code-darker))
+  (powerline-active2 (:foreground code-gray :background code-bg))
+  (powerline-inactive1 (:foreground code-gray :background code-darker))
+  (powerline-inactive2 (:foreground code-gray :background code-bg))
 
   ;; git gutter
   (git-gutter:added (:foreground code-green))

@@ -231,6 +231,59 @@
         '((".*" . "~/.emacs.d/undo-history/")))
   (global-undo-tree-mode))
 
+(use-package powerline
+  :ensure t
+  :config
+  (setq-default
+   mode-line-format
+   '("%e"
+     (:eval
+      (let* ((active (powerline-selected-window-active))
+             (mode-line (if active 'mode-line 'mode-line-inactive))
+             (mode-line-buffer-id (if active 'mode-line-buffer-id 'mode-line-buffer-id-inactive))
+             (face1 (if active 'powerline-active1 'powerline-inactive1))
+             (face2 (if active 'powerline-active2 'powerline-inactive2))
+             (separator-left (intern (format "powerline-%s-%s"
+                                             (powerline-current-separator)
+                                             (car powerline-default-separator-dir))))
+             (separator-right (intern (format "powerline-%s-%s"
+                                              (powerline-current-separator)
+                                              (cdr powerline-default-separator-dir))))
+             (lhs (list (powerline-raw "%*" mode-line 'l)
+                        (powerline-buffer-id mode-line-buffer-id 'l)
+                        (powerline-raw " " mode-line)
+                        (funcall separator-left mode-line face1)
+                        (when (projectile-project-p)
+                          (powerline-raw (format "[%s]" (projectile-project-name)) face1 'l))
+                        (powerline-vc face1)
+                        (powerline-raw " " face1)
+                        (funcall separator-left face1 face2)
+                        (when (boundp 'flycheck-last-status-change)
+                          (pcase flycheck-last-status-change
+                            ('no-checker (powerline-raw ":|" face2 'l))
+                            ('running (powerline-raw "..." face2 'l))
+                            ('errored (powerline-raw ":X" `(error ,face2) 'l))
+                            ('finished
+                             (let-alist (flycheck-count-errors flycheck-current-errors)
+                               (cond
+                                (.error (powerline-raw (format ":( %s" .error) `(error ,face2) 'l))
+                                (.warning (powerline-raw (format ":/ %s" .warning) `(warning ,face2) 'l))
+                                (t (powerline-raw ":)" `(success ,face2) 'l)))))
+                            ('interrupted (powerline-raw "interrupt" `(warning ,face2) 'l))
+                            ('suspicious (powerline-raw "suspicious" `(warning ,face2) 'l))))))
+             (rhs (list (powerline-minor-modes face2 'r)
+                        (powerline-raw global-mode-string face2 'r)
+                        (funcall separator-right face2 face1)
+                        (powerline-major-mode face1 'l)
+                        (when evil-mode
+                          (powerline-raw evil-mode-line-tag face1))
+                        (funcall separator-right face1 mode-line)
+                        (powerline-raw " %3l : %2c" mode-line 'r)
+                        (powerline-narrow mode-line 'r))))
+        (concat (powerline-render lhs)
+                (powerline-fill face2 (powerline-width rhs))
+                (powerline-render rhs)))))))
+
 ;; editing
 (use-package company
   :ensure t
@@ -275,6 +328,7 @@
 
 (use-package flycheck
   :ensure t
+  :diminish flycheck-mode
   :config
   (setq flycheck-checkers (delq 'emacs-lisp-checkdoc flycheck-checkers))
   (setq flycheck-display-errors-delay 0.2)
@@ -375,11 +429,10 @@
 
 (use-package projectile
   :ensure t
+  :diminish projectile-mode
   :config
   (setq projectile-completion-system 'ivy)
   (setq projectile-track-known-projects-automatically nil)
-  (setq projectile-mode-line
-        '(:eval (format " Proj[%s]" (projectile-project-name))))
   (projectile-mode))
 
 (use-package counsel-projectile
@@ -445,12 +498,15 @@
 
 (use-package tex-mode
   :ensure auctex
-  :defines TeX-auto-save TeX-parse-self TeX-save-query TeX-PDF-mode
+  :defines TeX-auto-save TeX-parse-self TeX-save-query TeX-PDF-mode TeX-view-program-selection
   :config
   (setq TeX-auto-save t)
   (setq TeX-parse-self t)
   (setq TeX-save-query nil)
   (setq TeX-PDF-mode t)
+  (when (executable-find "zathura")
+    (setq TeX-view-program-selection
+          '((output-pdf "Zathura"))))
   (add-hook 'LaTeX-mode-hook 'LaTeX-math-mode))
 
 (use-package company-auctex
@@ -511,9 +567,9 @@
 (use-package elpy
   :ensure t
   :config
-  (elpy-enable)
-  (add-hook 'elpy-mode-hook
-            (lambda () (highlight-indentation-mode -1))))
+  (setq elpy-modules (delq 'elpy-module-flymake elpy-modules))
+  (setq elpy-modules (delq 'elpy-module-highlight-indentation elpy-modules))
+  (elpy-enable))
 
 (use-package flycheck-mypy
   :ensure t
@@ -527,11 +583,18 @@
   :config
   (global-evil-surround-mode t))
 
+(use-package evil-commentary
+  :ensure t
+  :diminish evil-commentary-mode
+  :config
+  (evil-commentary-mode))
+
 (use-package evil
   :ensure t
   :defines evil-want-Y-yank-to-eol
   :functions evil-delay evil-set-initial-state
   :init
+  (setq evil-echo-state nil)
   (setq evil-ex-substitute-global t)
   (setq evil-flash-delay 5)
   (setq evil-split-window-below t)
