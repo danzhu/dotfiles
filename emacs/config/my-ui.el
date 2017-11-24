@@ -3,7 +3,6 @@
   :config
   (global-visual-line-mode 1)
   (line-number-mode -1)
-  (setq shift-select-mode nil)
   (add-hook 'org-mode-hook 'visual-line-mode))
 
 (use-package menu-bar
@@ -19,18 +18,21 @@
   (tool-bar-mode -1))
 
 (use-package frame
+  :custom
+  (blink-cursor-blinks 0)
   :config
-  (setq blink-cursor-blinks 0)
   (blink-cursor-mode 1))
 
 (use-package hl-line
+  :custom
+  (global-hl-line-sticky-flag t)
   :config
-  (setq global-hl-line-sticky-flag t)
   (global-hl-line-mode t))
 
 (use-package paren
+  :custom
+  (show-paren-delay 0)
   :config
-  (setq show-paren-delay 0)
   (show-paren-mode 1))
 
 (use-package xt-mouse
@@ -53,38 +55,42 @@
 
 (use-package nlinum
   :ensure t
+  :custom
+  (nlinum-format " %d ")
+  (nlinum-highlight-current-line t)
   :config
-  (setq nlinum-format " %d ")
-  (setq nlinum-highlight-current-line t)
   (dolist (hook '(text-mode-hook prog-mode-hook conf-mode-hook))
     (add-hook hook
               (lambda () (nlinum-mode 1)))))
 
 (use-package paradox
   :ensure t
+  :defer 4
   :functions paradox-enable
+  :custom
+  (paradox-execute-asynchronously t)
   :config
-  (setq paradox-execute-asynchronously t)
   (paradox-enable))
 
 (use-package undo-tree
   :ensure t
   :diminish undo-tree-mode
+  :custom
+  (undo-tree-auto-save-history t)
+  (undo-tree-enable-undo-in-region nil)
+  (undo-tree-history-directory-alist '((".*" . "~/.emacs.d/undo-history/")))
   :config
-  (setq undo-tree-auto-save-history t)
-  (setq undo-tree-enable-undo-in-region nil)
-  (setq undo-tree-history-directory-alist
-        '((".*" . "~/.emacs.d/undo-history/")))
   (global-undo-tree-mode))
 
 (use-package ivy
   :ensure t
   :demand t
   :diminish ivy-mode
+  :custom
+  (ivy-use-virtual-buffers t)
+  (ivy-count-format "%d/%d ")
+  (ivy-format-function 'ivy-format-function-arrow)
   :config
-  (setq ivy-use-virtual-buffers t)
-  (setq ivy-count-format "%d/%d ")
-  (setq ivy-format-function 'ivy-format-function-arrow)
   (ivy-mode 1)
   :bind
   (("C-c C-r" . ivy-resume)))
@@ -110,9 +116,8 @@
 
 (use-package avy
   :ensure t
-  :config
-  (setq avy-keys (number-sequence ?a ?z))
-  ;; (avy-setup-default)
+  :custom
+  (avy-keys (number-sequence ?a ?z))
   :bind
   (("M-g j" . avy-goto-line-below)
    ("M-g k" . avy-goto-line-above)

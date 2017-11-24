@@ -1,8 +1,8 @@
 (use-package magit
   :ensure t
   :demand t
-  :config
-  (setq magit-completing-read-function 'ivy-completing-read)
+  :custom
+  (magit-completing-read-function 'ivy-completing-read)
   :bind
   (("C-x g" . magit-status)))
 
@@ -27,9 +27,10 @@
 (use-package projectile
   :ensure t
   :diminish projectile-mode
+  :custom
+  (projectile-completion-system 'ivy)
+  (projectile-track-known-projects-automatically nil)
   :config
-  (setq projectile-completion-system 'ivy)
-  (setq projectile-track-known-projects-automatically nil)
   (projectile-mode))
 
 (use-package counsel-projectile

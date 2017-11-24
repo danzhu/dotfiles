@@ -38,15 +38,15 @@
     "flycheck warnings and errors"
     (when (boundp 'flycheck-last-status-change)
       (pcase flycheck-last-status-change
-        ('no-checker ":|")
-        ('running "...")
+        ('no-checker "")
+        ('running ":|")
         ('errored (propertize ":X" 'face 'error))
         ('finished
          (let-alist (flycheck-count-errors flycheck-current-errors)
            (cond
-            (.error (propertize (format ":( %s" .error) 'face 'error))
+            (.error (propertize (format ":[ %s" .error) 'face 'error))
             (.warning (propertize (format ":/ %s" .warning) 'face 'warning))
-            (t (propertize ":)" 'face 'success)))))
+            (t (propertize ":]" 'face 'success)))))
         ('interrupted (propertize "interrupt" 'face 'warning))
         ('suspicious (propertize "suspicious" 'face 'warning)))))
 

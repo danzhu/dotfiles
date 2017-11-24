@@ -3,7 +3,6 @@
   :demand t
   :defines evil-want-Y-yank-to-eol
   :functions evil-delay evil-set-initial-state
-
   :custom
   (evil-echo-state nil)
   (evil-ex-substitute-global t)
@@ -13,7 +12,6 @@
   (evil-vsplit-window-right t)
   (evil-want-C-u-scroll t)
   (evil-want-Y-yank-to-eol t)
-
   :config
   (evil-mode 1)
   (evil-define-key 'normal emacs-lisp-mode-map
@@ -24,7 +22,6 @@
     (kbd "l") 'dired-find-alternate-file)
   (evil-set-initial-state 'paradox-menu-mode 'motion)
   (evil-set-initial-state 'term-mode 'emacs)
-
   :bind
   (:map evil-normal-state-map
         ("RET" . save-buffer)

@@ -17,13 +17,12 @@
 
 ;; ------------ load configs ------------
 
-(defvar my-config (expand-file-name "~/.emacs.d/config"))
-(add-to-list 'load-path my-config)
+(add-to-list 'load-path (expand-file-name "~/.emacs.d/config"))
 
 (require 'my-settings)
 (require 'my-util)
-(require 'my-edit)
 (require 'my-ui)
+(require 'my-edit)
 (require 'my-project)
 (require 'my-lang)
 (require 'my-evil)
@@ -41,7 +40,8 @@
 
 ;; ------------ enable features ------------
 
-(dolist (feature '(dired-find-alternate-file))
+(dolist (feature '(dired-find-alternate-file
+                   narrow-to-region))
   (put feature 'disabled nil))
 
 ;; ------------ end ------------

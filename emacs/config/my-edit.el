@@ -1,4 +1,5 @@
 (use-package autorevert
+  :diminish auto-revert-mode
   :config
   (global-auto-revert-mode 1))
 
@@ -15,8 +16,16 @@
   (auto-compression-mode 1))
 
 (use-package vc-hooks
-  :config
-  (setq vc-follow-symlinks t))
+  :custom
+  (vc-follow-symlinks t))
+
+(use-package files
+  :custom
+  (make-backup-files nil)
+  (save-abbrevs nil)
+  (require-final-newline t)
+  (auto-save-file-name-transforms
+   '((".*" "~/.emacs.d/auto-save-list/" t))))
 
 (use-package elec-pair
   :config
@@ -42,27 +51,28 @@
 
 (use-package eldoc
   :diminish eldoc-mode
-  :init
-  (setq eldoc-idle-delay 0.1))
+  :custom
+  (eldoc-idle-delay 0.1))
 
 (use-package which-func
   :config
   (which-function-mode 1))
 
 (use-package cc-vars
-  :config
-  (setq c-basic-offset 4)
-  (setq c-default-style "bsd"))
+  :custom
+  (c-basic-offset 4)
+  (c-default-style "bsd"))
 
 (use-package company
   :ensure t
   :demand t
   :diminish company-mode
   :defines company-template-nav-map
+  :custom
+  (company-idle-delay 0)
+  (company-minimum-prefix-length 1)
+  (company-selection-wrap-around t)
   :config
-  (setq company-idle-delay 0)
-  (setq company-minimum-prefix-length 1)
-  (setq company-selection-wrap-around t)
   (global-company-mode 1)
   (company-tng-configure-default)
   :bind
@@ -79,7 +89,7 @@
 
 (use-package yasnippet
   :ensure t
-  :demand t
+  :defer 4
   :diminish yas-minor-mode
   :config
   (yas-global-mode 1)
@@ -100,16 +110,17 @@
 (use-package flycheck
   :ensure t
   :diminish flycheck-mode
+  :custom
+  (flycheck-display-errors-delay 0.2)
   :config
   (setq flycheck-checkers (delq 'emacs-lisp-checkdoc flycheck-checkers))
-  (setq flycheck-display-errors-delay 0.2)
-  ;; (setq flycheck-indication-mode 'right-fringe)
   (global-flycheck-mode 1))
 
 (use-package dumb-jump
   :ensure t
+  :custom
+  (dumb-jump-selector 'ivy)
   :config
-  (setq dumb-jump-selector 'ivy)
   (dumb-jump-mode))
 
 (use-package editorconfig
@@ -121,8 +132,9 @@
 (use-package ws-butler
   :ensure t
   :diminish ws-butler-mode
+  :custom
+  (ws-butler-keep-whitespace-before-point nil)
   :config
-  (setq ws-butler-keep-whitespace-before-point nil)
   (ws-butler-global-mode 1))
 
 (provide 'my-edit)

@@ -82,9 +82,9 @@
 
 (use-package elpy
   :ensure t
-  :mode ("\\.py\\'" . python-mode)
-  :interpreter (("python" . python-mode)
-                ("python3" . python-mode))
+  ;; :mode ("\\.py\\'" . python-mode)
+  ;; :interpreter (("python" . python-mode)
+  ;;               ("python3" . python-mode))
   :config
   (setq elpy-modules (delq 'elpy-module-flymake elpy-modules))
   (setq elpy-modules (delq 'elpy-module-highlight-indentation elpy-modules))
@@ -100,14 +100,15 @@
   :ensure auctex
   :mode ("\\.tex\\'" . TeX-latex-mode)
   :defines TeX-auto-save TeX-parse-self TeX-save-query TeX-PDF-mode TeX-view-program-selection
+  :custom
+  (TeX-auto-save t)
+  (TeX-parse-self t)
+  (TeX-save-query nil)
   :config
-  (setq TeX-auto-save t)
-  (setq TeX-parse-self t)
-  (setq TeX-save-query nil)
-  (setq TeX-PDF-mode t)
   (when (executable-find "zathura")
     (setq TeX-view-program-selection
           '((output-pdf "Zathura"))))
+  (TeX-global-PDF-mode)
   (add-hook 'LaTeX-mode-hook 'LaTeX-math-mode)
 
   (use-package company-auctex
@@ -122,8 +123,8 @@
 
 (use-package ess
   :ensure t
-  :config
-  (setq ess-eval-visibly nil))
+  :custom
+  (ess-eval-visibly nil))
 
 (use-package gitattributes-mode
   :ensure t)
