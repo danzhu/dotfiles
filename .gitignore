@@ -1,18 +1,25 @@
-# machine-local configuration
 *.local
-/vim/local.vim
-
-# generated files
+/emacs/abbrev_defs
+/emacs/auto-save-list/
+/emacs/bookmarks
+/emacs/custom.el
+/emacs/elpa/
+/emacs/eshell/
+/emacs/games/
+/emacs/history
+/emacs/irony/
+/emacs/local.el
+/emacs/places
+/emacs/projectile-bookmarks.eld
+/emacs/recentf
+/emacs/saveplace
+/tmux/plugins/
 /vim/.netrwhist
+/vim/autoload/plug.vim*
+/vim/local.vim
+/vim/plugged/
+/vim/spell/*.spl
+/vim/spell/*.sug
 /vim/swp/
 /vim/undo/
 /vim/view/
-
-# downloaded files
-/vim/autoload/plug.vim*
-/vim/spell/*.spl
-/vim/spell/*.sug
-
-# installed plugins
-/vim/plugged/
-/tmux/plugins/

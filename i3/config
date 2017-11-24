@@ -4,21 +4,21 @@
 
 set $mod Mod4
 
-set $c00 "#383c3c"
-set $c01 "#e85a45"
-set $c02 "#6bc021"
-set $c03 "#cacd28"
-set $c04 "#5a89e6"
-set $c05 "#af68ed"
-set $c06 "#29c87e"
-set $c07 "#7c848a"
-set $c08 "#555b5c"
-set $c09 "#f68090"
-set $c10 "#83e17f"
-set $c11 "#edc77f"
-set $c12 "#74c7f6"
-set $c13 "#f3a1f4"
-set $c14 "#36e9c0"
+set $c00 "#323539"
+set $c01 "#e66b58"
+set $c02 "#22c75f"
+set $c03 "#d8b944"
+set $c04 "#737fe7"
+set $c05 "#a867e2"
+set $c06 "#42bca3"
+set $c07 "#7b818a"
+set $c08 "#41444b"
+set $c09 "#f27f9a"
+set $c10 "#88d46b"
+set $c11 "#dfb971"
+set $c12 "#74b7e7"
+set $c13 "#e19ae6"
+set $c14 "#46ded5"
 set $c15 "#f0f3f4"
 set $c16 "#d3d7d8"
 set $c17 "#232425"
@@ -164,7 +164,7 @@ mode "system" {
     bindsym Shift+e exit
     # shutdown
     bindsym Shift+s exec --no-startup-id shutdown now
-    # rebbot
+    # reboot
     bindsym Shift+r exec --no-startup-id reboot
 
     bindsym Escape mode "default"
