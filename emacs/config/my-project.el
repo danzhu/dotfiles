@@ -1,11 +1,3 @@
-(use-package magit
-  :ensure t
-  :demand t
-  :custom
-  (magit-completing-read-function 'ivy-completing-read)
-  :bind
-  (("C-x g" . magit-status)))
-
 (use-package git-gutter-fringe
   :ensure t
   :diminish git-gutter-mode
@@ -29,7 +21,6 @@
   :diminish projectile-mode
   :custom
   (projectile-completion-system 'ivy)
-  (projectile-track-known-projects-automatically nil)
   :config
   (projectile-mode))
 
@@ -37,5 +28,12 @@
   :ensure t
   :config
   (counsel-projectile-on))
+
+(use-package magit
+  :ensure t
+  :custom
+  (magit-completing-read-function 'ivy-completing-read)
+  :bind
+  (("C-x g" . magit-status)))
 
 (provide 'my-project)

@@ -65,12 +65,9 @@
 
 (use-package paradox
   :ensure t
-  :defer 4
   :functions paradox-enable
   :custom
-  (paradox-execute-asynchronously t)
-  :config
-  (paradox-enable))
+  (paradox-execute-asynchronously t))
 
 (use-package undo-tree
   :ensure t

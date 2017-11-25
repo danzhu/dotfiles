@@ -82,13 +82,14 @@
 
 (use-package elpy
   :ensure t
-  ;; :mode ("\\.py\\'" . python-mode)
-  ;; :interpreter (("python" . python-mode)
-  ;;               ("python3" . python-mode))
+  :mode ("\\.py\\'" . python-mode)
+  :interpreter (("python" . python-mode)
+                ("python3" . python-mode))
+  :init
+  (add-hook 'python-mode-hook 'elpy-mode)
   :config
   (setq elpy-modules (delq 'elpy-module-flymake elpy-modules))
   (setq elpy-modules (delq 'elpy-module-highlight-indentation elpy-modules))
-  (elpy-enable)
 
   (use-package flycheck-mypy
     :ensure t

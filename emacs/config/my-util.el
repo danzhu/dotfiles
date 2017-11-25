@@ -1,11 +1,11 @@
 (use-package gdb-mi
-  :config
-  (setq gdb-many-windows t))
+  :custom
+  (gdb-many-windows t))
 
 (use-package browse-url
-  :config
+  :custom
   ;; TODO: setup auto detect
-  (setq browse-url-browser-function 'browse-url-chromium))
+  (browse-url-browser-function 'browse-url-chromium))
 
 (use-package s
   :ensure t)

@@ -23,7 +23,7 @@
 (customize-set-variable 'tab-width 4)
 
 ;; editor
-(customize-set-variable 'gc-cons-threshold (* 16 1024 1024))
+(customize-set-variable 'gc-cons-threshold (* 256 1024 1024))
 (defalias 'yes-or-no-p 'y-or-n-p)
 
 (provide 'my-settings)
