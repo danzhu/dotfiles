@@ -10,7 +10,4 @@
 (use-package s
   :ensure t)
 
-(use-package fringe-helper
-  :ensure t)
-
 (provide 'my-util)

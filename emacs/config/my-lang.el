@@ -1,61 +1,67 @@
+(require 'my-package "~/.emacs.d/config/my-package.el")
+
 (use-package irony
   :ensure t
-  :mode (("\\.cc\\'" . c++-mode)
-         ("\\.cpp\\'" . c++-mode)
-         ("\\.m\\'" . objc-mode)
-         ("\\.c\\'" . c-mode))
-  :config
-  (add-hook 'c++-mode-hook 'irony-mode)
-  (add-hook 'c-mode-hook 'irony-mode)
-  (add-hook 'objc-mode-hook 'irony-mode)
-  (add-hook 'irony-mode-hook 'irony-cdb-autosetup-compile-options)
+  :defer t
+  :hook
+  (c++-mode-hook 'irony-mode)
+  (c-mode-hook 'irony-mode)
+  (objc-mode-hook 'irony-mode)
+  (irony-mode-hook 'irony-cdb-autosetup-compile-options))
 
-  (use-package company-irony
-    :ensure t
-    :config
-    (add-to-list 'company-backends 'company-irony))
+(use-package company-irony
+  :ensure t
+  :after (company irony)
+  :hook
+  (company-backends 'company-irony))
 
-  (use-package company-irony-c-headers
-    :ensure t
-    :config
-    (add-to-list 'company-backends '(company-irony-c-headers company-irony)))
+(use-package company-irony-c-headers
+  :ensure t
+  :after (company irony)
+  :hook
+  (company-backends 'company-irony-c-headers))
 
-  (use-package flycheck-irony
-    :ensure t
-    :config
-    (add-hook 'flycheck-mode-hook 'flycheck-irony-setup))
+(use-package flycheck-irony
+  :ensure t
+  :after (flycheck irony)
+  :hook
+  (flycheck-mode-hook 'flycheck-irony-setup))
 
-  (use-package irony-eldoc
-    :ensure t
-    :config
-    (add-hook 'irony-mode-hook 'irony-eldoc)))
+(use-package irony-eldoc
+  :ensure t
+  :after (irony eldoc)
+  :hook
+  (irony-mode-hook 'irony-eldoc))
 
 (use-package rust-mode
   :ensure t
-  :mode "\\.rs\\'"
-  :config
-  (use-package cargo
-    :ensure t
-    :config
-    (add-hook 'rust-mode-hook 'cargo-minor-mode))
+  :mode "\\.rs\\'")
 
-  (use-package racer
-    :ensure t
-    :config
-    (add-hook 'rust-mode-hook 'racer-mode)
-    (add-hook 'racer-mode-hook 'company-mode)
-    (add-hook 'racer-mode-hook 'eldoc-mode))
+(use-package cargo
+  :ensure t
+  :after rust
+  :hook
+  (rust-mode-hook 'cargo-minor-mode))
 
-  (use-package flycheck-rust
-    :ensure t
-    :config
-    (add-hook 'flycheck-mode-hook 'flycheck-rust-setup)))
+(use-package racer
+  :ensure t
+  :after rust
+  :hook
+  (rust-mode-hook 'racer-mode)
+  (racer-mode-hook 'eldoc-mode))
+
+(use-package flycheck-rust
+  :ensure t
+  :after (flycheck rust-mode)
+  :hook
+  (flycheck-mode-hook 'flycheck-rust-setup))
 
 (use-package elisp-slime-nav
   :ensure t
-  :config
-  (add-hook 'emacs-lisp-mode-hook 'elisp-slime-nav-mode)
-  (add-hook 'emacs-lisp-mode-hook 'eldoc-mode))
+  :defer t
+  :hook
+  (emacs-lisp-mode-hook 'elisp-slime-nav-mode)
+  (emacs-lisp-mode-hook 'eldoc-mode))
 
 (use-package web-mode
   :ensure t
@@ -64,17 +70,17 @@
 (use-package js2-mode
   :ensure t
   :mode "\\.js\\'"
-  :interpreter "node"
-  :config
-  (use-package tern
-    :ensure t
-    :config
-    (add-hook 'js-mode-hook 'tern-mode))
+  :interpreter "node")
 
-  (use-package company-tern
-    :ensure t
-    :config
-    (add-to-list 'company-backends 'company-tern)))
+(use-package tern
+  :ensure t
+  :hook
+  (js-mode-hook 'tern-mode))
+
+(use-package company-tern
+  :ensure t
+  :hook
+  (company-backends 'company-tern))
 
 (use-package rjsx-mode
   :ensure t
@@ -85,22 +91,23 @@
   :mode ("\\.py\\'" . python-mode)
   :interpreter (("python" . python-mode)
                 ("python3" . python-mode))
-  :init
-  (add-hook 'python-mode-hook 'elpy-mode)
+  :hook
+  (python-mode-hook 'elpy-mode)
   :config
   (setq elpy-modules (delq 'elpy-module-flymake elpy-modules))
-  (setq elpy-modules (delq 'elpy-module-highlight-indentation elpy-modules))
+  (setq elpy-modules (delq 'elpy-module-highlight-indentation elpy-modules)))
 
-  (use-package flycheck-mypy
-    :ensure t
-    ;; :config
-    ;; (flycheck-add-next-checker 'python-flake8 'python-mypy)
-    ))
+(use-package flycheck-mypy
+  :ensure t
+  ;; :config
+  ;; (flycheck-add-next-checker 'python-flake8 'python-mypy)
+  )
 
-(use-package tex-mode
+(use-package latex
   :ensure auctex
   :mode ("\\.tex\\'" . TeX-latex-mode)
-  :defines TeX-auto-save TeX-parse-self TeX-save-query TeX-PDF-mode TeX-view-program-selection
+  :defines TeX-auto-save TeX-parse-self TeX-save-query TeX-view-program-selection
+  :functions TeX-global-PDF-mode
   :custom
   (TeX-auto-save t)
   (TeX-parse-self t)
@@ -110,12 +117,13 @@
     (setq TeX-view-program-selection
           '((output-pdf "Zathura"))))
   (TeX-global-PDF-mode)
-  (add-hook 'LaTeX-mode-hook 'LaTeX-math-mode)
+  (add-hook 'LaTeX-mode-hook 'LaTeX-math-mode))
 
-  (use-package company-auctex
-    :ensure t
-    :config
-    (company-auctex-init)))
+(use-package company-auctex
+  :ensure t
+  :after (company latex)
+  :config
+  (company-auctex-init))
 
 (use-package markdown-mode
   :ensure t
@@ -145,3 +153,5 @@
   :mode "\\.ll\\'")
 
 (provide 'my-lang)
+
+;; end

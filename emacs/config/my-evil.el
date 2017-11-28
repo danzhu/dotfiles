@@ -32,9 +32,6 @@
         ("k" . previous-line)
         ("$" . evil-end-of-visual-line)
         ("^" . evil-first-non-blank-of-visual-line)
-        ("-" . evil-delete-buffer)
-        ("H" . evil-prev-buffer)
-        ("L" . evil-next-buffer)
         ("SPC" . nil)))
 
 (use-package evil-surround

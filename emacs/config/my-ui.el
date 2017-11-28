@@ -65,6 +65,7 @@
 
 (use-package paradox
   :ensure t
+  :defer t
   :functions paradox-enable
   :custom
   (paradox-execute-asynchronously t))

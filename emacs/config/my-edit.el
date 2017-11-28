@@ -1,32 +1,3 @@
-(use-package autorevert
-  :diminish auto-revert-mode
-  :config
-  (global-auto-revert-mode 1))
-
-(use-package saveplace
-  :config
-  (save-place-mode t))
-
-(use-package savehist
-  :config
-  (savehist-mode 1))
-
-(use-package jka-cmpr-hook
-  :config
-  (auto-compression-mode 1))
-
-(use-package vc-hooks
-  :custom
-  (vc-follow-symlinks t))
-
-(use-package files
-  :custom
-  (make-backup-files nil)
-  (save-abbrevs nil)
-  (require-final-newline t)
-  (auto-save-file-name-transforms
-   '((".*" "~/.emacs.d/auto-save-list/" t))))
-
 (use-package elec-pair
   :config
   (electric-pair-mode 1))
@@ -54,10 +25,6 @@
   :custom
   (eldoc-idle-delay 0.1))
 
-(use-package which-func
-  :config
-  (which-function-mode 1))
-
 (use-package cc-vars
   :custom
   (c-basic-offset 4)
@@ -67,7 +34,6 @@
   :ensure t
   :demand t
   :diminish company-mode
-  :defines company-template-nav-map
   :custom
   (company-idle-delay 0)
   (company-minimum-prefix-length 1)
@@ -81,8 +47,13 @@
         :map company-active-map
         ("C-w" . nil)
         ("M-n" . nil)
-        ("M-p" . nil)
-        :map company-template-nav-map
+        ("M-p" . nil)))
+
+(use-package company-template
+  :defer 4
+  :after company
+  :bind
+  (:map company-template-nav-map
         ("<tab>" . nil)
         ("TAB" . nil)
         ("M-n" . company-template-forward-field)))
@@ -120,8 +91,8 @@
   :ensure t
   :custom
   (dumb-jump-selector 'ivy)
-  :config
-  (dumb-jump-mode))
+  :bind
+  ("C-M-g" . dumb-jump-go))
 
 (use-package editorconfig
   :ensure t

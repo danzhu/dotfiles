@@ -1,3 +1,31 @@
+(use-package projectile
+  :ensure t
+  :diminish projectile-mode
+  :custom
+  (projectile-completion-system 'ivy)
+  :config
+  (projectile-mode 1))
+
+(use-package counsel-projectile
+  :ensure t
+  :config
+  (counsel-projectile-on))
+
+;; (use-package persp-mode
+;;   :ensure t
+;;   :config
+;;   (persp-mode 1))
+
+(use-package magit
+  :ensure t
+  :custom
+  (magit-completing-read-function 'ivy-completing-read)
+  :bind
+  (("C-x g" . magit-status)))
+
+(use-package fringe-helper
+  :ensure t)
+
 (use-package git-gutter-fringe
   :ensure t
   :diminish git-gutter-mode
@@ -16,24 +44,9 @@
     "XXXXX..."
     "XXXXXX.."))
 
-(use-package projectile
-  :ensure t
-  :diminish projectile-mode
-  :custom
-  (projectile-completion-system 'ivy)
-  :config
-  (projectile-mode))
-
-(use-package counsel-projectile
-  :ensure t
-  :config
-  (counsel-projectile-on))
-
-(use-package magit
-  :ensure t
-  :custom
-  (magit-completing-read-function 'ivy-completing-read)
-  :bind
-  (("C-x g" . magit-status)))
+(use-package ag
+  :ensure t)
 
 (provide 'my-project)
+
+;; end
