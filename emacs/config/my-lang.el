@@ -112,12 +112,13 @@
   (TeX-auto-save t)
   (TeX-parse-self t)
   (TeX-save-query nil)
+  :hook
+  (LaTeX-mode-hook 'LaTeX-math-mode)
   :config
   (when (executable-find "zathura")
     (setq TeX-view-program-selection
           '((output-pdf "Zathura"))))
-  (TeX-global-PDF-mode)
-  (add-hook 'LaTeX-mode-hook 'LaTeX-math-mode))
+  (TeX-global-PDF-mode 1))
 
 (use-package company-auctex
   :ensure t
