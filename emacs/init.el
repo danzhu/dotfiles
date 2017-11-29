@@ -4,7 +4,7 @@
 (add-to-list 'package-archives '("melpa" . "http://melpa.org/packages/"))
 (add-to-list 'package-archives '("org" . "http://orgmode.org/elpa/"))
 (add-to-list 'package-archives '("gnu" . "http://elpa.gnu.org/packages/"))
-(setq package-enable-at-startup nil)
+(customize-set-variable 'package-enable-at-startup nil)
 (package-initialize)
 
 (unless (package-installed-p 'use-package)
@@ -12,8 +12,10 @@
   (package-install 'use-package))
 (eval-when-compile
   (require 'use-package))
-(require 'diminish)
 (require 'bind-key)
+
+(use-package diminish
+  :ensure t)
 
 ;; ------------ load configs ------------
 
@@ -21,7 +23,6 @@
   (add-to-list 'load-path (expand-file-name "~/.emacs.d/config")))
 
 (require 'my-settings)
-(require 'my-package)
 (require 'my-util)
 (require 'my-ui)
 (require 'my-project)
@@ -34,7 +35,7 @@
 
 ;; ------------ custom file ------------
 
-(setq custom-file "~/.emacs.d/custom.el")
+(customize-set-variable 'custom-file "~/.emacs.d/custom.el")
 (load custom-file :noerror t)
 
 ;; ------------ local config ------------

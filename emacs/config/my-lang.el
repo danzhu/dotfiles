@@ -1,37 +1,29 @@
-(require 'my-package "~/.emacs.d/config/my-package.el")
-
 (use-package irony
   :ensure t
-  :defer t
-  :hook
-  (c++-mode-hook 'irony-mode)
-  (c-mode-hook 'irony-mode)
-  (objc-mode-hook 'irony-mode)
-  (irony-mode-hook 'irony-cdb-autosetup-compile-options))
+  :hook (((c++-mode c-mode objc-mode) . irony-mode)
+         (irony-mode . irony-cdb-autosetup-compile-options)))
 
 (use-package company-irony
   :ensure t
   :after (company irony)
-  :hook
-  (company-backends 'company-irony))
+  :config
+  (add-to-list 'company-backends 'company-irony))
 
 (use-package company-irony-c-headers
   :ensure t
   :after (company irony)
-  :hook
-  (company-backends 'company-irony-c-headers))
+  :config
+  (add-to-list 'company-backends 'company-irony-c-headers))
 
 (use-package flycheck-irony
   :ensure t
   :after (flycheck irony)
-  :hook
-  (flycheck-mode-hook 'flycheck-irony-setup))
+  :hook (flycheck-mode . flycheck-irony-setup))
 
 (use-package irony-eldoc
   :ensure t
   :after (irony eldoc)
-  :hook
-  (irony-mode-hook 'irony-eldoc))
+  :hook irony-mode)
 
 (use-package rust-mode
   :ensure t
@@ -39,29 +31,24 @@
 
 (use-package cargo
   :ensure t
-  :after rust
-  :hook
-  (rust-mode-hook 'cargo-minor-mode))
+  :after rust-mode
+  :hook (rust-mode . cargo-minor-mode))
 
 (use-package racer
   :ensure t
-  :after rust
-  :hook
-  (rust-mode-hook 'racer-mode)
-  (racer-mode-hook 'eldoc-mode))
+  :after rust-mode
+  :hook ((rust-mode . racer-mode)
+         (racer-mode . eldoc-mode)))
 
 (use-package flycheck-rust
   :ensure t
   :after (flycheck rust-mode)
-  :hook
-  (flycheck-mode-hook 'flycheck-rust-setup))
+  :hook (flycheck-mode . flycheck-rust-setup))
 
 (use-package elisp-slime-nav
   :ensure t
-  :defer t
-  :hook
-  (emacs-lisp-mode-hook 'elisp-slime-nav-mode)
-  (emacs-lisp-mode-hook 'eldoc-mode))
+  :hook ((emacs-lisp-mode . elisp-slime-nav-mode)
+         (emacs-lisp-mode . eldoc-mode)))
 
 (use-package web-mode
   :ensure t
@@ -74,13 +61,14 @@
 
 (use-package tern
   :ensure t
-  :hook
-  (js-mode-hook 'tern-mode))
+  :after js2-mode
+  :hook (js-mode . tern-mode))
 
 (use-package company-tern
   :ensure t
-  :hook
-  (company-backends 'company-tern))
+  :after js2-mode
+  :config
+  (add-to-list 'company-backends 'company-tern))
 
 (use-package rjsx-mode
   :ensure t
@@ -91,8 +79,7 @@
   :mode ("\\.py\\'" . python-mode)
   :interpreter (("python" . python-mode)
                 ("python3" . python-mode))
-  :hook
-  (python-mode-hook 'elpy-mode)
+  :hook (python-mode . elpy-mode)
   :config
   (setq elpy-modules (delq 'elpy-module-flymake elpy-modules))
   (setq elpy-modules (delq 'elpy-module-highlight-indentation elpy-modules)))
@@ -106,14 +93,13 @@
 (use-package latex
   :ensure auctex
   :mode ("\\.tex\\'" . TeX-latex-mode)
+  :hook (LaTeX-mode . LaTeX-math-mode)
   :defines TeX-auto-save TeX-parse-self TeX-save-query TeX-view-program-selection
   :functions TeX-global-PDF-mode
   :custom
   (TeX-auto-save t)
   (TeX-parse-self t)
   (TeX-save-query nil)
-  :hook
-  (LaTeX-mode-hook 'LaTeX-math-mode)
   :config
   (when (executable-find "zathura")
     (setq TeX-view-program-selection
