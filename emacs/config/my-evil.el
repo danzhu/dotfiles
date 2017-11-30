@@ -32,7 +32,12 @@
         ("k" . previous-line)
         ("$" . evil-end-of-visual-line)
         ("^" . evil-first-non-blank-of-visual-line)
-        ("SPC" . nil)))
+        ("'" . evil-goto-mark)
+        ("`" . evil-goto-mark-line)
+        ("SPC" . nil)
+        ("C-e" . nil)
+        :map evil-insert-state-map
+        ("C-e" . nil)))
 
 (use-package evil-surround
   :ensure t
@@ -45,4 +50,16 @@
   :config
   (evil-commentary-mode))
 
+(use-package evil-visualstar
+  :ensure t
+  :config
+  (global-evil-visualstar-mode))
+
+(use-package evil-exchange
+  :ensure t
+  :config
+  (evil-exchange-install))
+
 (provide 'my-evil)
+
+;; end
