@@ -1,8 +1,5 @@
 (use-package spaceline
-  :ensure t)
-
-(use-package spaceline-segments
-  :functions spaceline-compile
+  :ensure t
   :preface
   (defun my-spaceline-face-func (face active)
     (pcase (cons face active)
@@ -14,6 +11,11 @@
       ('(line . nil) 'powerline-inactive2)
       ('(highlight . _) 'highlight)
       (_ 'error)))
+  :custom
+  (spaceline-face-func 'my-spaceline-face-func))
+
+(use-package spaceline-segments
+  :functions spaceline-compile
 
   :config
   (spaceline-define-segment my-buffer-relative-path
@@ -57,8 +59,6 @@
   (spaceline-define-segment my-narrow
     "narrow indicator"
     (powerline-narrow))
-
-  (setq spaceline-face-func 'my-spaceline-face-func)
 
   (spaceline-compile
     `((buffer-modified ((my-buffer-relative-path buffer-id) :separator ""))

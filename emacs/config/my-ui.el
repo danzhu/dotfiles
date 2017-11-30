@@ -1,9 +1,10 @@
 (use-package simple
+  :demand t
   :diminish visual-line-mode
+  :hook (org-mode . visual-line-mode)
   :config
   (global-visual-line-mode 1)
-  (line-number-mode -1)
-  (add-hook 'org-mode-hook 'visual-line-mode))
+  (line-number-mode -1))
 
 (use-package menu-bar
   :config
@@ -55,13 +56,10 @@
 
 (use-package nlinum
   :ensure t
+  :hook ((text-mode prog-mode conf-mode) . nlinum-mode)
   :custom
   (nlinum-format " %d ")
-  (nlinum-highlight-current-line t)
-  :config
-  (dolist (hook '(text-mode-hook prog-mode-hook conf-mode-hook))
-    (add-hook hook
-              (lambda () (nlinum-mode 1)))))
+  (nlinum-highlight-current-line t))
 
 (use-package paradox
   :ensure t
