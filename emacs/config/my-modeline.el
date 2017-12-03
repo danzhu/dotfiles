@@ -1,22 +1,15 @@
+(use-package powerline
+  :ensure t)
+
 (use-package spaceline
   :ensure t
-  :preface
-  (defun my-spaceline-face-func (face active)
-    (pcase (cons face active)
-      ('(face1 . t) 'mode-line)
-      ('(face1 . nil) 'mode-line-inactive)
-      ('(face2 . t) 'powerline-active1)
-      ('(face2 . nil) 'powerline-inactive1)
-      ('(line . t) 'powerline-active2)
-      ('(line . nil) 'powerline-inactive2)
-      ('(highlight . _) 'highlight)
-      (_ 'error)))
-  :custom
-  (spaceline-face-func 'my-spaceline-face-func))
+  :after powerline)
 
 (use-package spaceline-segments
+  :after spaceline
   :functions spaceline-compile
-
+  :custom
+  (mode-line-format '("%e" (:eval (spaceline-ml-main))))
   :config
   (spaceline-define-segment my-buffer-relative-path
     "buffer path relative to project root"
@@ -66,8 +59,6 @@
       (my-flycheck :face line-face))
     `(((selection-info my-evil-state my-line-ending my-narrow) :face line-face)
       (minor-modes global)
-      (major-mode process)))
-
-  (setq-default mode-line-format '("%e" (:eval (spaceline-ml-main)))))
+      (major-mode process))))
 
 (provide 'my-modeline)
