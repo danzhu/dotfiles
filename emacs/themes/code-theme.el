@@ -177,7 +177,7 @@
   (ivy-minibuffer-match-face-3 (:inherit 'ivy-minibuffer-match-face-2))
   (ivy-minibuffer-match-face-4 (:inherit 'ivy-minibuffer-match-face-2))
   (ivy-cursor (:foreground code-fg :background code-bg))
-  (ivy-current-match (:background code-darker))
+  (ivy-current-match (:background code-dark))
   (ivy-prompt-match (:inherit 'ivy-current-match))
   (ivy-highlight-face (:foreground code-light-cyan))
   (ivy-action (:foreground code-light-blue))

@@ -1,5 +1,6 @@
 (use-package irony
   :ensure t
+  :defer t
   :hook (((c++-mode c-mode objc-mode) . irony-mode)
          (irony-mode . irony-cdb-autosetup-compile-options)))
 
@@ -17,50 +18,60 @@
 
 (use-package flycheck-irony
   :ensure t
+  :defer t
   :after (flycheck irony)
   :hook (flycheck-mode . flycheck-irony-setup))
 
 (use-package irony-eldoc
   :ensure t
+  :defer t
   :after (irony eldoc)
   :hook irony-mode)
 
 (use-package rust-mode
   :ensure t
+  :defer t
   :mode "\\.rs\\'")
 
 (use-package cargo
   :ensure t
+  :defer t
   :after rust-mode
   :hook (rust-mode . cargo-minor-mode))
 
 (use-package racer
   :ensure t
+  :defer t
   :after rust-mode
   :hook ((rust-mode . racer-mode)
          (racer-mode . eldoc-mode)))
 
 (use-package flycheck-rust
   :ensure t
+  :defer t
   :after (flycheck rust-mode)
   :hook (flycheck-mode . flycheck-rust-setup))
 
 (use-package elisp-slime-nav
   :ensure t
+  :defer t
   :hook ((emacs-lisp-mode . elisp-slime-nav-mode)
          (emacs-lisp-mode . eldoc-mode)))
 
 (use-package web-mode
   :ensure t
+  :defer t
   :mode ("\\.html\\'" "\\.xml\\'" "\\.svg\\'"))
 
 (use-package js2-mode
   :ensure t
+  :defer t
   :mode "\\.js\\'"
   :interpreter "node")
 
 (use-package tern
   :ensure t
+  :defer t
   :after js2-mode
   :hook (js-mode . tern-mode))
 
@@ -72,10 +83,12 @@
 
 (use-package rjsx-mode
   :ensure t
+  :defer t
   :mode "\\.jsx\\'")
 
 (use-package elpy
   :ensure t
+  :defer t
   :mode ("\\.py\\'" . python-mode)
   :interpreter (("python" . python-mode)
                 ("python3" . python-mode))
@@ -84,14 +97,15 @@
   (setq elpy-modules (delq 'elpy-module-flymake elpy-modules))
   (setq elpy-modules (delq 'elpy-module-highlight-indentation elpy-modules)))
 
-(use-package flycheck-mypy
-  :ensure t
-  ;; :config
-  ;; (flycheck-add-next-checker 'python-flake8 'python-mypy)
-  )
+;; (use-package flycheck-mypy
+;;   :ensure t
+;;   :after (flycheck elpy)
+;;   :config
+;;   (flycheck-add-next-checker 'python-flake8 'python-mypy))
 
 (use-package latex
   :ensure auctex
+  :defer t
   :mode ("\\.tex\\'" . TeX-latex-mode)
   :hook (LaTeX-mode . LaTeX-math-mode)
   :defines TeX-auto-save TeX-parse-self TeX-save-query TeX-view-program-selection
@@ -114,6 +128,7 @@
 
 (use-package markdown-mode
   :ensure t
+  :defer t
   :mode (("\\.md\\'" . gfm-mode)
          ("\\.markdown\\'" . markdown-mode)))
 
@@ -133,10 +148,12 @@
 
 (use-package cmake-mode
   :ensure t
+  :defer t
   :mode ("CMakeLists.txt" "\\.cmake\\'"))
 
 (use-package llvm-mode
   :ensure t
+  :defer t
   :mode "\\.ll\\'")
 
 (provide 'my-lang)

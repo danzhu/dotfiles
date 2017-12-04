@@ -18,6 +18,7 @@
 
 (use-package magit
   :ensure t
+  :defer t
   :custom
   (magit-completing-read-function 'ivy-completing-read)
   :bind

@@ -26,11 +26,4 @@
 (customize-set-variable 'gc-cons-threshold (* 256 1024 1024))
 (defalias 'yes-or-no-p 'y-or-n-p)
 
-;; keys
-(bind-key "M-h" 'previous-buffer)
-(bind-key "M-l" 'next-buffer)
-(bind-key "M--" (lambda ()
-                  (interactive)
-                  (kill-buffer)))
-
 (provide 'my-settings)

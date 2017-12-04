@@ -16,9 +16,8 @@
   (global-prettify-symbols-mode))
 
 (use-package flyspell
-  :config
-  (add-hook 'text-mode-hook
-            (lambda () (flyspell-mode 1))))
+  :defer t
+  :hook (text-mode . flyspell-mode))
 
 (use-package eldoc
   :diminish eldoc-mode
@@ -32,7 +31,6 @@
 
 (use-package company
   :ensure t
-  :demand t
   :diminish company-mode
   :custom
   (company-idle-delay 0)
@@ -50,7 +48,6 @@
         ("M-p" . nil)))
 
 (use-package company-template
-  :defer 4
   :after company
   :bind
   (:map company-template-nav-map
@@ -89,6 +86,7 @@
 
 (use-package dumb-jump
   :ensure t
+  :defer t
   :custom
   (dumb-jump-selector 'ivy)
   :bind
@@ -109,3 +107,5 @@
   (ws-butler-global-mode 1))
 
 (provide 'my-edit)
+
+;; end

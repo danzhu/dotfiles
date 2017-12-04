@@ -1,8 +1,5 @@
 (use-package evil
   :ensure t
-  :demand t
-  :defines evil-want-Y-yank-to-eol
-  :functions evil-delay evil-set-initial-state
   :custom
   (evil-echo-state nil)
   (evil-ex-substitute-global t)
@@ -23,21 +20,25 @@
   (evil-set-initial-state 'paradox-menu-mode 'motion)
   (evil-set-initial-state 'term-mode 'emacs)
   :bind
-  (:map evil-normal-state-map
-        ("RET" . save-buffer)
-        ("C-p" . counsel-projectile)
-        ("M-." . nil)
-        :map evil-motion-state-map
-        ("j" . next-line)
-        ("k" . previous-line)
-        ("$" . evil-end-of-visual-line)
-        ("^" . evil-first-non-blank-of-visual-line)
-        ("'" . evil-goto-mark)
-        ("`" . evil-goto-mark-line)
-        ("SPC" . nil)
-        ("C-e" . nil)
-        :map evil-insert-state-map
-        ("C-e" . nil)))
+  (("M-l" . evil-next-buffer)
+   ("M-h" . evil-prev-buffer)
+   ("M--" . evil-delete-buffer)
+   :map evil-normal-state-map
+   ("RET" . save-buffer)
+   ("C-p" . counsel-projectile)
+   ("M-." . nil)
+   :map evil-motion-state-map
+   ("j" . next-line)
+   ("k" . previous-line)
+   ("$" . evil-end-of-visual-line)
+   ("^" . evil-first-non-blank-of-visual-line)
+   ("'" . evil-goto-mark)
+   ("`" . evil-goto-mark-line)
+   ("SPC" . nil)
+   ("C-e" . nil)
+   :map evil-insert-state-map
+   ("C-a" . nil)
+   ("C-e" . nil)))
 
 (use-package evil-surround
   :ensure t

@@ -1,4 +1,11 @@
-;; ------------ bootstrap ------------
+;; ------------ core settings ------------
+
+(eval-and-compile
+  (add-to-list 'load-path (expand-file-name "~/.emacs.d/config")))
+
+(require 'my-settings)
+
+;; ------------ bootstrap packages ------------
 
 (require 'package)
 (add-to-list 'package-archives '("melpa" . "http://melpa.org/packages/"))
@@ -14,23 +21,18 @@
   (require 'use-package))
 (require 'bind-key)
 
-(use-package diminish
-  :ensure t)
+(customize-set-variable 'use-package-always-demand t)
 
 ;; ------------ load configs ------------
 
-(eval-and-compile
-  (add-to-list 'load-path (expand-file-name "~/.emacs.d/config")))
-
-(require 'my-settings)
-(require 'my-util)
+(require 'my-library)
+(require 'my-evil)
 (require 'my-ui)
+(require 'my-modeline)
 (require 'my-project)
 (require 'my-file)
 (require 'my-edit)
 (require 'my-lang)
-(require 'my-evil)
-(require 'my-modeline)
 (require 'my-hooks)
 
 ;; ------------ custom file ------------

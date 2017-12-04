@@ -1,5 +1,4 @@
 (use-package simple
-  :demand t
   :diminish visual-line-mode
   :hook (org-mode . visual-line-mode)
   :config
@@ -45,8 +44,18 @@
   (mouse-wheel-mode 1))
 
 (use-package buff-menu
+  :defer t
   :bind
   (("C-x C-b" . buffer-menu-other-window)))
+
+(use-package gdb-mi
+  :custom
+  (gdb-many-windows t))
+
+(use-package browse-url
+  :custom
+  ;; TODO: setup auto detect
+  (browse-url-browser-function 'browse-url-chromium))
 
 (use-package autothemer
   :ensure t
@@ -56,17 +65,23 @@
 
 (use-package nlinum
   :ensure t
+  :defer t
   :hook ((text-mode prog-mode conf-mode) . nlinum-mode)
   :custom
   (nlinum-format " %d ")
   (nlinum-highlight-current-line t))
 
+(use-package highlight-numbers
+  :ensure t
+  :defer t
+  :hook (prog-mode . highlight-numbers-mode))
+
 (use-package paradox
   :ensure t
   :defer t
-  :functions paradox-enable
   :custom
-  (paradox-execute-asynchronously t))
+  (paradox-execute-asynchronously t)
+  (paradox-github-token t))
 
 (use-package undo-tree
   :ensure t
@@ -80,7 +95,6 @@
 
 (use-package ivy
   :ensure t
-  :demand t
   :diminish ivy-mode
   :custom
   (ivy-use-virtual-buffers t)
@@ -89,13 +103,16 @@
   :config
   (ivy-mode 1)
   :bind
-  (("C-c C-r" . ivy-resume)))
+  (("C-c C-r" . ivy-resume)
+   :map ivy-minibuffer-map
+   ("C-w" . ivy-backward-kill-word)))
 
 (use-package ivy-hydra
   :ensure t)
 
 (use-package counsel
   :ensure t
+  :defer t
   :bind
   (("M-x" . counsel-M-x)
    ("C-x C-f" . counsel-find-file)
@@ -107,11 +124,13 @@
 
 (use-package swiper
   :ensure t
+  :defer t
   :bind
   (("C-s" . swiper)))
 
 (use-package avy
   :ensure t
+  :defer t
   :custom
   (avy-keys (number-sequence ?a ?z))
   :bind
@@ -122,3 +141,5 @@
    ("M-g c" . avy-goto-char-timer)))
 
 (provide 'my-ui)
+
+;; end
