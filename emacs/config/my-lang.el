@@ -77,7 +77,7 @@
 
 (use-package company-tern
   :ensure t
-  :after js2-mode
+  :after (company js2-mode)
   :config
   (add-to-list 'company-backends 'company-tern))
 
@@ -86,16 +86,28 @@
   :defer t
   :mode "\\.jsx\\'")
 
-(use-package elpy
+(use-package anaconda-mode
   :ensure t
   :defer t
-  :mode ("\\.py\\'" . python-mode)
-  :interpreter (("python" . python-mode)
-                ("python3" . python-mode))
-  :hook (python-mode . elpy-mode)
+  :hook ((python-mode . anaconda-mode)
+         (python-mode . anaconda-eldoc-mode)))
+
+(use-package company-anaconda
+  :ensure t
+  :after (company anaconda-mode)
   :config
-  (setq elpy-modules (delq 'elpy-module-flymake elpy-modules))
-  (setq elpy-modules (delq 'elpy-module-highlight-indentation elpy-modules)))
+  (add-to-list 'company-backends 'company-anaconda))
+
+;; (use-package elpy
+;;   :ensure t
+;;   :defer t
+;;   :mode ("\\.py\\'" . python-mode)
+;;   :interpreter (("python" . python-mode)
+;;                 ("python3" . python-mode))
+;;   :hook (python-mode . elpy-mode)
+;;   :config
+;;   (setq elpy-modules (delq 'elpy-module-flymake elpy-modules))
+;;   (setq elpy-modules (delq 'elpy-module-highlight-indentation elpy-modules)))
 
 ;; (use-package flycheck-mypy
 ;;   :ensure t

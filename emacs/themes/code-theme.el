@@ -214,6 +214,17 @@
   (web-mode-html-attr-name-face (:foreground code-light-green))
   (web-mode-html-tag-face (:foreground code-light-blue))
 
+  ;; js2 mode
+  (js2-external-variable (:inherit 'warning))
+  (js2-jsdoc-html-tag-delimiter (:inherit 'web-mode-html-tag-bracket-face))
+  (js2-jsdoc-html-tag-name (:inherit 'web-mode-html-tag-face))
+  (js2-function-param (:inherit 'font-lock-variable-name-face))
+  (js2-jsdoc-value (:inherit 'font-lock-string-face))
+  (js2-jsdoc-type (:inherit 'font-lock-type-face))
+  (js2-jsdoc-tag (:inherit 'font-lock-comment-face :italic t))
+  (js2-error (:inherit 'error))
+  (js2-warning (:inherit 'warning))
+
   ;; markdown
   (markdown-code-face (:inherit 'fixed-pitch :background code-darker))
   )

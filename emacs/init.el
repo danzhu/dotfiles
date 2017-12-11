@@ -1,5 +1,7 @@
 ;; ------------ core settings ------------
 
+(customize-set-variable 'custom-file "~/.emacs.d/custom.el")
+
 (eval-and-compile
   (add-to-list 'load-path (expand-file-name "~/.emacs.d/config")))
 
@@ -34,11 +36,6 @@
 (require 'my-edit)
 (require 'my-lang)
 (require 'my-hooks)
-
-;; ------------ custom file ------------
-
-(customize-set-variable 'custom-file "~/.emacs.d/custom.el")
-(load custom-file :noerror t)
 
 ;; ------------ local config ------------
 

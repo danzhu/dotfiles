@@ -1,5 +1,6 @@
 *.local
 /emacs/abbrev_defs
+/emacs/anaconda-mode/
 /emacs/auto-save-list/
 /emacs/bookmarks
 /emacs/custom.el

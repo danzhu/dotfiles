@@ -105,6 +105,7 @@
   :bind
   (("C-c C-r" . ivy-resume)
    :map ivy-minibuffer-map
+   ("<escape>" . keyboard-escape-quit)
    ("C-w" . ivy-backward-kill-word)))
 
 (use-package ivy-hydra
