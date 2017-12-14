@@ -32,18 +32,29 @@
   (spaceline-define-segment my-flycheck
     "flycheck warnings and errors"
     (when (boundp 'flycheck-last-status-change)
-      (pcase flycheck-last-status-change
-        ('no-checker "")
-        ('running ":|")
-        ('errored (propertize ":X" 'face 'error))
-        ('finished
-         (let-alist (flycheck-count-errors flycheck-current-errors)
-           (cond
-            (.error (propertize (format ":[ %s" .error) 'face 'error))
-            (.warning (propertize (format ":/ %s" .warning) 'face 'warning))
-            (t (propertize ":]" 'face 'success)))))
-        ('interrupted (propertize "interrupt" 'face 'warning))
-        ('suspicious (propertize "suspicious" 'face 'warning)))))
+      ;; lazily create menu map
+      (unless (boundp 'my-flycheck-menu-map)
+        (defvar my-flycheck-menu-map
+          (let ((map (make-sparse-keymap)))
+            (define-key map [mode-line mouse-1] flycheck-mode-menu-map)
+            map)))
+      (propertize
+       (pcase flycheck-last-status-change
+         ('not-checked "")
+         ('no-checker "")
+         ('running ":|")
+         ('errored (propertize ":X" 'face 'error))
+         ('finished
+          (let-alist (flycheck-count-errors flycheck-current-errors)
+            (cond
+             (.error (propertize (format ":[ %s" .error) 'face 'error))
+             (.warning (propertize (format ":/ %s" .warning) 'face 'warning))
+             (t (propertize ":]" 'face 'success)))))
+         ('interrupted (propertize "interrupt" 'face 'warning))
+         ('suspicious (propertize "suspicious" 'face 'error)))
+       'mouse-face 'mode-line-highlight
+       'help-echo "FlyCheck\nmouse-1: FlyCheck menu"
+       'local-map my-flycheck-menu-map)))
 
   (spaceline-define-segment my-line-ending
     "current file line ending"
