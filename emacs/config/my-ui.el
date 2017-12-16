@@ -2,8 +2,9 @@
   :diminish visual-line-mode
   :hook (org-mode . visual-line-mode)
   :config
+  (column-number-mode 1)
   (global-visual-line-mode 1)
-  (line-number-mode -1))
+  (line-number-mode 1))
 
 (use-package menu-bar
   :config

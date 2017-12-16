@@ -67,8 +67,8 @@
   (spaceline-compile
     `((buffer-modified ((my-buffer-relative-path buffer-id) :separator ""))
       (projectile-root my-vc)
-      (my-flycheck :face line-face))
-    `(((selection-info my-evil-state my-line-ending my-narrow) :face line-face)
+      ((my-line-ending my-flycheck) :face line-face))
+    `(((selection-info my-narrow line ":" column my-evil-state) :face line-face)
       (minor-modes global)
       (major-mode process))))
 
