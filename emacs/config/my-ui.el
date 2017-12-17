@@ -50,6 +50,8 @@
   (("C-x C-b" . buffer-menu-other-window)))
 
 (use-package gdb-mi
+  :defer t
+  :commands gdb
   :custom
   (gdb-many-windows t))
 
