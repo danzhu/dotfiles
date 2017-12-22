@@ -1,3 +1,4 @@
+*.elc
 *.local
 /emacs/abbrev_defs
 /emacs/anaconda-mode/

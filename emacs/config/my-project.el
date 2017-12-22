@@ -9,7 +9,7 @@
 (use-package counsel-projectile
   :ensure t
   :config
-  (counsel-projectile-on))
+  (counsel-projectile-mode 1))
 
 ;; (use-package persp-mode
 ;;   :ensure t
