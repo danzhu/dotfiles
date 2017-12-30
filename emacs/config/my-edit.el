@@ -57,7 +57,6 @@
 
 (use-package yasnippet
   :ensure t
-  :defer 1
   :diminish yas-minor-mode
   :config
   (yas-global-mode 1)

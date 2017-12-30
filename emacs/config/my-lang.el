@@ -115,6 +115,22 @@
 ;;   :config
 ;;   (flycheck-add-next-checker 'python-flake8 'python-mypy))
 
+(use-package haskell-mode
+  :ensure t
+  :defer t
+  :mode "\\.hs\\'")
+
+;; (use-package company-ghc
+;;   :ensure t
+;;   :after (company haskell-mode)
+;;   :config
+;;   (add-to-list 'company-backends 'company-ghc))
+
+(use-package yaml-mode
+  :ensure t
+  :defer t
+  :mode "\\.yaml\\'")
+
 (use-package latex
   :ensure auctex
   :defer t
