@@ -1,3 +1,8 @@
+(use-package org
+  :mode ("\\.org\\'" . org-mode)
+  :custom
+  (org-log-done 'time))
+
 (use-package irony
   :ensure t
   :defer t

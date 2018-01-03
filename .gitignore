@@ -15,6 +15,7 @@
 /emacs/projectile-bookmarks.eld
 /emacs/recentf
 /emacs/saveplace
+/emacs/tramp
 /tmux/plugins/
 /vim/.netrwhist
 /vim/autoload/plug.vim*
