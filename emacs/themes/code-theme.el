@@ -197,6 +197,12 @@
   ;; which function
   (which-func nil)
 
+  ;; org mode
+  (org-done (:foreground code-light-green))
+  (org-todo (:foreground code-light-red))
+  (org-date (:foreground code-magenta))
+  (org-table (:foreground code-blue))
+
   ;; latex
   (font-latex-bold-face (:bold t))
   (font-latex-italic-face (:slant 'italic))
@@ -206,6 +212,7 @@
   (font-latex-string-face (:foreground code-light-yellow))
   (font-latex-sedate-face (:foreground code-gray))
   (font-latex-math-face (:foreground code-light-green))
+  (font-latex-sectioning-5-face (:foreground code-light-cyan :bold t))
 
   ;; web mode
   (web-mode-doctype-face (:foreground code-gray))
