@@ -3,6 +3,7 @@ CtrlShiftShortcuts=yes
 Columns=160
 Rows=48
 Scrollbar=none
+Window=max
 Term=xterm-256color
 BellType=0
 CursorType=block
