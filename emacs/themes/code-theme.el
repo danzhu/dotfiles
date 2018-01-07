@@ -212,7 +212,7 @@
   (font-latex-string-face (:foreground code-light-yellow))
   (font-latex-sedate-face (:foreground code-gray))
   (font-latex-math-face (:foreground code-light-green))
-  (font-latex-sectioning-5-face (:foreground code-light-cyan :bold t))
+  (font-latex-sectioning-5-face (:foreground code-light-yellow :bold t))
 
   ;; web mode
   (web-mode-doctype-face (:foreground code-gray))
