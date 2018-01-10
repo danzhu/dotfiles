@@ -77,6 +77,15 @@
   (font-lock-variable-name-face (:foreground code-light-red))
   (font-lock-warning-face (:foreground code-yellow))
 
+  ;; customize
+  (custom-variable-tag (:foreground code-light-cyan :bold t))
+  (custom-group-tag (:inherit 'variable-pitch :foreground code-light-cyan :height 1.2 :bold t))
+  (custom-group-tag-1 (:inherit 'variable-pitch :foreground code-light-red :height 1.2 :bold t))
+  (custom-comment-tag (:foreground code-light-yellow))
+  (custom-comment (:background code-darker))
+  (custom-state (:foreground code-green))
+  (widget-field (:background code-darker))
+
   ;; show paren
   (show-paren-match (:foreground code-light-blue :background code-dark :bold t))
   (show-paren-match-expression (:inherit 'show-paren-match))
