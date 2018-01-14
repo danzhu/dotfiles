@@ -1,5 +1,6 @@
 # -*- mode: sh -*-
 
+alias o='xdg-open'
 alias ls='ls -h --color=auto'
 alias la='ls -A'
 alias ll='ls -l'

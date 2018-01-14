@@ -1,3 +1,12 @@
+(use-package simple
+  :diminish visual-line-mode
+  :hook ((org-mode . visual-line-mode)
+         (text-mode . auto-fill-mode))
+  :config
+  (column-number-mode 1)
+  (global-visual-line-mode 1)
+  (line-number-mode 1))
+
 (use-package elec-pair
   :config
   (electric-pair-mode 1))
