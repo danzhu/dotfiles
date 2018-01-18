@@ -16,6 +16,13 @@
   :config
   (blink-cursor-mode 1))
 
+(use-package display-line-numbers
+  :when (boundp display-line-numbers)
+  :defer t
+  :hook ((text-mode prog-mode conf-mode) . display-line-numbers-mode)
+  :custom
+  (display-line-numbers-type 'visual))
+
 (use-package hl-line
   :custom
   (global-hl-line-sticky-flag t)
@@ -49,8 +56,11 @@
 
 (use-package browse-url
   :custom
-  ;; TODO: setup auto detect
-  (browse-url-browser-function 'browse-url-chromium))
+  (browse-url-browser-function
+   (cond
+    ((or (executable-find "chromium") (executable-find "chromium-browser"))
+     'browse-url-chromium)
+    (t 'browse-url-default-browser))))
 
 (use-package autothemer
   :ensure t
@@ -59,6 +69,7 @@
   (load-theme 'code t))
 
 (use-package nlinum
+  :unless (boundp display-line-numbers)
   :ensure t
   :defer t
   :hook ((text-mode prog-mode conf-mode) . nlinum-mode)

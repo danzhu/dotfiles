@@ -41,7 +41,6 @@
   (success (:foreground code-green))
   (warning (:foreground code-yellow))
   (error (:foreground code-red))
-  (linum (:foreground code-dark :background code-bg :bold nil :italic nil :underline nil :strike-through nil))
   (minibuffer-prompt (:foreground code-light-blue))
   (match (:background code-dark))
   (escape-glyph (:foreground code-light-blue))
@@ -85,6 +84,10 @@
   (custom-comment (:background code-darker))
   (custom-state (:foreground code-green))
   (widget-field (:background code-darker))
+
+  ;; display line number
+  (line-number (:foreground code-dark :background code-bg :bold nil :italic nil :underline nil :strike-through nil))
+  (line-number-current-line (:foreground code-gray :background code-darker :bold nil :italic nil :underline nil :strike-through nil))
 
   ;; show paren
   (show-paren-match (:foreground code-light-blue :background code-dark :bold t))

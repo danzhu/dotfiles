@@ -1,4 +1,5 @@
 (use-package org
+  :defer t
   :mode ("\\.org\\'" . org-mode)
   :custom
   (org-log-done 'time))
@@ -35,8 +36,7 @@
 
 (use-package rust-mode
   :ensure t
-  :defer t
-  :mode "\\.rs\\'")
+  :defer t)
 
 (use-package cargo
   :ensure t
@@ -149,8 +149,7 @@
   (TeX-save-query nil)
   :config
   (when (executable-find "zathura")
-    (setq TeX-view-program-selection
-          '((output-pdf "Zathura"))))
+    (customize-variable 'TeX-view-program-selection '((output-pdf "Zathura"))))
   (TeX-global-PDF-mode 1))
 
 (use-package company-auctex
@@ -162,32 +161,30 @@
 (use-package markdown-mode
   :ensure t
   :defer t
-  :mode (("\\.md\\'" . gfm-mode)
-         ("\\.markdown\\'" . markdown-mode)))
+  :mode ("\\.md\\'" . gfm-mode))
 
 (use-package ess
-  :ensure t
-  :custom
-  (ess-eval-visibly nil))
+  :ensure t)
 
 (use-package gitattributes-mode
+  :defer t
   :ensure t)
 
 (use-package gitconfig-mode
+  :defer t
   :ensure t)
 
 (use-package gitignore-mode
+  :defer t
   :ensure t)
 
 (use-package cmake-mode
   :ensure t
-  :defer t
-  :mode ("CMakeLists.txt" "\\.cmake\\'"))
+  :defer t)
 
 (use-package llvm-mode
   :ensure t
-  :defer t
-  :mode "\\.ll\\'")
+  :defer t)
 
 (provide 'my-lang)
 

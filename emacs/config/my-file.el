@@ -19,6 +19,10 @@
   :custom
   (vc-follow-symlinks t))
 
+(use-package recentf
+  :custom
+  (recentf-max-saved-items 100))
+
 (use-package files
   :custom
   (make-backup-files nil)
