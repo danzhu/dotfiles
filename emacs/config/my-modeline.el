@@ -64,6 +64,8 @@
     "narrow indicator"
     (powerline-narrow))
 
+  (setq spaceline-minor-modes-separator " ")
+
   (spaceline-compile
     `((buffer-modified ((my-buffer-relative-path buffer-id) :separator ""))
       (projectile-root my-vc)
