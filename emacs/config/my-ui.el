@@ -17,7 +17,7 @@
   (blink-cursor-mode 1))
 
 (use-package display-line-numbers
-  :when (boundp display-line-numbers)
+  :when (boundp 'display-line-numbers)
   :defer t
   :hook ((text-mode prog-mode conf-mode) . display-line-numbers-mode)
   :custom
@@ -69,7 +69,7 @@
   (load-theme 'code t))
 
 (use-package nlinum
-  :unless (boundp display-line-numbers)
+  :unless (boundp 'display-line-numbers)
   :ensure t
   :defer t
   :hook ((text-mode prog-mode conf-mode) . nlinum-mode)

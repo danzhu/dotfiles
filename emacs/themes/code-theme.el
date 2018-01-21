@@ -41,6 +41,7 @@
   (success (:foreground code-green))
   (warning (:foreground code-yellow))
   (error (:foreground code-red))
+  (linum (:foreground code-dark :background code-bg :bold nil :italic nil :underline nil :strike-through nil))
   (minibuffer-prompt (:foreground code-light-blue))
   (match (:background code-dark))
   (escape-glyph (:foreground code-light-blue))
@@ -131,7 +132,6 @@
   (evil-ex-substitute-replacement (:foreground code-light-blue :background code-darker :bold t))
 
   ;; nlinum
-  (nlinum (:foreground code-dark :background code-bg :bold nil :italic nil :underline nil :strike-through nil))
   (nlinum-current-line (:foreground code-gray :background code-darker :bold nil :italic nil :underline nil :strike-through nil))
 
   ;; powerline

@@ -29,5 +29,3 @@ set recolor-darkcolor       "#d3d7d8" # 16
 set recolor-lightcolor      "#232425" # 17
 set statusbar-bg            "#323539" # 0
 set statusbar-fg            "#d3d7d8" # 16
-set tabbar-bg               "#323539" # 0
-set tabbar-fg               "#d3d7d8" # 16

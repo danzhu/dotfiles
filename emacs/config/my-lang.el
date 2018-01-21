@@ -147,9 +147,10 @@
   (TeX-auto-save t)
   (TeX-parse-self t)
   (TeX-save-query nil)
+  (TeX-source-correlate-mode t)
   :config
   (when (executable-find "zathura")
-    (customize-variable 'TeX-view-program-selection '((output-pdf "Zathura"))))
+    (customize-set-variable 'TeX-view-program-selection '((output-pdf "Zathura"))))
   (TeX-global-PDF-mode 1))
 
 (use-package company-auctex

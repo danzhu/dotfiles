@@ -21,6 +21,7 @@
 (customize-set-variable 'fill-column 80)
 (customize-set-variable 'indent-tabs-mode nil)
 (customize-set-variable 'sentence-end-double-space nil)
+(customize-set-variable 'tab-always-indent nil)
 (customize-set-variable 'tab-width 4)
 
 ;; editor
