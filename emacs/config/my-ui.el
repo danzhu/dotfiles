@@ -77,6 +77,11 @@
   (nlinum-format " %d ")
   (nlinum-highlight-current-line t))
 
+(use-package adaptive-wrap
+  :ensure t
+  :defer t
+  :hook (visual-line-mode . adaptive-wrap-prefix-mode))
+
 (use-package highlight-numbers
   :ensure t
   :defer t

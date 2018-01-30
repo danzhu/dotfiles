@@ -32,6 +32,7 @@ alias gacp='git add --all && git commit --allow-empty-message -m "" && git push'
 alias mkdir='mkdir -pv'
 alias grep='grep --color=auto'
 alias diff='diff --color=auto'
+alias -- +x='chmod +x'
 
 if [[ -f ~/.dotfiles/common/aliases.local ]]; then
     source ~/.dotfiles/common/aliases.local

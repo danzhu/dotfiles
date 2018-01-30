@@ -1,6 +1,6 @@
 # -*- mode: sh -*-
 
-export EDITOR=vim
+export EDITOR=emacs
 export BROWSER=chromium
 
 if [[ -f ~/.dotfiles/common/env.local ]]; then

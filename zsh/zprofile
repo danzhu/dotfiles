@@ -14,7 +14,7 @@ source ~/.dotfiles/common/path
 
 # auto start tmux
 if [[ -n "$SSH_CONNECTION" && -z "$TMUX" ]] && (( $+commands[tmux] )); then
-    if tmux new -A -s develop; then
+    if tmux attach || tmux new -s dev "$EDITOR"; then
         exit
     fi
 fi

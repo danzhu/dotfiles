@@ -11,12 +11,11 @@ fi
 
 # PS1='[\u@\h \W]\$ '
 
-alias ..='cd ..'
-alias ...='cd ../..'
-alias ....='cd ../../..'
-
 source ~/.dotfiles/common/aliases
 source ~/.dotfiles/common/functions
+
+source ~/.dotfiles/bash/aliases.bash
+source ~/.dotfiles/bash/prompt.bash
 
 if [[ -f ~/.dotfiles/bash/bashrc.local ]]; then
     source ~/.dotfiles/bash/bashrc.local

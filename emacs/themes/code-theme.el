@@ -41,7 +41,7 @@
   (success (:foreground code-green))
   (warning (:foreground code-yellow))
   (error (:foreground code-red))
-  (linum (:foreground code-dark :background code-bg :bold nil :italic nil :underline nil :strike-through nil))
+  (linum (:foreground code-gray :background code-bg :bold nil :italic nil :underline nil :strike-through nil))
   (minibuffer-prompt (:foreground code-light-blue))
   (match (:background code-dark))
   (escape-glyph (:foreground code-light-blue))
@@ -87,8 +87,8 @@
   (widget-field (:background code-darker))
 
   ;; display line number
-  (line-number (:foreground code-dark :background code-bg :bold nil :italic nil :underline nil :strike-through nil))
-  (line-number-current-line (:foreground code-gray :background code-darker :bold nil :italic nil :underline nil :strike-through nil))
+  (line-number (:foreground code-gray :background code-bg :bold nil :italic nil :underline nil :strike-through nil))
+  (line-number-current-line (:foreground code-fg :background code-darker :bold nil :italic nil :underline nil :strike-through nil))
 
   ;; show paren
   (show-paren-match (:foreground code-light-blue :background code-dark :bold t))
@@ -132,7 +132,7 @@
   (evil-ex-substitute-replacement (:foreground code-light-blue :background code-darker :bold t))
 
   ;; nlinum
-  (nlinum-current-line (:foreground code-gray :background code-darker :bold nil :italic nil :underline nil :strike-through nil))
+  (nlinum-current-line (:foreground code-fg :background code-darker :bold nil :italic nil :underline nil :strike-through nil))
 
   ;; powerline
   (powerline-active1 (:foreground code-fg :background code-dark))

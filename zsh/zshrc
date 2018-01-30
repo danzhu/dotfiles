@@ -12,12 +12,15 @@ SAVEHIST=1000
 setopt autocd autopushd pushdsilent
 
 
-# --- help ---
+# --- tools ---
 autoload -Uz run-help
 if (( $+aliases[run-help] )); then
     unalias run-help
 fi
 alias help='run-help'
+
+autoload -Uz zmv
+alias zmv='noglob zmv'
 
 
 # --- common ---
@@ -28,7 +31,6 @@ source ~/.dotfiles/common/functions
 # --- customizations ---
 source ~/.dotfiles/zsh/title.zsh
 source ~/.dotfiles/zsh/prompt.zsh
-source ~/.dotfiles/zsh/aliases.zsh
 source ~/.dotfiles/zsh/keybinds.zsh
 source ~/.dotfiles/zsh/completion.zsh
 
