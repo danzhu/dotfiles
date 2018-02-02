@@ -1,4 +1,4 @@
-# -*- mode: sh -*-
+#!/bin/zsh
 
 # --- history ---
 setopt appendhistory histignorealldups sharehistory

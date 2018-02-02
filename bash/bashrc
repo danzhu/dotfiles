@@ -1,6 +1,4 @@
-#
-# ~/.bashrc
-#
+#!/bin/bash
 
 # If not running interactively, don't do anything
 [[ $- != *i* ]] && return
@@ -9,16 +7,17 @@ if [[ -f /etc/bash.bashrc ]]; then
     source /etc/bash.bashrc
 fi
 
-# PS1='[\u@\h \W]\$ '
+# history
+export HISTCONTROL=ignoreboth:erasedups
 
+# common
 source ~/.dotfiles/common/aliases
 source ~/.dotfiles/common/functions
 
+# customizations
 source ~/.dotfiles/bash/aliases.bash
 source ~/.dotfiles/bash/prompt.bash
 
 if [[ -f ~/.dotfiles/bash/bashrc.local ]]; then
     source ~/.dotfiles/bash/bashrc.local
 fi
-
-export HISTCONTROL=ignoreboth:erasedups

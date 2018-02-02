@@ -4,6 +4,10 @@
   :custom
   (org-log-done 'time))
 
+(use-package octave
+  :defer t
+  :mode ("\\.m\\'" . octave-mode))
+
 (use-package irony
   :ensure t
   :defer t
@@ -141,7 +145,6 @@
   :defer t
   :mode ("\\.tex\\'" . TeX-latex-mode)
   :hook (LaTeX-mode . LaTeX-math-mode)
-  :defines TeX-auto-save TeX-parse-self TeX-save-query TeX-view-program-selection
   :functions TeX-global-PDF-mode
   :custom
   (TeX-auto-save t)
