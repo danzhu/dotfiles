@@ -1,8 +1,12 @@
+# -*- mode: sh -*-
+
+export DOT=$(dirname $(dirname $(readlink -f ~/.xprofile)))
+
 if [[ -f ~/.profile ]]; then
     source ~/.profile
 fi
 
-source ~/.dotfiles/common/path
-source ~/.dotfiles/common/env
+source $DOT/common/path
+source $DOT/common/env
 
 # vim: ft=sh

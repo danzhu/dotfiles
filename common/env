@@ -1,10 +1,19 @@
 # -*- mode: sh -*-
 
-export EDITOR=emacs
-export BROWSER=chromium
+if type emacs &> /dev/null; then
+    export EDITOR=emacs
+elif type vim &> /dev/null; then
+    export EDITOR=vim
+fi
 
-if [[ -f ~/.dotfiles/common/env.local ]]; then
-    source ~/.dotfiles/common/env.local
+if type chromium &> /dev/null; then
+    export BROWSER=chromium
+elif type chromium-browser &> /dev/null ; then
+    export BROWSER=chromium-browser
+fi
+
+if [[ -f $DOT/common/env.local ]]; then
+    source $DOT/common/env.local
 fi
 
 # vim: ft=sh

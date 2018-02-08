@@ -17,6 +17,10 @@
 /emacs/recentf
 /emacs/saveplace
 /emacs/tramp
+/ssh/authorized_keys
+/ssh/id_rsa
+/ssh/id_rsa.pub
+/ssh/known_hosts
 /tmux/plugins/
 /vim/.netrwhist
 /vim/autoload/plug.vim*

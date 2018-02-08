@@ -1,12 +1,14 @@
 #!/bin/bash
 
+export DOT=$(dirname $(dirname $(readlink -f ~/.bash_profile)))
+
 if [[ -f ~/.profile ]]; then
     source ~/.profile
 fi
 
 if [[ -f ~/.bashrc ]]; then
-    . ~/.bashrc
+    source ~/.bashrc
 fi
 
-source ~/.dotfiles/common/path
-source ~/.dotfiles/common/env
+source $DOT/common/path
+source $DOT/common/env

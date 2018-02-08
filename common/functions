@@ -4,8 +4,8 @@ mkcd() {
     mkdir -p -- "$1" && cd -P -- "$1"
 }
 
-if [[ -f ~/.dotfiles/common/functions.local ]]; then
-    source ~/.dotfiles/common/functions.local
+if [[ -f $DOT/common/functions.local ]]; then
+    source $DOT/common/functions.local
 fi
 
 # vim: ft=sh

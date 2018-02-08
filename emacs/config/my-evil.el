@@ -13,10 +13,7 @@
   (evil-mode 1)
   (evil-define-key 'normal emacs-lisp-mode-map
     (kbd "K") 'elisp-slime-nav-describe-elisp-thing-at-point)
-  (evil-define-key 'normal dired-mode-map
-    (kbd "h") 'dired-up-directory)
-  (evil-define-key 'normal dired-mode-map
-    (kbd "l") 'dired-find-alternate-file)
+  (evil-set-initial-state 'dired-mode 'motion)
   (evil-set-initial-state 'paradox-menu-mode 'motion)
   (evil-set-initial-state 'term-mode 'emacs)
   :bind

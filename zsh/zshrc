@@ -24,15 +24,15 @@ alias zmv='noglob zmv'
 
 
 # --- common ---
-source ~/.dotfiles/common/aliases
-source ~/.dotfiles/common/functions
+source $DOT/common/aliases
+source $DOT/common/functions
 
 
 # --- customizations ---
-source ~/.dotfiles/zsh/title.zsh
-source ~/.dotfiles/zsh/prompt.zsh
-source ~/.dotfiles/zsh/keybinds.zsh
-source ~/.dotfiles/zsh/completion.zsh
+source $DOT/zsh/title.zsh
+source $DOT/zsh/prompt.zsh
+source $DOT/zsh/keybinds.zsh
+source $DOT/zsh/completion.zsh
 
 
 # --- freeze tty ---

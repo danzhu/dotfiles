@@ -10,7 +10,7 @@ if [[ -f ~/.profile ]]; then
     source ~/.profile
 fi
 
-source ~/.dotfiles/common/path
+source $DOT/common/path
 
 # auto start tmux
 if [[ -n "$SSH_CONNECTION" && -z "$TMUX" ]] && (( $+commands[tmux] )); then

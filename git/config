@@ -1,5 +1,3 @@
-# vim: ft=gitconfig
-
 [user]
 	email = danzhu24@hotmail.com
 	name = Daniel Zhu
@@ -24,9 +22,6 @@
 	decorate = short
 [grep]
 	lineNumber = true
-[alias]
-	ce = commit --allow-empty-message -m ''
-	dc = diff --cached
 [filter "sort"]
 	clean = LC_ALL=C sort
 	smudge = cat

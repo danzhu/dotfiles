@@ -16,7 +16,7 @@ else
 endif
 
 " Vim directory
-let $VIMDIR = expand('~/.dotfiles/vim')
+let $VIMDIR = resolve(expand('~/.vim'))
 " }}}
 " }}}
 

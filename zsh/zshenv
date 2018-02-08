@@ -1,3 +1,5 @@
 # -*- mode: sh -*-
 
-source ~/.dotfiles/common/env
+export DOT=$(dirname $(dirname $(readlink -f ~/.zshenv)))
+
+source $DOT/common/env
