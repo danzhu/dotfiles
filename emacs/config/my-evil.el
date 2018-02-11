@@ -32,6 +32,7 @@
    ("'" . evil-goto-mark)
    ("`" . evil-goto-mark-line)
    ("SPC" . nil)
+   ("RET" . nil)
    ("C-e" . nil)
    :map evil-insert-state-map
    ("C-a" . nil)

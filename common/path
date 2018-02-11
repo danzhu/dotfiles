@@ -1,7 +1,7 @@
 # -*- mode: sh -*-
 
-[[ -d '~/.cargo/bin' ]] && PATH="$HOME/.cargo/bin:$PATH"
-[[ -d '~/.npm/bin' ]] && PATH="$HOME/.npm/bin:$PATH"
+[[ -d "$HOME/.cargo/bin" ]] && PATH="$HOME/.cargo/bin:$PATH"
+[[ -d "$HOME/.npm/bin" ]] && PATH="$HOME/.npm/bin:$PATH"
 export PATH="$HOME/bin:$HOME/.local/bin:$PATH"
 
 if [[ -f $DOT/common/path.local ]]; then

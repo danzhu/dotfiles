@@ -1,3 +1,5 @@
+# -*- mode: yaml -*-
+
 ---
 Checks: "\
 clang-diagnostic-*,\
