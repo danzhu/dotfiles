@@ -40,7 +40,9 @@
 
 (use-package rust-mode
   :ensure t
-  :defer t)
+  :defer t
+  :custom
+  (rust-match-angle-brackets nil))
 
 (use-package cargo
   :ensure t
