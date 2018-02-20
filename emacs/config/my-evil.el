@@ -9,6 +9,7 @@
   (evil-vsplit-window-right t)
   (evil-want-C-u-scroll t)
   (evil-want-Y-yank-to-eol t)
+  (evil-want-change-word-to-end nil)
   :config
   (evil-mode 1)
   (evil-define-key 'normal emacs-lisp-mode-map

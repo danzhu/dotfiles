@@ -1,7 +1,7 @@
 Include config.local
 
 Host se
-    HostName linux.student.cs.uwaterloo.ca
+    HostName ubuntu1604-006.student.cs.uwaterloo.ca
     User h94zhu
 
 Host vm
