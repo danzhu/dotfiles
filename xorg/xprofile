@@ -9,4 +9,6 @@ fi
 source $DOT/common/path
 source $DOT/common/env
 
+setxkbmap -variant dvp -option ctrl:nocaps
+
 # vim: ft=sh
