@@ -1,8 +1,10 @@
 $include /etc/inputrc
 
 # --- completion ---
-set show-all-if-unmodified on
+set bell-style none
 set colored-stats on
+set completion-ignore-case on
+set show-all-if-unmodified on
 
 # --- editing ---
 set editing-mode vi
