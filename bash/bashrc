@@ -11,8 +11,8 @@ fi
 export HISTCONTROL=ignoreboth:erasedups
 
 # common
-source $DOT/common/aliases
-source $DOT/common/functions
+source $DOT/shell/aliases
+source $DOT/shell/functions
 
 # customizations
 source $DOT/bash/aliases.bash

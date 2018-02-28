@@ -34,8 +34,8 @@ alias grep='grep --color=auto'
 alias diff='diff --color=auto'
 alias -- +x='chmod +x'
 
-if [[ -f $DOT/common/aliases.local ]]; then
-    source $DOT/common/aliases.local
+if [[ -f $DOT/shell/aliases.local ]]; then
+    source $DOT/shell/aliases.local
 fi
 
 # vim: ft=sh

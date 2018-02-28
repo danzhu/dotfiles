@@ -12,8 +12,8 @@ elif type chromium-browser &> /dev/null ; then
     export BROWSER=chromium-browser
 fi
 
-if [[ -f $DOT/common/env.local ]]; then
-    source $DOT/common/env.local
+if [[ -f $DOT/shell/env.local ]]; then
+    source $DOT/shell/env.local
 fi
 
 # vim: ft=sh

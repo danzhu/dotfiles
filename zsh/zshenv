@@ -2,4 +2,4 @@
 
 export DOT=$(dirname $(dirname $(readlink -f ~/.zshenv)))
 
-source $DOT/common/env
+source $DOT/shell/env

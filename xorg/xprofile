@@ -6,8 +6,8 @@ if [[ -f ~/.profile ]]; then
     source ~/.profile
 fi
 
-source $DOT/common/path
-source $DOT/common/env
+source $DOT/shell/path
+source $DOT/shell/env
 
 setxkbmap -variant dvp -option ctrl:nocaps
 

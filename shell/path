@@ -4,8 +4,8 @@
 [[ -d "$HOME/.npm/bin" ]] && PATH="$HOME/.npm/bin:$PATH"
 export PATH="$HOME/bin:$HOME/.local/bin:$PATH"
 
-if [[ -f $DOT/common/path.local ]]; then
-    source $DOT/common/path.local
+if [[ -f $DOT/shell/path.local ]]; then
+    source $DOT/shell/path.local
 fi
 
 # vim: ft=sh
