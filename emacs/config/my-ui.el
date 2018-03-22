@@ -46,7 +46,12 @@
 (use-package buff-menu
   :defer t
   :bind
-  (("C-x C-b" . buffer-menu-other-window)))
+  (("C-x C-b" . buffer-menu)))
+
+(use-package dired
+  :defer t
+  :bind
+  (("C-x d" . dired)))
 
 (use-package gdb-mi
   :defer t
@@ -103,6 +108,14 @@
   (undo-tree-history-directory-alist '((".*" . "~/.emacs.d/undo-history/")))
   :config
   (global-undo-tree-mode))
+
+(use-package shackle
+  :ensure t
+  :custom
+  (shackle-rules '())
+  (shackle-default-rule '(:select t))
+  :config
+  (shackle-mode))
 
 (use-package ivy
   :ensure t

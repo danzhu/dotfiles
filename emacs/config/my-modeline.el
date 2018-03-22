@@ -27,7 +27,7 @@
   (spaceline-define-segment my-evil-state
     "evil mode line tag"
     (when evil-mode
-      (s-trim evil-mode-line-tag)))
+      evil-mode-line-tag))
 
   (spaceline-define-segment my-flycheck
     "flycheck warnings and errors"
@@ -70,7 +70,7 @@
     `((buffer-modified ((my-buffer-relative-path buffer-id) :separator ""))
       (projectile-root my-vc)
       ((my-line-ending my-flycheck) :face line-face))
-    `(((selection-info my-narrow line ":" column my-evil-state) :face line-face)
+    `(((selection-info my-narrow my-evil-state line ":" column) :face line-face)
       (minor-modes global)
       (major-mode process))))
 

@@ -48,6 +48,9 @@
 (use-package ag
   :ensure t)
 
+(use-package rg
+  :ensure t)
+
 (provide 'my-project)
 
 ;; end

@@ -16,6 +16,7 @@
 (customize-set-variable 'scroll-preserve-screen-position t)
 (customize-set-variable 'scroll-step 1)
 (customize-set-variable 'use-dialog-box nil)
+(setq auto-window-vscroll nil)
 (setq frame-title-format '("%b"))
 (setq-default fringes-outside-margins t)
 
@@ -28,8 +29,14 @@
 
 ;; editor
 (customize-set-variable 'focus-follows-mouse t)
+(customize-set-variable 'gc-cons-percentage 0.5)
 (customize-set-variable 'gc-cons-threshold (* 256 1024 1024))
 (customize-set-variable 'mouse-autoselect-window t)
 (defalias 'yes-or-no-p 'y-or-n-p)
+
+;; features
+(dolist (feature '(dired-find-alternate-file
+                   narrow-to-region))
+  (put feature 'disabled nil))
 
 (provide 'my-settings)

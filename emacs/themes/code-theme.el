@@ -59,7 +59,7 @@
   (mode-line (:foreground code-light-blue :background code-darker))
   (mode-line-inactive (:foreground code-gray :background code-darker))
   (mode-line-buffer-id (:foreground code-white :bold t))
-  (mode-line-buffer-id-inactive (:inherit 'mode-line-inactive :foreground code-fg))
+  (mode-line-buffer-id-inactive (:foreground code-fg))
   (mode-line-highlight (:foreground code-light-red))
   (mode-line-emphasis (:foreground code-light-green))
 

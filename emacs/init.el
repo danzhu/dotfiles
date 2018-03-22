@@ -1,50 +1,26 @@
-;; ------------ core settings ------------
-
-(customize-set-variable 'custom-file "~/.emacs.d/custom.el")
-
+;; load path
 (eval-and-compile
   (add-to-list 'load-path (expand-file-name "~/.emacs.d/config")))
 
+;; core settings
 (require 'my-settings)
-
-;; ------------ bootstrap packages ------------
-
-(require 'package)
-(add-to-list 'package-archives '("melpa" . "http://melpa.org/packages/"))
-(add-to-list 'package-archives '("org" . "http://orgmode.org/elpa/"))
-(add-to-list 'package-archives '("gnu" . "http://elpa.gnu.org/packages/"))
-(customize-set-variable 'package-enable-at-startup nil)
-(package-initialize)
-
-(unless (package-installed-p 'use-package)
-  (package-refresh-contents)
-  (package-install 'use-package))
-(eval-when-compile
-  (require 'use-package))
-(require 'bind-key)
-
-(customize-set-variable 'use-package-always-demand t)
-
-;; ------------ load configs ------------
-
+(require 'my-package)
 (require 'my-library)
-(require 'my-evil)
+
+;; categories
 (require 'my-ui)
 (require 'my-modeline)
 (require 'my-project)
 (require 'my-file)
 (require 'my-edit)
 (require 'my-lang)
+(require 'my-evil)
 (require 'my-hooks)
 
-;; ------------ local config ------------
-
+;; local overrides
 (load "~/.emacs.d/local.el" :noerror t)
 
-;; ------------ enable features ------------
+;; finalization settings
+(require 'my-finalize)
 
-(dolist (feature '(dired-find-alternate-file
-                   narrow-to-region))
-  (put feature 'disabled nil))
-
-;; ------------ end ------------
+;; end

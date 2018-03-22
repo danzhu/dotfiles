@@ -2,11 +2,20 @@
   :defer t
   :mode ("\\.org\\'" . org-mode)
   :custom
-  (org-log-done 'time))
+  (org-log-done 'time)
+  :bind
+  (:map org-mode-map
+        ("M-h" . nil)))
 
 (use-package octave
   :defer t
   :mode ("\\.m\\'" . octave-mode))
+
+(use-package evil-org
+  :ensure t
+  :after org
+  :hook ((org-mode . evil-org-mode)
+         (evil-org-mode . evil-org-set-key-theme)))
 
 (use-package irony
   :ensure t
