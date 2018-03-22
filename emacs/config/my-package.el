@@ -25,6 +25,6 @@
 (use-package cus-edit
   :custom
   (custom-buffer-done-kill t)
-  (custom-file "~/.emacs.d/custom.el"))
+  (custom-file (expand-file-name "custom.el" user-emacs-directory)))
 
 (provide 'my-package)

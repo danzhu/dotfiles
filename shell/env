@@ -1,7 +1,7 @@
 # -*- mode: sh -*-
 
 if type emacs &> /dev/null; then
-    export EDITOR=emacs
+    export EDITOR='emacs -nw'
 elif type vim &> /dev/null; then
     export EDITOR=vim
 fi

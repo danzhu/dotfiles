@@ -1,6 +1,6 @@
 ;; load path
 (eval-and-compile
-  (add-to-list 'load-path (expand-file-name "~/.emacs.d/config")))
+  (add-to-list 'load-path (expand-file-name "config" user-emacs-directory)))
 
 ;; core settings
 (require 'my-settings)
@@ -18,7 +18,7 @@
 (require 'my-hooks)
 
 ;; local overrides
-(load "~/.emacs.d/local.el" :noerror t)
+(load (expand-file-name "local.el" user-emacs-directory) :noerror t)
 
 ;; finalization settings
 (require 'my-finalize)

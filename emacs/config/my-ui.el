@@ -70,7 +70,7 @@
 (use-package autothemer
   :ensure t
   :config
-  (add-to-list 'custom-theme-load-path "~/.emacs.d/themes")
+  (add-to-list 'custom-theme-load-path (expand-file-name "themes" user-emacs-directory))
   (load-theme 'code t))
 
 (use-package nlinum
@@ -105,7 +105,8 @@
   :custom
   (undo-tree-auto-save-history t)
   (undo-tree-enable-undo-in-region nil)
-  (undo-tree-history-directory-alist '((".*" . "~/.emacs.d/undo-history/")))
+  (undo-tree-history-directory-alist
+   `((".*" . ,(expand-file-name "undo-history/" user-emacs-directory))))
   :config
   (global-undo-tree-mode))
 

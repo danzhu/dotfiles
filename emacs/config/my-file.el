@@ -29,7 +29,7 @@
   (save-abbrevs nil)
   (require-final-newline t)
   (auto-save-file-name-transforms
-   '((".*" "~/.emacs.d/auto-save-list/" t))))
+   `((".*" ,(expand-file-name "auto-save-list" user-emacs-directory) t))))
 
 (provide 'my-file)
 
