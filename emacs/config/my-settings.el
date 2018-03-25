@@ -1,6 +1,6 @@
 ;; startup
 (customize-set-variable 'inhibit-startup-screen t)
-(customize-set-variable 'initial-major-mode 'prog-mode)
+(customize-set-variable 'initial-major-mode 'fundamental-mode)
 (customize-set-variable 'initial-scratch-message nil)
 
 (defun display-startup-echo-area-message ())

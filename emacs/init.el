@@ -4,10 +4,27 @@
 
 ;; core settings
 (require 'my-settings)
-(require 'my-package)
-(require 'my-library)
+
+;; package
+(require 'package)
+(customize-set-variable
+ 'package-archives
+ '(("melpa" . "http://melpa.org/packages/")
+   ("org" . "http://orgmode.org/elpa/")
+   ("gnu" . "http://elpa.gnu.org/packages/")))
+(customize-set-variable 'package-enable-at-startup nil)
+(package-initialize)
+
+(unless (package-installed-p 'use-package)
+  (package-refresh-contents)
+  (package-install 'use-package))
+(eval-when-compile
+  (require 'use-package))
+
+(require 'bind-key)
 
 ;; categories
+(require 'my-library)
 (require 'my-ui)
 (require 'my-modeline)
 (require 'my-project)
