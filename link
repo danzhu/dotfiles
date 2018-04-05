@@ -1,9 +1,119 @@
 #!/bin/bash
 
-OPTIONS=df
-LONG_OPTIONS=dry,force
+PACKAGES=(
+    ".Xresources      xorg/Xresources"
+    ".bash_profile    bash/bash_profile"
+    ".bashrc          bash/bashrc"
+    ".clang-format    clang/clang-format"
+    ".clang-tidy      clang/clang-tidy"
+    ".clang_complete  clang/clang_complete"
+    ".config/git      git"
+    ".config/i3       i3"
+    ".config/i3status i3status"
+    ".config/nvim     vim"
+    ".config/termite  termite"
+    ".config/zathura  zathura"
+    ".emacs.d         emacs"
+    ".flake8          flake8/flake8"
+    ".inputrc         readline/inputrc"
+    ".npmrc           npm/npmrc"
+    ".pylintrc        pylint/pylintrc"
+    ".ssh             ssh"
+    ".tern-config     tern/tern-config"
+    ".tmux            tmux"
+    ".tmux.conf       tmux/tmux.conf"
+    ".vim             vim"
+    ".vimrc           vim/init.vim"
+    ".xinitrc         xorg/xinitrc"
+    ".xprofile        xorg/xprofile"
+    ".zprofile        zsh/zprofile"
+    ".zshenv          zsh/zshenv"
+    ".zshrc           zsh/zshrc"
+)
 
-OPT=$(getopt --options=$OPTIONS --longoptions=$LONG_OPTIONS --name "$0" -- "$@")
+msg() {
+    tput bold
+    tput setaf $1
+    echo -en "$2"
+    tput sgr0
+}
+
+link() {
+    local pkg="${2%%/*}"
+    local tar="$PWD/$2"
+    local src="$HOME/$1"
+
+    if [[ "$PACKAGE" != "all" && "$PACKAGE" != "$pkg" ]]; then
+        # this is not the package you are looking for
+        return 0
+    fi
+
+    FOUND=true
+
+    printf "%-20s" "$1"
+
+    if [[ ! -e "$tar" ]]; then
+        msg 1 " symlink target $tar not found\n"
+        exit 2
+    fi
+
+    if [[ -L "$src" ]]; then
+        # source is symlink
+        local sym="$(readlink "$src")"
+
+        if [[ "$tar" = "$sym" ]]; then
+            msg 8 " already linked\n"
+
+            return 0
+        elif [[ $FORCE != true ]]; then
+            msg 3 " linked to $sym\n"
+
+            return 1
+        else
+            msg 4 " forced symlink override"
+        fi
+    elif [[ -e "$src" ]]; then
+        # source exists and not symlink
+        if [[ $FORCE != true ]]; then
+            msg 3 " file exists\n"
+
+            return 1
+        else
+            msg 4 " forced file override"
+        fi
+    fi
+
+    if [[ $DRY = true ]]; then
+        msg 2 " will be"
+    else
+        mkdir -p "$(dirname "$src")"
+        if [[ $FORCE = true ]]; then
+            ln -sf "$tar" "$src"
+        else
+            ln -s "$tar" "$src"
+        fi
+
+        msg 2 " successfully"
+    fi
+
+    msg 2 " linked\n"
+}
+
+usage() {
+    echo "Usage: $0 [OPTION]... package"
+    echo
+    echo "  -h, --help      display this help and exit"
+    echo "  -d, --dry       print actions but do not execute them"
+    echo "  -f, --force     override existing files"
+}
+
+OPTIONS=hdf
+LONG_OPTIONS=help,dry,force
+
+OPT=$(getopt --options=$OPTIONS \
+             --longoptions=$LONG_OPTIONS \
+             --name "$0" \
+             -- "$@")
 if [[ $? -ne 0 ]]; then
     exit 2
 fi
@@ -11,17 +121,21 @@ fi
 eval set -- "$OPT"
 
 while true; do
-    case "$1" in
+    arg="$1"
+    shift
+
+    case "$arg" in
+        -h|--help)
+            usage
+            exit
+            ;;
         -d|--dry)
             DRY=true
-            shift
             ;;
         -f|--force)
             FORCE=true
-            shift
             ;;
         --)
-            shift
             break
             ;;
         *)
@@ -31,93 +145,25 @@ while true; do
     esac
 done
 
-if [[ $# -ne 0 ]]; then
-    echo "$0: selective linking not yet supported"
+if [[ $# -ne 1 ]]; then
+    usage
     exit 2
 fi
 
-function msg() {
-    tput bold
-    tput setaf $1
-    echo -en " $2"
-    tput sgr0
-}
+PACKAGE="$1"
 
-function link() {
-    local tar="$PWD/$2"
-    local src="$HOME/$1"
+for pkg in "${PACKAGES[@]}"; do
+    link $pkg
 
-    printf "%-20s" "$1"
-
-    if [[ ! -e "$tar" ]]; then
-        msg 1 "symlink target $tar not found\n"
-
-        return 0
-    elif [[ -L "$src" ]]; then
-        local sym="$(readlink "$src")"
-
-        if [[ "$tar" = "$sym" ]]; then
-            msg 8 "already linked\n"
-
-            return 0
-        elif [[ $FORCE != true ]]; then
-            msg 3 "linked to $sym\n"
-
-            return 0
-        else
-            msg 4 "forced symlink override"
-        fi
-    elif [[ -e "$src" ]]; then
-        if [[ $FORCE != true ]]; then
-            msg 3 "file exists\n"
-
-            return 0
-        else
-            msg 4 "forced file override"
-        fi
+    if [[ $? -ne 0 ]]; then
+        FAIL=true
     fi
+done
 
-    if [[ $DRY = true ]]; then
-        msg 2 "will be"
-    else
-        mkdir -p "$(dirname "$src")"
-        if [[ $FORCE = true ]]; then
-            ln -sf "$tar" "$src"
-        else
-            ln -s "$tar" "$src"
-        fi
-
-        msg 2 "successfully"
-    fi
-
-    msg 2 "linked\n"
-}
-
-link .Xresources      xorg/Xresources
-link .bash_profile    bash/bash_profile
-link .bashrc          bash/bashrc
-link .clang-format    clang/clang-format
-link .clang-tidy      clang/clang-tidy
-link .clang_complete  clang/clang_complete
-link .config/git      git
-link .config/i3       i3
-link .config/i3status i3status
-link .config/nvim     vim
-link .config/termite  termite
-link .config/zathura  zathura
-link .emacs.d         emacs
-link .flake8          flake8/flake8
-link .inputrc         readline/inputrc
-link .npmrc           npm/npmrc
-link .pylintrc        pylint/pylintrc
-link .ssh             ssh
-link .tern-config     tern/tern-config
-link .tmux            tmux
-link .tmux.conf       tmux/tmux.conf
-link .vim             vim
-link .vimrc           vim/init.vim
-link .xinitrc         xorg/xinitrc
-link .xprofile        xorg/xprofile
-link .zprofile        zsh/zprofile
-link .zshenv          zsh/zshenv
-link .zshrc           zsh/zshrc
+if [[ $FAIL = true ]]; then
+    exit 1
+elif [[ $FOUND != true ]]; then
+    msg 1 "error: "
+    echo "package '$PACKAGE' not found"
+    exit 2
+fi

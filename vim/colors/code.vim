@@ -57,11 +57,11 @@ call s:hl('DiffText',       -1,  0)
 call s:hl('EndOfBuffer',     0, -1)
 call s:hl('ErrorMsg',        9, 17)
 call s:hl('VertSplit',      -1,  8)
-call s:hl('Folded',         16,  0)
+call s:hl('Folded',         16, 17, 'italic')
 call s:hl('FoldColumn',      7,  0)
-call s:hl('SignColumn',      7,  0)
+call s:hl('SignColumn',      7, 17)
 call s:hl('IncSearch',      16,  0, 'reverse')
-call s:hl('LineNr',          7,  0)
+call s:hl('LineNr',          7, -1)
 call s:hl('CursorLineNr',   16,  0)
 call s:hl('MatchParen',     15,  8, 'bold')
 call s:hl('ModeMsg',        12, -1)
@@ -149,10 +149,10 @@ call s:hl('SyntasticWarningSign',  11,  0, 'bold')
 " }}}
 
 " Git Gutter {{{
-call s:hl('GitGutterAdd',          2,  0)
-call s:hl('GitGutterChange',       3,  0)
-call s:hl('GitGutterDelete',       1,  0)
-call s:hl('GitGutterChangeDelete', 3,  0)
+call s:hl('GitGutterAdd',          2, -1)
+call s:hl('GitGutterChange',       3, -1)
+call s:hl('GitGutterDelete',       1, -1)
+call s:hl('GitGutterChangeDelete', 3, -1)
 " }}}
 
 " Cleanup {{{

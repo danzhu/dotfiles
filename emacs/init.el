@@ -34,10 +34,10 @@
 (require 'my-evil)
 (require 'my-hooks)
 
-;; local overrides
+;; local config
 (load (expand-file-name "local.el" user-emacs-directory) :noerror t)
 
-;; finalization settings
+;; finalization
 (require 'my-finalize)
 
 ;; end

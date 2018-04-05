@@ -28,6 +28,11 @@
   :defer t
   :hook (text-mode . flyspell-mode))
 
+(use-package isearch
+  :bind
+  (:map isearch-mode-map
+        ("<escape>" . isearch-abort)))
+
 (use-package eldoc
   :diminish eldoc-mode
   :custom

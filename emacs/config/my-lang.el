@@ -47,10 +47,26 @@
   :after (irony eldoc)
   :hook irony-mode)
 
+(use-package rtags
+  :ensure t
+  :hook ((c++-mode c-mode objc-mode) . rtags-start-process-unless-running)
+  :custom
+  (rtags-display-result-backend 'ivy)
+  :config
+  (rtags-enable-standard-keybindings)
+  :bind
+  (:map c-mode-base-map
+        ("M-." . rtags-find-symbol-at-point)
+        ("M-," . rtags-find-references-at-point)))
+
+(use-package ivy-rtags
+  :ensure t)
+
 (use-package rust-mode
   :ensure t
   :defer t
   :custom
+  (rust-format-on-save t)
   (rust-match-angle-brackets nil))
 
 (use-package cargo
@@ -177,6 +193,11 @@
   :ensure t
   :defer t
   :mode ("\\.md\\'" . gfm-mode))
+
+(use-package csv-mode
+  :ensure t
+  :defer t
+  :mode "\\.csv\\'")
 
 (use-package ess
   :ensure t)
