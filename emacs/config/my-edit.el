@@ -29,6 +29,7 @@
   :hook (text-mode . flyspell-mode))
 
 (use-package isearch
+  :when (>= emacs-major-version 26)
   :bind
   (:map isearch-mode-map
         ("<escape>" . isearch-abort)))
