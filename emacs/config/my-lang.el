@@ -1,3 +1,10 @@
+(use-package cc-mode
+  :mode ("\\.h\\'" . c++-mode)
+  :custom
+  (c-basic-offset 4)
+  (c-default-style "bsd")
+  (c-tab-always-indent nil))
+
 (use-package org
   :defer t
   :mode ("\\.org\\'" . org-mode)

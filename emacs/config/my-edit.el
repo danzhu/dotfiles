@@ -39,11 +39,6 @@
   :custom
   (eldoc-idle-delay 0.1))
 
-(use-package cc-vars
-  :custom
-  (c-basic-offset 4)
-  (c-default-style "bsd"))
-
 (use-package company
   :ensure t
   :diminish company-mode
