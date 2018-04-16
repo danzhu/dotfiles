@@ -10,6 +10,8 @@
   (evil-want-C-u-scroll t)
   (evil-want-Y-yank-to-eol t)
   (evil-want-change-word-to-end nil)
+  (evil-want-integration nil)
+
   :config
   (setq evil-normal-state-tag (propertize "<N>" 'face 'font-lock-keyword-face))
   (setq evil-visual-state-tag (propertize "<V>" 'face 'font-lock-type-face))
@@ -18,61 +20,100 @@
   (setq evil-motion-state-tag (propertize "<M>" 'face 'font-lock-string-face))
   (setq evil-operator-state-tag (propertize "<O>" 'face 'font-lock-preprocessor-face))
   (setq evil-emacs-state-tag (propertize "<E>" 'face 'font-lock-function-name-face))
+
   (evil-mode 1)
+
+  ;; TODO: fix mouse click
   (evil-set-initial-state 'Custom-mode 'motion)
-  (evil-set-initial-state 'paradox-menu-mode 'motion)
-  (evil-set-initial-state 'term-mode 'emacs)
+  (evil-define-key 'motion 'Custom-mode-map
+    (kbd "TAB") 'widget-forward
+    (kbd "<backtab>") 'widget-backward)
+
+  (evil-set-initial-state 'dired-mode 'motion)
+  (evil-define-key 'motion dired-mode-map
+    (kbd "!") 'dired-do-shell-command
+    (kbd "#") 'dired-flag-auto-save-files
+    (kbd "T") 'dired-do-touch
+    (kbd "W") 'browse-url-of-dired-file
+    (kbd "j") 'dired-next-line
+    (kbd "k") 'dired-previous-line
+    (kbd "r") 'revert-buffer)
+
   (evil-define-key 'normal emacs-lisp-mode-map
     (kbd "K") 'elisp-slime-nav-describe-elisp-thing-at-point)
-  (evil-define-key 'normal dired-mode-map
-    (kbd "h") 'dired-up-directory
-    (kbd "l") 'dired-find-alternate-file)
+
+  (evil-set-initial-state 'paradox-menu-mode 'motion)
+  (evil-define-key 'motion paradox-menu-mode-map
+    (kbd "F") 'paradox-menu-filter
+    (kbd "j") 'paradox-next-entry
+    (kbd "k") 'paradox-previous-entry
+    (kbd "v") 'paradox-menu-visit-homepage
+    (kbd "w") 'paradox-menu-copy-homepage-as-kill)
+
+  (evil-set-initial-state 'term-mode 'emacs)
+
   :bind
   (("M-l" . evil-next-buffer)
    ("M-h" . evil-prev-buffer)
+   ("M--" . evil-delete-buffer)
    ("M-j" . nil)
    ("M-k" . nil)
-   ("M--" . evil-delete-buffer)
+
    :map evil-normal-state-map
+   ("'" . evil-goto-mark)
+   ("`" . evil-goto-mark-line)
    ("RET" . save-buffer)
    ("C-p" . counsel-projectile)
    ("M-." . nil)
+
    :map evil-motion-state-map
-   ("j" . next-line)
-   ("k" . previous-line)
    ("$" . evil-end-of-visual-line)
    ("^" . evil-first-non-blank-of-visual-line)
-   ("'" . evil-goto-mark)
-   ("`" . evil-goto-mark-line)
+   ("j" . next-line)
+   ("k" . previous-line)
+   ("+" . nil)
+   ("-" . nil)
+   ("H" . nil)
+   ("L" . nil)
+   ("M" . nil)
    ("SPC" . nil)
    ("RET" . nil)
    ("C-e" . nil)
-   ;; ("<down-mouse-1>" . nil)
-   ;; ("<down-mouse-3>" . nil)
+
    :map evil-insert-state-map
    ("C-a" . nil)
    ("C-e" . nil)))
 
 (use-package evil-surround
   :ensure t
+  :after evil
   :config
   (global-evil-surround-mode t))
 
 (use-package evil-commentary
   :ensure t
+  :after evil
   :diminish evil-commentary-mode
   :config
   (evil-commentary-mode))
 
 (use-package evil-visualstar
   :ensure t
+  :after evil
   :config
   (global-evil-visualstar-mode))
 
 (use-package evil-exchange
   :ensure t
+  :after evil
   :config
   (evil-exchange-install))
+
+(use-package evil-magit
+  :ensure t
+  :after (evil magit)
+  :custom
+  (evil-magit-state 'motion))
 
 (provide 'my-evil)
 

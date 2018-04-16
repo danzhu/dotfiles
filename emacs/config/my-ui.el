@@ -114,7 +114,7 @@
   :ensure t
   :custom
   (shackle-rules '())
-  (shackle-default-rule '(:select t))
+  ;; (shackle-default-rule '(:select t))
   :config
   (shackle-mode))
 
