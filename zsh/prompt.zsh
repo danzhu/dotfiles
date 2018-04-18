@@ -34,9 +34,9 @@ function prompt-precmd() {
     if [[ $UID -eq 0 ]]; then
         # root
         print -nP ' %1F%m%f'
-    elif [[ -n "$SSH_CONNECTION" ]]; then
-        # ssh
-        print -nP ' %m'
+    # elif [[ -n "$SSH_CONNECTION" ]]; then
+    #     # ssh
+    #     print -nP ' %m'
     fi
     print -nP ' %k '
 

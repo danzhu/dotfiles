@@ -1,34 +1,34 @@
 #!/bin/bash
 
-PACKAGES=(
-    ".Xresources      xorg/Xresources"
-    ".bash_profile    bash/bash_profile"
-    ".bashrc          bash/bashrc"
-    ".clang-format    clang/clang-format"
-    ".clang-tidy      clang/clang-tidy"
-    ".clang_complete  clang/clang_complete"
-    ".config/git      git"
-    ".config/i3       i3"
-    ".config/i3status i3status"
-    ".config/nvim     vim"
-    ".config/termite  termite"
-    ".config/zathura  zathura"
-    ".emacs.d         emacs"
-    ".flake8          flake8/flake8"
-    ".inputrc         readline/inputrc"
-    ".npmrc           npm/npmrc"
-    ".pylintrc        pylint/pylintrc"
-    ".ssh             ssh"
-    ".tern-config     tern/tern-config"
-    ".tmux            tmux"
-    ".tmux.conf       tmux/tmux.conf"
-    ".vim             vim"
-    ".vimrc           vim/init.vim"
-    ".xinitrc         xorg/xinitrc"
-    ".xprofile        xorg/xprofile"
-    ".zprofile        zsh/zprofile"
-    ".zshenv          zsh/zshenv"
-    ".zshrc           zsh/zshrc"
+declare -A PACKAGES=(
+    [".Xresources"]="xorg/Xresources"
+    [".bash_profile"]="bash/bash_profile"
+    [".bashrc"]="bash/bashrc"
+    [".clang-format"]="clang/clang-format"
+    [".clang-tidy"]="clang/clang-tidy"
+    [".clang_complete"]="clang/clang_complete"
+    [".config/git"]="git"
+    [".config/i3"]="i3"
+    [".config/i3status"]="i3status"
+    [".config/nvim"]="vim"
+    [".config/termite"]="termite"
+    [".config/zathura"]="zathura"
+    [".emacs.d"]="emacs"
+    [".flake8"]="python/flake8"
+    [".inputrc"]="readline/inputrc"
+    [".npmrc"]="node/npmrc"
+    [".pylintrc"]="python/pylintrc"
+    [".ssh"]="ssh"
+    [".tern-config"]="node/tern-config"
+    [".tmux"]="tmux"
+    [".tmux.conf"]="tmux/tmux.conf"
+    [".vim"]="vim"
+    [".vimrc"]="vim/init.vim"
+    [".xinitrc"]="xorg/xinitrc"
+    [".xprofile"]="xorg/xprofile"
+    [".zprofile"]="zsh/zprofile"
+    [".zshenv"]="zsh/zshenv"
+    [".zshrc"]="zsh/zshrc"
 )
 
 msg() {
@@ -39,16 +39,8 @@ msg() {
 }
 
 link() {
-    local pkg="${2%%/*}"
-    local tar="$PWD/$2"
     local src="$HOME/$1"
-
-    if [[ "$PACKAGE" != "all" && "$PACKAGE" != "$pkg" ]]; then
-        # this is not the package you are looking for
-        return 0
-    fi
-
-    FOUND=true
+    local tar="$PWD/$2"
 
     printf "%-20s" "$1"
 
@@ -150,20 +142,30 @@ if [[ $# -ne 1 ]]; then
     exit 2
 fi
 
-PACKAGE="$1"
+package="$1"
 
-for pkg in "${PACKAGES[@]}"; do
-    link $pkg
+for src in "${!PACKAGES[@]}"; do
+    tar="${PACKAGES[$src]}"
+    pkg="${tar%%/*}"
+
+    if [[ "$package" != "all" && "$package" != "$pkg" ]]; then
+        # this is not the package you are looking for
+        continue
+    fi
+
+    found=true
+
+    link "$src" "$tar"
 
     if [[ $? -ne 0 ]]; then
-        FAIL=true
+        fail=true
     fi
 done
 
-if [[ $FAIL = true ]]; then
+if [[ $fail = true ]]; then
     exit 1
-elif [[ $FOUND != true ]]; then
+elif [[ $found != true ]]; then
     msg 1 "error: "
-    echo "package '$PACKAGE' not found"
+    echo "package '$package' not found"
     exit 2
 fi
