@@ -1,0 +1,4 @@
+! -*- mode: conf-xdefaults -*-
+
+rofi.font: monospace 9
+rofi.theme: code

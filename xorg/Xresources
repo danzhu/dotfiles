@@ -1,7 +1,54 @@
-Xft.dpi: 240
+*dpi: 240
+
+! special
+*.foreground:   #d3d7d8
+*.background:   #232425
+
+! black
+*.color0:       #323539
+*.color8:       #41444b
+
+! red
+*.color1:       #e66b58
+*.color9:       #f27f9a
+
+! green
+*.color2:       #22c75f
+*.color10:      #88d46b
+
+! yellow
+*.color3:       #d8b944
+*.color11:      #dfb971
+
+! blue
+*.color4:       #737fe7
+*.color12:      #74b7e7
+
+! magenta
+*.color5:       #a867e2
+*.color13:      #e19ae6
+
+! cyan
+*.color6:       #42bca3
+*.color14:      #46ded5
+
+! white
+*.color7:       #7b818a
+*.color15:      #f0f3f4
+
 Xft.autohint: 0
 Xft.lcdfilter: lcddefault
 Xft.hintstyle: hintfull
 Xft.hinting: 1
 Xft.antialias: 1
 Xft.rgba: rgb
+
+URxvt.font: xft:monospace:size=9
+URxvt.perl-ext-common:
+URxvt.perl-ext:
+URxvt.scrollBar: false
+URxvt.scrollTtyKeypress: true
+URxvt.scrollTtyOutput: false
+URxvt.scrollWithBuffer: true
+URxvt.secondaryScreen: true
+URxvt.secondaryScroll: false

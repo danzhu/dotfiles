@@ -6,11 +6,19 @@ elif type vim &> /dev/null; then
     export EDITOR=vim
 fi
 
-if type chromium &> /dev/null; then
-    export BROWSER=chromium
-elif type chromium-browser &> /dev/null ; then
-    export BROWSER=chromium-browser
-fi
+for terminal in termite urxvt gnome-terminal konsole xterm; do
+    if type $terminal &> /dev/null; then
+        export TERMINAL=$terminal
+        break
+    fi
+done
+
+for browser in chromium chromium-browser firefox; do
+    if type $browser &> /dev/null; then
+        export BROWSER=$browser
+        break
+    fi
+done
 
 if [[ -f $DOT/shell/env.local ]]; then
     source $DOT/shell/env.local
