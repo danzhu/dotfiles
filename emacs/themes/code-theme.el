@@ -33,18 +33,16 @@
   (bold-italic (:bold t :italic t))
   (underline (:underline t))
   (shadow (:foreground code-gray))
+  (highlight (:foreground code-white :background code-dark :bold t))
   (link (:foreground code-light-blue :underline t))
   (link-visited (:foreground code-light-magenta :underline t))
-  (highlight (:foreground code-white :background code-dark :bold t))
+  (escape-glyph (:foreground code-light-blue))
 
   (cursor (:background code-fg))
   (success (:foreground code-green))
   (warning (:foreground code-yellow))
   (error (:foreground code-red))
-  (linum (:foreground code-gray :background code-bg :bold nil :italic nil :underline nil :strike-through nil))
-  (minibuffer-prompt (:foreground code-light-blue))
   (match (:background code-dark))
-  (escape-glyph (:foreground code-light-blue))
 
   ;; window
   (fringe nil)
@@ -54,6 +52,13 @@
   (secondary-selection (:background code-darker))
   (hl-line (:background code-darker))
   (tooltip (:background code-darker))
+  (minibuffer-prompt (:foreground code-light-blue))
+
+  ;; menu
+  (menu (:background code-darker))
+  (tty-menu-enabled-face (:background code-darker))
+  (tty-menu-disabled-face (:foreground code-gray :background code-darker))
+  (tty-menu-selected-face (:background code-bg))
 
   ;; mode line
   (mode-line (:foreground code-light-blue :background code-darker))
@@ -62,6 +67,10 @@
   (mode-line-buffer-id-inactive (:foreground code-fg))
   (mode-line-highlight (:foreground code-light-red))
   (mode-line-emphasis (:foreground code-light-green))
+
+  ;; header line
+  (header-line (:inherit 'mode-line :underline t))
+  (header-line-highlight (:inherit 'highlight))
 
   ;; font lock
   (font-lock-builtin-face (:foreground code-magenta))
@@ -86,7 +95,8 @@
   (custom-state (:foreground code-green))
   (widget-field (:background code-darker))
 
-  ;; display line number
+  ;; line number
+  (linum (:foreground code-gray :background code-bg :bold nil :italic nil :underline nil :strike-through nil))
   (line-number (:foreground code-gray :background code-bg :bold nil :italic nil :underline nil :strike-through nil))
   (line-number-current-line (:foreground code-fg :background code-darker :bold nil :italic nil :underline nil :strike-through nil))
 

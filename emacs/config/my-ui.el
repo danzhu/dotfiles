@@ -1,4 +1,5 @@
 (use-package menu-bar
+  :unless (display-graphic-p)
   :config
   (menu-bar-mode -1))
 
@@ -21,6 +22,7 @@
   :defer t
   :hook ((text-mode prog-mode conf-mode) . display-line-numbers-mode)
   :custom
+  (display-line-numbers-grow-only t)
   (display-line-numbers-type 'visual))
 
 (use-package hl-line
@@ -122,16 +124,17 @@
   :ensure t
   :diminish ivy-mode
   :custom
-  (ivy-use-virtual-buffers t)
   (ivy-count-format "%d/%d ")
   (ivy-format-function 'ivy-format-function-arrow)
+  (ivy-use-virtual-buffers t)
   :config
   (ivy-mode 1)
   :bind
-  (("C-c C-r" . ivy-resume)
-   :map ivy-minibuffer-map
-   ("<escape>" . keyboard-escape-quit)
-   ("C-w" . ivy-backward-kill-word)))
+  (:map ivy-minibuffer-map
+        ("<escape>" . keyboard-escape-quit)
+        ("C-u" . ivy-scroll-down-command)
+        ("C-d" . ivy-scroll-up-command)
+        ("C-w" . ivy-backward-kill-word)))
 
 (use-package ivy-hydra
   :ensure t)

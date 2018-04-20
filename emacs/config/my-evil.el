@@ -25,7 +25,7 @@
 
   ;; TODO: fix mouse click
   (evil-set-initial-state 'Custom-mode 'motion)
-  (evil-define-key 'motion 'Custom-mode-map
+  (evil-define-key 'motion Custom-mode-map
     (kbd "TAB") 'widget-forward
     (kbd "<backtab>") 'widget-backward)
 
@@ -46,9 +46,7 @@
   (evil-define-key 'motion paradox-menu-mode-map
     (kbd "F") 'paradox-menu-filter
     (kbd "j") 'paradox-next-entry
-    (kbd "k") 'paradox-previous-entry
-    (kbd "v") 'paradox-menu-visit-homepage
-    (kbd "w") 'paradox-menu-copy-homepage-as-kill)
+    (kbd "k") 'paradox-previous-entry)
 
   (evil-set-initial-state 'term-mode 'emacs)
 
@@ -59,14 +57,9 @@
    ("M-j" . nil)
    ("M-k" . nil)
 
-   :map evil-normal-state-map
+   :map evil-motion-state-map
    ("'" . evil-goto-mark)
    ("`" . evil-goto-mark-line)
-   ("RET" . save-buffer)
-   ("C-p" . counsel-projectile)
-   ("M-." . nil)
-
-   :map evil-motion-state-map
    ("$" . evil-end-of-visual-line)
    ("^" . evil-first-non-blank-of-visual-line)
    ("j" . next-line)
@@ -79,6 +72,19 @@
    ("SPC" . nil)
    ("RET" . nil)
    ("C-e" . nil)
+
+   :map evil-normal-state-map
+   ("RET" . save-buffer)
+   ("C-p" . counsel-projectile)
+   ("M-." . nil)
+
+   :map evil-operator-state-map
+   ("'" . evil-goto-mark-line)
+   ("`" . evil-goto-mark)
+   ("$" . evil-end-of-line)
+   ("^" . evil-first-non-blank)
+   ("j" . evil-next-line)
+   ("k" . evil-previous-line)
 
    :map evil-insert-state-map
    ("C-a" . nil)

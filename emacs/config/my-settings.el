@@ -3,7 +3,7 @@
 (customize-set-variable 'initial-major-mode 'fundamental-mode)
 (customize-set-variable 'initial-scratch-message nil)
 
-(defun display-startup-echo-area-message ())
+(defalias 'display-startup-echo-area-message 'ignore)
 
 ;; display
 (customize-set-variable 'echo-keystrokes 0.1)
@@ -15,7 +15,6 @@
 (customize-set-variable 'scroll-margin 5)
 (customize-set-variable 'scroll-preserve-screen-position t)
 (customize-set-variable 'scroll-step 1)
-(customize-set-variable 'use-dialog-box nil)
 (setq auto-window-vscroll nil)
 (setq frame-title-format '("%b"))
 (setq-default fringes-outside-margins t)
