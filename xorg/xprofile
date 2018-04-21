@@ -11,4 +11,8 @@ source $DOT/shell/env
 
 setxkbmap -variant dvp -option ctrl:nocaps
 
+if type VBoxClient-all &> /dev/null; then
+    VBoxClient-all
+fi
+
 # vim: ft=sh

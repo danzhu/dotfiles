@@ -6,14 +6,14 @@ elif type vim &> /dev/null; then
     export EDITOR=vim
 fi
 
-for terminal in termite urxvt gnome-terminal konsole xterm; do
+for terminal in termite gnome-terminal konsole urxvt xterm; do
     if type $terminal &> /dev/null; then
         export TERMINAL=$terminal
         break
     fi
 done
 
-for browser in chromium chromium-browser firefox; do
+for browser in chromium chromium-browser google-chrome firefox; do
     if type $browser &> /dev/null; then
         export BROWSER=$browser
         break
