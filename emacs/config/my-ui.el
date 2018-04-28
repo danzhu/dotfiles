@@ -1,5 +1,4 @@
 (use-package menu-bar
-  :unless (display-graphic-p)
   :config
   (menu-bar-mode -1))
 

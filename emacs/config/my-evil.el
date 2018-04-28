@@ -10,7 +10,6 @@
   (evil-want-C-u-scroll t)
   (evil-want-Y-yank-to-eol t)
   (evil-want-change-word-to-end nil)
-  (evil-want-integration nil)
 
   :config
   (setq evil-normal-state-tag (propertize "<N>" 'face 'font-lock-keyword-face))
@@ -22,6 +21,9 @@
   (setq evil-emacs-state-tag (propertize "<E>" 'face 'font-lock-function-name-face))
 
   (evil-mode 1)
+
+  (evil-define-key 'motion Buffer-menu-mode-map
+    (kbd "r") 'revert-buffer)
 
   ;; TODO: fix mouse click
   (evil-set-initial-state 'Custom-mode 'motion)
