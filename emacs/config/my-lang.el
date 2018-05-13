@@ -67,7 +67,8 @@
         ("M-," . rtags-find-references-at-point)))
 
 (use-package ivy-rtags
-  :ensure t)
+  :ensure t
+  :after rtags)
 
 (use-package rust-mode
   :ensure t
