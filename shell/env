@@ -2,8 +2,16 @@
 
 if type emacs &> /dev/null; then
     export EDITOR='emacs -nw'
+    export GEDITOR=emacs
 elif type vim &> /dev/null; then
     export EDITOR=vim
+    export GEDITOR=gvim
+fi
+
+if type rofi &> /dev/null; then
+    export LAUNCHER='rofi -show run'
+elif type dmenu_run &> /dev/null; then
+    export LAUNCHER=dmenu_run
 fi
 
 for terminal in termite gnome-terminal konsole urxvt xterm; do

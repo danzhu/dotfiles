@@ -15,7 +15,7 @@
 }
 
 #window {
-    border: 3;
+    border: 1;
     padding: 5;
 }
 
