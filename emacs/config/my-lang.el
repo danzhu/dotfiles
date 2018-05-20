@@ -226,10 +226,6 @@
   :ensure t
   :defer t)
 
-(use-package llvm-mode
-  :ensure t
-  :defer t)
-
 (provide 'my-lang)
 
 ;; end
