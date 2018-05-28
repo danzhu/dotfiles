@@ -7,6 +7,9 @@ if [[ -f /etc/bash.bashrc ]]; then
     source /etc/bash.bashrc
 fi
 
+# directory
+shopt -s globstar
+
 # history
 export HISTCONTROL=ignoreboth:erasedups
 

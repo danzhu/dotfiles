@@ -7,8 +7,8 @@ AccessModifierOffset: -4
 AlignTrailingComments: false
 AlwaysBreakTemplateDeclarations: true
 BreakBeforeBraces: Allman
-ConstructorInitializerIndentWidth: 8
-ContinuationIndentWidth: 8
+ConstructorInitializerIndentWidth: 4
+ContinuationIndentWidth: 4
 IncludeCategories:
   - Regex: '^"'
     Priority: 1

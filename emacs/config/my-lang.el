@@ -28,7 +28,11 @@
   :ensure t
   :defer t
   :hook (((c++-mode c-mode objc-mode) . irony-mode)
-         (irony-mode . irony-cdb-autosetup-compile-options)))
+         (irony-mode . irony-cdb-autosetup-compile-options))
+  :custom
+  (irony-cdb-compilation-databases '(irony-cdb-libclang
+                                     irony-cdb-json
+                                     irony-cdb-clang-complete)))
 
 (use-package company-irony
   :ensure t
@@ -105,7 +109,14 @@
 (use-package web-mode
   :ensure t
   :defer t
-  :mode ("\\.html\\'" "\\.xml\\'" "\\.svg\\'"))
+  :mode ("\\.html\\'" "\\.xml\\'" "\\.svg\\'")
+  :custom
+  (web-mode-markup-indent-offset 2))
+
+(use-package pug-mode
+  :ensure t
+  :defer t
+  :mode "\\.pug\\'")
 
 (use-package js2-mode
   :ensure t
