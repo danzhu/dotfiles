@@ -27,7 +27,7 @@
 
  (
   ;; text
-  (default (:foreground code-fg :background code-bg :family "Monospace" :height 90))
+  (default (:foreground code-fg :background code-bg :family "DejaVu Sans Mono" :height 90))
   (bold (:bold t))
   (italic (:italic t))
   (bold-italic (:bold t :italic t))
@@ -51,7 +51,7 @@
   (region (:background code-dark))
   (secondary-selection (:background code-darker))
   (hl-line (:background code-darker))
-  (tooltip (:background code-darker))
+  (tooltip (:foreground code-fg :background code-darker))
   (minibuffer-prompt (:foreground code-light-blue))
 
   ;; menu
