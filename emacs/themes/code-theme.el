@@ -133,6 +133,9 @@
   (compilation-info (:foreground code-blue))
   (compilation-mode-line-fail (:inherit 'error))
 
+  ;; sh mode
+  (sh-heredoc (:inherit 'font-lock-string-face))
+
   ;; evil
   (evil-ex-info (:foreground code-light-blue :slant 'italic))
   (evil-ex-commands (:slant 'italic :underline t))
