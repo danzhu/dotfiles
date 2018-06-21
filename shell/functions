@@ -4,6 +4,10 @@ mkcd() {
     mkdir -p -- "$1" && cd -P -- "$1"
 }
 
+o() {
+    xdg-open $* &!
+}
+
 if [[ -f $DOT/shell/functions.local ]]; then
     source $DOT/shell/functions.local
 fi

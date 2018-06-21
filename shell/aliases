@@ -1,6 +1,5 @@
 # -*- mode: sh -*-
 
-alias o='xdg-open'
 alias ls='ls -h --color=auto'
 alias la='ls -A'
 alias ll='ls -l'
@@ -14,11 +13,12 @@ alias gaa='git add --all'
 alias gb='git branch'
 alias gc='git commit'
 alias gce='git commit --allow-empty-message -m ""'
+alias gca='git commit --amend --no-edit'
 alias gd='git diff'
 alias gdc='git diff --cached'
 alias gs='git status'
 alias gf='git fetch'
-alias gm='git merge'
+alias gm='git merge --no-edit'
 alias gr='git reset'
 alias gl='git log'
 alias gcl='git clone'
@@ -33,6 +33,7 @@ alias mkdir='mkdir -pv'
 alias grep='grep --color=auto'
 alias diff='diff --color=auto'
 alias -- +x='chmod +x'
+alias -- -x='chmod -x'
 
 if [[ -f $DOT/shell/aliases.local ]]; then
     source $DOT/shell/aliases.local

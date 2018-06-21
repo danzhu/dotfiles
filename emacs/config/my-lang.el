@@ -18,11 +18,20 @@
   :defer t
   :mode ("\\.m\\'" . octave-mode))
 
-(use-package evil-org
+(use-package lsp-mode
   :ensure t
-  :after org
-  :hook ((org-mode . evil-org-mode)
-         (evil-org-mode . evil-org-set-key-theme)))
+  :custom
+  (lsp-inhibit-message t))
+
+(use-package lsp-ui
+  :ensure t
+  :hook (lsp-mode . lsp-ui-mode))
+
+(use-package company-lsp
+  :ensure t
+  :after lsp-java
+  :config
+  (add-to-list 'company-backends 'company-lsp))
 
 (use-package irony
   :ensure t
@@ -100,6 +109,12 @@
   :after (flycheck rust-mode)
   :hook (flycheck-mode . flycheck-rust-setup))
 
+(use-package lsp-java
+  :ensure t
+  :hook (java-mode . lsp-java-enable)
+  :custom
+  (lsp-java--workspace-folders '("~/test")))
+
 (use-package elisp-slime-nav
   :ensure t
   :defer t
@@ -124,17 +139,17 @@
   :mode "\\.js\\'"
   :interpreter "node")
 
-(use-package tern
-  :ensure t
-  :defer t
-  :after js2-mode
-  :hook (js-mode . tern-mode))
+;; (use-package tern
+;;   :ensure t
+;;   :defer t
+;;   :after js2-mode
+;;   :hook (js-mode . tern-mode))
 
-(use-package company-tern
-  :ensure t
-  :after (company js2-mode)
-  :config
-  (add-to-list 'company-backends 'company-tern))
+;; (use-package company-tern
+;;   :ensure t
+;;   :after (company js2-mode)
+;;   :config
+;;   (add-to-list 'company-backends 'company-tern))
 
 (use-package rjsx-mode
   :ensure t
@@ -175,16 +190,22 @@
   :defer t
   :mode "\\.hs\\'")
 
+;; (use-package ghc
+;;   :ensure t
+;;   :after haskell-mode
+;;   :hook (haskell-mode . ghc-init))
+
 ;; (use-package company-ghc
 ;;   :ensure t
 ;;   :after (company haskell-mode)
 ;;   :config
 ;;   (add-to-list 'company-backends 'company-ghc))
 
-(use-package yaml-mode
+(use-package evil-org
   :ensure t
-  :defer t
-  :mode "\\.yaml\\'")
+  :after org
+  :hook ((org-mode . evil-org-mode)
+         (evil-org-mode . evil-org-set-key-theme)))
 
 (use-package latex
   :ensure auctex
@@ -212,6 +233,11 @@
   :ensure t
   :defer t
   :mode ("\\.md\\'" . gfm-mode))
+
+(use-package yaml-mode
+  :ensure t
+  :defer t
+  :mode "\\.yaml\\'")
 
 (use-package csv-mode
   :ensure t
