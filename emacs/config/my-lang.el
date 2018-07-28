@@ -137,7 +137,10 @@
   :ensure t
   :defer t
   :mode "\\.js\\'"
-  :interpreter "node")
+  :interpreter "node"
+  :custom
+  (js2-include-node-externs t)
+  (js2-strict-missing-semi-warning nil))
 
 ;; (use-package tern
 ;;   :ensure t

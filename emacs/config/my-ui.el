@@ -126,6 +126,7 @@
   (ivy-count-format "%d/%d ")
   (ivy-format-function 'ivy-format-function-arrow)
   (ivy-use-virtual-buffers t)
+  (ivy-use-selectable-prompt t)
   :config
   (ivy-mode 1)
   :bind
