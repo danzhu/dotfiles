@@ -1,0 +1,138 @@
+#!/usr/bin/env node
+
+const child_process = require('child_process')
+const process = require('process')
+const util = require('util')
+
+const execFile = util.promisify(child_process.execFile)
+
+const termcap = async () => new Map(await Promise.all([
+    ['reset', ['sgr0']],
+    ['bold', ['bold']],
+    ['red', ['setaf', 1]],
+    ['green', ['setaf', 2]],
+    ['yellow', ['setaf', 3]],
+    ['blue', ['setaf', 4]],
+    ['white', ['setaf', 7]],
+].map(async ([name, args]) => {
+    const { stdout } = await execFile('tput', args)
+    return [name, stdout]
+})))
+
+const configure = colors => {
+    const config = {
+        def_color: null,
+        pipe_in: false,
+        pipe_out: false,
+        pipe_err: false,
+    }
+
+    if (!process.stdin.isTTY) {
+        // not tty, we need to echo
+        config.pipe_in = true
+    } else if (colors.stdin !== null) {
+        // tty and has color, need to reset to color for every output
+        config.def_color = colors.stdin
+        config.pipe_out = true
+        config.pipe_err = true
+    }
+    // else, tty and no color, nothing to do
+
+    if (colors.stdout !== null) {
+        // need to color stdout
+        config.pipe_out = true
+    }
+
+    if (colors.stderr !== null) {
+        // need to color stderr
+        config.pipe_err = true
+    }
+
+    return config
+}
+
+const start = async (colors, config) => {
+    let current = null
+
+    const to = color => {
+        if (color === current)
+            return
+
+        current = color
+        process.stdout.write(colors.reset)
+        if (color !== null)
+            process.stdout.write(color)
+    }
+
+    const prog = process.argv[2]
+    const args = process.argv.slice(3)
+
+    const stdio = [
+        config.pipe_in ? 'pipe' : 'inherit',
+        config.pipe_out ? 'pipe' : 'inherit',
+        config.pipe_err ? 'pipe' : 'inherit',
+    ]
+    const child = child_process.spawn(prog, args, { stdio })
+
+    to(config.def_color)
+
+    if (config.pipe_in) {
+        process.stdin.on('data', data => {
+            to(colors.stdin)
+            process.stdout.write(data)
+            to(null)
+            child.stdin.write(data)
+        })
+
+        process.stdin.on('end', () => {
+            child.stdin.end()
+        })
+    }
+
+    if (config.pipe_out) {
+        child.stdout.on('data', data => {
+            to(colors.stdout)
+            process.stdout.write(data)
+            to(config.def_color)
+        })
+    }
+
+    if (config.pipe_err) {
+        child.stderr.on('data', data => {
+            to(colors.stderr)
+            process.stdout.write(data)
+            to(config.def_color)
+        })
+    }
+
+    child.on('close', code => {
+        to(null)
+        process.exit(code)
+    })
+}
+
+const main = async () => {
+    if (process.argv.length <= 2) {
+        process.stderr.write('usage: io prog [args]\n')
+        return
+    }
+
+    const term = await termcap()
+
+    const colors = {
+        reset: term.get('reset'),
+        stdin: term.get('white'),
+        // stdout: term.get('yellow'),
+        stdout: null,
+        stderr: term.get('red'),
+    }
+
+    const config = configure(colors)
+
+    start(colors, config)
+}
+
+main().catch(err => {
+    process.stderr.write(err)
+    process.exit(2)
+})

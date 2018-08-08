@@ -1,0 +1,63 @@
+#!/bin/bash
+
+COLOUR=true
+ESCAPE=true
+HIGHLIGHT=true
+LINUM=true
+TAB=4
+INDENT=2
+
+msg() {
+    if [[ "$COLOUR" == true ]]; then
+        tput bold
+        echo "$1"
+        tput sgr0
+    else
+        echo "$1"
+    fi
+}
+
+escape() {
+    if [[ "$ESCAPE" == true ]]; then
+        cat -v
+    else
+        cat
+    fi
+}
+
+highlight() {
+    if [[ $HIGHLIGHT == true ]]; then
+        sed "s/.*/$(tput setab 0)\\0$(tput sgr0)/"
+    else
+        cat
+    fi
+}
+
+tab() {
+    if [[ "$TAB" -gt 0 ]]; then
+        sed "s/\t/$(printf "%${TAB}s")/g"
+    else
+        cat
+    fi
+}
+
+margin() {
+    if [[ "$LINUM" == true ]]; then
+        cat -n
+    elif [[ "$INDENT" -gt 0 ]]; then
+        sed "s/^/$(printf "%${INDENT}s")/"
+    else
+        cat
+    fi
+}
+
+for file in $@; do
+    if [[ ! -f "$file" ]]; then
+        continue
+    fi
+
+    msg "$file"
+
+    escape < "$file" | tab | highlight | margin
+    echo
+done
