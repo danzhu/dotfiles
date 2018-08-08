@@ -43,8 +43,8 @@
   :ensure t
   :diminish company-mode
   :custom
-  (company-idle-delay 0.2)
-  (company-minimum-prefix-length 2)
+  (company-idle-delay 0.1)
+  (company-minimum-prefix-length 3)
   (company-selection-wrap-around t)
   :config
   (global-company-mode 1)

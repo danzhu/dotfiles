@@ -1,5 +1,7 @@
 #!/bin/bash
 
+[[ -z "$DOT" ]] && DOT=$(dirname $(dirname $(readlink -f $0)))
+
 declare -A PACKAGES=(
     [".Xresources"]="xorg/Xresources"
     [".bash_profile"]="bash/bash_profile"
@@ -42,7 +44,7 @@ msg() {
 
 link() {
     local src="$HOME/$1"
-    local tar="$PWD/$2"
+    local tar="$DOT/$2"
 
     printf "%-20s" "$1"
 
