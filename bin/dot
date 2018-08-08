@@ -42,6 +42,23 @@ msg() {
     tput sgr0
 }
 
+need() {
+    local src="$DOT/$1"
+
+    printf "%-30s" "$1"
+
+    if [[ -e "$src" ]]; then
+        msg 8 " already installed\n"
+        return 1
+    elif [[ $DRY = true ]]; then
+        msg 2 " will be installed\n"
+        return 1
+    else
+        msg 2 " is being installed...\n"
+        return 0
+    fi
+}
+
 link() {
     local src="$HOME/$1"
     local tar="$DOT/$2"
@@ -96,11 +113,15 @@ link() {
 }
 
 usage() {
-    echo "Usage: $0 [OPTION]... package"
+    echo "Usage: $0 [OPTION]... COMMAND [ARGS]"
     echo
     echo "  -h, --help      display this help and exit"
     echo "  -d, --dry       print actions but do not execute them"
     echo "  -f, --force     override existing files"
+    echo
+    echo "Commands:"
+    echo "  install         install third party packages"
+    echo "  link package    symlink PACKAGE to $HOME"
 }
 
 OPTIONS=hdf
@@ -141,35 +162,64 @@ while true; do
     esac
 done
 
-if [[ $# -ne 1 ]]; then
+if [[ $# -lt 1 ]]; then
     usage
     exit 2
 fi
 
-package="$1"
+command="$1"
 
-for src in "${!PACKAGES[@]}"; do
-    tar="${PACKAGES[$src]}"
-    pkg="${tar%%/*}"
+case "$command" in
+    install)
+        if [[ $# -ne 1 ]]; then
+            usage
+            exit 2
+        fi
 
-    if [[ "$package" != "all" && "$package" != "$pkg" ]]; then
-        # this is not the package you are looking for
-        continue
-    fi
+        if need "vim/autoload/plug.vim"; then
+            curl -fL https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim \
+                 -o "$DOT/vim/autoload/plug.vim"
+        fi
 
-    found=true
+        if need "tmux/plugins/tpm"; then
+            git clone https://github.com/tmux-plugins/tpm \
+                "$DOT/tmux/plugins/tpm"
+        fi
+        ;;
+    link)
+        if [[ $# -ne 2 ]]; then
+            usage
+            exit 2
+        fi
 
-    link "$src" "$tar"
+        package="$2"
 
-    if [[ $? -ne 0 ]]; then
-        fail=true
-    fi
-done
+        for src in "${!PACKAGES[@]}"; do
+            tar="${PACKAGES[$src]}"
+            pkg="${tar%%/*}"
+
+            if [[ "$package" != "all" && "$package" != "$pkg" ]]; then
+                # this is not the package you are looking for
+                continue
+            fi
+
+            found=true
+
+            link "$src" "$tar"
+
+            if [[ $? -ne 0 ]]; then
+                fail=true
+            fi
+        done
+
+        if [[ $found != true ]]; then
+            msg 1 "error: "
+            echo "package '$package' not found"
+            exit 2
+        fi
+        ;;
+esac
 
 if [[ $fail = true ]]; then
     exit 1
-elif [[ $found != true ]]; then
-    msg 1 "error: "
-    echo "package '$package' not found"
-    exit 2
 fi
