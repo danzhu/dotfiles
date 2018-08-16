@@ -1,21 +1,16 @@
 # -*- mode: yaml -*-
 
 ---
-Language: Cpp
-BasedOnStyle: LLVM
 AccessModifierOffset: -4
 AlignTrailingComments: false
 AlwaysBreakTemplateDeclarations: true
 BreakBeforeBraces: Allman
-ConstructorInitializerIndentWidth: 4
-ContinuationIndentWidth: 4
 IncludeCategories:
   - Regex: '^"'
     Priority: 1
   - Regex: '^<'
     Priority: 2
 IndentWidth: 4
-SpacesInContainerLiterals: false
 ...
 
 # vim: ft=yaml

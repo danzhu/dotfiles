@@ -1,6 +1,10 @@
-# temp files
+# editor temp files
 *~
+.\#*
 
-# python cache
-*.pyc
-.mypy_cache
+# linux
+.nfs*
+
+# windows
+[Dd]esktop.ini
+Thumbs.db
