@@ -5,6 +5,12 @@
   (c-default-style "bsd")
   (c-tab-always-indent nil))
 
+(use-package asm-mode
+  :defer t
+  :mode "\\.s\\'"
+  :custom
+  (asm-comment-char ?#))
+
 (use-package org
   :defer t
   :mode ("\\.org\\'" . org-mode)
