@@ -1,12 +1,31 @@
 # -*- mode: sh -*-
 
-mkcd() {
-    mkdir -p -- "$1" && cd -P -- "$1"
-}
-
 o() {
     xdg-open $* &!
 }
+
+mk() {
+    local cmd="$1"
+    shift
+    local args=("$@")
+    local num_files=0
+    for arg in "${args[@]}"; do
+        if [[ "$arg" != -* ]]; then
+            num_files=$((num_files + 1))
+        fi
+    done
+    local target="$arg"
+
+    if [[ "$num_files" -eq 2 ]]; then
+        target="${target%/*}"
+    fi
+
+    mkdir -p -- "$target" && "$cmd" "${args[@]}"
+}
+
+alias mkcd='mk cd'
+alias mkcp='mk cp -iv'
+alias mkmv='mk mv -iv'
 
 if [[ -f $DOT/shell/functions.local ]]; then
     source $DOT/shell/functions.local
