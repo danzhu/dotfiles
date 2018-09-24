@@ -23,9 +23,10 @@ mk() {
     mkdir -p -- "$target" && "$cmd" "${args[@]}"
 }
 
+alias mk='mk '
 alias mkcd='mk cd'
-alias mkcp='mk cp -iv'
-alias mkmv='mk mv -iv'
+alias mkcp='mk cp'
+alias mkmv='mk mv'
 
 if [[ -f $DOT/shell/functions.local ]]; then
     source $DOT/shell/functions.local

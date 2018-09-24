@@ -49,9 +49,11 @@ bindsym XF86MonBrightnessDown exec --no-startup-id xbacklight -dec 20
 
 # commonly-used programs
 bindsym $mod+Return exec $TERMINAL
-bindsym $mod+c exec --no-startup-id $BROWSER
-bindsym $mod+d exec --no-startup-id $LAUNCHER
 bindsym $mod+e exec $GEDITOR
+bindsym $mod+c exec $BROWSER
+bindsym $mod+d exec $LAUNCHER
+bindsym $mod+w exec $SWITCHER
+bindsym $mod+r exec $RUNNER
 
 # change focus
 bindsym $mod+h focus left
@@ -89,7 +91,7 @@ bindsym $mod+v split h
 # bindsym $mod+w layout tabbed
 # bindsym $mod+e layout toggle split
 bindsym $mod+t layout toggle
-bindsym $mod+w layout toggle split
+# bindsym $mod+w layout toggle split
 
 # floating
 bindsym $mod+a focus mode_toggle
@@ -157,15 +159,15 @@ mode "system" {
 
     # exit i3 (logs you out of your X session)
     bindsym Shift+e exit
-    # shutdown
-    bindsym Shift+s exec --no-startup-id shutdown now
+    # poweroff
+    bindsym Shift+s exec --no-startup-id poweroff
     # reboot
     bindsym Shift+r exec --no-startup-id reboot
 
     bindsym Escape mode "default"
 }
 
-bindsym $mod+r mode "resize"
+bindsym $mod+z mode "resize"
 
 mode "resize" {
     # left / up shrink, down / right grow

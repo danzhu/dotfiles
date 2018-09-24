@@ -1,4 +1,17 @@
 ! -*- mode: conf-xdefaults -*-
 
+! style
 rofi.font: monospace 9
 rofi.theme: code
+
+! options
+rofi.modi: run,drun,window,ssh
+! rofi.show-icons: true
+rofi.ssh-command: {terminal} -e '{ssh-client} {host}'
+rofi.run-shell-command: {terminal} -e '{cmd}'
+! rofi.sidebar-mode: true
+rofi.scroll-method: 1
+
+! key bindings
+rofi.kb-clear-line:
+rofi.kb-remove-word-back: Control+w,Control+BackSpace

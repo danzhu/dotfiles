@@ -1,28 +1,39 @@
 # -*- mode: sh -*-
 
-if type emacs &> /dev/null; then
+has() {
+    type "$1" &> /dev/null
+}
+
+if has emacs; then
     export EDITOR='emacs -nw'
     export GEDITOR=emacs
-elif type vim &> /dev/null; then
+elif has vim; then
     export EDITOR=vim
     export GEDITOR=gvim
 fi
 
-if type rofi &> /dev/null; then
-    export LAUNCHER='rofi -show run'
-elif type dmenu_run &> /dev/null; then
-    export LAUNCHER=dmenu_run
+if has rofi; then
+    export RUNNER='rofi -show run'
+    export LAUNCHER='rofi -show drun -show-icons'
+    export SWITCHER='rofi -show window -show-icons'
+else
+    if has dmenu_run; then
+        export RUNNER=dmenu_run
+    fi
+    if has dmenu && has i3-dmenu-desktop; then
+        export LAUNCHER=i3-dmenu-desktop
+    fi
 fi
 
 for terminal in termite gnome-terminal konsole urxvt xterm; do
-    if type $terminal &> /dev/null; then
+    if has $terminal; then
         export TERMINAL=$terminal
         break
     fi
 done
 
 for browser in chromium chromium-browser google-chrome firefox; do
-    if type $browser &> /dev/null; then
+    if has $browser; then
         export BROWSER=$browser
         break
     fi
@@ -31,5 +42,7 @@ done
 if [[ -f $DOT/shell/env.local ]]; then
     source $DOT/shell/env.local
 fi
+
+unset -f has
 
 # vim: ft=sh
