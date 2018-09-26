@@ -1,0 +1,10 @@
+#compdef mk
+
+local cmd="$words[1]"
+local _comp_priv_prefix
+local args=(
+    '(-)1:command:_command_names'
+    '*::arguments:{ _comp_priv_prefix=( $cmd -n ${(kv)opt_args[(I)(-[ugHEP]|--(user|group|set-home|preserve-env|preserve-groups))]} ) ; _normal }'
+)
+
+_arguments $args

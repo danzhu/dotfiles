@@ -1,5 +1,7 @@
 setopt extendedglob complete_in_word glob_complete
 
+fpath=($DOT/zsh/completion $fpath)
+
 zstyle ':completion:*' format 'Completing %d'
 zstyle ':completion:*' glob 1
 zstyle ':completion:*' group-name ''

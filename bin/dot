@@ -35,6 +35,11 @@ declare -A PACKAGES=(
     [".zshrc"]="zsh/zshrc"
 )
 
+declare -A SYS_CONF=(
+    ["/etc/systemd/system/getty@tty1.service.d/noclear.conf"]="systemd/noclear.conf"
+    ["/etc/systemd/system/getty@tty1.service.d/override.conf"]="systemd/override.conf"
+)
+
 msg() {
     tput bold
     tput setaf $1
