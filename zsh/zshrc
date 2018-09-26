@@ -9,7 +9,7 @@ SAVEHIST=1000
 
 
 # --- directory ---
-setopt autocd autopushd pushdsilent
+setopt autocd
 
 
 # --- tools ---
@@ -40,16 +40,31 @@ ttyctl -f
 
 
 # --- plugins ---
-function plug() {
-    local plugin="zsh/plugins/$1"
-    if [[ -r "$HOME/share/$plugin" ]]; then
-        source "$HOME/share/$plugin"
-    elif [[ -r "/usr/share/$plugin" ]]; then
-        source "/usr/share/$plugin"
-    fi
-}
+if [[ -r /usr/share/doc/pkgfile/command-not-found.zsh ]]; then
+    source /usr/share/doc/pkgfile/command-not-found.zsh
+fi
 
-ZSH_HIGHLIGHT_HIGHLIGHTERS=(main brackets)
-plug "zsh-syntax-highlighting/zsh-syntax-highlighting.zsh"
 
-unfunction plug
+# --- zplug ---
+export ZPLUG_HOME=$DOT/zsh/zplug
+
+if [[ -r $ZPLUG_HOME/init.zsh ]]; then
+    source $ZPLUG_HOME/init.zsh
+
+    zplug 'zplug/zplug', hook-build:'zplug --self-manage'
+
+    zplug 'mafredri/zsh-async'
+
+    # zplug 'sindresorhus/pure', use:pure.zsh, as:theme
+
+    zplug 'MichaelAquilina/zsh-you-should-use'
+
+    zplug 'hlissner/zsh-autopair', defer:2
+
+    zplug 'zsh-users/zsh-autosuggestions', defer:2
+
+    zplug 'zsh-users/zsh-syntax-highlighting', defer:2
+    ZSH_HIGHLIGHT_HIGHLIGHTERS=(main brackets)
+
+    zplug load
+fi

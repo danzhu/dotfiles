@@ -200,6 +200,13 @@ case "$command" in
             check
             echo
         fi
+
+        if need "zsh/zplug"; then
+            git clone https://github.com/zplug/zplug \
+                "$DOT/zsh/zplug"
+            check
+            echo
+        fi
         ;;
     link)
         if [[ $# -ne 2 ]]; then

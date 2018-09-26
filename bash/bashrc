@@ -8,19 +8,32 @@ if [[ -f /etc/bash.bashrc ]]; then
 fi
 
 # directory
+shopt -s autocd
 shopt -s globstar
 
 # history
 export HISTCONTROL=ignoreboth:erasedups
 
 # common
-source $DOT/shell/aliases
-source $DOT/shell/functions
+source "$DOT/shell/aliases"
+source "$DOT/shell/functions"
 
 # customizations
-source $DOT/bash/aliases.bash
-source $DOT/bash/prompt.bash
+source "$DOT/bash/aliases.bash"
+source "$DOT/bash/prompt.bash"
 
-if [[ -f $DOT/bash/bashrc.local ]]; then
-    source $DOT/bash/bashrc.local
+# plugins
+plug() {
+    local plugin="$1"
+    if [[ -r /usr/share/bash-completion/bash_completion ]]; then
+        source /usr/share/bash-completion/bash_completion
+    fi
+}
+plug 'bash-completion/bash_completion'
+plug 'doc/pkgfile/command-not-found.bash'
+unset plug
+
+# local
+if [[ -f "$DOT/bash/bashrc.local" ]]; then
+    source "$DOT/bash/bashrc.local"
 fi

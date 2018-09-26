@@ -1,27 +1,42 @@
+# -*- mode: conf -*-
+
 $include /etc/inputrc
 
 # --- completion ---
 set bell-style none
 set colored-stats on
+set visible-stats off
 set completion-ignore-case on
 set show-all-if-unmodified on
 
 # --- editing ---
 set editing-mode vi
 set bind-tty-special-chars off
+
+# --- display ---
 set echo-control-characters off
+# set show-mode-in-prompt on
+# set vi-cmd-mode-string "N"
+# set vi-ins-mode-string "I"
+# $if term=linux
+#     set vi-ins-mode-string \1\e[?0c\2
+#     set vi-cmd-mode-string \1\e[?8c\2
+# $else
+#     set vi-ins-mode-string \1\e[6 q\2
+#     set vi-cmd-mode-string \1\e[2 q\2
+# $endif
 
 # --- key bindings ---
-"\e[A":history-search-backward
-"\e[B":history-search-forward
+"\e[A": history-search-backward
+"\e[B": history-search-forward
 
 $if mode=vi
     set keymap vi-insert
 
-    "\C-p":history-search-backward
-    "\C-n":history-search-forward
-    "\C-a":beginning-of-line
-    "\C-e":end-of-line
-    "\C-u":kill-whole-line
-    "\C-w":unix-filename-rubout
+    "\C-p": history-search-backward
+    "\C-n": history-search-forward
+    "\C-a": beginning-of-line
+    "\C-e": end-of-line
+    "\C-u": kill-whole-line
+    "\C-w": unix-filename-rubout
 $endif
