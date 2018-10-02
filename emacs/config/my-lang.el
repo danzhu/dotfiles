@@ -11,6 +11,10 @@
   :custom
   (asm-comment-char ?#))
 
+(use-package sh-script
+  :defer t
+  :mode ("/PKGBUILD\\'" . sh-mode))
+
 (use-package org
   :defer t
   :mode ("\\.org\\'" . org-mode)

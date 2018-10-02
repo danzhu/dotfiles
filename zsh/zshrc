@@ -23,6 +23,14 @@ autoload -Uz zmv
 alias zmv='noglob zmv'
 
 
+# --- fpath ---
+fpath=($DOT/zsh/completion $fpath)
+
+if [[ -r $DOT/zsh/fpath.local ]]; then
+    source $DOT/zsh/fpath.local
+fi
+
+
 # --- common ---
 source $DOT/shell/aliases
 source $DOT/shell/functions

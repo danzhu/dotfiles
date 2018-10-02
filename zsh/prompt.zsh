@@ -125,6 +125,8 @@ autoload -Uz add-zsh-hook
 add-zsh-hook precmd prompt-precmd
 
 setopt noprompt_sp
+# setopt promptsubst
+# setopt transient_rprompt
 
 PS1='%K %k '
 PS2='%K%7F+%f%k '
