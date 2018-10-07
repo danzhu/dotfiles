@@ -25,8 +25,8 @@ source "$DOT/bash/prompt.bash"
 # plugins
 plug() {
     local plugin="$1"
-    if [[ -r /usr/share/bash-completion/bash_completion ]]; then
-        source /usr/share/bash-completion/bash_completion
+    if [[ -r "/usr/share/$plugin" ]]; then
+        source "/usr/share/$plugin"
     fi
 }
 plug 'bash-completion/bash_completion'
