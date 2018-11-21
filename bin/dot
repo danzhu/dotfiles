@@ -36,6 +36,8 @@ declare -A PACKAGES=(
 )
 
 declare -A SYS_CONF=(
+    ["/etc/pacman.d/hooks/orphan.hook"]="pacman/orphan.hook"
+    ["/etc/pacman.d/hooks/paccache.hook"]="pacman/paccache.hook"
     ["/etc/systemd/system/getty@tty1.service.d/noclear.conf"]="systemd/noclear.conf"
     ["/etc/systemd/system/getty@tty1.service.d/override.conf"]="systemd/override.conf"
 )
@@ -123,6 +125,45 @@ link() {
     msg 2 " linked\n"
 }
 
+copy() {
+    local src="$1"
+    local tar="$DOT/$2"
+
+    printf "%-60s" "$1"
+
+    if [[ ! -e "$tar" ]]; then
+        msg 1 " copy target $tar not found\n"
+        exit 2
+    fi
+
+    if [[ -e "$src" ]]; then
+        # source exists
+        if diff "$src" "$tar" > /dev/null; then
+            msg 8 " already copied\n"
+
+            return 0
+        elif [[ $FORCE != true ]]; then
+            msg 3 " file exists\n"
+
+            return 1
+        else
+            msg 4 " forced file override"
+        fi
+    fi
+
+    if [[ $DRY = true ]]; then
+        msg 2 " will be"
+    else
+        if sudo cp "$tar" "$src"; then
+            msg 2 " successfully"
+        else
+            msg 1 " failed to be"
+        fi
+    fi
+
+    msg 2 " copied\n"
+}
+
 usage() {
     echo "Usage: $0 [OPTION]... COMMAND [ARGS]"
     echo
@@ -132,7 +173,8 @@ usage() {
     echo
     echo "Commands:"
     echo "  install         install third party packages"
-    echo "  link package    symlink PACKAGE to $HOME"
+    echo "  link PACKAGE    symlink PACKAGE to $HOME"
+    echo "  copy CONFIG     copy CONFIG to root"
 }
 
 OPTIONS=hdf
@@ -234,6 +276,35 @@ case "$command" in
         if [[ $found != true ]]; then
             msg 1 "error: "
             echo "package '$package' not found"
+            exit 2
+        fi
+        ;;
+    copy)
+        if [[ $# -ne 2 ]]; then
+            usage
+            exit 2
+        fi
+
+        config="$2"
+
+        for src in "${!SYS_CONF[@]}"; do
+            tar="${SYS_CONF[$src]}"
+            pkg="${tar%%/*}"
+
+            if [[ "$config" != "all" && "$config" != "$pkg" ]]; then
+                # this is not the config you are looking for
+                continue
+            fi
+
+            found=true
+
+            copy "$src" "$tar"
+            check
+        done
+
+        if [[ $found != true ]]; then
+            msg 1 "error: "
+            echo "config '$config' not found"
             exit 2
         fi
         ;;

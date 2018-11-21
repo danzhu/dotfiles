@@ -1,0 +1,25 @@
+#!/bin/bash
+
+filename="$1"
+shift
+args=("$@")
+
+execname=$(readlink -f "${filename%.*}")
+
+case "$filename" in
+    *.c)
+        gcc -Wall -Wextra -g "$filename" -o "$execname"
+        ;;
+    *.cc|*.cpp)
+        g++ -std=c++17 -Wall -Wextra -g "$filename" -o "$execname"
+        ;;
+    *.rs)
+        rustc "$filename"
+        ;;
+    *)
+        echo "extension not recognized" >&2
+        exit 2
+        ;;
+esac
+
+valgrind --leak-check=full "$execname" "${args[@]}"
