@@ -15,6 +15,10 @@
   :defer t
   :mode ("/PKGBUILD\\'" . sh-mode))
 
+(use-package conf-mode
+  :defer t
+  :mode "\\.hook\\'")
+
 (use-package org
   :defer t
   :mode ("\\.org\\'" . org-mode)
@@ -213,6 +217,11 @@
 ;;   :after (company haskell-mode)
 ;;   :config
 ;;   (add-to-list 'company-backends 'company-ghc))
+
+(use-package idris-mode
+  :ensure t
+  :defer t
+  :mode "\\.idr\\'")
 
 (use-package evil-org
   :ensure t
