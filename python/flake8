@@ -1,2 +1,6 @@
+# -*- mode: conf -*-
+
 [flake8]
 ignore = F401,F811
+
+# vim: ft=dosini
