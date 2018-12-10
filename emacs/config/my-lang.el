@@ -207,6 +207,12 @@
   :defer t
   :mode "\\.hs\\'")
 
+(use-package intero
+  :ensure t
+  :defer t
+  :after (haskell-mode)
+  :hook (haskell-mode . intero-mode))
+
 ;; (use-package ghc
 ;;   :ensure t
 ;;   :after haskell-mode
