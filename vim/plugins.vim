@@ -107,13 +107,13 @@ let g:syntastic_tex_checkers        = []
 
 Plug 'tpope/vim-unimpaired'
 
-if !has('nvim') && has('lua') && executable('g++')
+if exists('g:cpp_plugins') && !has('nvim') && has('lua') && executable('g++')
     Plug 'jeaye/color_coded'
 else
     Plug 'octol/vim-cpp-enhanced-highlight'
 endif
 
-if has('python') || has('python3')
+if exists('g:cpp_plugins') && (has('python') || has('python3'))
     Plug 'SirVer/ultisnips' | Plug 'honza/vim-snippets'
     " {{{
     let g:UltiSnipsExpandTrigger = '<C-j>'

@@ -37,6 +37,10 @@ set $ws0 "10"
 font pango:monospace 9
 hide_edge_borders both
 floating_modifier $mod
+# gaps inner 6
+# gaps outer 0
+
+# exec_always --no-startup-id feh --bg-fill ~/.wallpaper.jpg
 
 # volume controls
 bindsym XF86AudioRaiseVolume exec --no-startup-id amixer -q set Master 3%+ unmute
