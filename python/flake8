@@ -1,6 +1,23 @@
 # -*- mode: conf -*-
 
 [flake8]
-ignore = F401,F811
+# # default:
+# ignore =
+#     # continuation line under-indented for hanging indent
+#     E121,
+#     # closing bracket does not match indentation of opening bracket's line
+#     E123,
+#     # continuation line over-indented for hanging indent
+#     E126,
+#     # missing whitespace around arithmetic operator
+#     E226,
+#     # E241 multiple spaces after ','
+#     # E242 tab after ','
+#     E24,
+#     # multiple statements on one line (def)
+#     E704
+ignore =
+    # line break before binary operator
+    W503
 
 # vim: ft=dosini

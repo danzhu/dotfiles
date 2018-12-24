@@ -1,3 +1,5 @@
+# -*- mode: sh -*-
+
 #compdef mk
 
 local cmd="$words[1]"
@@ -8,3 +10,5 @@ local args=(
 )
 
 _arguments $args
+
+# vim: ft=sh

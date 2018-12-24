@@ -34,4 +34,5 @@
 /vim/swp/
 /vim/undo/
 /vim/view/
+/zsh/completions/_rustup
 /zsh/zplug/

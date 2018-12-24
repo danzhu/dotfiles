@@ -1,0 +1,29 @@
+# -*- mode: sh -*-
+
+if [[ -n "$ZSH_VERSION" ]]; then
+    shell=zsh
+elif [[ -n "$BASH_VERSION" ]]; then
+    shell=bash
+else
+    shell=unknown
+fi
+
+need() {
+    type "$1" &> /dev/null && ! type "_$1" &> /dev/null
+}
+
+if need stack; then
+    eval "$(stack --bash-completion-script stack)"
+fi
+
+if need rustup; then
+    case "$shell" in
+        zsh) rustup completions zsh > $DOT/zsh/completions/_rustup ;;
+        bash) eval "$(rustup completions bash)" ;;
+    esac
+fi
+
+unset -f need
+unset shell
+
+# vim: ft=sh

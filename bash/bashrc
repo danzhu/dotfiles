@@ -14,13 +14,14 @@ shopt -s globstar
 # history
 export HISTCONTROL=ignoreboth:erasedups
 
-# common
-source "$DOT/shell/aliases"
-source "$DOT/shell/functions"
-
 # customizations
 source "$DOT/bash/aliases.bash"
 source "$DOT/bash/prompt.bash"
+
+# common
+source "$DOT/shell/aliases"
+source "$DOT/shell/functions"
+source "$DOT/shell/completions"
 
 # plugins
 plug() {

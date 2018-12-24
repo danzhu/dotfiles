@@ -24,23 +24,24 @@ alias zmv='noglob zmv'
 
 
 # --- fpath ---
-fpath=($DOT/zsh/completion $fpath)
+fpath=($DOT/zsh/completions $fpath)
 
 if [[ -r $DOT/zsh/fpath.local ]]; then
     source $DOT/zsh/fpath.local
 fi
 
 
-# --- common ---
-source $DOT/shell/aliases
-source $DOT/shell/functions
-
-
 # --- customizations ---
 source $DOT/zsh/title.zsh
 source $DOT/zsh/prompt.zsh
 source $DOT/zsh/keybinds.zsh
-source $DOT/zsh/completion.zsh
+source $DOT/zsh/completions.zsh
+
+
+# --- common ---
+source $DOT/shell/aliases
+source $DOT/shell/functions
+source $DOT/shell/completions
 
 
 # --- freeze tty ---
@@ -54,25 +55,9 @@ fi
 
 
 # --- zplug ---
-export ZPLUG_HOME=$DOT/zsh/zplug
-
+ZPLUG_HOME=$DOT/zsh/zplug
 if [[ -r $ZPLUG_HOME/init.zsh ]]; then
+    ZPLUG_LOADFILE=$DOT/zsh/plugins.zsh
     source $ZPLUG_HOME/init.zsh
-
-    zplug 'zplug/zplug', hook-build:'zplug --self-manage'
-
-    zplug 'mafredri/zsh-async'
-
-    # zplug 'sindresorhus/pure', use:pure.zsh, as:theme
-
-    zplug 'MichaelAquilina/zsh-you-should-use'
-
-    zplug 'hlissner/zsh-autopair', defer:2
-
-    zplug 'zsh-users/zsh-autosuggestions', defer:2
-
-    zplug 'zsh-users/zsh-syntax-highlighting', defer:2
-    ZSH_HIGHLIGHT_HIGHLIGHTERS=(main brackets)
-
     zplug load
 fi
