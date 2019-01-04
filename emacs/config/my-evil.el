@@ -123,6 +123,12 @@
   :custom
   (evil-magit-state 'motion))
 
+(use-package evil-multiedit
+  :ensure t
+  :after evil
+  :config
+  (evil-multiedit-default-keybinds))
+
 (provide 'my-evil)
 
 ;; end

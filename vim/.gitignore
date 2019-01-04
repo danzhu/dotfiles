@@ -1,0 +1,9 @@
+/.netrwhist
+/autoload/plug.vim*
+/local.vim
+/plugged/
+/spell/*.spl
+/spell/*.sug
+/swp/
+/undo/
+/view/

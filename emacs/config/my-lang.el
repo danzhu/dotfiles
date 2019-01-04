@@ -32,21 +32,6 @@
   :defer t
   :mode ("\\.m\\'" . octave-mode))
 
-(use-package lsp-mode
-  :ensure t
-  :custom
-  (lsp-inhibit-message t))
-
-(use-package lsp-ui
-  :ensure t
-  :hook (lsp-mode . lsp-ui-mode))
-
-(use-package company-lsp
-  :ensure t
-  :after lsp-java
-  :config
-  (add-to-list 'company-backends 'company-lsp))
-
 (use-package irony
   :ensure t
   :defer t
@@ -83,6 +68,7 @@
 
 (use-package rtags
   :ensure t
+  :defer t
   :hook ((c++-mode c-mode objc-mode) . rtags-start-process-unless-running)
   :custom
   (rtags-display-result-backend 'ivy)
@@ -125,7 +111,8 @@
 
 (use-package lsp-java
   :ensure t
-  :hook (java-mode . lsp-java-enable)
+  :after lsp
+  :hook (java-mode . lsp)
   :custom
   (lsp-java--workspace-folders '("~/test")))
 
@@ -229,8 +216,16 @@
   :defer t
   :mode "\\.idr\\'")
 
+(use-package glsl-mode
+  :ensure t
+  :defer t
+  :mode (("\\.glsl\\'" . glsl-mode)
+         ("\\.vert\\'" . glsl-mode)
+         ("\\.frag\\'" . glsl-mode)))
+
 (use-package evil-org
   :ensure t
+  :defer t
   :after org
   :hook ((org-mode . evil-org-mode)
          (evil-org-mode . evil-org-set-key-theme)))
@@ -276,16 +271,16 @@
   :ensure t)
 
 (use-package gitattributes-mode
-  :defer t
-  :ensure t)
+  :ensure t
+  :defer t)
 
 (use-package gitconfig-mode
-  :defer t
-  :ensure t)
+  :ensure t
+  :defer t)
 
 (use-package gitignore-mode
-  :defer t
-  :ensure t)
+  :ensure t
+  :defer t)
 
 (use-package cmake-mode
   :ensure t

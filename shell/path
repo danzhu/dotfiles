@@ -1,11 +1,19 @@
 # -*- mode: sh -*-
 
-[[ -d "$HOME/.cargo/bin" ]] && PATH="$HOME/.cargo/bin:$PATH"
-[[ -d "$HOME/.npm/bin" ]] && PATH="$HOME/.npm/bin:$PATH"
+function include() {
+    dir="$1"
+    if [[ -d "$dir" ]]; then
+        PATH="$dir:$PATH"
+    fi
+}
+include "$HOME/.cargo/bin"
+include "$HOME/.npm/bin"
 export PATH="$HOME/bin:$HOME/.local/bin:$DOT/bin:$PATH"
 
 if [[ -f $DOT/shell/path.local ]]; then
     source $DOT/shell/path.local
 fi
+
+unset -f include
 
 # vim: ft=sh

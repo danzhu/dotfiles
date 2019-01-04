@@ -8,4 +8,4 @@ Target = *
 [Action]
 Description = Checking for orphan packages...
 When = PostTransaction
-Exec = /usr/bin/bash -c "/usr/bin/pacman -Qtd || /usr/bin/echo '==> No orphans found'"
+Exec = /usr/bin/bash -c "/usr/bin/pacman -Qtd && /usr/bin/echo '==> Orphan packages found; please run: sudo pacman -Rsn $(pacman -Qtdq)' || /usr/bin/echo '==> No orphan packages found'"

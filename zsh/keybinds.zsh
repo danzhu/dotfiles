@@ -73,3 +73,16 @@ function foreground() {
 }
 zle -N foreground
 bindkey -v '^F' foreground
+
+
+function expand-or-complete-or-list-files() {
+    if [[ $#BUFFER == 0 ]]; then
+        LBUFFER='ls '
+        zle list-choices
+        BUFFER=''
+    else
+        zle expand-or-complete
+    fi
+}
+zle -N expand-or-complete-or-list-files
+bindkey -v '^I' expand-or-complete-or-list-files

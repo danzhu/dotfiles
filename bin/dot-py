@@ -1,0 +1,548 @@
+#!/usr/bin/env python3
+
+from enum import Enum, auto
+from pathlib import Path
+from typing import Any, Callable, Dict, Generic, Iterable, Optional, Set, \
+    Tuple, Type, TypeVar, Union, cast
+from urllib import request
+import cmd
+import functools
+import importlib.util
+import json
+import os
+import shutil
+import subprocess
+import sys
+
+T = TypeVar('T')
+U = TypeVar('U')
+
+
+PathStr = Union[Path, str]
+
+
+class lazy_property(Generic[T, U]):
+    def __init__(self, fget: Callable[[T], U]) -> None:
+        self.fget = fget
+        functools.update_wrapper(cast(Callable[[T], U], self), fget)
+
+    def __get__(self, obj: T, cls: Type[T]) -> U:
+        if obj is None:
+            return self
+        val = self.fget(obj)
+        setattr(obj, self.fget.__name__, val)
+        return val
+
+
+def encode(o: object) -> object:
+    if isinstance(o, str):
+        return o
+    return str(o)
+
+
+INDENT = '  '
+
+
+class Status(Enum):
+    DONE = auto()
+    READY = auto()
+    CONFLICT = auto()
+    INVALID = auto()
+
+
+class Action:
+    actions: Dict[str, Type['Action']] = {}
+
+    def __init_subclass__(cls: Type['Action']) -> None:
+        assert cls.__name__ not in Action.actions
+        Action.actions[cls.__name__] = cls
+
+    def __init__(self, **kwargs) -> None:
+        pass
+
+    def __repr__(self) -> str:
+        args = ', '.join(f'{k}={v!r}' for k, v in zip(self.params, self.args))
+        return f'{self.name}({args})'
+
+    def __str__(self) -> str:
+        args = ' '.join(map(str, self.args))
+        return f'{self.name} {args}'
+
+    def __eq__(self, other: object) -> bool:
+        if not isinstance(other, Action):
+            return NotImplemented
+        return self.__sig == other.__sig
+
+    def __lt__(self, other: object) -> bool:
+        if not isinstance(other, Action):
+            return NotImplemented
+        return self.__sig < other.__sig
+
+    def __hash__(self) -> int:
+        return hash(self.__sig)
+
+    @lazy_property
+    def __sig(self) -> Tuple[str, Tuple[Any, ...]]:
+        return self.name, tuple(self.args)
+
+    @lazy_property
+    def name(self) -> str:
+        return type(self).__name__
+
+    @lazy_property
+    def params(self) -> Tuple[str, ...]:
+        return type(self).__init__.__code__.co_varnames[1:]
+
+    @lazy_property
+    def args(self) -> Tuple[Any, ...]:
+        return self._args()
+
+    def encode(self) -> object:
+        return {self.name: self._encode()}
+
+    @staticmethod
+    def decode(o: object) -> 'Action':
+        assert isinstance(o, dict) and len(o) == 1
+        name, args = next(iter(o.items()))
+        cls = Action.actions[name]
+        return cls(**cls._decode(args))
+
+    def check(self) -> Status:
+        return self._check()
+
+    def apply(self) -> None:
+        assert self._check() is Status.READY
+        self._apply()
+        assert self._check() is Status.DONE
+
+    def revert(self) -> None:
+        assert self._check() is Status.DONE
+        self._revert()
+        assert self._check() is Status.READY
+
+    def _args(self) -> Tuple[Any, ...]:
+        raise NotImplementedError()
+
+    def _encode(self) -> object:
+        return {k: encode(v) for k, v in zip(self.params, self.args)}
+
+    def _decode(o: object) -> Dict[str, Any]:
+        return cast(Dict[str, Any], o)
+
+    def _check(self) -> Status:
+        raise NotImplementedError()
+
+    def _apply(self) -> None:
+        raise NotImplementedError()
+
+    def _revert(self) -> None:
+        raise NotImplementedError()
+
+
+class Symlink(Action):
+    def __init__(self, dest: PathStr, target: PathStr) -> None:
+        self.dest = Path(dest)
+        self.target = Path(target)
+
+    def _args(self) -> Tuple[Any, ...]:
+        return self.dest, self.target
+
+    def _check(self) -> Status:
+        if not self.target.exists():
+            return Status.INVALID
+        if not self.dest.exists():
+            return Status.READY
+        if not self.dest.is_symlink():
+            return Status.CONFLICT
+        if self.dest.resolve(strict=True) != self.target.resolve(strict=True):
+            return Status.CONFLICT
+        return Status.DONE
+
+    def _apply(self) -> None:
+        self.dest.symlink_to(self.target)
+
+    def _revert(self) -> None:
+        self.dest.unlink()
+
+
+class Clone(Action):
+    def __init__(self, dest: PathStr, url: str) -> None:
+        self.dest = Path(dest)
+        self.url = url
+
+    def _args(self) -> Tuple[Any, ...]:
+        return self.dest, self.url
+
+    def _check(self) -> Status:
+        if not self.dest.exists():
+            return Status.READY
+        if not self.dest.is_dir():
+            return Status.CONFLICT
+        url = subprocess.run(['git', 'config', '--get', 'remote.origin.url'],
+                             stdout=subprocess.PIPE,
+                             cwd=self.dest,
+                             universal_newlines=True)
+        if self.url != url.stdout.strip():
+            return Status.CONFLICT
+        return Status.DONE
+
+    def _apply(self) -> None:
+        subprocess.run(['git', 'clone', self.url, str(self.dest)],
+                       check=True)
+
+    def _revert(self) -> None:
+        shutil.rmtree(self.dest)
+
+
+class Download(Action):
+    def __init__(self, dest: PathStr, url: str) -> None:
+        self.dest = Path(dest)
+        self.url = url
+
+    def _args(self) -> Tuple[Any, ...]:
+        return self.dest, self.url
+
+    def _check(self) -> Status:
+        if not self.dest.exists():
+            return Status.READY
+        if not self.dest.is_file():
+            return Status.CONFLICT
+        return Status.DONE
+
+    def _apply(self) -> None:
+        request.urlretrieve(self.url, self.dest)
+
+    def _revert(self) -> None:
+        self.dest.unlink()
+
+
+class State:
+    def __init__(self, actions: Set[Action] = set()) -> None:
+        self.actions = actions
+
+    def __repr__(self) -> str:
+        return repr(self.actions)
+
+    def __sub__(self, other: 'State') -> 'State':
+        return State(self.actions - other.actions)
+
+    def __and__(self, other: 'State') -> 'State':
+        return State(self.actions & other.actions)
+
+    def __or__(self, other: 'State') -> 'State':
+        return State(self.actions | other.actions)
+
+    def __eq__(self, other: object) -> bool:
+        if not isinstance(other, State):
+            return NotImplemented
+        return self.actions == other.actions
+
+    def encode(self) -> object:
+        return [act.encode() for act in sorted(self.actions)]
+
+    @staticmethod
+    def decode(o: object) -> 'State':
+        assert isinstance(o, list)
+        return State({Action.decode(a) for a in o})
+
+
+class Package:
+    def __init__(self, pkg_name: str, mod_path: PathStr) -> None:
+        self.pkg_name = pkg_name
+        self.mod_path = Path(mod_path)
+
+        self.depends: Set[str] = set()
+        self.actions: Set[Action] = set()
+
+    def _resolve_path(self, path: PathStr) -> Path:
+        return self.mod_path / Path(path).expanduser()
+
+    def state(self) -> State:
+        return State(self.actions)
+
+    def depend(self, pkg_name: str) -> None:
+        self.depends.add(pkg_name)
+
+    def symlink(self, dest: PathStr, target: PathStr) -> None:
+        dest = self._resolve_path(dest)
+        target = self._resolve_path(target)
+        act = Symlink(dest, target)
+        self.actions.add(act)
+
+    def clone(self, dest: PathStr, url: str) -> None:
+        dest = self._resolve_path(dest)
+        act = Clone(dest, url)
+        self.actions.add(act)
+
+    def download(self, dest: PathStr, url: str) -> None:
+        dest = self._resolve_path(dest)
+        act = Download(dest, url)
+        self.actions.add(act)
+
+
+class DiffKind(Enum):
+    ADD = auto()
+    DEL = auto()
+    DIFF = auto()
+    SAME = auto()
+
+    @lazy_property
+    def symbol(self):
+        if self is DiffKind.ADD:
+            return '+'
+        if self is DiffKind.DEL:
+            return '-'
+        if self is DiffKind.DIFF:
+            return '|'
+        if self is DiffKind.SAME:
+            return ' '
+        assert False, f'invalid diff {self}'
+
+
+class Diff:
+    def __init__(self,
+                 name: str,
+                 old: Optional[State],
+                 new: Optional[State]
+                 ) -> None:
+        self.name = name
+        self.old = old
+        self.new = new
+
+    @lazy_property
+    def old_actions(self) -> Set[Action]:
+        if self.old is None:
+            return set()
+        return self.old.actions
+
+    @lazy_property
+    def new_actions(self) -> Set[Action]:
+        if self.new is None:
+            return set()
+        return self.new.actions
+
+    @lazy_property
+    def kind(self) -> DiffKind:
+        if self.old is None:
+            return DiffKind.ADD
+        elif self.new is None:
+            return DiffKind.DEL
+        elif self.old_actions != self.new_actions:
+            return DiffKind.DIFF
+        else:
+            return DiffKind.SAME
+
+
+Snapshot = Dict[str, State]
+
+
+class Dot(cmd.Cmd):
+    prompt = '> '
+
+    def __init__(self) -> None:
+        super().__init__()
+
+        self.DOT = Path(os.getenv('DOT', '.'))
+        self.SNAPSHOT_PATH = self.DOT / '.snapshot.json'
+
+        self.snapshot: Snapshot = {}
+
+        self.packages: Dict[str, Package] = {}
+        for mod_path in self.DOT.iterdir():
+            mod_name = mod_path.name
+            mod_file = mod_path / '.package.py'
+            if not mod_file.exists():
+                continue
+
+            spec = importlib.util.spec_from_file_location(mod_name,
+                                                          str(mod_file))
+            module = importlib.util.module_from_spec(spec)
+            assert spec.loader is not None
+            spec.loader.exec_module(module)
+
+            for pkg_name in dir(module):
+                if pkg_name.startswith('_'):
+                    continue
+
+                pkg_fn = getattr(module, pkg_name)
+                if not callable(pkg_fn):
+                    self._warn(f'{mod_name}.{pkg_name} is not callable')
+                    continue
+
+                pkg = Package(pkg_name, mod_path)
+                pkg_fn(pkg)
+                self.packages[pkg_name] = pkg
+
+    def load(self, path: Optional[PathStr] = None) -> bool:
+        if path is None or path == '':
+            path = self.SNAPSHOT_PATH
+
+        try:
+            text = Path(path).read_text()
+        except FileNotFoundError:
+            return False
+
+        self.snapshot = {name: State.decode(state)
+                         for name, state in json.loads(text).items()}
+        return True
+
+    def save(self, path: Optional[PathStr] = None) -> None:
+        if path is None or path == '':
+            path = self.SNAPSHOT_PATH
+
+        obj = {name: state.encode()
+               for name, state in sorted(self.snapshot.items())}
+        text = json.dumps(obj, indent=2)
+        Path(path).write_text(text)
+
+    @property
+    def package_snapshot(self) -> Snapshot:
+        return {name: pkg.state() for name, pkg in self.packages.items()}
+
+    def _diff_package(self, name: str, olds: Snapshot, news: Snapshot) -> Diff:
+        old = olds.get(name)
+        new = news.get(name)
+        return Diff(name, old, new)
+
+    def _diff_packages(self, olds: Snapshot, news: Snapshot) -> Iterable[Diff]:
+        return (self._diff_package(name, olds, news)
+                for name in sorted(set(self.packages) | set(self.snapshot)))
+
+    def _diff_actions(self,
+                      olds: Snapshot,
+                      news: Snapshot
+                      ) -> Iterable[Action]:
+        return set.union(*(diff.new_actions - diff.old_actions
+                           for diff in self._diff_packages(olds, news)))
+
+    def _display(self, msg: object) -> None:
+        print(f'{INDENT}{msg}')
+
+    def _warn(self, msg: object) -> None:
+        print(f'{INDENT}WARNING: {msg}')
+
+    def _error(self, msg: object) -> bool:
+        print(f'{INDENT}ERROR: {msg}')
+        return False
+
+    def _display_actions(self, acts: Iterable[Action]) -> None:
+        for act in sorted(acts):
+            print(f'{INDENT}{INDENT}{act}')
+
+    def _confirm(self, msg: str) -> bool:
+        while True:
+            inp = input(f'{INDENT}{msg} [Y/n] ').lower()
+            if inp in ['', 'y']:
+                return True
+            if inp == 'n':
+                return False
+
+    def _transact(self, new_snap: Snapshot) -> None:
+        if new_snap == self.snapshot:
+            return self._display('nothing to do')
+
+        reverts = list(self._diff_actions(new_snap, self.snapshot))
+        applies = list(self._diff_actions(self.snapshot, new_snap))
+
+        self._display('revert:')
+        self._display_actions(reverts)
+
+        self._display('apply:')
+        self._display_actions(applies)
+
+        if not self._confirm('continue?'):
+            return
+
+        # TODO: rollback in case of failure, or save partial state
+        for act in reverts:
+            self._display(f'reverting {act}')
+            act.revert()
+        for act in applies:
+            self._display(f'applying {act}')
+            act.apply()
+
+        self.snapshot = new_snap
+        self.save()
+
+    # --- Cmd ---
+
+    def emptyline(self) -> Any:
+        return False
+
+    def do_load(self, path: str) -> Any:
+        if not self.load(path):
+            self._error('file not found')
+
+    def do_save(self, path: str) -> Any:
+        self.save(path)
+
+    def do_status(self, name: str) -> Any:
+        if name == '':
+            for diff in self._diff_packages(self.snapshot,
+                                            self.package_snapshot):
+                self._display(f'{diff.kind.symbol} {diff.name}')
+            return
+
+        if name not in self.packages and name not in self.snapshot:
+            return self._error(f'{name!r} not a known or installed package')
+
+        diff = self._diff_package(name, self.snapshot, self.package_snapshot)
+        self._display(f'diff: {diff.kind.name.lower()}')
+        self._display('package:')
+        self._display_actions(diff.old_actions)
+        self._display('state:')
+        self._display_actions(diff.new_actions)
+
+    def do_detect(self, arg: str) -> Any:
+        if arg != '':
+            return self._error('expect no arguments')
+
+        snapshot: Dict[str, State] = {}
+        for diff in self._diff_packages(self.snapshot, self.package_snapshot):
+            acts = {act
+                    for act in diff.old_actions | diff.new_actions
+                    if act.check() is Status.DONE}
+            if len(acts) > 0:
+                snapshot[diff.name] = State(acts)
+
+        self.snapshot = snapshot
+
+    def do_sync(self, name: str) -> Any:
+        if name == '':
+            new_snap = self.package_snapshot
+        else:
+            if name not in self.packages:
+                return self._error(f'{name!r} not a known package')
+            new_snap = self.snapshot.copy()
+            new_snap[name] = self.packages[name].state()
+
+        self._transact(new_snap)
+
+    def do_remove(self, name: str) -> Any:
+        if name == '':
+            new_snap: Snapshot = {}
+        else:
+            if name not in self.snapshot:
+                return self._error(f'{name!r} not an installed package')
+            new_snap = self.snapshot.copy()
+            del new_snap[name]
+
+        self._transact(new_snap)
+
+    def do_EOF(self, arg: str) -> Any:
+        print()
+        return True
+
+
+def main() -> None:
+    dot = Dot()
+    dot.load()
+
+    if len(sys.argv) > 1:
+        dot.onecmd(' '.join(sys.argv[1:]))
+    else:
+        dot.cmdloop()
+
+
+if __name__ == '__main__':
+    main()

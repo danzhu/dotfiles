@@ -1,1 +1,5 @@
-prefix=~/.npm
+# -*- mode: conf -*-
+
+prefix = ~/.npm
+
+# vim: ft=conf

@@ -88,10 +88,35 @@
   :ensure t
   :diminish flycheck-mode
   :custom
-  (flycheck-display-errors-delay 0.2)
+  (flycheck-display-errors-delay 0.5)
   :config
   (setq flycheck-checkers (delq 'emacs-lisp-checkdoc flycheck-checkers))
   (global-flycheck-mode 1))
+
+(use-package lsp-mode
+  :ensure t
+  :defer t
+  :commands lsp
+  :custom
+  (lsp-inhibit-message t))
+
+(use-package lsp-ui
+  :ensure t
+  :defer t
+  :commands lsp-ui-mode)
+
+(use-package company-lsp
+  :ensure t
+  :defer t
+  :commands company-lsp
+  :init
+  (add-to-list 'company-backends 'company-lsp))
+
+;; (use-package dap-mode
+;;   :ensure t
+;;   :config
+;;   (dap-mode 1)
+;;   (dap-ui-mode 1))
 
 (use-package dumb-jump
   :ensure t
