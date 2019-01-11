@@ -377,9 +377,9 @@ endif
 " }}}
 
 " Language mappings {{{
-set nolangremap
-set langmap+=[{}(=*)+]!;7531902468
-set langmap+=7531902468;[{}(=*)+]!
+" set nolangremap
+" set langmap+=[{}(=*)+]!;7531902468
+" set langmap+=7531902468;[{}(=*)+]!
 " }}}
 
 " Neovim {{{
@@ -591,6 +591,12 @@ let g:colors = readfile($VIMDIR . '/colorscheme')
 colorscheme code
 " }}}
 
+" local.vim {{{
+if filereadable($VIMDIR . '/local.vim')
+    source $VIMDIR/local.vim
+endif
+" }}}
+
 " Plugins {{{
 if filereadable($VIMDIR . '/autoload/plug.vim')
     call plug#begin()
@@ -601,12 +607,6 @@ endif
 
 " Add-ons {{{
 runtime! ftplugin/man.vim
-" }}}
-
-" local.vim {{{
-if filereadable($VIMDIR . '/local.vim')
-    source $VIMDIR/local.vim
-endif
 " }}}
 
 " directory {{{
