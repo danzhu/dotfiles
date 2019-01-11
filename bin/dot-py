@@ -342,7 +342,7 @@ class Dot(cmd.Cmd):
     def __init__(self) -> None:
         super().__init__()
 
-        self.DOT = Path(os.getenv('DOT', '.'))
+        self.DOT = Path(os.getenv('DOT', '.')).resolve(strict=True)
         self.SNAPSHOT_PATH = self.DOT / '.snapshot.json'
 
         self.snapshot: Snapshot = {}
