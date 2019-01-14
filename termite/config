@@ -1,3 +1,6 @@
+[options]
+font = Monospace 9
+
 [colors]
 
 # special

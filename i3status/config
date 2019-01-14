@@ -6,9 +6,8 @@
 # ß
 # If the above line is not correctly displayed, fix your editor first!
 
-order += "run_watch vbox"
-order += "path_exists shared"
 order += "ethernet _first_"
+order += "wireless _first_"
 order += "load"
 order += "cpu_usage"
 order += "disk /"
@@ -25,16 +24,23 @@ general {
 }
 
 ethernet _first_ {
-    format_up = "net %ip"
-    format_down = "offline"
+    format_up = "eth %ip"
+    format_down = ""
+}
+
+wireless _first_ {
+    format_up = "wifi %ip"
+    format_down = ""
 }
 
 battery 0 {
     format = "%status %percentage"
+    format_down = ""
     integer_battery_capacity = true
     status_chr = "chr"
     status_bat = "bat"
     status_full = "ful"
+    status_unk = "unk"
     low_threshold = 20
 }
 
@@ -57,16 +63,4 @@ cpu_usage {
 volume master {
     format = "vol %volume"
     format_muted = "mute"
-}
-
-run_watch vbox {
-    format = "vs"
-    format_down = "vs"
-    pidfile = "~/.vboxclient-clipboard.pid"
-}
-
-path_exists shared {
-    format = "sf"
-    format_down = "sf"
-    path = "/media/sf_home/Documents"
 }

@@ -1,5 +1,52 @@
 #!/bin/bash
 
+usage() {
+    echo "Usage: $0 [OPTION]... FILE [ARGS]"
+    echo
+    echo "  -h, --help      display this help and exit"
+    echo "  -m, --mem       run with valgrind checking for memory errors"
+}
+
+OPTIONS=hm
+LONG_OPTIONS=help,mem
+
+OPT=$(getopt --options=$OPTIONS \
+             --longoptions=$LONG_OPTIONS \
+             --name "$0" \
+             -- "$@")
+if [[ $? -ne 0 ]]; then
+    exit 2
+fi
+
+eval set -- "$OPT"
+
+while true; do
+    arg="$1"
+    shift
+
+    case "$arg" in
+        -h|--help)
+            usage
+            exit
+            ;;
+        -m|--mem)
+            MEM=true
+            ;;
+        --)
+            break
+            ;;
+        *)
+            echo "oops"
+            exit 3
+            ;;
+    esac
+done
+
+if [[ $# -lt 1 ]]; then
+    usage
+    exit 2
+fi
+
 filename="$1"
 shift
 args=("$@")
@@ -10,11 +57,14 @@ case "$filename" in
     *.c)
         gcc -Wall -Wextra -g "$filename" -o "$execname"
         ;;
-    *.cc|*.cpp)
+    *.cc|*.cpp|*.C)
         g++ -std=c++17 -Wall -Wextra -g "$filename" -o "$execname"
         ;;
     *.rs)
-        rustc "$filename"
+        rustc -g "$filename" -o "$execname"
+        ;;
+    *.hs)
+        ghc -g "$filename" -o "$execname"
         ;;
     *)
         echo "extension not recognized" >&2
@@ -22,4 +72,15 @@ case "$filename" in
         ;;
 esac
 
-valgrind --leak-check=full "$execname" "${args[@]}"
+ret=$?
+if [[ $ret -ne 0 ]]; then
+    exit $ret
+fi
+
+if [[ $MEM = true ]]; then
+    interp='valgrind --leak-check=full'
+else
+    interp=''
+fi
+
+$interp "$execname" "${args[@]}"

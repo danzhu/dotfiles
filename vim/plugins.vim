@@ -141,7 +141,7 @@ endif
 " Utility {{{
 Plug 'tpope/vim-repeat'
 
-Plug 'flazz/vim-colorschemes'
+" Plug 'flazz/vim-colorschemes'
 " }}}
 
 " Filetypes {{{

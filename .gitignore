@@ -1,3 +1,4 @@
 *.local
+.mypy_cache/
 /.snapshot.json
 __pycache__/

@@ -154,6 +154,7 @@ copy() {
     if [[ $DRY = true ]]; then
         msg 2 " will be"
     else
+        mkdir -p "$(dirname "$src")"
         if sudo cp "$tar" "$src"; then
             msg 2 " successfully"
         else

@@ -287,16 +287,13 @@ class DiffKind(Enum):
     SAME = auto()
 
     @lazy_property
-    def symbol(self):
-        if self is DiffKind.ADD:
-            return '+'
-        if self is DiffKind.DEL:
-            return '-'
-        if self is DiffKind.DIFF:
-            return '|'
-        if self is DiffKind.SAME:
-            return ' '
-        assert False, f'invalid diff {self}'
+    def symbol(self) -> str:
+        return {
+            DiffKind.ADD: '+',
+            DiffKind.DEL: '-',
+            DiffKind.DIFF: '|',
+            DiffKind.SAME: ' ',
+        }[self]
 
 
 class Diff:
@@ -421,13 +418,20 @@ class Dot(cmd.Cmd):
     def _warn(self, msg: object) -> None:
         print(f'{INDENT}WARNING: {msg}')
 
-    def _error(self, msg: object) -> bool:
+    def _error(self, msg: object) -> None:
         print(f'{INDENT}ERROR: {msg}')
-        return False
 
     def _display_actions(self, acts: Iterable[Action]) -> None:
         for act in sorted(acts):
             print(f'{INDENT}{INDENT}{act}')
+
+    def _check_actions(self, acts: Iterable[Action], stat: Status) -> bool:
+        for act in acts:
+            s = act.check()
+            if s is not stat:
+                self._error(f'{act} has status {s}, needs {stat}')
+                return False
+        return True
 
     def _confirm(self, msg: str) -> bool:
         while True:
@@ -449,6 +453,10 @@ class Dot(cmd.Cmd):
 
         self._display('apply:')
         self._display_actions(applies)
+
+        if (not self._check_actions(reverts, Status.DONE) or
+            not self._check_actions(applies, Status.READY)):
+            return
 
         if not self._confirm('continue?'):
             return

@@ -12,7 +12,9 @@ if has emacs; then
     export GEDITOR=emacs
 elif has vim; then
     export EDITOR=vim
-    export GEDITOR=gvim
+    if has gvim; then
+        export GEDITOR=gvim
+    fi
 fi
 
 if has rofi; then
@@ -26,6 +28,10 @@ else
     if has dmenu && has i3-dmenu-desktop; then
         export LAUNCHER=i3-dmenu-desktop
     fi
+fi
+
+if has qt5ct; then
+    export QT_QPA_PLATFORMTHEME=qt5ct
 fi
 
 for terminal in termite gnome-terminal konsole urxvt xterm; do
