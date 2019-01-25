@@ -51,20 +51,35 @@ filename="$1"
 shift
 args=("$@")
 
-execname=$(readlink -f "${filename%.*}")
+execname="${filename%.*}"
+execpath="$(readlink -f "$execname")"
+cmd=("$execpath")
 
 case "$filename" in
+    *.s)
+        gcc "$filename" -o "$execpath"
+        ;;
     *.c)
-        gcc -Wall -Wextra -g "$filename" -o "$execname"
+        gcc -Wall -Wextra -g "$filename" -o "$execpath"
         ;;
     *.cc|*.cpp|*.C)
-        g++ -std=c++17 -Wall -Wextra -g "$filename" -o "$execname"
+        g++ -std=c++17 -Wall -Wextra -g "$filename" -o "$execpath"
         ;;
     *.rs)
-        rustc -g "$filename" -o "$execname"
+        rustc -g "$filename" -o "$execpath"
         ;;
     *.hs)
-        ghc -g "$filename" -o "$execname"
+        ghc -g "$filename" -o "$execpath"
+        ;;
+    *.java)
+        cmd=(java "$execname")
+        javac -g "$filename"
+        ;;
+    *.py)
+        cmd=(python "$filename")
+        ;;
+    *.rb)
+        cmd=(ruby "$filename")
         ;;
     *)
         echo "extension not recognized" >&2
@@ -78,9 +93,7 @@ if [[ $ret -ne 0 ]]; then
 fi
 
 if [[ $MEM = true ]]; then
-    interp='valgrind --leak-check=full'
-else
-    interp=''
+    cmd=(valgrind --leak-check=full "${cmd[@]}")
 fi
 
-$interp "$execname" "${args[@]}"
+"${cmd[@]}" "${args[@]}"

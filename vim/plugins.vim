@@ -28,9 +28,11 @@ if executable('git')
 
     Plug 'tpope/vim-fugitive'
     " {{{
-    function! TabInfo()
-        return '%{fugitive#head(7)}'
-    endfunction
+    if exists(':Gstatus')
+        function! TabInfo()
+            return '%{fugitive#head(7)}'
+        endfunction
+    endif
     " }}}
 endif
 
@@ -89,7 +91,7 @@ Plug 'tpope/vim-commentary'
 
 Plug 'tpope/vim-surround'
 
-Plug 'danzhu/vim-pairs'
+Plug 'jiangmiao/auto-pairs'
 
 Plug 'tpope/vim-endwise'
 
@@ -187,3 +189,7 @@ if has('win32')
     Plug 'xolox/vim-shell'
 endif
 " }}}
+
+if filereadable($VIMDIR . '/plugins.local.vim')
+    source $VIMDIR/plugins.local.vim
+endif

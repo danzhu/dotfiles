@@ -1,6 +1,6 @@
+/*.local.vim
 /.netrwhist
 /autoload/plug.vim*
-/local.vim
 /plugged/
 /spell/*.spl
 /spell/*.sug
