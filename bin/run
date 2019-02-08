@@ -69,7 +69,7 @@ case "$filename" in
         rustc -g "$filename" -o "$execpath"
         ;;
     *.hs)
-        ghc -g "$filename" -o "$execpath"
+        stack ghc -- -g "$filename" -o "$execpath"
         ;;
     *.java)
         cmd=(java "$execname")

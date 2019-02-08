@@ -9,9 +9,9 @@
 (require 'package)
 (customize-set-variable
  'package-archives
- '(("melpa" . "http://melpa.org/packages/")
-   ("org" . "http://orgmode.org/elpa/")
-   ("gnu" . "http://elpa.gnu.org/packages/")))
+ '(("melpa" . "https://melpa.org/packages/")
+   ("org" . "https://orgmode.org/elpa/")
+   ("gnu" . "https://elpa.gnu.org/packages/")))
 (customize-set-variable 'package-enable-at-startup nil)
 (package-initialize)
 

@@ -1,4 +1,5 @@
 (defun my-prog-mode-hook ()
+  (setq-local comment-column 40)
   (font-lock-add-keywords
    nil
    '(("\\<\\(TODO\\|FIXME\\|XXX\\|HACK\\):" 1 highlight t))))

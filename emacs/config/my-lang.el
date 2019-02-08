@@ -216,12 +216,24 @@
   :defer t
   :mode "\\.idr\\'")
 
+(use-package sml-mode
+  :ensure t
+  :defer t
+  :mode "\\.sml\\'")
+
+(use-package racket-mode
+  :ensure t
+  :defer t
+  :mode "\\.rkt\\'")
+
 (use-package glsl-mode
   :ensure t
   :defer t
   :mode (("\\.glsl\\'" . glsl-mode)
          ("\\.vert\\'" . glsl-mode)
-         ("\\.frag\\'" . glsl-mode)))
+         ("\\.frag\\'" . glsl-mode)
+         ("\\.vs\\'" . glsl-mode)
+         ("\\.fs\\'" . glsl-mode)))
 
 (use-package evil-org
   :ensure t

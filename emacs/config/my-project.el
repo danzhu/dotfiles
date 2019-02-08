@@ -4,6 +4,9 @@
   :custom
   (projectile-completion-system 'ivy)
   :config
+  (customize-set-variable
+   'projectile-globally-ignored-directories
+   (append '("~/.local") projectile-globally-ignored-directories))
   (projectile-mode 1))
 
 (use-package counsel-projectile
@@ -45,9 +48,6 @@
     "XXXX...."
     "XXXXX..."
     "XXXXXX.."))
-
-(use-package ag
-  :ensure t)
 
 (use-package rg
   :ensure t)

@@ -454,8 +454,8 @@ class Dot(cmd.Cmd):
         self._display('apply:')
         self._display_actions(applies)
 
-        if (not self._check_actions(reverts, Status.DONE) or
-            not self._check_actions(applies, Status.READY)):
+        if (not self._check_actions(reverts, Status.DONE)
+                or not self._check_actions(applies, Status.READY)):
             return
 
         if not self._confirm('continue?'):

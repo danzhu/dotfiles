@@ -31,7 +31,7 @@
     # the top and down respectively.
     # The width can be negative.  In this case the actual width is the
     # screen width minus the width defined in within the geometry option.
-    geometry = "450x5-0+150"
+    geometry = "600x5-0+200"
 
     # Show how many messages are currently hidden (because of geometry).
     indicate_hidden = yes
@@ -127,7 +127,7 @@
     #   %n  progress value if set without any extra characters
     #   %%  Literal %
     # Markup is allowed
-    format = "<b>%s</b>%p\n%b"
+    format = "<b>%a: %s</b>%p\n%b"
 
     # Alignment of message text.
     # Possible values are "left", "center" and "right".
@@ -156,7 +156,7 @@
     hide_duplicate_count = false
 
     # Display indicators for URLs (U) and actions (A).
-    show_indicators = yes
+    show_indicators = no
 
     ### Icons ###
 
@@ -230,19 +230,19 @@
     # Xev might be helpful to find names for keys.
 
     # Close notification.
-    close = ctrl+space
+    close = mod4+BackSpace
 
     # Close all notifications.
-    close_all = ctrl+shift+space
+    close_all = mod4+shift+BackSpace
 
     # Redisplay last message(s).
     # On the US keyboard layout "grave" is normally above TAB and left
     # of "1". Make sure this key actually exists on your keyboard layout,
     # e.g. check output of 'xmodmap -pke'
-    history = ctrl+grave
+    history = mod4+numbersign
 
     # Context menu.
-    context = ctrl+shift+period
+    context = mod4+dollar
 
 [urgency_low]
     # IMPORTANT: colors have to be defined in quotation marks.
