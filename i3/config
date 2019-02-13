@@ -25,11 +25,11 @@ set_from_resource $cbg i3wm.background "#000000"
 
 # workspace names
 set $ws0 "0"
-set $ws1 "1 web"
-set $ws2 "2 dev"
-set $ws3 "3 cfg"
-set $ws4 "4 doc"
-set $ws5 "5 ref"
+set $ws1 "1:web"
+set $ws2 "2:dev"
+set $ws3 "3:cfg"
+set $ws4 "4:doc"
+set $ws5 "5:ref"
 set $ws6 "6"
 set $ws7 "7"
 set $ws8 "8"
@@ -43,8 +43,6 @@ hide_edge_borders both
 floating_modifier $mod
 # gaps inner 6
 # gaps outer 0
-
-# exec_always --no-startup-id feh --bg-fill ~/.wallpaper.jpg
 
 # volume controls
 bindsym XF86AudioRaiseVolume exec --no-startup-id pactl set-sink-volume 0 +2%
@@ -134,28 +132,28 @@ bindsym $mod+p workspace prev
 bindsym $mod+Tab workspace back_and_forth
 
 # switch to workspace
-bindsym $mod+0 workspace number $ws0
-bindsym $mod+1 workspace number $ws1
-bindsym $mod+2 workspace number $ws2
-bindsym $mod+3 workspace number $ws3
-bindsym $mod+4 workspace number $ws4
-bindsym $mod+5 workspace number $ws5
-bindsym $mod+6 workspace number $ws6
-bindsym $mod+7 workspace number $ws7
-bindsym $mod+8 workspace number $ws8
-bindsym $mod+9 workspace number $ws9
+bindsym $mod+0 workspace $ws0
+bindsym $mod+1 workspace $ws1
+bindsym $mod+2 workspace $ws2
+bindsym $mod+3 workspace $ws3
+bindsym $mod+4 workspace $ws4
+bindsym $mod+5 workspace $ws5
+bindsym $mod+6 workspace $ws6
+bindsym $mod+7 workspace $ws7
+bindsym $mod+8 workspace $ws8
+bindsym $mod+9 workspace $ws9
 
 # move focused container to workspace
-bindsym $mod+Shift+0 move container to workspace number $ws0
-bindsym $mod+Shift+1 move container to workspace number $ws1
-bindsym $mod+Shift+2 move container to workspace number $ws2
-bindsym $mod+Shift+3 move container to workspace number $ws3
-bindsym $mod+Shift+4 move container to workspace number $ws4
-bindsym $mod+Shift+5 move container to workspace number $ws5
-bindsym $mod+Shift+6 move container to workspace number $ws6
-bindsym $mod+Shift+7 move container to workspace number $ws7
-bindsym $mod+Shift+8 move container to workspace number $ws8
-bindsym $mod+Shift+9 move container to workspace number $ws9
+bindsym $mod+Shift+0 move container to workspace $ws0
+bindsym $mod+Shift+1 move container to workspace $ws1
+bindsym $mod+Shift+2 move container to workspace $ws2
+bindsym $mod+Shift+3 move container to workspace $ws3
+bindsym $mod+Shift+4 move container to workspace $ws4
+bindsym $mod+Shift+5 move container to workspace $ws5
+bindsym $mod+Shift+6 move container to workspace $ws6
+bindsym $mod+Shift+7 move container to workspace $ws7
+bindsym $mod+Shift+8 move container to workspace $ws8
+bindsym $mod+Shift+9 move container to workspace $ws9
 
 # workspace $ws1 output VGA-1 DP1 eDP1
 workspace $ws1 output primary
@@ -210,11 +208,18 @@ mode "resize" {
     bindsym Escape mode "default"
 }
 
+bindsym $mod+y exec --no-startup-id setxkbmap -layout us; mode "keyboard"
+
+mode "keyboard" {
+    bindsym $mod+Escape exec --no-startup-id setxkbmap -variant dvp; mode "default"
+}
+
 bar {
     status_command i3status
     position top
     tray_output primary
     separator_symbol "/"
+    # strip_workspace_numbers yes
 
     colors {
         background $cbg
