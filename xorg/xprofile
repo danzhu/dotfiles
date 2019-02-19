@@ -17,7 +17,7 @@ runs() {
     fi
 }
 
-runs fcitx
+# runs fcitx
 runs dunst
 runs udiskie
 runs libinput-gestures-setup start

@@ -1,0 +1,3 @@
+# --style="changes,header,grid,numbers"
+--theme="Code"
+--pager="less -R"
