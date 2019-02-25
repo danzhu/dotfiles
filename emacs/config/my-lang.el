@@ -189,6 +189,12 @@
 ;;   :config
 ;;   (flycheck-add-next-checker 'python-flake8 'python-mypy))
 
+(use-package lua-mode
+  :ensure t
+  :defer t
+  :mode "\\.lua\\'"
+  :interpreter "lua")
+
 (use-package haskell-mode
   :ensure t
   :defer t
