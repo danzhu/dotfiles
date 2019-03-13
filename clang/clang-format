@@ -4,6 +4,7 @@
 AccessModifierOffset: -4
 AlignTrailingComments: false
 AlwaysBreakTemplateDeclarations: true
+# BreakBeforeBinaryOperators: NonAssignment
 IncludeCategories:
   - Regex: '^"'
     Priority: 1

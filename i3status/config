@@ -10,12 +10,14 @@ order += "ethernet _first_"
 order += "wireless _first_"
 order += "load"
 order += "cpu_usage"
+order += "cpu_temperature 0"
 order += "disk /"
 order += "battery 0"
 order += "volume master"
 order += "time"
 
 general {
+    output_format = "i3bar"
     colors = true
     interval = 5
     color_good = "#22c75f"
@@ -24,19 +26,19 @@ general {
 }
 
 ethernet _first_ {
-    format_up = "eth %ip"
+    format_up = "%ip"
     format_down = ""
 }
 
 wireless _first_ {
-    format_up = "wifi %ip"
+    format_up = "%essid %quality %ip"
     format_down = ""
 }
 
 battery 0 {
-    format = "%status %percentage"
+    format = "%status %percentage %remaining"
     format_down = ""
-    integer_battery_capacity = true
+    # integer_battery_capacity = true
     status_chr = "chr"
     status_bat = "bat"
     status_full = "ful"
@@ -54,10 +56,16 @@ load {
 
 disk "/" {
     format = "disk %avail [%percentage_avail]"
+    low_threshold = 32
+    threshold_type = gbytes_avail
 }
 
 cpu_usage {
     format = "cpu %usage"
+}
+
+cpu_temperature 0 {
+    format = "temp %degrees"
 }
 
 volume master {
