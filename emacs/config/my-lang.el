@@ -193,7 +193,9 @@
   :ensure t
   :defer t
   :mode "\\.lua\\'"
-  :interpreter "lua")
+  :interpreter "lua"
+  :custom
+  (lua-indent-level 4))
 
 (use-package haskell-mode
   :ensure t

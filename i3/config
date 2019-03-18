@@ -36,7 +36,7 @@ set $ws8 "8"
 set $ws9 "9"
 
 # screenshot path
-set $sspath "pictures/screenshots/$(date --iso-8601='seconds').png"
+set $sspath "pictures/screenshot.png"
 
 font pango:monospace 9
 

@@ -36,13 +36,15 @@ wireless _first_ {
 }
 
 battery 0 {
-    format = "%status %percentage %remaining"
+    format = "⌁ %status %percentage %remaining"
     format_down = ""
-    # integer_battery_capacity = true
-    status_chr = "chr"
-    status_bat = "bat"
-    status_full = "ful"
-    status_unk = "unk"
+    last_full_capacity = true
+    integer_battery_capacity = true
+    hide_seconds = true
+    status_chr = "+"
+    status_bat = "-"
+    status_full = "="
+    status_unk = "?"
     low_threshold = 20
 }
 
@@ -51,11 +53,11 @@ time {
 }
 
 load {
-    format = "load %1min"
+    format = "%1min %5min %15min"
 }
 
 disk "/" {
-    format = "disk %avail [%percentage_avail]"
+    format = "%avail"
     low_threshold = 32
     threshold_type = gbytes_avail
 }
@@ -65,10 +67,10 @@ cpu_usage {
 }
 
 cpu_temperature 0 {
-    format = "temp %degrees"
+    format = "%degrees°C"
 }
 
 volume master {
-    format = "vol %volume"
-    format_muted = "mute"
+    format = "♫ %volume"
+    format_muted = "♫ x"
 }
