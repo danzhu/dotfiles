@@ -63,7 +63,7 @@ case "$filename" in
         gcc -Wall -Wextra -g "$filename" -o "$execpath"
         ;;
     *.cc|*.cpp|*.C)
-        g++ -std=c++17 -Wall -Wextra -g -rdynamic "$filename" -o "$execpath"
+        g++ -std=c++17 -Wall -Wextra -g "$filename" -o "$execpath"
         ;;
     *.rs)
         rustc -g "$filename" -o "$execpath"

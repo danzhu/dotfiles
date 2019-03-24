@@ -1,0 +1,12 @@
+.stack-work/
+/build-plan-cache/
+/build-plan/
+/compiler-tools/
+/indices/
+/loaded-snapshot-cache/
+/precompiled/
+/programs/
+/setup-exe-cache/
+/setup-exe-src/
+/snapshots/
+/templates/

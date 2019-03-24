@@ -15,6 +15,17 @@
   :defer t
   :mode ("/PKGBUILD\\'" . sh-mode))
 
+(use-package python
+  :defer t
+  :mode ("\\.py\\'" . python-mode)
+  :interpreter (("python" . python-mode)
+                ("python2" . python-mode)
+                ("python3" . python-mode))
+  :init
+  (defun my-python-mode-hook ()
+    (setq-local flycheck-checker 'python-mypy))
+  (add-hook 'python-mode-hook 'my-python-mode-hook))
+
 (use-package conf-mode
   :defer t
   :mode "\\.hook\\'")

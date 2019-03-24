@@ -3,7 +3,7 @@
 # --- history ---
 setopt appendhistory histignorealldups sharehistory
 
-HISTFILE=~/.histfile
+HISTFILE=$DOT/zsh/history
 HISTSIZE=1000
 SAVEHIST=1000
 

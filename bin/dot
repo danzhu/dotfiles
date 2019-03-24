@@ -543,6 +543,8 @@ class Dot(cmd.Cmd):
 
 
 def main() -> None:
+    sys.dont_write_bytecode = True
+
     dot = Dot()
     dot.load()
 

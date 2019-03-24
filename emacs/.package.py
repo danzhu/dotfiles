@@ -1,2 +1,2 @@
-def emacs(dot):
-    dot.symlink('~/.emacs.d', '.')
+def emacs(pkg):
+    pkg.symlink('~/.emacs.d', '.')
