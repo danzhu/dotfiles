@@ -95,6 +95,7 @@ bindsym XF86AudioPrev nop
 bindsym XF86AudioNext nop
 
 bindsym XF86TouchpadToggle nop
+bindsym XF86Calculator nop
 
 # screenshot
 bindsym --release Print exec --no-startup-id import -window root $sspath

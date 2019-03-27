@@ -84,6 +84,9 @@
         ("M-n" . yas-next-field)
         ("M-p" . yas-prev-field)))
 
+(use-package yasnippet-snippets
+  :ensure t)
+
 (use-package flycheck
   :ensure t
   :diminish flycheck-mode

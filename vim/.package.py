@@ -11,4 +11,4 @@ def nvim(pkg):
 def vim(pkg):
     pkg.depend('vim_plug')
     pkg.symlink('~/.vim', '.')
-    pkg.symlink('~/.vimrc', 'init.vim')
+    pkg.symlink('vimrc', 'init.vim')

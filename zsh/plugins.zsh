@@ -1,4 +1,4 @@
-zplug 'zplug/zplug', hook-build:'zplug --self-manage'
+# zplug 'zplug/zplug', hook-build:'zplug --self-manage'
 
 # zplug 'mafredri/zsh-async'
 

@@ -24,6 +24,9 @@ source "$DOT/shell/aliases"
 source "$DOT/shell/functions"
 source "$DOT/shell/completions"
 
+# disable Ctrl-S freezing terminal
+stty -ixon
+
 # plugins
 plug() {
     local plugin="$1"

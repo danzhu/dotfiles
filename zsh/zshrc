@@ -44,7 +44,7 @@ source $DOT/shell/functions
 source $DOT/shell/completions
 
 
-# --- freeze tty ---
+# --- disable Ctrl-S freezing terminal ---
 ttyctl -f
 
 
