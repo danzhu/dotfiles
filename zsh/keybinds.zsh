@@ -72,7 +72,7 @@ function foreground() {
     zle accept-line
 }
 zle -N foreground
-bindkey -v '^F' foreground
+bindkey -v '^Z' foreground
 
 
 function expand-or-complete-or-list-files() {
