@@ -103,7 +103,7 @@ bindsym --release Shift+Print exec --no-startup-id import $sspath
 
 # commonly-used programs
 bindsym $mod+Return exec $TERMINAL
-bindsym $mod+e exec $GEDITOR
+bindsym $mod+e exec --no-startup-id $GEDITOR
 bindsym $mod+b exec $BROWSER
 bindsym $mod+d exec $LAUNCHER
 bindsym $mod+r exec $RUNNER

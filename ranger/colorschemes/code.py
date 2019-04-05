@@ -69,11 +69,8 @@ class Code(ColorScheme):
             if context.main_column:
                 # Doubling up with BRIGHT here causes issues because it's
                 # additive not idempotent.
-                if context.selected:
-                    attr |= bold
                 if context.marked:
-                    attr |= bold
-                    fg = yellow
+                    bg = black + BRIGHT
             if context.badinfo:
                 if attr & reverse:
                     bg = magenta
