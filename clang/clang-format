@@ -11,6 +11,7 @@ IncludeCategories:
   - Regex: '^<'
     Priority: 2
 IndentWidth: 4
+PenaltyBreakAssignment: 100
 ...
 
 # vim: ft=yaml

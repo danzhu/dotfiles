@@ -143,7 +143,9 @@
 (use-package pug-mode
   :ensure t
   :defer t
-  :mode "\\.pug\\'")
+  :mode "\\.pug\\'"
+  :custom
+  (pug-tab-width 2))
 
 (use-package js2-mode
   :ensure t
