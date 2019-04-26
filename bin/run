@@ -71,6 +71,9 @@ case "$filename" in
     *.hs)
         stack ghc -- -g "$filename" -o "$execpath"
         ;;
+    *.idr)
+        idris "$filename" -o "$execpath"
+        ;;
     *.java)
         cmd=(java "$execname")
         javac -g "$filename"

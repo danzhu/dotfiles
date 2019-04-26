@@ -23,8 +23,11 @@
                 ("python3" . python-mode))
   :init
   (defun my-python-mode-hook ()
-    (setq-local flycheck-checker 'python-mypy))
-  (add-hook 'python-mode-hook 'my-python-mode-hook))
+    ;; (setq-local flycheck-checker 'python-mypy)
+    (lsp))
+  (add-hook 'python-mode-hook 'my-python-mode-hook)
+  :custom
+  (python-indent-guess-indent-offset-verbose nil))
 
 (use-package conf-mode
   :defer t
@@ -156,6 +159,13 @@
   (js2-include-node-externs t)
   (js2-strict-missing-semi-warning nil))
 
+(use-package typescript-mode
+  :ensure t
+  :defer t
+  :mode "\\.ts\\'"
+  :interpreter "ts-node"
+  :hook (typescript-mode . lsp))
+
 ;; (use-package tern
 ;;   :ensure t
 ;;   :defer t
@@ -173,17 +183,17 @@
   :defer t
   :mode "\\.jsx\\'")
 
-(use-package anaconda-mode
-  :ensure t
-  :defer t
-  :hook ((python-mode . anaconda-mode)
-         (python-mode . anaconda-eldoc-mode)))
+;; (use-package anaconda-mode
+;;   :ensure t
+;;   :defer t
+;;   :hook ((python-mode . anaconda-mode)
+;;          (python-mode . anaconda-eldoc-mode)))
 
-(use-package company-anaconda
-  :ensure t
-  :after (company anaconda-mode)
-  :config
-  (add-to-list 'company-backends 'company-anaconda))
+;; (use-package company-anaconda
+;;   :ensure t
+;;   :after (company anaconda-mode)
+;;   :config
+;;   (add-to-list 'company-backends 'company-anaconda))
 
 ;; (use-package elpy
 ;;   :ensure t

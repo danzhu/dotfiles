@@ -24,16 +24,16 @@ set_from_resource $cfg i3wm.foreground "#000000"
 set_from_resource $cbg i3wm.background "#000000"
 
 # workspace names
-set $ws0 "0"
-set $ws1 "1:web"
-set $ws2 "2:dev"
-set $ws3 "3:cfg"
-set $ws4 "4:doc"
-set $ws5 "5:ref"
-set $ws6 "6"
-set $ws7 "7"
-set $ws8 "8"
-set $ws9 "9"
+set $ws0 0
+set $ws1 1:web
+set $ws2 2:dev
+set $ws3 3:cfg
+set $ws4 4:dir
+set $ws5 5:ssh
+set $ws6 6:com
+set $ws7 7:tor
+set $ws8 8
+set $ws9 9
 
 # screenshot path
 set $sspath "pictures/screenshot.png"
@@ -61,7 +61,7 @@ hide_edge_borders both
 # smart_gaps on
 
 # rules
-for_window [workspace=$ws1] layout tabbed
+for_window [workspace="$ws1|$ws4"] layout tabbed
 # no_focus []
 
 # assign
@@ -80,9 +80,9 @@ client.placeholder      $cbg    $c00    $cfg    $cbg    $c00
 client.background       $cbg
 
 # volume controls
-bindsym XF86AudioRaiseVolume exec --no-startup-id pactl set-sink-volume 0 +2%
-bindsym XF86AudioLowerVolume exec --no-startup-id pactl set-sink-volume 0 -2%
-bindsym XF86AudioMute exec --no-startup-id pactl set-sink-mute 0 toggle
+bindsym XF86AudioRaiseVolume exec --no-startup-id pactl set-sink-volume @DEFAULT_SINK@ +2%
+bindsym XF86AudioLowerVolume exec --no-startup-id pactl set-sink-volume @DEFAULT_SINK@ -2%
+bindsym XF86AudioMute exec --no-startup-id pactl set-sink-mute @DEFAULT_SINK@ toggle
 
 # brightness controls
 bindsym XF86MonBrightnessUp exec --no-startup-id xbacklight -inc 5
@@ -193,6 +193,10 @@ bindsym $mod+Shift+7 move container to workspace $ws7
 bindsym $mod+Shift+8 move container to workspace $ws8
 bindsym $mod+Shift+9 move container to workspace $ws9
 
+# move workspace to output
+bindsym $mod+Ctrl+n move workspace to output left
+bindsym $mod+Ctrl+p move workspace to output right
+
 bindsym $mod+x mode "system"
 
 mode "system" {
@@ -238,9 +242,9 @@ bindsym $mod+y exec --no-startup-id setxkbmap -layout us; mode "keyboard"
 
 mode "keyboard" {
     # volume controls
-    bindsym XF86AudioRaiseVolume exec --no-startup-id pactl set-sink-volume 0 +2%
-    bindsym XF86AudioLowerVolume exec --no-startup-id pactl set-sink-volume 0 -2%
-    bindsym XF86AudioMute exec --no-startup-id pactl set-sink-mute 0 toggle
+    bindsym XF86AudioRaiseVolume exec --no-startup-id pactl set-sink-volume @DEFAULT_SINK@ +2%
+    bindsym XF86AudioLowerVolume exec --no-startup-id pactl set-sink-volume @DEFAULT_SINK@ -2%
+    bindsym XF86AudioMute exec --no-startup-id pactl set-sink-mute @DEFAULT_SINK@ toggle
 
     # brightness controls
     bindsym XF86MonBrightnessUp exec --no-startup-id xbacklight -inc 5

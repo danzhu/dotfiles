@@ -101,25 +101,33 @@
   :defer t
   :commands lsp
   :custom
-  (lsp-inhibit-message t))
+  (lsp-inhibit-message t)
+  (lsp-prefer-flymake nil)
+  (lsp-keep-workspace-alive nil)
+  (lsp-eldoc-enable-hover nil))
 
 (use-package lsp-ui
   :ensure t
   :defer t
-  :commands lsp-ui-mode)
+  :commands lsp-ui-mode
+  :custom
+  (lsp-ui-doc-use-childframe nil)
+  (lsp-ui-doc-max-width 80)
+  (lsp-ui-doc-max-height 10)
+  (lsp-ui-doc-header t)
+  (lsp-ui-doc-position 'at-point)
+  (lsp-ui-include-signature t))
 
 (use-package company-lsp
   :ensure t
   :defer t
-  :commands company-lsp
-  :init
-  (add-to-list 'company-backends 'company-lsp))
+  :commands company-lsp)
 
-;; (use-package dap-mode
-;;   :ensure t
-;;   :config
-;;   (dap-mode 1)
-;;   (dap-ui-mode 1))
+(use-package dap-mode
+  :ensure t
+  :config
+  (dap-mode 1)
+  (dap-ui-mode 1))
 
 (use-package dumb-jump
   :ensure t

@@ -169,6 +169,11 @@
   (highlight-indentation-current-column-face (:background code-dark))
   (highlight-indentation-face (:background code-darker))
 
+  ;; lsp-mode
+  (lsp-face-highlight-read (:background code-dark))
+  (lsp-face-highlight-textual (:background code-dark))
+  (lsp-face-highlight-write (:background code-dark))
+
   ;; company
   (company-template-field (:background code-dark))
   (company-echo nil)
