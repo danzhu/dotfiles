@@ -262,6 +262,14 @@
   (js2-error (:inherit 'error))
   (js2-warning (:inherit 'warning))
 
+  ;; idris mode
+  (idris-operator-face (:inherit 'font-lock-comment-face))
+  (idris-semantic-bound-face (:inherit 'font-lock-variable-name-face))
+  (idris-semantic-data-face (:foreground code-cyan))
+  (idris-semantic-function-face (:foreground code-light-magenta))
+  (idris-semantic-type-face (:inherit 'font-lock-type-face))
+  (idris-semantic-postulate-face (:inherit 'font-lock-preprocessor-face))
+
   ;; markdown
   (markdown-code-face (:inherit 'fixed-pitch :background code-darker))
   )

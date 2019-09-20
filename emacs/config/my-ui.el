@@ -41,6 +41,8 @@
   (xterm-mouse-mode 1))
 
 (use-package mwheel
+  :custom
+  (mouse-wheel-progressive-speed nil)
   :config
   (mouse-wheel-mode 1))
 
@@ -124,7 +126,8 @@
   :diminish ivy-mode
   :custom
   (ivy-count-format "%d/%d ")
-  (ivy-format-function 'ivy-format-function-arrow)
+  (ivy-format-functions-alist
+   '((t . ivy-format-function-arrow)))
   (ivy-use-virtual-buffers t)
   (ivy-use-selectable-prompt t)
   :config
@@ -145,6 +148,7 @@
   :bind
   (("M-x" . counsel-M-x)
    ("C-x C-f" . counsel-find-file)
+   ("C-x b" . counsel-switch-buffer)
    ("C-h f" . counsel-describe-function)
    ("C-h v" . counsel-describe-variable)
    ("C-c g" . counsel-git)

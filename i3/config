@@ -4,27 +4,27 @@
 
 set $mod Mod4
 
-set_from_resource $c00 i3wm.color0 "#000000"
-set_from_resource $c01 i3wm.color1 "#000000"
-set_from_resource $c02 i3wm.color2 "#000000"
-set_from_resource $c03 i3wm.color3 "#000000"
-set_from_resource $c04 i3wm.color4 "#000000"
-set_from_resource $c05 i3wm.color5 "#000000"
-set_from_resource $c06 i3wm.color6 "#000000"
-set_from_resource $c07 i3wm.color7 "#000000"
-set_from_resource $c08 i3wm.color8 "#000000"
-set_from_resource $c09 i3wm.color9 "#000000"
-set_from_resource $c10 i3wm.color10 "#000000"
-set_from_resource $c11 i3wm.color11 "#000000"
-set_from_resource $c12 i3wm.color12 "#000000"
-set_from_resource $c13 i3wm.color13 "#000000"
-set_from_resource $c14 i3wm.color14 "#000000"
-set_from_resource $c15 i3wm.color15 "#000000"
-set_from_resource $cfg i3wm.foreground "#000000"
-set_from_resource $cbg i3wm.background "#000000"
+set $c00 "#323539"
+set $c01 "#e66b58"
+set $c02 "#22c75f"
+set $c03 "#d8b944"
+set $c04 "#737fe7"
+set $c05 "#a867e2"
+set $c06 "#42bca3"
+set $c07 "#7b818a"
+set $c08 "#41444b"
+set $c09 "#f27f9a"
+set $c10 "#88d46b"
+set $c11 "#dfb971"
+set $c12 "#74b7e7"
+set $c13 "#e19ae6"
+set $c14 "#46ded5"
+set $c15 "#f0f3f4"
+set $cfg "#d3d7d8"
+set $cbg "#232425"
 
 # workspace names
-set $ws0 0
+set $ws0 0:tmp
 set $ws1 1:web
 set $ws2 2:dev
 set $ws3 3:cfg
@@ -33,10 +33,14 @@ set $ws5 5:ssh
 set $ws6 6:com
 set $ws7 7:tor
 set $ws8 8
-set $ws9 9
+set $ws9 9:ext
 
-# screenshot path
-set $sspath "pictures/screenshot.png"
+# VGA-1 DP1 eDP1
+set $primary primary
+set $secondary HDMI-1-1
+
+set $scratch_session scratch
+set $mpv_pane $scratch_session:mpv
 
 font pango:monospace 9
 
@@ -61,14 +65,20 @@ hide_edge_borders both
 # smart_gaps on
 
 # rules
-for_window [workspace="$ws1|$ws4"] layout tabbed
+# for_window [workspace="$ws1|$ws4"] layout tabbed
 # no_focus []
 
 # assign
-# assign [] workspace $ws1
+# assign [class="^mpv$"] workspace $ws0
+assign [class="^discord$"] workspace $ws6
+assign [class="^qBittorrent$"] workspace $ws7
 
-# workspace $ws1 output VGA-1 DP1 eDP1
-workspace $ws1 output primary
+# auto scratchpad
+for_window [class="^scratch$"] move scratchpad
+exec --no-startup-id $TERMINAL --class scratch -e "tmux new -As $scratch_session"
+
+workspace "$ws1" output $primary
+workspace "$ws9" output $secondary
 
 # class                 border  bg      text    ind     child_border
 client.focused          $c12    $c00    $c12    $c00    $c00
@@ -79,27 +89,40 @@ client.placeholder      $cbg    $c00    $cfg    $cbg    $c00
 
 client.background       $cbg
 
+# mouse buttons
+# The middle button over a titlebar kills the window
+bindsym --release button2 kill
+# The middle button and a modifer over any part of the window kills the window
+bindsym --whole-window $mod+button2 kill
+# The right button toggles floating
+bindsym button3 floating toggle
+
 # volume controls
-bindsym XF86AudioRaiseVolume exec --no-startup-id pactl set-sink-volume @DEFAULT_SINK@ +2%
 bindsym XF86AudioLowerVolume exec --no-startup-id pactl set-sink-volume @DEFAULT_SINK@ -2%
+bindsym XF86AudioRaiseVolume exec --no-startup-id pactl set-sink-volume @DEFAULT_SINK@ +2%
 bindsym XF86AudioMute exec --no-startup-id pactl set-sink-mute @DEFAULT_SINK@ toggle
 
-# brightness controls
+# screen controls
 bindsym XF86MonBrightnessUp exec --no-startup-id xbacklight -inc 5
 bindsym XF86MonBrightnessDown exec --no-startup-id xbacklight -dec 5
+bindsym XF86ScreenSaver exec --no-startup-id i3lock -c 000000
 
 # playback controls
-bindsym XF86AudioPlay nop
+bindsym XF86AudioPlay exec --no-startup-id tmux send-keys -t $mpv_pane 'p'
 bindsym XF86AudioStop nop
-bindsym XF86AudioPrev nop
-bindsym XF86AudioNext nop
+bindsym XF86AudioPrev exec --no-startup-id tmux send-keys -t $mpv_pane '<'
+bindsym XF86AudioNext exec --no-startup-id tmux send-keys -t $mpv_pane '>'
+bindsym Shift+XF86AudioLowerVolume exec --no-startup-id tmux send-keys -t $mpv_pane '/'
+bindsym Shift+XF86AudioRaiseVolume exec --no-startup-id tmux send-keys -t $mpv_pane '*'
+bindsym Shift+XF86AudioMute exec --no-startup-id tmux send-keys -t $mpv_pane 'm'
 
+# misc controls
 bindsym XF86TouchpadToggle nop
 bindsym XF86Calculator nop
 
 # screenshot
-bindsym --release Print exec --no-startup-id import -window root $sspath
-bindsym --release Shift+Print exec --no-startup-id import $sspath
+bindsym --release Print exec --no-startup-id clip screenshot root
+bindsym --release Shift+Print exec --no-startup-id clip screenshot rect
 
 # commonly-used programs
 bindsym $mod+Return exec $TERMINAL
@@ -109,7 +132,7 @@ bindsym $mod+d exec $LAUNCHER
 bindsym $mod+r exec $RUNNER
 bindsym $mod+m exec start $MANAGER
 bindsym $mod+w exec rofi -show window -show-icons
-bindsym $mod+c exec rofi -show ssh
+bindsym $mod+c exec --no-startup-id clip exec
 
 # change focus
 bindsym $mod+h focus left
@@ -120,6 +143,10 @@ bindsym $mod+Left focus left
 bindsym $mod+Down focus down
 bindsym $mod+Up focus up
 bindsym $mod+Right focus right
+bindsym $mod+Ctrl+h focus output left
+bindsym $mod+Ctrl+l focus output right
+bindsym $mod+Ctrl+j focus output down
+bindsym $mod+Ctrl+k focus output up
 
 bindsym $mod+u [urgent=latest] focus
 
@@ -132,6 +159,10 @@ bindsym $mod+Shift+Left move left
 bindsym $mod+Shift+Down move down
 bindsym $mod+Shift+Up move up
 bindsym $mod+Shift+Right move right
+bindsym $mod+Ctrl+Shift+h move container to output left
+bindsym $mod+Ctrl+Shift+l move container to output right
+bindsym $mod+Ctrl+Shift+j move container to output down
+bindsym $mod+Ctrl+Shift+k move container to output up
 
 # focus parent / child container
 bindsym $mod+o focus parent
@@ -163,8 +194,8 @@ bindsym $mod+minus kill
 bindsym $mod+Shift+minus exec --no-startup-id xdotool getwindowfocus windowkill
 
 # next / previous / last workspace
-bindsym $mod+n workspace next
-bindsym $mod+p workspace prev
+bindsym $mod+n workspace next_on_output
+bindsym $mod+p workspace prev_on_output
 bindsym $mod+Shift+n move workspace next
 bindsym $mod+Shift+p move workspace prev
 bindsym $mod+Tab workspace back_and_forth
@@ -193,13 +224,12 @@ bindsym $mod+Shift+7 move container to workspace $ws7
 bindsym $mod+Shift+8 move container to workspace $ws8
 bindsym $mod+Shift+9 move container to workspace $ws9
 
-# move workspace to output
-bindsym $mod+Ctrl+n move workspace to output left
-bindsym $mod+Ctrl+p move workspace to output right
-
 bindsym $mod+x mode "system"
 
 mode "system" {
+    # reset resolution
+    bindsym s exec --no-startup-id autorandr -c; mode "default"
+
     # run i3 lock
     bindsym l exec --no-startup-id i3lock -c 000000; mode "default"
 
@@ -215,6 +245,14 @@ mode "system" {
     bindsym Shift+s exec --no-startup-id poweroff
     # reboot
     bindsym Shift+r exec --no-startup-id reboot
+
+    bindsym Escape mode "default"
+}
+
+bindsym $mod+g mode "game"
+
+mode "game" {
+    bindsym o exec osu; mode "default"
 
     bindsym Escape mode "default"
 }
@@ -250,7 +288,7 @@ mode "keyboard" {
     bindsym XF86MonBrightnessUp exec --no-startup-id xbacklight -inc 5
     bindsym XF86MonBrightnessDown exec --no-startup-id xbacklight -dec 5
 
-    bindsym $mod+Escape exec --no-startup-id setxkbmap -variant dvp; mode "default"
+    bindsym $mod+Escape exec --no-startup-id setxkbmap -variant dvorak; mode "default"
 }
 
 bar {

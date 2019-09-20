@@ -17,6 +17,7 @@
 #window {
     border: 1;
     padding: 5;
+    width: 30%;
 }
 
 #inputbar {
@@ -34,6 +35,7 @@
     border-color: @separator-color;
     padding: @content-padding;
     scrollbar: true;
+    lines: 20;
 }
 
 #sidebar {

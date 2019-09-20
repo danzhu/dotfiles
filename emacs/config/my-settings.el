@@ -14,7 +14,7 @@
 (customize-set-variable 'scroll-conservatively 100)
 (customize-set-variable 'scroll-margin 5)
 (customize-set-variable 'scroll-preserve-screen-position t)
-(customize-set-variable 'scroll-step 1)
+;; (customize-set-variable 'scroll-step 1)
 (setq auto-window-vscroll nil)
 (setq frame-title-format '("%b"))
 (setq-default fringes-outside-margins t)

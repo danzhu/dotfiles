@@ -1,0 +1,56 @@
+#!/bin/bash
+
+SCREENSHOT_PATH="$HOME/pictures/screenshot.png"
+SCREENSHOT_MIME='image/png'
+
+msg() {
+    local title="$1"
+    local msg="$2"
+    notify-send --urgency=low --app-name="$(basename $0)" "$title" "$msg"
+}
+
+die() {
+    msg error "$1"
+    exit
+}
+
+cmd="$1"
+
+case "$cmd" in
+    screenshot)
+        region="$2"
+        case "$region" in
+            root) opts=(-window root) ;;
+            rect) opts=() ;;
+            *) die "unknown region '$region'"
+        esac
+        import "${opts[@]}" "$SCREENSHOT_PATH"
+        xclip -selection clipboard -target "$SCREENSHOT_MIME" "$SCREENSHOT_PATH"
+        msg screenshot 'copied to clipboard'
+        ;;
+    exec)
+        links=$(xclip -o)
+
+        case "$links" in
+            https://www.youtube.com/watch\?v=*)
+                msg youtube
+                exec mpv "$links"
+                ;;
+            magnet:\?*)
+                for link in $links; do
+                    res=$(transmission-remote -a "$link")
+                    if [[ $? -ne 0 ]]; then
+                        die "$res"
+                    fi
+                done
+                msg magnet
+                ;;
+            *)
+                die "unknown link '$links'"
+                ;;
+        esac
+        ;;
+    *)
+        die "unknown command '$cmd'"
+        ;;
+esac

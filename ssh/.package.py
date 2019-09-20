@@ -1,2 +1,2 @@
 def ssh(pkg):
-    pkg.symlink('~/.ssh', '.')
+    pkg.symlink('~/.ssh/config', 'config')

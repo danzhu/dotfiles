@@ -12,6 +12,7 @@ order += "load"
 order += "cpu_usage"
 order += "cpu_temperature 0"
 order += "disk /"
+order += "disk /mnt/data"
 order += "battery 0"
 order += "volume master"
 order += "time"
@@ -31,7 +32,7 @@ ethernet _first_ {
 }
 
 wireless _first_ {
-    format_up = "%essid %quality %ip"
+    format_up = "%essid %ip"
     format_down = ""
 }
 
@@ -45,7 +46,8 @@ battery 0 {
     status_bat = "-"
     status_full = "="
     status_unk = "?"
-    low_threshold = 20
+    low_threshold = 30
+    threshold_type = percentage
 }
 
 time {
@@ -57,8 +59,14 @@ load {
 }
 
 disk "/" {
-    format = "%avail"
+    format = "root %avail"
     low_threshold = 32
+    threshold_type = gbytes_avail
+}
+
+disk "/mnt/data" {
+    format = "data %avail"
+    low_threshold = 16
     threshold_type = gbytes_avail
 }
 

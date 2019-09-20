@@ -33,7 +33,7 @@
 (use-package git-gutter-fringe
   :ensure t
   :diminish git-gutter-mode
-  :when (display-graphic-p)
+  :when (or (display-graphic-p) (daemonp))
   :config
   (global-git-gutter-mode 1)
   (add-hook 'focus-in-hook 'git-gutter:update-all-windows)
