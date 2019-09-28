@@ -17,7 +17,13 @@
 #     # multiple statements on one line (def)
 #     E704
 ignore =
+    # multiple statements on one line (def)
+    E704,
+    # do not use variables named 'l', 'O', or 'I'
+    E741,
     # line break before binary operator
-    W503
+    W503,
+    # redefinition of unused name from line N
+    F811,
 
 # vim: ft=dosini

@@ -1,0 +1,11 @@
+notify-program notify-send
+bind-key J next-feed
+bind-key K prev-feed
+bind-key j next
+bind-key k prev
+auto-reload yes
+confirm-exit yes
+
+color info color12 black
+color listfocus default black
+color listfocus_unread default black bold
