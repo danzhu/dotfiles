@@ -1,11 +1,16 @@
-notify-program notify-send
-bind-key J next-feed
-bind-key K prev-feed
-bind-key j next
-bind-key k prev
+# config
 auto-reload yes
 confirm-exit yes
 
+# notification
+notify-format "%n unread articles"
+notify-program "~/.config/newsboat/notify"
+
+# key binds
+bind-key j down
+bind-key k up
+
+# color
 color info color12 black
 color listfocus default black
 color listfocus_unread default black bold

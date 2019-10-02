@@ -1,0 +1,17 @@
+[mypy]
+
+# disallow dynamic typing
+disallow_any_generics = True
+
+# untyped definitions and calls
+disallow_incomplete_defs = True
+
+# warnings
+warn_unreachable = True
+
+# strictness
+implicit_reexport = False
+strict_equality = True
+
+# incremental mode
+cache_dir = ~/.cache/mypy

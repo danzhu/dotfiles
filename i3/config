@@ -249,10 +249,11 @@ mode "system" {
     bindsym Escape mode "default"
 }
 
-bindsym $mod+g mode "game"
+bindsym $mod+g mode "go"
 
-mode "game" {
+mode "go" {
     bindsym o exec osu; mode "default"
+    bindsym t exec $TERMINAL -e tmux new -As toxic toxic; mode "default"
 
     bindsym Escape mode "default"
 }

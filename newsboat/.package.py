@@ -1,2 +1,2 @@
 def newsboat(pkg):
-    pkg.symlink('~/.newsboat/config', 'config')
+    pkg.symlink('~/.config/newsboat', '.')

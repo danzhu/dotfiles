@@ -4,5 +4,5 @@ Host *
     ServerAliveInterval 60
 
 Host se
-    HostName ubuntu1604-002.student.cs.uwaterloo.ca
+    HostName ubuntu1604-006.student.cs.uwaterloo.ca
     User h94zhu
