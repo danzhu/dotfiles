@@ -1,5 +1,6 @@
 [options]
 font = Monospace 9
+size_hints = true
 
 [colors]
 
@@ -41,3 +42,5 @@ color14 = #46ded5
 # white
 color7  = #7b818a
 color15 = #f0f3f4
+
+# vim: ft=dosini cms=#%s

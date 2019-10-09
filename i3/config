@@ -227,8 +227,8 @@ bindsym $mod+Shift+9 move container to workspace $ws9
 bindsym $mod+x mode "system"
 
 mode "system" {
-    # reset resolution
-    bindsym s exec --no-startup-id autorandr -c; mode "default"
+    # reset resolution / fix i3status
+    bindsym s exec --no-startup-id autorandr -c; exec --no-startup-id pkill -CONT i3status; mode "default"
 
     # run i3 lock
     bindsym l exec --no-startup-id i3lock -c 000000; mode "default"
@@ -253,7 +253,7 @@ bindsym $mod+g mode "go"
 
 mode "go" {
     bindsym o exec osu; mode "default"
-    bindsym t exec $TERMINAL -e tmux new -As toxic toxic; mode "default"
+    bindsym t exec $TERMINAL -e "tmux new -As tox toxic"; mode "default"
 
     bindsym Escape mode "default"
 }
