@@ -9,8 +9,11 @@ bindkey -v '^R' history-incremental-search-backward
 bindkey -v '^S' history-incremental-search-forward
 bindkey -v '^A' beginning-of-line
 bindkey -v '^E' end-of-line
+bindkey -v '^F' forward-char
+bindkey -v '^B' backward-char
 bindkey -v '^U' kill-whole-line
 bindkey -v '^Q' push-line-or-edit
+bindkey -v '^[[Z' reverse-menu-complete
 bindkey -v ' ' magic-space
 
 
