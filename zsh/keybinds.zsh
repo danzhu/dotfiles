@@ -79,7 +79,7 @@ bindkey -v '^Z' foreground
 
 
 function expand-or-complete-or-list-files() {
-    if [[ $#BUFFER == 0 ]]; then
+    if [[ $#BUFFER -eq 0 ]]; then
         LBUFFER='ls '
         zle list-choices
         BUFFER=''

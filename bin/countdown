@@ -1,0 +1,43 @@
+#!/usr/bin/env python3
+
+from collections import defaultdict
+from datetime import datetime, timedelta
+from typing import DefaultDict
+import re
+import sys
+import time
+
+suffix_map = {
+    'w': 'weeks',
+    'd': 'days',
+    'h': 'hours',
+    'm': 'minutes',
+    's': 'seconds',
+    'ms': 'milliseconds',
+    '': 'seconds',
+}
+suffix_regex = '|'.join(re.escape(k) for k in suffix_map.keys())
+interval_regex = re.compile(rf'(-?\d+)({suffix_regex})')
+
+delta_args: DefaultDict[str, int] = defaultdict(int)
+for arg in sys.argv[1:]:
+    match = interval_regex.fullmatch(arg)
+    if match is None:
+        print(f"invalid time interval '{arg}'")
+        sys.exit(2)
+    amount, suffix = match.groups()
+    delta_args[suffix_map[suffix]] += int(amount)
+
+delta = timedelta(**delta_args)
+end = datetime.now() + delta
+try:
+    while True:
+        now = datetime.now()
+        if now > end:
+            break
+        print(f'\r{end - now}', end='')
+        time.sleep(0.1)
+except KeyboardInterrupt:
+    sys.exit(130)
+finally:
+    print()

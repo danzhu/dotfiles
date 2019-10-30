@@ -1,14 +1,27 @@
-def vim_plug(pkg):
-    url = 'https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim'
-    pkg.download('autoload/plug.vim', url)
+_PLUG = 'https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim'
+_FILES = [
+    'after',
+    'autoload/airline',
+    'colors',
+    'colorscheme',
+    'ftdetect',
+    'ftplugin',
+    'plugins.vim',
+    'spell',
+    'syntax',
+    'ycm_extra_conf.py',
+]
 
 
 def nvim(pkg):
-    pkg.depend('vim_plug')
-    pkg.symlink('~/.config/nvim', '.')
+    pkg.download('~/.config/nvim/autoload/plug.vim', _PLUG)
+    for f in _FILES:
+        pkg.symlink(f'~/.config/nvim/{f}', f)
+    pkg.symlink('~/.config/nvim/init.vim', 'init.vim')
 
 
 def vim(pkg):
-    pkg.depend('vim_plug')
-    pkg.symlink('~/.vim', '.')
-    pkg.symlink('vimrc', 'init.vim')
+    pkg.download('~/.vim/autoload/plug.vim', _PLUG)
+    for f in _FILES:
+        pkg.symlink(f'~/.vim/{f}', f)
+    pkg.symlink('~/.vim/vimrc', 'init.vim')

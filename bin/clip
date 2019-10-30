@@ -29,7 +29,7 @@ case "$cmd" in
         msg screenshot 'copied to clipboard'
         ;;
     exec)
-        links=$(xclip -o)
+        links=$(xclip -selection clipboard -o)
 
         case "$links" in
             https://www.youtube.com/watch\?v=*)

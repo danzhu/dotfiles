@@ -16,7 +16,11 @@ else
 endif
 
 " Vim directory
-let $VIMDIR = resolve(expand('~/.vim'))
+if has('nvim')
+    let $VIMDIR = $CONFIG . '/nvim'
+else
+    let $VIMDIR = resolve(expand('~/.vim'))
+endif
 " }}}
 " }}}
 
