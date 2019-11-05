@@ -18,8 +18,10 @@ endif
 " Vim directory
 if has('nvim')
     let $VIMDIR = $CONFIG . '/nvim'
+    let $VIMRC = $VIMDIR . '/init.vim'
 else
-    let $VIMDIR = resolve(expand('~/.vim'))
+    let $VIMDIR = expand('~/.vim')
+    let $VIMRC = expand('~/.vimrc')
 endif
 " }}}
 " }}}
@@ -438,7 +440,7 @@ Map n <silent>        ZF   :<C-U>cwindow 9<CR>
 " }}}
 
 " Common files {{{
-Map n <silent> <Leader>V :<C-U>edit $VIMDIR/init.vim<CR>
+Map n <silent> <Leader>V :<C-U>edit $VIMRC<CR>
 Map n <silent> <Leader>L :<C-U>edit $VIMDIR/local.vim<CR>
 Map n <silent> <Leader>P :<C-U>edit $VIMDIR/plugins.vim<CR>
 Map n <silent> <Leader>Y :<C-U>edit $VIMDIR/ycm_extra_conf.py<CR>
@@ -639,7 +641,7 @@ augroup vimrc
 
     " Auto source / make on write {{{
     " note: set filetype to bring vim-specific ftplugins back
-    autocmd BufWritePost $VIMDIR/init.vim,$VIMDIR/local.vim,$VIMDIR/plugins.vim
+    autocmd BufWritePost $VIMRC,$VIMDIR/local.vim,$VIMDIR/plugins.vim
                 \ source $MYVIMRC |
                 \ setlocal filetype=vim
     autocmd BufWritePost $VIMDIR/spell/*.add

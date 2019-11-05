@@ -39,8 +39,7 @@ set $ws9 9:ext
 set $primary primary
 set $secondary HDMI-1-1
 
-set $scratch_session scratch
-set $mpv_pane $scratch_session:mpv
+set $mpv_pane scratch:mpv
 
 font pango:monospace 9
 
@@ -75,7 +74,7 @@ assign [class="^qBittorrent$"] workspace $ws7
 
 # auto scratchpad
 for_window [class="^scratch$"] move scratchpad
-exec --no-startup-id $TERMINAL --class scratch -e "tmux new -As $scratch_session"
+exec --no-startup-id $TERMINAL --class scratch -e "tmux new -As scratch"
 
 workspace "$ws1" output $primary
 workspace "$ws9" output $secondary

@@ -1,6 +1,8 @@
 # config
 auto-reload yes
+browser firefox
 confirm-exit yes
+prepopulate-query-feeds yes
 
 # notification
 notify-format "%n unread articles"

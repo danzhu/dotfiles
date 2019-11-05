@@ -173,6 +173,14 @@
    ("M-g w" . avy-goto-word)
    ("M-g c" . avy-goto-char-timer)))
 
+(use-package elfeed
+  :ensure t
+  :defer t
+  :custom
+  (elfeed-search-filter "@6-months-ago")
+  :bind
+  (("C-x w" . elfeed)))
+
 (provide 'my-ui)
 
 ;; end

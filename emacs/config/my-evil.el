@@ -50,6 +50,12 @@
     (kbd "j") 'paradox-next-entry
     (kbd "k") 'paradox-previous-entry)
 
+  (evil-set-initial-state 'elfeed-search-mode 'motion)
+  (evil-define-key 'motion elfeed-search-mode-map
+    (kbd "R") 'elfeed-update)
+
+  (evil-set-initial-state 'elfeed-show-mode 'motion)
+
   (evil-set-initial-state 'term-mode 'emacs)
 
   :bind
