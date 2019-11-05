@@ -44,9 +44,15 @@ INDENT = '  '
 
 
 class Status(Enum):
+    # synced, no changes need to be made
     DONE = auto()
+    # changes can be applied without overriding anything
     READY = auto()
+    # changes can be made, but will override
+    UPDATE = auto()
+    # conflicts exist, changes cannot be made
     CONFLICT = auto()
+    # invalid configuration
     INVALID = auto()
 
 
@@ -165,6 +171,36 @@ class Symlink(Action):
         self.dest.unlink()
 
 
+class Copy(Action):
+    def __init__(self, dest: PathStr, target: PathStr) -> None:
+        self.dest = Path(dest)
+        self.target = Path(target)
+
+    def _args(self) -> Tuple[Any, ...]:
+        return self.dest, self.target
+
+    def _check(self) -> Status:
+        if not self.target.exists():
+            return Status.INVALID
+        if not self.dest.exists():
+            return Status.READY
+        if not self.dest.is_file():
+            return Status.CONFLICT
+        with self.dest.open() as f:
+            dest = f.read()
+        with self.target.open() as f:
+            target = f.read()
+        if dest != target:
+            return Status.READY
+        return Status.DONE
+
+    def _apply(self) -> None:
+        self.dest.symlink_to(self.target)
+
+    def _revert(self) -> None:
+        self.dest.unlink()
+
+
 class Clone(Action):
     def __init__(self, dest: PathStr, url: str) -> None:
         self.dest = Path(dest)
@@ -178,7 +214,7 @@ class Clone(Action):
             return Status.READY
         if not self.dest.is_dir():
             return Status.CONFLICT
-        url = subprocess.run(['git', 'config', '--get', 'remote.origin.url'],
+        url = subprocess.run('git config --get remote.origin.url'.split(),
                              stdout=subprocess.PIPE,
                              cwd=self.dest,
                              universal_newlines=True)
@@ -269,6 +305,12 @@ class Package:
         act = Symlink(dest, target)
         self.actions.add(act)
 
+    def copy(self, dest: PathStr, target: PathStr) -> None:
+        dest = self._resolve_path(dest)
+        target = self._resolve_path(target)
+        act = Copy(dest, target)
+        self.actions.add(act)
+
     def clone(self, dest: PathStr, url: str) -> None:
         dest = self._resolve_path(dest)
         act = Clone(dest, url)
@@ -339,7 +381,7 @@ class Dot(cmd.Cmd):
     def __init__(self) -> None:
         super().__init__()
 
-        self.DOT = Path(os.getenv('DOT', '.')).resolve(strict=True)
+        self.DOT = Path(__file__).parent.parent.resolve(strict=True)
         self.SNAPSHOT_PATH = self.DOT / '.snapshot.json'
 
         self.snapshot: Snapshot = {}
@@ -522,7 +564,12 @@ class Dot(cmd.Cmd):
             if name not in self.packages:
                 return self._error(f'{name!r} not a known package')
             new_snap = self.snapshot.copy()
-            new_snap[name] = self.packages[name].state()
+
+            def add(name: str) -> None:
+                new_snap[name] = self.packages[name].state()
+                for dep in self.packages[name].depends:
+                    add(dep)
+            add(name)
 
         self._transact(new_snap)
 
@@ -533,7 +580,13 @@ class Dot(cmd.Cmd):
             if name not in self.snapshot:
                 return self._error(f'{name!r} not an installed package')
             new_snap = self.snapshot.copy()
-            del new_snap[name]
+
+            def rem(name: str) -> None:
+                del new_snap[name]
+                for pkg in self.packages.values():
+                    if name in pkg.depends:
+                        rem(pkg.pkg_name)
+            rem(name)
 
         self._transact(new_snap)
 

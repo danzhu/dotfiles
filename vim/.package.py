@@ -24,4 +24,4 @@ def vim(pkg):
     pkg.download('~/.vim/autoload/plug.vim', _PLUG)
     for f in _FILES:
         pkg.symlink(f'~/.vim/{f}', f)
-    pkg.symlink('~/.vim/vimrc', 'init.vim')
+    pkg.symlink('~/.vimrc', 'init.vim')
