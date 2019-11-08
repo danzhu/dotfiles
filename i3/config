@@ -4,24 +4,24 @@
 
 set $mod Mod4
 
-set $c00 "#323539"
-set $c01 "#e66b58"
-set $c02 "#22c75f"
-set $c03 "#d8b944"
-set $c04 "#737fe7"
-set $c05 "#a867e2"
-set $c06 "#42bca3"
-set $c07 "#7b818a"
-set $c08 "#41444b"
-set $c09 "#f27f9a"
-set $c10 "#88d46b"
-set $c11 "#dfb971"
-set $c12 "#74b7e7"
-set $c13 "#e19ae6"
-set $c14 "#46ded5"
-set $c15 "#f0f3f4"
-set $cfg "#d3d7d8"
-set $cbg "#232425"
+set $cfg "#{{foreground}}"
+set $cbg "#{{background}}"
+set $c00 "#{{black}}"
+set $c01 "#{{red}}"
+set $c02 "#{{green}}"
+set $c03 "#{{yellow}}"
+set $c04 "#{{blue}}"
+set $c05 "#{{magenta}}"
+set $c06 "#{{cyan}}"
+set $c07 "#{{white}}"
+set $c08 "#{{light_black}}"
+set $c09 "#{{light_red}}"
+set $c10 "#{{light_green}}"
+set $c11 "#{{light_yellow}}"
+set $c12 "#{{light_blue}}"
+set $c13 "#{{light_magenta}}"
+set $c14 "#{{light_cyan}}"
+set $c15 "#{{light_white}}"
 
 # workspace names
 set $ws0 0:tmp
@@ -41,7 +41,7 @@ set $secondary HDMI-1-1
 
 set $mpv_pane scratch:mpv
 
-font pango:monospace 9
+font pango:monospace {{font_size}}
 
 floating_modifier $mod
 # default_orientation auto
@@ -70,11 +70,10 @@ hide_edge_borders both
 # assign
 # assign [class="^mpv$"] workspace $ws0
 assign [class="^discord$"] workspace $ws6
-assign [class="^qBittorrent$"] workspace $ws7
 
 # auto scratchpad
 for_window [class="^scratch$"] move scratchpad
-exec --no-startup-id $TERMINAL --class scratch -e "tmux new -As scratch"
+exec {{terminal}} --class scratch {{ format terminal_run [ }}tmux new -As scratch{{ ] }}
 
 workspace "$ws1" output $primary
 workspace "$ws9" output $secondary
@@ -120,18 +119,18 @@ bindsym XF86TouchpadToggle nop
 bindsym XF86Calculator nop
 
 # screenshot
-bindsym --release Print exec --no-startup-id clip screenshot root
-bindsym --release Shift+Print exec --no-startup-id clip screenshot rect
+bindsym --release Print exec --no-startup-id ~/.config/i3/clip screenshot root
+bindsym --release Shift+Print exec --no-startup-id ~/.config/i3/clip screenshot rect
 
 # commonly-used programs
-bindsym $mod+Return exec $TERMINAL
-bindsym $mod+e exec --no-startup-id $GEDITOR
-bindsym $mod+b exec $BROWSER
-bindsym $mod+d exec $LAUNCHER
-bindsym $mod+r exec $RUNNER
-bindsym $mod+m exec start $MANAGER
-bindsym $mod+w exec rofi -show window -show-icons
-bindsym $mod+c exec --no-startup-id clip exec
+bindsym $mod+Return exec {{terminal}}
+bindsym $mod+d exec {{launcher}}
+bindsym $mod+r exec {{runner}}
+bindsym $mod+e exec {{editor_gui}}
+bindsym $mod+b exec {{browser_gui}}
+bindsym $mod+m exec {{file_manager_gui}}
+bindsym $mod+w exec {{window_switcher}}
+bindsym $mod+c exec --no-startup-id ~/.config/i3/clip exec
 
 # change focus
 bindsym $mod+h focus left
@@ -252,7 +251,7 @@ bindsym $mod+g mode "go"
 
 mode "go" {
     bindsym o exec osu; mode "default"
-    bindsym t exec $TERMINAL -e "tmux new -As tox toxic"; mode "default"
+    bindsym t exec {{terminal}} {{ format terminal_run [ }}tmux new -As tox toxic{{ ] }}; mode "default"
 
     bindsym Escape mode "default"
 }

@@ -1,20 +1,20 @@
 # -*- mode: sh -*-
 
 # auto start X
-if [[ -z "$DISPLAY" && -n "$XDG_VTNR" && "$XDG_VTNR" -eq 1 ]] &&
-    (( $+commands[startx] )); then
-    exec startx
+if [[ ! "$DISPLAY" && "$XDG_VTNR" -eq 1 ]]; then
+    exec {{tty_login}}
 fi
 
 if [[ -f ~/.profile ]]; then
     source ~/.profile
 fi
 
-source $DOT/shell/path
+path=({{ for path dir [ }}{{dir}} {{ ] }}$path)
+export PATH
 
-# auto start tmux
-if [[ -n "$SSH_CONNECTION" && -z "$TMUX" ]] && (( $+commands[tmux] )); then
-    if tmux attach || tmux new -s dev; then
+# ssh login
+if [[ -n "$SSH_CONNECTION" && -z "$TMUX" ]]; then
+    if {{ssh_login}}; then
         exit
     fi
 fi

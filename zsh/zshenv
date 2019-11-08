@@ -1,5 +1,7 @@
 # -*- mode: sh -*-
 
-export DOT=$(dirname $(dirname $(readlink -f ~/.zshenv)))
+eval "$(dircolors -b)"
 
-source $DOT/shell/env
+%% for env var val [
+export {{var}}="{{val}}"
+%% ]

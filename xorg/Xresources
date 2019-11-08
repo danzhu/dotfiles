@@ -1,40 +1,23 @@
-*dpi: 192
+*dpi: {{dpi}}
 
-! special
-*.foreground:   #d3d7d8
-*.background:   #232425
-
-! black
-*.color0:       #323539
-*.color8:       #41444b
-
-! red
-*.color1:       #e66b58
-*.color9:       #f27f9a
-
-! green
-*.color2:       #22c75f
-*.color10:      #88d46b
-
-! yellow
-*.color3:       #d8b944
-*.color11:      #dfb971
-
-! blue
-*.color4:       #737fe7
-*.color12:      #74b7e7
-
-! magenta
-*.color5:       #a867e2
-*.color13:      #e19ae6
-
-! cyan
-*.color6:       #42bca3
-*.color14:      #46ded5
-
-! white
-*.color7:       #7b818a
-*.color15:      #f0f3f4
+*.foreground: #{{foreground}}
+*.background: #{{background}}
+*.color0:     #{{black}}
+*.color1:     #{{red}}
+*.color2:     #{{green}}
+*.color3:     #{{yellow}}
+*.color4:     #{{blue}}
+*.color5:     #{{magenta}}
+*.color6:     #{{cyan}}
+*.color7:     #{{white}}
+*.color8:     #{{light_black}}
+*.color9:     #{{light_red}}
+*.color10:    #{{light_green}}
+*.color11:    #{{light_yellow}}
+*.color12:    #{{light_blue}}
+*.color13:    #{{light_magenta}}
+*.color14:    #{{light_cyan}}
+*.color15:    #{{light_white}}
 
 Xft.autohint: 0
 Xft.lcdfilter: lcddefault
@@ -43,7 +26,7 @@ Xft.hinting: 1
 Xft.antialias: 1
 Xft.rgba: rgb
 
-URxvt.font: xft:monospace:size=9
+URxvt.font: xft:monospace:size={{font_size}}
 URxvt.letterSpace: -1
 URxvt.perl-ext-common:
 URxvt.perl-ext:

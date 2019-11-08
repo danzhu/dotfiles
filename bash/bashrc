@@ -13,14 +13,16 @@ shopt -s globstar
 
 # history
 export HISTCONTROL=ignoreboth:erasedups
-export HISTFILE="$DOT/bash/history"
 
 # customizations
-source "$DOT/bash/aliases.bash"
 source "$DOT/bash/prompt.bash"
 
+# aliases
+%% for alias name value [
+alias -- {{name}}="{{value}}"
+%% ]
+
 # common
-source "$DOT/shell/aliases"
 source "$DOT/shell/functions"
 source "$DOT/shell/completions"
 

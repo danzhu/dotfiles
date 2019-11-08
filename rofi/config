@@ -1,15 +1,14 @@
 ! -*- mode: conf-xdefaults -*-
 
 ! style
-rofi.font: monospace 9
+rofi.font: monospace {{font_size}}
 rofi.theme: code
 
 ! options
 rofi.modi: run,drun,window,ssh
-! rofi.show-icons: true
-rofi.ssh-command: {terminal} -e '{ssh-client} {host}'
-rofi.run-shell-command: {terminal} -e '{cmd}'
-! rofi.sidebar-mode: true
+rofi.terminal: {{terminal}}
+rofi.ssh-command: {terminal} {{ format terminal_run [ }}{ssh-client} {host} [-p {port}]{{ ] }}
+rofi.run-shell-command: {terminal} {{ format terminal_run [ }}{cmd}{{ ] }}
 rofi.scroll-method: 1
 
 ! key bindings

@@ -1,6 +1,12 @@
 #!/bin/bash
 
-export DOT=$(dirname $(dirname $(readlink -f ~/.bash_profile)))
+export PATH="{{ for path dir [ }}{{dir}}:{{ ] }}$PATH"
+
+eval "$(dircolors -b)"
+
+%% for env var val [
+export {{var}}="{{val}}"
+%% ]
 
 if [[ -f ~/.profile ]]; then
     source ~/.profile
@@ -9,6 +15,3 @@ fi
 if [[ -f ~/.bashrc ]]; then
     source ~/.bashrc
 fi
-
-source "$DOT/shell/path"
-source "$DOT/shell/env"

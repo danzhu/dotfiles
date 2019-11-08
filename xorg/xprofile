@@ -1,29 +1,21 @@
 # -*- mode: sh -*-
 
-export DOT=$(dirname $(dirname $(readlink -f ~/.xprofile)))
+export PATH="{{ for path dir [ }}{{dir}}:{{ ] }}$PATH"
+
+eval "$(dircolors -b)"
+
+%% for env var val [
+export {{var}}="{{val}}"
+%% ]
 
 if [[ -f ~/.profile ]]; then
     source ~/.profile
 fi
 
-source $DOT/shell/path
-source $DOT/shell/env
-
 # setxkbmap -variant dvorak -option ctrl:nocaps
 
-runs() {
-    if type "$1" &> /dev/null; then
-        "$@" &
-    fi
-}
-
-# runs fcitx
-runs dunst
-runs udiskie
-runs libinput-gestures-setup start
-runs transmission-daemon
-# runs compton
-
-unset -f runs
+%% for autostart cmd [
+{{cmd}} &
+%% ]
 
 # vim: ft=sh

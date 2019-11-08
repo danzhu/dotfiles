@@ -1,0 +1,114 @@
+#!/usr/bin/env python3
+
+from pathlib import Path
+from typing import Callable, TypeVar
+from urllib import request
+import shlex
+import shutil
+import subprocess
+
+T = TypeVar('T', bound=Callable[..., None])
+
+SRC_DIR = Path(__file__).parent.resolve(strict=True)
+CONF = SRC_DIR / 'install.conf'
+SNAP = SRC_DIR / '.install.snap'
+TEMPL = SRC_DIR / 'template'
+ACTIONS = {}
+
+
+def action(f: T) -> T:
+    ACTIONS[f.__name__] = f
+    return f
+
+
+@action
+def copy(out: Path, src: str) -> None:
+    shutil.copyfile(src, out)
+    shutil.copymode(src, out)
+
+
+@action
+def render(out: Path, src: str) -> None:
+    subprocess.run([TEMPL, src, out], check=True)
+
+
+@action
+def fetch(out: Path, url: str) -> None:
+    request.urlretrieve(url, out)
+
+
+@action
+def clone(out: Path, url: str) -> None:
+    if not out.exists():
+        subprocess.run(['git', 'clone', url, out], check=True)
+    else:
+        subprocess.run(['git', 'pull', url], cwd=out, check=True)
+
+
+def main() -> None:
+    # load tasks from config file
+    tasks = {}
+    with CONF.open() as f:
+        for line in f:
+            line = line.strip()
+            if line == '' or line.startswith('#'):
+                continue
+            key, _, *val = shlex.split(line)
+            tasks[Path(key)] = val
+    new_outs = tasks.keys()
+
+    # load past outputs from snapshot file
+    try:
+        with SNAP.open() as f:
+            old_outs = set(Path(l.rstrip('\n')) for l in f)
+    except FileNotFoundError:
+        old_outs = set()
+
+    confirm = False
+
+    # check overwrites
+    overwrites = sorted(out for out in new_outs - old_outs
+                        if out.expanduser().exists())
+    if len(overwrites) > 0:
+        confirm = True
+        print('these files will be overwritten:')
+        for out in overwrites:
+            print(f' {out}')
+
+    # check excessive files
+    excessive = old_outs - new_outs
+    if len(excessive) > 0:
+        confirm = True
+        print('these files will be removed:')
+        for out in excessive:
+            print(f' {out}')
+
+    if confirm and input('continue? [y/N] ') != 'y':
+        return
+
+    print(':: removing excessive files')
+    for out in excessive:
+        print(f' {out}')
+        out = out.expanduser()
+        if not out.is_symlink() and out.is_dir():
+            shutil.rmtree(out)
+        else:
+            out.unlink()
+
+    # execute tasks
+    print(':: updating target files')
+    for out, [cmd, *args] in tasks.items():
+        print(f' {out}')
+        out = out.expanduser()
+        out.parent.mkdir(parents=True, exist_ok=True)
+        ACTIONS[cmd](out, *args)
+
+    # save outputs to snapshot file
+    print(':: saving installation state')
+    with SNAP.open('w') as f:
+        for out in sorted(new_outs):
+            f.write(f'{out}\n')
+
+
+if __name__ == '__main__':
+    main()

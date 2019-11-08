@@ -8,9 +8,9 @@
 # See https://docs.haskellstack.org/en/stable/yaml_configuration/#templates
 templates:
   params:
-    author-name: Daniel Zhu
-    author-email: danzhu24@hotmail.com
-    github-username: danzhu
+    author-name: {{name}}
+    author-email: {{email}}
+    github-username: {{github}}
 # system-ghc: true
 allow-newer: true
 ghc-options:

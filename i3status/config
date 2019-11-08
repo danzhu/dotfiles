@@ -21,9 +21,9 @@ general {
     output_format = "i3bar"
     colors = true
     interval = 5
-    color_good = "#22c75f"
-    color_degraded = "#d8b944"
-    color_bad = "#e66b58"
+    color_good = "#{{green}}"
+    color_degraded = "#{{yellow}}"
+    color_bad = "#{{red}}"
 }
 
 ethernet _first_ {

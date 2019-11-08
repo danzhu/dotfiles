@@ -1,7 +1,7 @@
 #!/bin/sh
 
 xrandr --setprovideroutputsource modesetting NVIDIA-0
-xrandr --dpi 192
+xrandr --dpi {{dpi}}
 xrandr --auto
 autorandr -c
 
@@ -44,4 +44,4 @@ fi
 [ -f /etc/xprofile ] && . /etc/xprofile
 [ -f ~/.xprofile ] && . ~/.xprofile
 
-exec i3
+exec {{window_manager}}

@@ -1,6 +1,6 @@
 [user]
-	email = danzhu24@hotmail.com
-	name = Daniel Zhu
+	email = {{email}}
+	name = {{name}}
 [format]
 	pretty = oneline
 [advice]

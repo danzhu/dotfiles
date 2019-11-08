@@ -1,3 +1,5 @@
+# -*- mode: conf -*-
+
 set adjust-open width
 set incremental-search true
 set recolor true
@@ -7,25 +9,25 @@ set window-title-home-tilde true
 set window-title-page true
 
 # colorscheme
-set completion-bg           "#41444b" # 8
-set completion-fg           "#d3d7d8" # 16
-set completion-highlight-bg "#323539" # 0
-set completion-highlight-fg "#74b7e7" # 12
-set highlight-active-color  "#74b7e7" # 12
-set highlight-color         "#7b818a" # 7
-set index-active-bg         "#232425" # 17
-set index-active-fg         "#74b7e7" # 12
-set index-bg                "#323539" # 0
-set index-fg                "#d3d7d8" # 16
-set inputbar-bg             "#232425" # 17
-set inputbar-fg             "#74b7e7" # 12
-set notification-bg         "#232425" # 17
-set notification-error-bg   "#232425" # 17
-set notification-error-fg   "#e66b58" # 1
-set notification-fg         "#d3d7d8" # 16
-set notification-warning-bg "#232425" # 17
-set notification-warning-fg "#d8b944" # 3
-set recolor-darkcolor       "#d3d7d8" # 16
-set recolor-lightcolor      "#232425" # 17
-set statusbar-bg            "#323539" # 0
-set statusbar-fg            "#d3d7d8" # 16
+set completion-bg           "#{{light_black}}"
+set completion-fg           "#{{foreground}}"
+set completion-highlight-bg "#{{black}}"
+set completion-highlight-fg "#{{light_blue}}"
+set highlight-active-color  "#{{light_blue}}"
+set highlight-color         "#{{white}}"
+set index-active-bg         "#{{background}}"
+set index-active-fg         "#{{light_blue}}"
+set index-bg                "#{{black}}"
+set index-fg                "#{{foreground}}"
+set inputbar-bg             "#{{background}}"
+set inputbar-fg             "#{{light_blue}}"
+set notification-bg         "#{{background}}"
+set notification-error-bg   "#{{background}}"
+set notification-error-fg   "#{{red}}"
+set notification-fg         "#{{foreground}}"
+set notification-warning-bg "#{{background}}"
+set notification-warning-fg "#{{yellow}}"
+set recolor-darkcolor       "#{{foreground}}"
+set recolor-lightcolor      "#{{background}}"
+set statusbar-bg            "#{{black}}"
+set statusbar-fg            "#{{foreground}}"

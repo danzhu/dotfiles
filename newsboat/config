@@ -1,6 +1,6 @@
 # config
 auto-reload yes
-browser firefox
+browser {{browser_gui}}
 confirm-exit yes
 prepopulate-query-feeds yes
 

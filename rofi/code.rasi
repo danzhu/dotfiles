@@ -1,17 +1,17 @@
 * {
     /* all */
-    foreground-color: #d3d7d8;
-    background-color: #232425;
+    foreground-color: #{{foreground}};
+    background-color: #{{background}};
     text-color: @foreground-color;
-    border-color: #74b7e7;
+    border-color: #{{light_blue}};
 
     /* custom */
     separator-border: 3px 0px 0px;
-    separator-color: #7b818a;
+    separator-color: #{{white}};
     content-padding: 5px;
-    selected-background: #323539;
-    active-text: #88d46b;
-    urgent-text: #f27f9a;
+    selected-background: #{{black}};
+    active-text: #{{light_green}};
+    urgent-text: #{{light_red}};
 }
 
 #window {
@@ -45,8 +45,8 @@
 
 #scrollbar {
     handle-width: 10;
-    handle-color: #7b818a;
-    background-color: #41444b;
+    handle-color: #{{white}};
+    background-color: #{{light_black}};
 }
 
 #element.selected {

@@ -1,4 +1,1 @@
-*.local
-.mypy_cache/
-/.snapshot.json
-__pycache__/
+/.install.snap

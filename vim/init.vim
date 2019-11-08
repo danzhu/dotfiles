@@ -550,13 +550,13 @@ if has('gui_running') " GUI
     set linespace=0                     " no space between lines
 
     if has('win32')
-        set guifont=DejaVu_Sans_Mono:h9 " font
+        set guifont=DejaVu_Sans_Mono:h{{font_size}}
         set guioptions-=t               " teardown menus
 
         set lines=50                    " height
         set columns=160                 " width
     else
-        set guifont=Monospace\ 9        " font
+        set guifont=Monospace\ {{font_size}}
     endif
 elseif has('nvim') " Neovim
     " tnoremap <Esc> <C-\><C-n>
