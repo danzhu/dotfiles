@@ -19,7 +19,7 @@ source "$DOT/bash/prompt.bash"
 
 # aliases
 %% for alias name value [
-alias -- {{name}}="{{value}}"
+alias -- {{name}}='{{value}}'
 %% ]
 
 # common

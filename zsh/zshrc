@@ -40,7 +40,7 @@ source $DOT/zsh/completions.zsh
 
 # --- aliases ---
 %% for alias name value [
-alias -- {{name}}="{{value}}"
+alias -- {{name}}='{{value}}'
 %% ]
 
 
