@@ -73,7 +73,7 @@ assign [class="^discord$"] workspace $ws6
 
 # auto scratchpad
 for_window [class="^scratch$"] move scratchpad
-exec {{terminal}} --class scratch {{ format terminal_run [ }}tmux new -As scratch{{ ] }}
+exec --no-startup-id {{terminal}} --class scratch {{ format terminal_run [ }}tmux new -As scratch{{ ] }}
 
 workspace "$ws1" output $primary
 workspace "$ws9" output $secondary

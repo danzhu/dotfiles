@@ -32,7 +32,7 @@ case "$cmd" in
         links=$(xclip -selection clipboard -o)
 
         case "$links" in
-            https://www.youtube.com/watch\?v=*)
+            https://www.youtube.com/watch\?v=*|https://youtu.be/*)
                 msg youtube
                 exec mpv "$links"
                 ;;
