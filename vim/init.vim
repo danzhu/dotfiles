@@ -439,20 +439,6 @@ Map n <silent>        _    :<C-U>bdelete!<CR>
 Map n <silent>        ZF   :<C-U>cwindow 9<CR>
 " }}}
 
-" Common files {{{
-Map n <silent> <Leader>V :<C-U>edit $VIMRC<CR>
-Map n <silent> <Leader>L :<C-U>edit $VIMDIR/local.vim<CR>
-Map n <silent> <Leader>P :<C-U>edit $VIMDIR/plugins.vim<CR>
-Map n <silent> <Leader>Y :<C-U>edit $VIMDIR/ycm_extra_conf.py<CR>
-Map n <silent> <Leader>C :<C-U>edit $VIMDIR/colors/code.vim<CR>
-Map n <silent> <Leader>R :<C-U>edit $VIMDIR/plugged/vim-pairs/plugin/pairs.vim<CR>
-Map n <silent> <Leader>I :<C-U>edit $CONFIG/i3/config<CR>
-Map n <silent> <Leader>G :<C-U>edit $CONFIG/git/config<CR>
-Map n <silent> <Leader>S :<C-U>edit ~/.zshrc<CR>
-Map n <silent> <Leader>X :<C-U>edit ~/.Xresources<CR>
-Map n <silent> <Leader>T :<C-U>edit ~/.tmux.conf<CR>
-" }}}
-
 " Misc {{{
 Map nx <silent> Q         :<C-U>quitall<CR>
 Map n  <silent> <BS>      :<C-U>nohlsearch<CR>
@@ -636,15 +622,6 @@ augroup vimrc
                 \ if line("'\"") >= 1 && line("'\"") <= line("$") |
                 \   exe "normal! g`\"" |
                 \ endif
-    " }}}
-
-    " Auto source / make on write {{{
-    " note: set filetype to bring vim-specific ftplugins back
-    autocmd BufWritePost $VIMRC,$VIMDIR/local.vim,$VIMDIR/plugins.vim
-                \ source $MYVIMRC |
-                \ setlocal filetype=vim
-    autocmd BufWritePost $VIMDIR/spell/*.add
-                \ mkspell! <afile>
     " }}}
 
     " Undo file {{{
