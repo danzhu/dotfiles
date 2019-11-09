@@ -593,7 +593,6 @@ endif
 
 " Setup {{{
 " Color scheme {{{
-let g:colors = readfile($VIMDIR . '/colorscheme')
 colorscheme code
 " }}}
 

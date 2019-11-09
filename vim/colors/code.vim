@@ -7,10 +7,26 @@ endif
 
 let g:colors_name = 'code'
 
-if !exists('g:colors')
-    " no gui colors defined, use NONE
-    let g:colors = map(range(18), '"NONE"')
-end
+let g:colors = [
+            \ '#{{black}}',
+            \ '#{{red}}',
+            \ '#{{green}}',
+            \ '#{{yellow}}',
+            \ '#{{blue}}',
+            \ '#{{magenta}}',
+            \ '#{{cyan}}',
+            \ '#{{white}}',
+            \ '#{{light_black}}',
+            \ '#{{light_red}}',
+            \ '#{{light_green}}',
+            \ '#{{light_yellow}}',
+            \ '#{{light_blue}}',
+            \ '#{{light_magenta}}',
+            \ '#{{light_cyan}}',
+            \ '#{{light_white}}',
+            \ '#{{foreground}}',
+            \ '#{{background}}',
+            \ ]
 " }}}
 
 " Highlight Function {{{
