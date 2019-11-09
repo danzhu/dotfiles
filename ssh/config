@@ -1,8 +1,9 @@
-Include config.local
-
 Host *
     ServerAliveInterval 60
+%% for ssh host info [
 
-Host se
-    HostName ubuntu1604-006.student.cs.uwaterloo.ca
-    User h94zhu
+Host {{host}}
+    %% for info key val [
+    {{key}} {{val}}
+    %% ]
+%% ]

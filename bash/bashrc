@@ -39,8 +39,3 @@ plug() {
 plug 'bash-completion/bash_completion'
 plug 'doc/pkgfile/command-not-found.bash'
 unset plug
-
-# local
-if [[ -f "$DOT/bash/bashrc.local" ]]; then
-    source "$DOT/bash/bashrc.local"
-fi

@@ -57,6 +57,12 @@
         "+x": "chmod +x",
         "-x": "chmod -x"
     },
+    "ssh": {
+        "se": {
+            "Hostname": "ubuntu1604-006.student.cs.uwaterloo.ca",
+            "User": "h94zhu"
+        }
+    },
     "terminal": "termite",
     "terminal_run": "-e '{}'",
     "window_manager": "i3",
@@ -64,6 +70,7 @@
     "runner": "rofi -show run",
     "window_switcher": "rofi -show window -show-icons",
     "pdf_viewer": "zathura",
+    "diff_tool": "emerge",
     "editor_gui": "emacsclient --create-frame",
     "editor_tui": "emacsclient --tty",
     "browser_gui": "firefox",

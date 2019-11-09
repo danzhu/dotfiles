@@ -21,7 +21,10 @@
 
 (use-package recentf
   :custom
-  (recentf-max-saved-items 100))
+  (recentf-max-saved-items 100)
+  (recentf-exclude
+   '("/tmp/.*"
+     "/var/tmp/.*")))
 
 (use-package files
   :custom

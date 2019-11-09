@@ -26,10 +26,6 @@ alias zmv='noglob zmv'
 # --- fpath ---
 fpath=($DOT/zsh/completions $fpath)
 
-if [[ -r $DOT/zsh/fpath.local ]]; then
-    source $DOT/zsh/fpath.local
-fi
-
 
 # --- customizations ---
 source $DOT/zsh/title.zsh

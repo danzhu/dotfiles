@@ -12,7 +12,7 @@
 	short = true
 	branch = true
 [diff]
-	tool = vimdiff
+	tool = {{diff_tool}}
 [commit]
 	verbose = true
 [pull]
@@ -25,5 +25,3 @@
 [filter "sort"]
 	clean = LC_ALL=C sort
 	smudge = cat
-[include]
-	path = config.local
