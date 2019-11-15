@@ -226,22 +226,10 @@
   :defer t
   :mode "\\.hs\\'")
 
-(use-package intero
+(use-package lsp-haskell
   :ensure t
-  :defer t
-  :after (haskell-mode)
-  :hook (haskell-mode . intero-mode))
-
-;; (use-package ghc
-;;   :ensure t
-;;   :after haskell-mode
-;;   :hook (haskell-mode . ghc-init))
-
-;; (use-package company-ghc
-;;   :ensure t
-;;   :after (company haskell-mode)
-;;   :config
-;;   (add-to-list 'company-backends 'company-ghc))
+  :after lsp
+  :hook (haskell-mode . lsp))
 
 (use-package idris-mode
   :ensure t

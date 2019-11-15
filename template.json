@@ -9,6 +9,7 @@
     "env": {
         "DOT": "$HOME/.dotfiles",
         "EDITOR": "emacsclient --tty",
+        "VISUAL": "emacsclient --tty",
         "TERMINAL": "termite",
         "ALTERNATE_EDITOR": "",
         "QT_QPA_PLATFORMTHEME": "qt5ct",
@@ -50,7 +51,6 @@
         "gst": "git stash save",
         "gsp": "git stash pop",
         "gsd": "git stash drop",
-        "gacp": "git add --all && git commit --allow-empty-message -m \"\" && git push",
         "mkdir": "mkdir -pv",
         "grep": "grep --color=auto",
         "diff": "diff --color=auto",

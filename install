@@ -3,6 +3,7 @@
 from pathlib import Path
 from typing import Callable, TypeVar
 from urllib import request
+import json
 import shlex
 import shutil
 import subprocess
@@ -60,7 +61,7 @@ def main() -> None:
     # load past outputs from snapshot file
     try:
         with SNAP.open() as f:
-            old_outs = set(Path(l.rstrip('\n')) for l in f)
+            old_outs = set(map(Path, json.load(f)))
     except FileNotFoundError:
         old_outs = set()
 
@@ -106,8 +107,7 @@ def main() -> None:
     # save outputs to snapshot file
     print(':: saving installation state')
     with SNAP.open('w') as f:
-        for out in sorted(new_outs):
-            f.write(f'{out}\n')
+        json.dump(sorted(map(str, new_outs)), f, indent=2)
 
 
 if __name__ == '__main__':
