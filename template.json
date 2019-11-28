@@ -63,6 +63,10 @@
             "User": "h94zhu"
         }
     },
+    "partition": {
+        "root": "/",
+        "data": "/mnt/data"
+    },
     "terminal": "termite",
     "terminal_run": "-e '{}'",
     "window_manager": "i3",

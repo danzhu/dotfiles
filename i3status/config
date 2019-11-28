@@ -11,8 +11,9 @@ order += "wireless _first_"
 order += "load"
 order += "cpu_usage"
 order += "cpu_temperature 0"
-order += "disk /"
-order += "disk /mnt/data"
+%% for partition name dir [
+order += "disk {{dir}}"
+%% ]
 order += "battery 0"
 order += "volume master"
 order += "time"
@@ -58,18 +59,14 @@ load {
     format = "%1min %5min %15min"
 }
 
-disk "/" {
-    format = "root %avail"
-    low_threshold = 32
-    threshold_type = gbytes_avail
-}
-
-disk "/mnt/data" {
-    format = "data %avail"
+%% for partition name dir [
+disk "{{dir}}" {
+    format = "{{name}} %avail"
     low_threshold = 16
     threshold_type = gbytes_avail
 }
 
+%% ]
 cpu_usage {
     format = "cpu %usage"
 }

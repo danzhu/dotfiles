@@ -48,12 +48,15 @@
   (company-selection-wrap-around t)
   :config
   (global-company-mode 1)
-  (company-tng-configure-default)
+  ;; (company-tng-configure-default)
   :bind
   (:map company-mode-map
         ("C-SPC" . company-complete)
         :map company-active-map
+        ("RET" . nil)
+        ("<return>" . nil)
         ("C-w" . nil)
+        ("C-h" . nil)
         ("M-n" . nil)
         ("M-p" . nil)))
 
@@ -104,7 +107,9 @@
   (lsp-inhibit-message t)
   (lsp-prefer-flymake nil)
   (lsp-keep-workspace-alive nil)
-  (lsp-eldoc-enable-hover nil))
+  (lsp-eldoc-enable-hover nil)
+  ;; (lsp-log-io t)
+  )
 
 (use-package lsp-ui
   :ensure t

@@ -24,7 +24,7 @@
   :init
   (defun my-python-mode-hook ()
     (setq-local flycheck-checker 'python-mypy)
-    ;; (lsp)
+    (lsp)
     )
   (add-hook 'python-mode-hook 'my-python-mode-hook)
   :custom
@@ -184,17 +184,17 @@
   :defer t
   :mode "\\.jsx\\'")
 
-(use-package anaconda-mode
-  :ensure t
-  :defer t
-  :hook ((python-mode . anaconda-mode)
-         (python-mode . anaconda-eldoc-mode)))
+;; (use-package anaconda-mode
+;;   :ensure t
+;;   :defer t
+;;   :hook ((python-mode . anaconda-mode)
+;;          (python-mode . anaconda-eldoc-mode)))
 
-(use-package company-anaconda
-  :ensure t
-  :after (company anaconda-mode)
-  :config
-  (add-to-list 'company-backends 'company-anaconda))
+;; (use-package company-anaconda
+;;   :ensure t
+;;   :after (company anaconda-mode)
+;;   :config
+;;   (add-to-list 'company-backends 'company-anaconda))
 
 ;; (use-package elpy
 ;;   :ensure t

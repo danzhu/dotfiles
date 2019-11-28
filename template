@@ -63,7 +63,7 @@ class Expr(Node):
         val = data[self.key]
         if not isinstance(val, str):
             raise TypeError(f'expected string for key {self.key},'
-                            f'got {type(val)}')
+                            f' got {type(val)}')
         yield val
 
 
@@ -82,7 +82,7 @@ class For(Node):
         elif isinstance(container, dict):
             items = container.items()
         else:
-            raise TypeError(f'expect list or dict for key {self.key},'
+            raise TypeError(f'expected list or dict for key {self.key},'
                             f' got {type(container)}')
         for item in items:
             if len(self.vrs) != len(item):
@@ -102,7 +102,7 @@ class Format(Node):
         fmt = data[self.key]
         if not isinstance(fmt, str):
             raise TypeError(f'expected string for key {self.key},'
-                            f'got {type(fmt)}')
+                            f' got {type(fmt)}')
         arg = ''.join(self.arg.format(data))
         yield fmt.format(arg)
 

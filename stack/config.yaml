@@ -12,6 +12,6 @@ templates:
     author-email: {{email}}
     github-username: {{github}}
 # system-ghc: true
-allow-newer: true
+# allow-newer: true
 ghc-options:
   "$locals": -Wall -Wextra
