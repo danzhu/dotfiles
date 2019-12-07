@@ -1,0 +1,36 @@
+#!/usr/bin/env python3
+
+from collections import defaultdict
+from pathlib import Path
+from typing import Callable, DefaultDict, Dict, Iterable, List, TypeVar
+import hashlib
+import sys
+
+T = TypeVar('T')
+K = TypeVar('K')
+
+
+def group_by(vals: Iterable[T], key: Callable[[T], K]) -> Dict[K, List[T]]:
+    hashes: DefaultDict[K, List[T]] = defaultdict(list)
+    for v in vals:
+        hashes[key(v)].append(v)
+    return hashes
+
+
+def filesize(f: Path) -> int:
+    return f.stat().st_size
+
+
+def sha256(f: Path) -> bytes:
+    return hashlib.sha256(f.read_bytes()).digest()
+
+
+for size, same_size in group_by(map(Path, sys.argv[1:]), filesize).items():
+    if len(same_size) == 1:
+        continue
+    for sha, same_hash in group_by(same_size, sha256).items():
+        if len(same_hash) == 1:
+            continue
+        print(f'\n{sha.hex()}')
+        for f in same_hash:
+            print(f'  {f}')
