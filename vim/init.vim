@@ -39,18 +39,28 @@ endfunction " }}}
 
 function! SyntaxInfo() " {{{
     let id = synID(line('.'), col('.'), 1)
-    exec 'hi ' . synIDattr(id, 'name')
+    exec 'hi' synIDattr(id, 'name')
 
     let tr = synIDtrans(id)
-    exec 'hi '. synIDattr(tr, 'name')
+    exec 'hi' synIDattr(tr, 'name')
 endfunction " }}}
 
 function! Write() " {{{
     if &buftype == ''
-        return ":\<C-U>update\<CR>"
+        return ":\<C-u>update\<CR>"
     endif
 
     return "\<CR>"
+endfunction " }}}
+
+function! BufferDelete(force) " {{{
+    if &modified && !a:force
+        Error 'No write since last change'
+        return
+    endif
+
+    bnext
+    exec 'bdelete!' bufnr('$')
 endfunction " }}}
 
 function! LastUpdated() " {{{
@@ -136,7 +146,7 @@ function! TabInfo() " {{{
 endfunction " }}}
 
 function! SwitchBuffer(id, clicks, buttons, mods) " {{{
-    exec 'buffer ' . a:id
+    exec 'buffer' a:id
 endfunction " }}}
 
 function! TabLine() " {{{
@@ -200,9 +210,8 @@ function! TabLine() " {{{
         endfor
     endif
 
-    let line .= '%#TabLineFill#%T%=%#StatusLine#%( '
-    let line .= TabInfo()
-    let line .= ' %)'
+    let line .= '%#TabLineFill#%T%='
+    let line .= '%#StatusLine#%( ' . TabInfo() . ' %)'
 
     return line
 endfunction " }}}
@@ -382,12 +391,6 @@ if executable('ag')
 endif
 " }}}
 
-" Language mappings {{{
-" set nolangremap
-" set langmap+=[{}(=*)+]!;7531902468
-" set langmap+=7531902468;[{}(=*)+]!
-" }}}
-
 " Neovim {{{
 if has('nvim')
     set inccommand=nosplit
@@ -397,11 +400,11 @@ endif
 
 " Mappings {{{
 " Movement {{{
-Map nx                 <C-H>   <C-W>h
-Map nx                 <C-J>   <C-W>j
-Map nx                 <C-K>   <C-W>k
-Map nx                 <C-L>   <C-W>l
-Map nx                 <C-C>   <C-W>c
+Map nx                 <C-h>   <C-w>h
+Map nx                 <C-j>   <C-w>j
+Map nx                 <C-k>   <C-w>k
+Map nx                 <C-l>   <C-w>l
+Map nx                 <C-c>   <C-w>c
 Map nx          <expr> j       VMovement('j')
 Map nx          <expr> k       VMovement('k')
 Map nx          <expr> ^       HMovement('^')
@@ -417,33 +420,37 @@ Map no <silent>        U       :<C-U>call search('\u')<CR>
 Map n                 S         ~hi
 Map i          <expr> <Tab>     pumvisible() ? "\<C-N>" : "\<Tab>"
 Map i          <expr> <S-Tab>   pumvisible() ? "\<C-P>" : ''
-Map i                 <C-B>     <C-G>U<Left>
-Map i                 <C-F>     <C-G>U<Right>
-Map i                 <C-E>     <C-G>U<End>
-Map i                 <C-U>     <C-G>u<C-U>
-Map i                 <C-C>     <C-]><Esc>
+Map i                 <C-b>     <C-g>U<Left>
+Map i                 <C-f>     <C-g>U<Right>
+Map i                 <C-e>     <C-g>U<End>
+Map i                 <C-u>     <C-g>u<C-u>
+Map i                 <C-c>     <C-]><Esc>
 Map x <silent>        s         :sort<CR>
 Map x                 Y         "+y
 Map x                 D         "+d
 Map x                 P         "+p
-Map x                 R         y/\<<C-R>"\><CR>:redraw!<CR>:%s//
+Map x                 R         y/\<<C-r>"\><CR>:redraw!<CR>:%s//
+" }}}
+
+" Command {{{
+Map c <C-p> <Up>
+Map c <C-n> <Down>
 " }}}
 
 " File {{{
 Map n <silent> <expr> <CR> Write()
-Map n <silent>        M    :<C-U>tabnew<CR>
-Map n <silent>        H    :<C-U>bprevious<CR>
-Map n <silent>        L    :<C-U>bnext<CR>
-Map n <silent>        -    :<C-U>bdelete<CR>
-Map n <silent>        _    :<C-U>bdelete!<CR>
-Map n <silent>        ZF   :<C-U>cwindow 9<CR>
+Map n <silent>        M    :<C-u>tabnew<CR>
+Map n <silent>        H    :<C-u>bprevious<CR>
+Map n <silent>        L    :<C-u>bnext<CR>
+Map n <silent>        -    :<C-u>call BufferDelete(0)<CR>
+Map n <silent>        _    :<C-u>call BufferDelete(1)<CR>
+Map n <silent>        ZF   :<C-u>cwindow 9<CR>
 " }}}
 
 " Misc {{{
-Map nx <silent> Q         :<C-U>quitall<CR>
-Map n  <silent> <BS>      :<C-U>nohlsearch<CR>
-Map n  <silent> <Leader>c :<C-U>call SyntaxInfo()<CR>
-Map nx <silent> <Leader>f :pyf /usr/share/clang/clang-format.py<CR>
+Map nx <silent> Q         :<C-u>quitall<CR>
+Map n  <silent> <BS>      :<C-u>nohlsearch<CR>
+Map n  <silent> <Leader>c :<C-u>call SyntaxInfo()<CR>
 " }}}
 " }}}
 
@@ -548,15 +555,19 @@ elseif has('nvim') " Neovim
     " tnoremap <Esc> <C-\><C-n>
 
     " Cursor styling
-    set guicursor=n-v-c-sm:block,i-ci-ve:ver25,r-cr-o:hor20,a:blinkon500-blinkoff500
+    set guicursor=n-v-c-sm:block
+                \,i-ci-ve:ver25
+                \,r-cr-o:hor20
+                \,a:blinkon500-blinkoff500
 elseif has('win32') " Windows
     " ignore terminal escape sequences
 elseif &term=~'linux' " Linux Console
     if has('terminfo')
         set t_Co=16
-        " We use the blink attribute for bright background (console_codes(4)) and the
-        " bold attribute for bright foreground. The redefinition of t_AF is necessary
-        " for bright "Normal" highlighting to not influence the rest.
+        " We use the blink attribute for bright background (console_codes(4))
+        " and the bold attribute for bright foreground. The redefinition of t_AF
+        " is necessary for bright "Normal" highlighting to not influence the
+        " rest.
         set t_AB=[%?%p1%{7}%>%t5%p1%{8}%-%e25%p1%;m[4%dm
         set t_AF=[%?%p1%{7}%>%t1%p1%{8}%-%e22%p1%;m[3%dm
     endif
@@ -582,12 +593,6 @@ endif
 colorscheme code
 " }}}
 
-" local.vim {{{
-if filereadable($VIMDIR . '/local.vim')
-    source $VIMDIR/local.vim
-endif
-" }}}
-
 " Plugins {{{
 if filereadable($VIMDIR . '/autoload/plug.vim')
     call plug#begin()
@@ -600,13 +605,11 @@ endif
 runtime! ftplugin/man.vim
 " }}}
 
-" directory {{{
+" Create swap and undo directories {{{
 if !isdirectory(&directory)
     call mkdir(&directory, 'p')
 endif
-" }}}
 
-" undodir {{{
 if !isdirectory(&undodir)
     call mkdir(&undodir, 'p')
 endif
@@ -620,7 +623,7 @@ augroup vimrc
     " Resume last position {{{
     autocmd BufReadPost *
                 \ if line("'\"") >= 1 && line("'\"") <= line("$") |
-                \   exe "normal! g`\"" |
+                \     exec "normal! g`\"" |
                 \ endif
     " }}}
 

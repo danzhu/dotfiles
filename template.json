@@ -10,6 +10,7 @@
         "DOT": "$HOME/.dotfiles",
         "EDITOR": "emacsclient --tty",
         "VISUAL": "emacsclient --tty",
+        "LESS": "R",
         "TERMINAL": "termite",
         "ALTERNATE_EDITOR": "",
         "QT_QPA_PLATFORMTHEME": "qt5ct",

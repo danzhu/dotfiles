@@ -1,7 +1,8 @@
 (use-package simple
   :diminish visual-line-mode
-  :hook ((org-mode . visual-line-mode)
-         (text-mode . auto-fill-mode))
+  :hook
+  ((org-mode . visual-line-mode)
+   (text-mode . auto-fill-mode))
   :config
   (column-number-mode 1)
   (global-visual-line-mode 1)
@@ -31,8 +32,9 @@
 (use-package isearch
   :when (>= emacs-major-version 26)
   :bind
-  (:map isearch-mode-map
-        ("<escape>" . isearch-abort)))
+  (
+   :map isearch-mode-map
+   ("<escape>" . isearch-abort)))
 
 (use-package eldoc
   :diminish eldoc-mode
@@ -45,28 +47,35 @@
   :custom
   (company-idle-delay 0.1)
   (company-minimum-prefix-length 3)
+  (company-require-match nil)
   (company-selection-wrap-around t)
   :config
   (global-company-mode 1)
   ;; (company-tng-configure-default)
   :bind
-  (:map company-mode-map
-        ("C-SPC" . company-complete)
-        :map company-active-map
-        ("RET" . nil)
-        ("<return>" . nil)
-        ("C-w" . nil)
-        ("C-h" . nil)
-        ("M-n" . nil)
-        ("M-p" . nil)))
+  (
+   :map company-mode-map
+   ("C-SPC" . company-complete)
+   :map company-active-map
+   ("<tab>" . company-complete-selection)
+   ("C-n" . company-select-next)
+   ("C-p" . company-select-previous)
+   ("M-c" . company-complete-common)
+   ("RET" . nil)
+   ("<return>" . nil)
+   ("C-w" . nil)
+   ("C-h" . nil)
+   ("M-n" . nil)
+   ("M-p" . nil)))
 
 (use-package company-template
   :after company
   :bind
-  (:map company-template-nav-map
-        ("<tab>" . nil)
-        ("TAB" . nil)
-        ("M-n" . company-template-forward-field)))
+  (
+   :map company-template-nav-map
+   ("M-n" . company-template-forward-field)
+   ("<tab>" . nil)
+   ("TAB" . nil)))
 
 (use-package yasnippet
   :ensure t
@@ -74,18 +83,19 @@
   :config
   (yas-global-mode 1)
   :bind
-  (:map yas-minor-mode-map
-        ("<tab>" . nil)
-        ("TAB" . nil)
-        ("M-SPC" . yas-expand)
-        :map yas-keymap
-        ("<tab>" . nil)
-        ("TAB" . nil)
-        ("<backtab>" . nil)
-        ("S-TAB" . nil)
-        ("M-SPC" . yas-maybe-expand)
-        ("M-n" . yas-next-field)
-        ("M-p" . yas-prev-field)))
+  (
+   :map yas-minor-mode-map
+   ("M-SPC" . yas-expand)
+   ("<tab>" . nil)
+   ("TAB" . nil)
+   :map yas-keymap
+   ("M-SPC" . yas-maybe-expand)
+   ("M-n" . yas-next-field)
+   ("M-p" . yas-prev-field)
+   ("<tab>" . nil)
+   ("TAB" . nil)
+   ("<backtab>" . nil)
+   ("S-TAB" . nil)))
 
 (use-package yasnippet-snippets
   :ensure t)

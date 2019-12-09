@@ -156,6 +156,7 @@
   :defer t
   :mode "\\.js\\'"
   :interpreter "node"
+  :hook (js2-mode . lsp)
   :custom
   (js2-include-node-externs t)
   (js2-strict-missing-semi-warning nil))

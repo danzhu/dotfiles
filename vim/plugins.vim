@@ -72,12 +72,14 @@ Plug 'junegunn/vim-easy-align'
 Map! nx ga <Plug>(EasyAlign)
 " }}}
 
-Plug 'haya14busa/incsearch.vim'
-" {{{
-Map! nxo /  <Plug>(incsearch-forward)
-Map! nxo ?  <Plug>(incsearch-backward)
-" Map! nxo g/ <Plug>(incsearch-stay)
-" }}}
+if !has('nvim')
+    Plug 'haya14busa/incsearch.vim'
+    " {{{
+    Map! nxo /  <Plug>(incsearch-forward)
+    Map! nxo ?  <Plug>(incsearch-backward)
+    " Map! nxo g/ <Plug>(incsearch-stay)
+    " }}}
+end
 
 " Plug 'sickill/vim-pasta'
 
@@ -95,7 +97,7 @@ Plug 'jiangmiao/auto-pairs'
 
 Plug 'tpope/vim-endwise'
 
-Plug 'w0rp/ale'
+" Plug 'w0rp/ale'
 
 Plug 'tpope/vim-unimpaired'
 
@@ -128,6 +130,23 @@ if exists('g:cpp_plugins') && (has('python') || has('python3'))
                 \ }
     " }}}
 endif
+
+Plug 'prabirshrestha/asyncomplete.vim'
+Plug 'prabirshrestha/async.vim'
+Plug 'prabirshrestha/vim-lsp'
+Plug 'prabirshrestha/asyncomplete-lsp.vim'
+" {{{
+Map! i <c-space> <Plug>(asyncomplete_force_refresh)
+
+if executable('pyls')
+    " pip install python-language-server
+    au User lsp_setup call lsp#register_server({
+                \ 'name': 'pyls',
+                \ 'cmd': {server_info->['pyls']},
+                \ 'whitelist': ['python'],
+                \ })
+endif
+" }}}
 " }}}
 
 " Utility {{{
