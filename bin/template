@@ -10,7 +10,8 @@ import shlex
 import sys
 
 SRC_DIR = Path(__file__).parent.resolve(strict=True)
-DATA = SRC_DIR / 'template.json'
+DOT_DIR = SRC_DIR.parent
+DATA = DOT_DIR / 'template.json'
 
 
 class Node:

@@ -11,8 +11,9 @@ import subprocess
 T = TypeVar('T', bound=Callable[..., None])
 
 SRC_DIR = Path(__file__).parent.resolve(strict=True)
-CONF = SRC_DIR / 'install.conf'
-SNAP = SRC_DIR / '.install.snap'
+DOT_DIR = SRC_DIR.parent
+CONF = DOT_DIR / 'install.conf'
+SNAP = DOT_DIR / '.install.snap'
 TEMPL = SRC_DIR / 'template'
 ACTIONS = {}
 
