@@ -40,6 +40,7 @@ set $primary primary
 set $secondary HDMI-1-1
 
 set $mpv_pane scratch:mpv
+set $lock_cmd i3lock -c 000000
 
 font pango:monospace {{font_size}}
 
@@ -69,6 +70,8 @@ hide_edge_borders both
 
 # assign
 # assign [class="^mpv$"] workspace $ws0
+assign [class="^Zeal$"] workspace $ws3
+assign [class="^Riot$"] workspace $ws6
 assign [class="^discord$"] workspace $ws6
 
 # auto scratchpad
@@ -103,7 +106,7 @@ bindsym XF86AudioMute exec --no-startup-id pactl set-sink-mute @DEFAULT_SINK@ to
 # screen controls
 bindsym XF86MonBrightnessUp exec --no-startup-id xbacklight -inc 5
 bindsym XF86MonBrightnessDown exec --no-startup-id xbacklight -dec 5
-bindsym XF86ScreenSaver exec --no-startup-id i3lock -c 000000
+bindsym XF86ScreenSaver exec --no-startup-id $lock_cmd
 
 # playback controls
 bindsym XF86AudioPlay exec --no-startup-id tmux send-keys -t $mpv_pane 'p'
@@ -228,8 +231,8 @@ mode "system" {
     # reset resolution / fix i3status
     bindsym s exec --no-startup-id autorandr -c; exec --no-startup-id pkill -CONT i3status; mode "default"
 
-    # run i3 lock
-    bindsym l exec --no-startup-id i3lock -c 000000; mode "default"
+    # lock screen
+    bindsym l exec --no-startup-id $lock_cmd; mode "default"
 
     # reload the configuration file
     bindsym c reload; mode "default"

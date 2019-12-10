@@ -59,8 +59,9 @@ function! BufferDelete(force) " {{{
         return
     endif
 
+    let buf = bufnr()
     bnext
-    exec 'bdelete!' bufnr('$')
+    exec 'bdelete!' buf
 endfunction " }}}
 
 function! LastUpdated() " {{{

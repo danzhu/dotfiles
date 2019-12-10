@@ -50,15 +50,15 @@ ttyctl -f
 
 
 # --- plugins ---
-if [[ -r /usr/share/doc/pkgfile/command-not-found.zsh ]]; then
-    source /usr/share/doc/pkgfile/command-not-found.zsh
-fi
+ZSH_HIGHLIGHT_HIGHLIGHTERS=(main brackets)
+plugs=(
+    /usr/share/doc/pkgfile/command-not-found.zsh
+    /usr/share/zsh/plugins/zsh-autosuggestions/zsh-autosuggestions.zsh
+    /usr/share/zsh/plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
+)
 
-
-# --- zplug ---
-ZPLUG_HOME=$HOME/.config/zsh/zplug
-if [[ -r $ZPLUG_HOME/init.zsh ]]; then
-    ZPLUG_LOADFILE=$DOT/zsh/plugins.zsh
-    source $ZPLUG_HOME/init.zsh
-    zplug load
-fi
+for plug in $plugs; do
+    if [[ -r $plug ]]; then
+        source $plug
+    fi
+done
