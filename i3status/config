@@ -8,9 +8,9 @@
 
 order += "ethernet _first_"
 order += "wireless _first_"
-order += "load"
 order += "cpu_usage"
 order += "cpu_temperature 0"
+order += "memory"
 %% for partition name dir [
 order += "disk {{dir}}"
 %% ]
@@ -37,8 +37,30 @@ wireless _first_ {
     format_down = ""
 }
 
+cpu_usage {
+    format = "cpu %usage"
+}
+
+cpu_temperature 0 {
+    format = "%degrees°C"
+}
+
+memory {
+    format = "mem %available"
+    threshold_degraded = 2G
+    threshold_critical = 1G
+}
+
+%% for partition name dir [
+disk "{{dir}}" {
+    format = "{{name}} %avail"
+    low_threshold = 16
+    threshold_type = gbytes_avail
+}
+
+%% ]
 battery 0 {
-    format = "⌁ %status %percentage %remaining"
+    format = "%status %percentage %remaining"
     format_down = ""
     last_full_capacity = true
     integer_battery_capacity = true
@@ -51,31 +73,11 @@ battery 0 {
     threshold_type = percentage
 }
 
-time {
-    format = "%a %b %d %I:%M:%S %p"
-}
-
-load {
-    format = "%1min %5min %15min"
-}
-
-%% for partition name dir [
-disk "{{dir}}" {
-    format = "{{name}} %avail"
-    low_threshold = 16
-    threshold_type = gbytes_avail
-}
-
-%% ]
-cpu_usage {
-    format = "cpu %usage"
-}
-
-cpu_temperature 0 {
-    format = "%degrees°C"
-}
-
 volume master {
     format = "♫ %volume"
     format_muted = "♫ x"
+}
+
+time {
+    format = "%a %b %d %I:%M:%S %p"
 }

@@ -4,6 +4,7 @@ from pathlib import Path
 from typing import Callable, TypeVar
 from urllib import request
 import json
+import os
 import shlex
 import shutil
 import subprocess
@@ -48,6 +49,8 @@ def clone(out: Path, url: str) -> None:
 
 
 def main() -> None:
+    os.chdir(DOT_DIR)
+
     # load tasks from config file
     tasks = {}
     with CONF.open() as f:
