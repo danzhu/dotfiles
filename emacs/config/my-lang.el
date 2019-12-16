@@ -324,6 +324,11 @@
   :defer t
   :mode "Dockerfile\\'")
 
+(use-package protobuf-mode
+  :ensure t
+  :defer t
+  :mode "\\.proto\\'")
+
 (provide 'my-lang)
 
 ;; end

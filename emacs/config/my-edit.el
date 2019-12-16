@@ -29,6 +29,10 @@
   :defer t
   :hook (text-mode . flyspell-mode))
 
+(use-package ispell
+  :custom
+  (ispell-silently-savep t))
+
 (use-package isearch
   :when (>= emacs-major-version 26)
   :bind
