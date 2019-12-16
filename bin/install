@@ -91,14 +91,15 @@ def main() -> None:
     if confirm and input('continue? [y/N] ') != 'y':
         return
 
-    print(':: removing excessive files')
-    for out in excessive:
-        print(f' {out}')
-        out = out.expanduser()
-        if not out.is_symlink() and out.is_dir():
-            shutil.rmtree(out)
-        else:
-            out.unlink()
+    if len(excessive) > 0:
+        print(':: removing excessive files')
+        for out in excessive:
+            print(f' {out}')
+            out = out.expanduser()
+            if not out.is_symlink() and out.is_dir():
+                shutil.rmtree(out)
+            else:
+                out.unlink()
 
     # execute tasks
     print(':: updating target files')
