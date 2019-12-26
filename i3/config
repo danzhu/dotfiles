@@ -4,6 +4,7 @@
 
 set $mod Mod4
 
+# colours
 set $cfg "#{{foreground}}"
 set $cbg "#{{background}}"
 set $c00 "#{{black}}"
@@ -40,7 +41,12 @@ set $primary primary
 set $secondary HDMI-1-1
 
 set $mpv_pane scratch:mpv
-set $lock_cmd i3lock -c 000000
+set $screen_lock exec --no-startup-id i3lock -c 000000
+set $volume_down exec --no-startup-id pactl set-sink-volume @DEFAULT_SINK@ -2%
+set $volume_up exec --no-startup-id pactl set-sink-volume @DEFAULT_SINK@ +2%
+set $mute_toggle exec --no-startup-id pactl set-sink-mute @DEFAULT_SINK@ toggle
+set $brightness_up exec --no-startup-id xbacklight -inc 5
+set $brightness_down exec --no-startup-id xbacklight -dec 5
 
 font pango:monospace {{font_size}}
 
@@ -102,14 +108,14 @@ bindsym --whole-window $mod+button2 kill
 bindsym button3 floating toggle
 
 # volume controls
-bindsym XF86AudioLowerVolume exec --no-startup-id pactl set-sink-volume @DEFAULT_SINK@ -2%
-bindsym XF86AudioRaiseVolume exec --no-startup-id pactl set-sink-volume @DEFAULT_SINK@ +2%
-bindsym XF86AudioMute exec --no-startup-id pactl set-sink-mute @DEFAULT_SINK@ toggle
+bindsym XF86AudioLowerVolume $volume_down
+bindsym XF86AudioRaiseVolume $volume_up
+bindsym XF86AudioMute $mute_toggle
 
 # screen controls
-bindsym XF86MonBrightnessUp exec --no-startup-id xbacklight -inc 5
-bindsym XF86MonBrightnessDown exec --no-startup-id xbacklight -dec 5
-bindsym XF86ScreenSaver exec --no-startup-id $lock_cmd
+bindsym XF86MonBrightnessUp $brightness_up
+bindsym XF86MonBrightnessDown $brightness_down
+bindsym XF86ScreenSaver $screen_lock
 
 # playback controls
 bindsym XF86AudioPlay exec --no-startup-id tmux send-keys -t $mpv_pane 'p'
@@ -131,12 +137,6 @@ bindsym --release Shift+Print exec --no-startup-id ~/.config/i3/clip screenshot 
 # commonly-used programs
 bindsym $mod+Return exec {{terminal}}
 bindsym $mod+d exec {{launcher}}
-bindsym $mod+r exec {{runner}}
-bindsym $mod+e exec {{editor_gui}}
-bindsym $mod+b exec {{browser_gui}}
-bindsym $mod+m exec {{file_manager_gui}}
-bindsym $mod+w exec {{window_switcher}}
-bindsym $mod+c exec --no-startup-id ~/.config/i3/clip exec
 
 # change focus
 bindsym $mod+h focus left
@@ -231,11 +231,11 @@ bindsym $mod+Shift+9 move container to workspace $ws9
 bindsym $mod+x mode "system"
 
 mode "system" {
-    # reset resolution / fix i3status
-    bindsym s exec --no-startup-id autorandr -c; exec --no-startup-id pkill -CONT i3status; mode "default"
+    # reset resolution / fix i3status freeze
+    bindsym s exec --no-startup-id ~/.config/i3/reset; mode "default"
 
     # lock screen
-    bindsym l exec --no-startup-id $lock_cmd; mode "default"
+    bindsym l $screen_lock; mode "default"
 
     # reload the configuration file
     bindsym c reload; mode "default"
@@ -253,11 +253,17 @@ mode "system" {
     bindsym Escape mode "default"
 }
 
-bindsym $mod+g mode "go"
+bindsym $mod+r mode "run"
 
-mode "go" {
-    bindsym o exec osu; mode "default"
-    bindsym t exec {{terminal}} {{ format terminal_run [ }}tmux new -As tox toxic{{ ] }}; mode "default"
+mode "run" {
+    bindsym $mod+o exec osu; mode "default"
+    bindsym $mod+t exec {{terminal}} {{ format terminal_run [ }}tmux new -As tox toxic{{ ] }}; mode "default"
+    bindsym $mod+r exec {{runner}}; mode "default"
+    bindsym $mod+e exec {{editor_gui}}; mode "default"
+    bindsym $mod+b exec {{browser_gui}}; mode "default"
+    bindsym $mod+m exec {{file_manager_gui}}; mode "default"
+    bindsym $mod+w exec {{window_switcher}}; mode "default"
+    bindsym $mod+c exec --no-startup-id ~/.config/i3/clip exec; mode "default"
 
     bindsym Escape mode "default"
 }
@@ -285,13 +291,13 @@ bindsym $mod+y exec --no-startup-id setxkbmap -layout us; mode "keyboard"
 
 mode "keyboard" {
     # volume controls
-    bindsym XF86AudioRaiseVolume exec --no-startup-id pactl set-sink-volume @DEFAULT_SINK@ +2%
-    bindsym XF86AudioLowerVolume exec --no-startup-id pactl set-sink-volume @DEFAULT_SINK@ -2%
-    bindsym XF86AudioMute exec --no-startup-id pactl set-sink-mute @DEFAULT_SINK@ toggle
+    bindsym XF86AudioRaiseVolume $volume_up
+    bindsym XF86AudioLowerVolume $volume_down
+    bindsym XF86AudioMute $mute_toggle
 
     # brightness controls
-    bindsym XF86MonBrightnessUp exec --no-startup-id xbacklight -inc 5
-    bindsym XF86MonBrightnessDown exec --no-startup-id xbacklight -dec 5
+    bindsym XF86MonBrightnessUp $brightness_up
+    bindsym XF86MonBrightnessDown $brightness_down
 
     bindsym $mod+Escape exec --no-startup-id setxkbmap -variant dvorak; mode "default"
 }

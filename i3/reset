@@ -1,0 +1,6 @@
+#!/bin/bash
+
+# reset resolution
+autorandr -c
+# fix i3status freeze
+pkill -CONT i3status
