@@ -13,7 +13,8 @@
 
 (use-package sh-script
   :defer t
-  :mode ("/PKGBUILD\\'" . sh-mode))
+  :mode ("/PKGBUILD\\'" . sh-mode)
+  :hook (sh-mode . lsp))
 
 (use-package python
   :defer t
