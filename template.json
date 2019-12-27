@@ -16,7 +16,8 @@
         "QT_QPA_PLATFORMTHEME": "qt5ct",
         "GTK_IM_MODULE": "fcitx",
         "QT_IM_MODULE": "fcitx",
-        "XMODIFIERS": "@im=fcitx"
+        "XMODIFIERS": "@im=fcitx",
+        "PLT_READLINE_LIB": "/usr/lib/libreadline.so"
     },
     "alias": {
         "ls": "ls -h --color=auto",
