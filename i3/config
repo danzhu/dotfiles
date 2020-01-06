@@ -88,7 +88,14 @@ exec --no-startup-id {{terminal}} --class scratch {{ format terminal_run [ }}tmu
 exec --no-startup-id ~/.fehbg
 
 workspace "$ws1" output $primary
-workspace "$ws9" output $secondary
+workspace "$ws2" output $primary
+workspace "$ws3" output $primary
+workspace "$ws4" output $primary
+workspace "$ws5" output $primary
+workspace "$ws6" output $primary
+workspace "$ws7" output $primary
+workspace "$ws8" output $primary
+workspace "$ws9" output $secondary $primary
 
 # class                 border  bg      text    ind     child_border
 client.focused          $c12    $c00    $c12    $c00    $c00
@@ -234,6 +241,8 @@ mode "system" {
     # reset resolution / fix i3status freeze
     bindsym s exec --no-startup-id ~/.config/i3/reset; mode "default"
 
+    bindsym i exec --no-startup-id xinput --map-to-output 'HUION 420 Pen Pen (0)' eDP-1-1; mode "default"
+
     # lock screen
     bindsym l $screen_lock; mode "default"
 
@@ -259,9 +268,10 @@ mode "run" {
     bindsym $mod+o exec osu; mode "default"
     bindsym $mod+t exec {{terminal}} {{ format terminal_run [ }}tmux new -As tox toxic{{ ] }}; mode "default"
     bindsym $mod+r exec {{runner}}; mode "default"
-    bindsym $mod+e exec {{editor_gui}}; mode "default"
+    bindsym $mod+e exec --no-startup-id {{editor_gui}}; mode "default"
     bindsym $mod+b exec {{browser_gui}}; mode "default"
-    bindsym $mod+m exec {{file_manager_gui}}; mode "default"
+    bindsym $mod+f exec {{file_manager_gui}}; mode "default"
+    bindsym $mod+d exec {{doc_viewer}}; mode "default"
     bindsym $mod+w exec {{window_switcher}}; mode "default"
     bindsym $mod+c exec --no-startup-id ~/.config/i3/clip exec; mode "default"
 

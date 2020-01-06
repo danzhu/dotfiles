@@ -76,6 +76,7 @@
     "runner": "rofi -show run",
     "window_switcher": "rofi -show window -show-icons",
     "pdf_viewer": "zathura",
+    "doc_viewer": "zeal",
     "diff_tool": "emerge",
     "editor_gui": "emacsclient --create-frame",
     "editor_tui": "emacsclient --tty",
