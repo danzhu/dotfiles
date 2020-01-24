@@ -248,6 +248,11 @@
   :defer t
   :mode "\\.rkt\\'")
 
+(use-package elixir-mode
+  :ensure t
+  :defer t
+  :mode "\\.ex\\'")
+
 (use-package glsl-mode
   :ensure t
   :defer t
