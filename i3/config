@@ -52,7 +52,7 @@ font pango:monospace {{font_size}}
 
 floating_modifier $mod
 # default_orientation auto
-# workspace_layout default
+workspace_layout tabbed
 # title_align left
 # default_border pixel 1
 # default_floating_border normal
