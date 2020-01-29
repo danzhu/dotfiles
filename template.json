@@ -36,7 +36,7 @@
         "gb": "git branch",
         "gc": "git commit",
         "gce": "git commit --allow-empty-message -m \"\"",
-        "gca": "git commit --amend --no-edit",
+        "gca": "git commit --amend --no-edit --allow-empty-message",
         "gd": "git diff",
         "gdc": "git diff --cached",
         "gs": "git status",
