@@ -3,6 +3,8 @@ auto-reload yes
 browser {{browser_gui}}
 confirm-exit yes
 prepopulate-query-feeds yes
+reload-threads 4
+reload-time 10
 
 # notification
 notify-format "%n unread articles"
