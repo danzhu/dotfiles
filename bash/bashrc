@@ -26,6 +26,11 @@ alias -- {{name}}='{{value}}'
 source "$DOT/shell/functions"
 source "$DOT/shell/completions"
 
+# third-party tools init
+if type rbenv &> /dev/null; then
+    eval "$(rbenv init -)"
+fi
+
 # disable Ctrl-S freezing terminal
 stty -ixon
 
