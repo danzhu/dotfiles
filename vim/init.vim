@@ -292,30 +292,6 @@ set viewdir=$VIMDIR/view    " view file directory
 set viewoptions-=options    " don't store options when :mkview
 " }}}
 
-" Ignores {{{
-" patterns to ignore for wild menu
-set wildignore+=*.exe
-set wildignore+=*.gz
-set wildignore+=*.jpg
-set wildignore+=*.o
-set wildignore+=*.pdf
-set wildignore+=*.png
-set wildignore+=*.pyc
-set wildignore+=*/.git/*
-set wildignore+=*/__pycache__/*
-set wildignore+=*/node_modules/*
-set wildignore+=Thumbs.db
-set wildignore+=desktop.ini
-
-" suffixes that have a lower priority
-set suffixes+=,
-set suffixes+=.aux
-set suffixes+=.d
-set suffixes+=.fdb_latexmk
-set suffixes+=.fls
-set suffixes+=.log
-" }}}
-
 " Tabs {{{
 set expandtab     " expand tab to spaces
 set shiftround    " align indent to multiple of shiftwidth
