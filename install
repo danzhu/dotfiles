@@ -1,5 +1,6 @@
 #!/usr/bin/env python3
 
+from dot.template import Template
 from pathlib import Path
 from typing import Callable, TypeVar
 from urllib import request
@@ -11,11 +12,16 @@ import subprocess
 
 T = TypeVar('T', bound=Callable[..., None])
 
-SRC_DIR = Path(__file__).parent.resolve(strict=True)
-DOT_DIR = SRC_DIR.parent
-CONF = DOT_DIR / 'install.conf'
-SNAP = DOT_DIR / '.install.snap'
-TEMPL = SRC_DIR / 'template'
+NETWORK = False
+DOT_DIR = Path(__file__).parent.resolve(strict=True)
+LIB_DIR = DOT_DIR / 'dot'
+CONF = LIB_DIR / 'install.conf'
+SNAP = LIB_DIR / '.snapshot.json'
+DATA = LIB_DIR / 'template.json'
+with DATA.open() as f:
+    TEMPL_DATA = json.load(f)
+
+
 ACTIONS = {}
 
 
@@ -32,19 +38,21 @@ def copy(out: Path, src: str) -> None:
 
 @action
 def render(out: Path, src: str) -> None:
-    subprocess.run([TEMPL, src, out], check=True)
+    templ = Template(Path(src).read_text())
+    Path(out).write_text(templ.format(TEMPL_DATA))
 
 
 @action
 def fetch(out: Path, url: str) -> None:
-    request.urlretrieve(url, out)
+    if not out.exists() or NETWORK:
+        request.urlretrieve(url, out)
 
 
 @action
 def clone(out: Path, url: str) -> None:
     if not out.exists():
         subprocess.run(['git', 'clone', url, out], check=True)
-    else:
+    elif NETWORK:
         subprocess.run(['git', 'pull', url], cwd=out, check=True)
 
 
@@ -64,10 +72,11 @@ def main() -> None:
 
     # load past outputs from snapshot file
     try:
-        with SNAP.open() as f:
-            old_outs = set(map(Path, json.load(f)))
+        snap = SNAP.read_text()
     except FileNotFoundError:
         old_outs = set()
+    else:
+        old_outs = set(map(Path, json.loads(snap)))
 
     confirm = False
 
@@ -111,8 +120,8 @@ def main() -> None:
 
     # save outputs to snapshot file
     print(':: saving installation state')
-    with SNAP.open('w') as f:
-        json.dump(sorted(map(str, new_outs)), f, indent=2)
+    snap = json.dumps(sorted(map(str, new_outs)), indent=2)
+    SNAP.write_text(snap)
 
 
 if __name__ == '__main__':

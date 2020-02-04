@@ -4,10 +4,8 @@ from typing import (
     Callable, Dict, Iterable, Iterator, List, Sequence, TypeVar,
 )
 from pathlib import Path
-import json
 import re
 import shlex
-import sys
 
 SRC_DIR = Path(__file__).parent.resolve(strict=True)
 DOT_DIR = SRC_DIR.parent
@@ -164,19 +162,10 @@ class Parser:
         return Join(text, Join(node, succ))
 
 
-def main() -> None:
-    [_, inp, out] = sys.argv
+class Template:
+    def __init__(self, templ: str) -> None:
+        parser = Parser(templ)
+        self.root = parser.parse()
 
-    with DATA.open() as f:
-        data = json.load(f)
-    templ = Path(inp).read_text()
-
-    parser = Parser(templ)
-    node = parser.parse()
-    res = ''.join(node.format(data))
-
-    Path(out).write_text(res)
-
-
-if __name__ == '__main__':
-    main()
+    def format(self, data: Dict[str, object]) -> str:
+        return ''.join(self.root.format(data))

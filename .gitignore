@@ -1,1 +1,2 @@
-/.install.snap
+/dot/.snapshot.json
+__pycache__/
