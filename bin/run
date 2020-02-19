@@ -1,21 +1,28 @@
 #!/bin/bash
 
+set -e
+
+ERR_FAIL=2
+ERR_BUG=3
+
 usage() {
-    echo "Usage: $0 [OPTION]... FILE [ARGS]"
-    echo
-    echo "  -h, --help      display this help and exit"
-    echo "  -m, --mem       run with valgrind checking for memory errors"
+    cat <<EOF
+Usage: $0 [OPTION]... FILE [ARGS]
+
+  -h, --help      display this help and exit
+  -m, --mem       run with valgrind checking for memory errors
+EOF
 }
 
 OPTIONS=hm
 LONG_OPTIONS=help,mem
 
-OPT=$(getopt --options=$OPTIONS \
-             --longoptions=$LONG_OPTIONS \
-             --name "$0" \
-             -- "$@")
-if [[ $? -ne 0 ]]; then
-    exit 2
+if ! OPT=$(getopt --options=$OPTIONS \
+                  --longoptions=$LONG_OPTIONS \
+                  --name "$0" \
+                  -- "$@")
+then
+    exit $ERR_FAIL
 fi
 
 eval set -- "$OPT"
@@ -37,14 +44,14 @@ while true; do
             ;;
         *)
             echo "oops"
-            exit 3
+            exit $ERR_BUG
             ;;
     esac
 done
 
 if [[ $# -lt 1 ]]; then
     usage
-    exit 2
+    exit $ERR_FAIL
 fi
 
 filename="$1"
@@ -86,17 +93,12 @@ case "$filename" in
         ;;
     *)
         echo "extension not recognized" >&2
-        exit 2
+        exit $ERR_FAIL
         ;;
 esac
 
-ret=$?
-if [[ $ret -ne 0 ]]; then
-    exit $ret
-fi
-
 if [[ $MEM = true ]]; then
-    cmd=(valgrind --leak-check=full "${cmd[@]}")
+    cmd=(valgrind "--leak-check=full" "${cmd[@]}")
 fi
 
 "${cmd[@]}" "${args[@]}"
