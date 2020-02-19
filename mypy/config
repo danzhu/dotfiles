@@ -1,12 +1,19 @@
 [mypy]
 
 # disallow dynamic typing
+disallow_any_unimported = True
+disallow_any_decorated = True
 disallow_any_generics = True
+disallow_subclassing_any = True
 
 # untyped definitions and calls
 disallow_incomplete_defs = True
+check_untyped_defs = True
+disallow_untyped_decorators = True
 
 # warnings
+warn_redundant_casts = True
+warn_return_any = True
 warn_unreachable = True
 
 # strictness
