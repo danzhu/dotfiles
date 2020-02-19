@@ -66,8 +66,8 @@
   :custom
   (browse-url-browser-function
    (cond
-    ((or (executable-find "chromium") (executable-find "chromium-browser"))
-     'browse-url-chromium)
+    ((executable-find "firefox") 'browse-url-firefox)
+    ((executable-find "chromium") 'browse-url-chromium)
     (t 'browse-url-default-browser))))
 
 (use-package autothemer

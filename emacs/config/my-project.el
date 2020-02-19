@@ -38,16 +38,14 @@
   (global-git-gutter-mode 1)
   (add-hook 'focus-in-hook 'git-gutter:update-all-windows)
   (fringe-helper-define 'git-gutter-fr:added '(center repeated)
-    "XX......")
+    "....XXXX")
   (fringe-helper-define 'git-gutter-fr:modified '(center repeated)
-    "XX......")
+    "....XXXX")
   (fringe-helper-define 'git-gutter-fr:deleted 'bottom
-    "X......."
-    "XX......"
-    "XXX....."
-    "XXXX...."
-    "XXXXX..."
-    "XXXXXX.."))
+    "XXXXXXXX"
+    "XXXXXXXX"
+    "XXXXXXXX"
+    "XXXXXXXX"))
 
 (use-package rg
   :ensure t)
