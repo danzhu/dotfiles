@@ -17,7 +17,9 @@
         "GTK_IM_MODULE": "fcitx",
         "QT_IM_MODULE": "fcitx",
         "XMODIFIERS": "@im=fcitx",
-        "PLT_READLINE_LIB": "/usr/lib/libreadline.so"
+        "PLT_READLINE_LIB": "/usr/lib/libreadline.so",
+        "FZF_DEFAULT_COMMAND": "fd --type f",
+        "FZF_DEFAULT_OPTS": "--color=16"
     },
     "alias": {
         "ls": "ls -h --color=auto",
