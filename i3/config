@@ -54,21 +54,21 @@ floating_modifier $mod
 # default_orientation auto
 workspace_layout tabbed
 # title_align left
-# default_border pixel 1
-# default_floating_border normal
-hide_edge_borders both
+default_border pixel 1
+default_floating_border pixel 1
+hide_edge_borders smart_no_gaps
 # focus_follow_mouse yes
-# mouse_wraping output
+# mouse_warping output
 # popup_during_fullscreen smart
-# focus_wrapping yes
+focus_wrapping workspace
 # workspace_auto_back_and_forth no
 # force_display_urgency_hint 500 ms
-# focus_on_window_activation smart
+focus_on_window_activation focus
 # show_marks yes
 
-# gaps inner 6
-# gaps outer 0
-# smart_gaps on
+gaps inner 6
+gaps outer 0
+smart_gaps on
 
 # rules
 # for_window [workspace="$ws1|$ws4"] layout tabbed
@@ -98,11 +98,11 @@ workspace "$ws8" output $primary
 workspace "$ws9" output $secondary $primary
 
 # class                 border  bg      text    ind     child_border
-client.focused          $c12    $c00    $c12    $c00    $c00
-client.focused_inactive $c07    $c00    $cfg    $c00    $c00
-client.unfocused        $c08    $c00    $c07    $c00    $c00
-client.urgent           $c09    $c00    $c09    $c00    $c00
-client.placeholder      $cbg    $c00    $cfg    $cbg    $c00
+client.focused          $c00    $c00    $c12    $c00    $c12
+client.focused_inactive $c00    $c00    $cfg    $c00    $cfg
+client.unfocused        $c00    $c00    $c07    $c00    $c08
+client.urgent           $c00    $c00    $c09    $c00    $c09
+client.placeholder      $c00    $c00    $c03    $c00    $c03
 
 client.background       $cbg
 
@@ -327,7 +327,7 @@ bar {
 
         # colorclass        border  bg      text
         focused_workspace   $c12    $c00    $c12
-        active_workspace    $c07    $c00    $c12
+        active_workspace    $c07    $c00    $cfg
         inactive_workspace  $c08    $c00    $c07
         urgent_workspace    $c09    $c00    $c09
         binding_mode        $c11    $c00    $c11
