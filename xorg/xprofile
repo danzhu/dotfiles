@@ -12,8 +12,6 @@ if [[ -f ~/.profile ]]; then
     source ~/.profile
 fi
 
-# setxkbmap -variant dvorak -option ctrl:nocaps
-
 %% for autostart cmd [
 {{cmd}} &
 %% ]
