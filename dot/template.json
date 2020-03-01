@@ -19,7 +19,8 @@
         "XMODIFIERS": "@im=fcitx",
         "PLT_READLINE_LIB": "/usr/lib/libreadline.so",
         "FZF_DEFAULT_COMMAND": "fd --type f",
-        "FZF_DEFAULT_OPTS": "--color=16"
+        "FZF_DEFAULT_OPTS": "--color=16",
+        "DOTNET_CLI_TELEMETRY_OPTOUT": "true"
     },
     "alias": {
         "ls": "ls -h --color=auto",
