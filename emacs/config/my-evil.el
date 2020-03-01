@@ -117,6 +117,12 @@
   :config
   (global-evil-visualstar-mode))
 
+(use-package evil-indent-plus
+  :ensure t
+  :after evil
+  :config
+  (evil-indent-plus-default-bindings))
+
 (use-package evil-exchange
   :ensure t
   :defer t
