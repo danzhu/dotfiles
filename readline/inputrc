@@ -5,13 +5,15 @@ $include /etc/inputrc
 # --- completion ---
 set bell-style none
 set colored-stats on
-set visible-stats off
 set completion-ignore-case on
+set mark-directories off
+set match-hidden-files off
 set show-all-if-unmodified on
 
 # --- editing ---
-set editing-mode vi
 set bind-tty-special-chars off
+set editing-mode vi
+set enable-bracketed-paste on
 
 # --- display ---
 set echo-control-characters off
@@ -27,9 +29,6 @@ set echo-control-characters off
 # $endif
 
 # --- key bindings ---
-"\e[A": history-search-backward
-"\e[B": history-search-forward
-
 $if mode=vi
     set keymap vi-insert
 
