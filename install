@@ -38,7 +38,7 @@ def copy(out: Path, src: str) -> None:
 
 @action
 def render(out: Path, src: str) -> None:
-    templ = Template(Path(src).read_text())
+    templ = Template(Path(src))
     Path(out).write_text(templ.format(TEMPL_DATA))
 
 

@@ -163,7 +163,8 @@ class Parser:
 
 
 class Template:
-    def __init__(self, templ: str) -> None:
+    def __init__(self, path: Path) -> None:
+        templ = path.read_text()
         parser = Parser(templ)
         self.root = parser.parse()
 
