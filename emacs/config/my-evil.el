@@ -123,23 +123,40 @@
   :config
   (evil-indent-plus-default-bindings))
 
-(use-package evil-exchange
-  :ensure t
-  :defer t
-  :after evil
-  :bind
-  (:map evil-normal-state-map
-        ("gx" . evil-exchange)
-        ("gX" . evil-exchange-cancel)
-        :map evil-visual-state-map
-        ("gx" . evil-exchange)
-        ("gX" . evil-exchange-cancel)))
-
 (use-package evil-magit
   :ensure t
   :after (evil magit)
   :custom
   (evil-magit-state 'motion))
+
+(use-package evil-exchange
+  :ensure t
+  :defer t
+  :after evil
+  :bind
+  (
+   :map evil-normal-state-map
+   ("gx" . evil-exchange)
+   ("gX" . evil-exchange-cancel)
+   :map evil-visual-state-map
+   ("gx" . evil-exchange)
+   ("gX" . evil-exchange-cancel)))
+
+(use-package evil-args
+  :ensure t
+  :defer t
+  :after evil
+  :bind
+  (
+   :map evil-inner-text-objects-map
+   ("a" . evil-inner-arg)
+   :map evil-outer-text-objects-map
+   ("a" . evil-outer-arg)
+   :map evil-motion-state-map
+   ("L" . evil-forward-arg)
+   ("H" . evil-backward-arg)
+   ;; ("M" . evil-jump-out-args)
+   ))
 
 (use-package evil-multiedit
   :ensure t
@@ -148,20 +165,21 @@
   ;; :config
   ;; (evil-ex-define-cmd "ie[dit]" #'evil-multiedit-ex-match)
   :bind
-  (:map evil-normal-state-map
-        ("M-d" . evil-multiedit-match-symbol-and-next)
-        ("M-D" . evil-multiedit-match-symbol-and-prev)
-        :map evil-visual-state-map
-        ("R" . evil-multiedit-match-all)
-        ("M-d" . evil-multiedit-match-and-next)
-        ("M-D" . evil-multiedit-match-and-prev)
-        :map evil-multiedit-state-map
-        ("RET" . evil-multiedit-toggle-or-restrict-region)
-        ("C-n" . evil-multiedit-next)
-        ("C-p" . evil-multiedit-prev)
-        :map evil-multiedit-insert-state-map
-        ("C-n" . evil-multiedit-next)
-        ("C-p" . evil-multiedit-prev)))
+  (
+   :map evil-normal-state-map
+   ("M-d" . evil-multiedit-match-symbol-and-next)
+   ("M-D" . evil-multiedit-match-symbol-and-prev)
+   :map evil-visual-state-map
+   ("R" . evil-multiedit-match-all)
+   ("M-d" . evil-multiedit-match-and-next)
+   ("M-D" . evil-multiedit-match-and-prev)
+   :map evil-multiedit-state-map
+   ("RET" . evil-multiedit-toggle-or-restrict-region)
+   ("C-n" . evil-multiedit-next)
+   ("C-p" . evil-multiedit-prev)
+   :map evil-multiedit-insert-state-map
+   ("C-n" . evil-multiedit-next)
+   ("C-p" . evil-multiedit-prev)))
 
 (provide 'my-evil)
 
