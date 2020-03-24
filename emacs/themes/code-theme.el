@@ -145,6 +145,12 @@
   (evil-ex-substitute-matches (:foreground code-light-red :background code-darker :bold t :strike-through t))
   (evil-ex-substitute-replacement (:foreground code-light-blue :background code-darker :bold t))
 
+  ;; undo tree
+  (undo-tree-visualizer-active-branch-face (:bold t))
+  (undo-tree-visualizer-current-face (:foreground code-light-red))
+  (undo-tree-visualizer-register-face (:foreground code-light-yellow))
+  (undo-tree-visualizer-unmodified-face (:foreground code-light-cyan))
+
   ;; nlinum
   (nlinum-current-line (:foreground code-fg :background code-darker :bold nil :italic nil :underline nil :strike-through nil))
 
