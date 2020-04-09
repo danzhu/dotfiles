@@ -251,7 +251,10 @@
 (use-package elixir-mode
   :ensure t
   :defer t
-  :mode "\\.ex\\'")
+  :mode "\\.ex\\'"
+  :hook (elixir-mode . lsp)
+  :custom
+  (lsp-clients-elixir-server-executable "elixir-ls"))
 
 (use-package glsl-mode
   :ensure t

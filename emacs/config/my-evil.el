@@ -56,6 +56,8 @@
 
   (evil-set-initial-state 'elfeed-show-mode 'motion)
 
+  (evil-set-initial-state 'xref--xref-buffer-mode 'motion)
+
   (evil-set-initial-state 'term-mode 'emacs)
 
   :bind
