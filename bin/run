@@ -1,6 +1,7 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
-set -e
+set -o noclobber -o noglob -o nounset -o pipefail
+IFS=$'\n'
 
 ERR_FAIL=2
 ERR_BUG=3
@@ -26,7 +27,7 @@ then
 fi
 
 eval set -- "$OPT"
-
+MEM=false
 while true; do
     arg="$1"
     shift
