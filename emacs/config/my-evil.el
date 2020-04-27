@@ -85,7 +85,8 @@
 
    :map evil-normal-state-map
    ("RET" . save-buffer)
-   ("C-p" . counsel-projectile)
+   ("C-n" . nil)
+   ("C-p" . nil)
    ("M-." . nil)
 
    :map evil-operator-state-map

@@ -181,6 +181,9 @@
   (lsp-face-highlight-textual (:background code-dark))
   (lsp-face-highlight-write (:background code-dark))
 
+  ;; lsp-ui
+  (lsp-ui-doc-background (:background code-bg))
+
   ;; company
   (company-template-field (:background code-dark))
   (company-echo nil)

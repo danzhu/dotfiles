@@ -147,13 +147,16 @@
   :defer t
   :bind
   (("M-x" . counsel-M-x)
-   ("C-x C-f" . counsel-find-file)
-   ("C-x b" . counsel-switch-buffer)
+   ("C-c b" . counsel-projectile-switch-to-buffer)
+   ("C-c d" . counsel-projectile-find-dir)
+   ("C-c f" . counsel-projectile-find-file)
+   ("C-c s" . counsel-projectile-rg)
+   ("C-c p" . counsel-projectile-switch-project)
    ("C-h f" . counsel-describe-function)
    ("C-h v" . counsel-describe-variable)
-   ("C-c g" . counsel-git)
-   ("C-c k" . counsel-ag)
-   ("C-x l" . counsel-locate)))
+   ("C-x C-f" . counsel-find-file)
+   ("C-x b" . counsel-switch-buffer)
+   ("C-x d" . counsel-dired)))
 
 (use-package swiper
   :ensure t
@@ -172,6 +175,12 @@
    ("M-g l" . avy-goto-line)
    ("M-g w" . avy-goto-word)
    ("M-g c" . avy-goto-char-timer)))
+
+(use-package which-key
+  :ensure t
+  :diminish which-key-mode
+  :config
+  (which-key-mode))
 
 (use-package elfeed
   :ensure t

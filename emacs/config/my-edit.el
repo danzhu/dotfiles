@@ -117,11 +117,11 @@
   :ensure t
   :defer t
   :commands lsp
+  :hook (lsp-mode . lsp-enable-which-key-integration)
   :custom
-  (lsp-inhibit-message t)
-  (lsp-prefer-flymake nil)
-  (lsp-keep-workspace-alive nil)
   (lsp-eldoc-enable-hover nil)
+  (lsp-keep-workspace-alive nil)
+  (lsp-keymap-prefix "C-l")
   ;; (lsp-log-io t)
   )
 
@@ -130,12 +130,12 @@
   :defer t
   :commands lsp-ui-mode
   :custom
-  (lsp-ui-doc-use-childframe nil)
+  (lsp-ui-doc-border "dim gray")
+  (lsp-ui-doc-include-signature t)
+  (lsp-ui-doc-max-height 20)
   (lsp-ui-doc-max-width 80)
-  (lsp-ui-doc-max-height 10)
-  (lsp-ui-doc-header t)
-  (lsp-ui-doc-position 'at-point)
-  (lsp-ui-include-signature t))
+  (lsp-ui-doc-position 'top)
+  (lsp-ui-doc-use-childframe t))
 
 (use-package company-lsp
   :ensure t
