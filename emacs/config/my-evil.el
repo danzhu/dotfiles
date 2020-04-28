@@ -94,8 +94,6 @@
    ("`" . evil-goto-mark)
    ("$" . evil-end-of-line)
    ("^" . evil-first-non-blank)
-   ("j" . evil-next-line)
-   ("k" . evil-previous-line)
 
    :map evil-insert-state-map
    ("C-a" . nil)
@@ -103,9 +101,19 @@
 
 (use-package evil-surround
   :ensure t
+  :defer t
   :after evil
-  :config
-  (global-evil-surround-mode t))
+  :bind
+  (
+   :map evil-normal-state-map
+   ("s" . evil-surround-region)
+   ("S" . evil-Surround-region)
+   :map evil-visual-state-map
+   ("s" . evil-surround-region)
+   ("S" . evil-Surround-region)
+   :map evil-operator-state-map
+   ("s" . evil-surround-edit)
+   ("S" . evil-Surround-edit)))
 
 (use-package evil-commentary
   :ensure t
