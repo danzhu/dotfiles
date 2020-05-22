@@ -78,7 +78,7 @@ smart_gaps on
 assign [class="^Zeal$"] workspace $ws3
 assign [class="^Riot$"] workspace $ws6
 assign [class="^discord$"] workspace $ws6
-assign [class="^mpv$"] workspace $ws9
+# assign [class="^mpv$"] workspace $ws9
 
 # auto scratchpad
 for_window [class="^scratch$"] move scratchpad
