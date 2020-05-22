@@ -7,7 +7,6 @@
 
 (use-package asm-mode
   :defer t
-  :mode "\\.s\\'"
   :custom
   (asm-comment-char ?#))
 
@@ -18,15 +17,10 @@
 
 (use-package python
   :defer t
-  :mode ("\\.py\\'" . python-mode)
-  :interpreter (("python" . python-mode)
-                ("python2" . python-mode)
-                ("python3" . python-mode))
   :init
   (defun my-python-mode-hook ()
     (setq-local flycheck-checker 'python-mypy)
-    (lsp)
-    )
+    (lsp))
   (add-hook 'python-mode-hook 'my-python-mode-hook)
   :custom
   (python-indent-guess-indent-offset-verbose nil))
@@ -37,12 +31,8 @@
 
 (use-package org
   :defer t
-  :mode ("\\.org\\'" . org-mode)
   :custom
-  (org-log-done 'time)
-  :bind
-  (:map org-mode-map
-        ("M-h" . nil)))
+  (org-log-done 'time))
 
 (use-package octave
   :defer t
@@ -51,35 +41,35 @@
 (use-package irony
   :ensure t
   :defer t
-  :hook (((c++-mode c-mode objc-mode) . irony-mode)
-         (irony-mode . irony-cdb-autosetup-compile-options))
+  :hook
+  (((c++-mode c-mode objc-mode) . irony-mode)
+   (irony-mode . irony-cdb-autosetup-compile-options))
   :custom
-  (irony-cdb-compilation-databases '(irony-cdb-libclang
-                                     irony-cdb-json
-                                     irony-cdb-clang-complete)))
+  (irony-cdb-compilation-databases
+   '(irony-cdb-libclang
+     irony-cdb-json
+     irony-cdb-clang-complete)))
 
 (use-package company-irony
   :ensure t
-  :after (company irony)
+  :defer t
   :config
   (add-to-list 'company-backends 'company-irony))
 
 (use-package company-irony-c-headers
   :ensure t
-  :after (company irony)
+  :defer t
   :config
   (add-to-list 'company-backends 'company-irony-c-headers))
 
 (use-package flycheck-irony
   :ensure t
   :defer t
-  :after (flycheck irony)
   :hook (flycheck-mode . flycheck-irony-setup))
 
 (use-package irony-eldoc
   :ensure t
   :defer t
-  :after (irony eldoc)
   :hook irony-mode)
 
 (use-package rtags
@@ -91,9 +81,10 @@
   :config
   (rtags-enable-standard-keybindings)
   :bind
-  (:map c-mode-base-map
-        ("M-." . rtags-find-symbol-at-point)
-        ("M-," . rtags-find-references-at-point)))
+  (
+   :map c-mode-base-map
+   ("M-." . rtags-find-symbol-at-point)
+   ("M-," . rtags-find-references-at-point)))
 
 (use-package ivy-rtags
   :ensure t
@@ -109,34 +100,33 @@
 (use-package cargo
   :ensure t
   :defer t
-  :after rust-mode
   :hook (rust-mode . cargo-minor-mode))
 
 (use-package racer
   :ensure t
   :defer t
-  :after rust-mode
-  :hook ((rust-mode . racer-mode)
-         (racer-mode . eldoc-mode)))
+  :hook
+  ((rust-mode . racer-mode)
+   (racer-mode . eldoc-mode)))
 
 (use-package flycheck-rust
   :ensure t
   :defer t
-  :after (flycheck rust-mode)
   :hook (flycheck-mode . flycheck-rust-setup))
 
 (use-package lsp-java
   :ensure t
-  :after lsp
+  :defer t
   :hook (java-mode . lsp)
   :custom
-  (lsp-java--workspace-folders '("~/test")))
+  (lsp-java--workspace-folders '("~/projects/test")))
 
 (use-package elisp-slime-nav
   :ensure t
   :defer t
-  :hook ((emacs-lisp-mode . elisp-slime-nav-mode)
-         (emacs-lisp-mode . eldoc-mode)))
+  :hook
+  ((emacs-lisp-mode . elisp-slime-nav-mode)
+   (emacs-lisp-mode . eldoc-mode)))
 
 (use-package web-mode
   :ensure t
@@ -148,7 +138,6 @@
 (use-package pug-mode
   :ensure t
   :defer t
-  :mode "\\.pug\\'"
   :custom
   (pug-tab-width 2))
 
@@ -165,112 +154,59 @@
 (use-package typescript-mode
   :ensure t
   :defer t
-  :mode "\\.ts\\'"
   :interpreter "ts-node"
   :hook (typescript-mode . lsp))
 
-;; (use-package tern
-;;   :ensure t
-;;   :defer t
-;;   :after js2-mode
-;;   :hook (js-mode . tern-mode))
-
-;; (use-package company-tern
-;;   :ensure t
-;;   :after (company js2-mode)
-;;   :config
-;;   (add-to-list 'company-backends 'company-tern))
-
 (use-package rjsx-mode
   :ensure t
-  :defer t
-  :mode "\\.jsx\\'")
-
-;; (use-package anaconda-mode
-;;   :ensure t
-;;   :defer t
-;;   :hook ((python-mode . anaconda-mode)
-;;          (python-mode . anaconda-eldoc-mode)))
-
-;; (use-package company-anaconda
-;;   :ensure t
-;;   :after (company anaconda-mode)
-;;   :config
-;;   (add-to-list 'company-backends 'company-anaconda))
-
-;; (use-package elpy
-;;   :ensure t
-;;   :defer t
-;;   :mode ("\\.py\\'" . python-mode)
-;;   :interpreter (("python" . python-mode)
-;;                 ("python3" . python-mode))
-;;   :hook (python-mode . elpy-mode)
-;;   :config
-;;   (setq elpy-modules (delq 'elpy-module-flymake elpy-modules))
-;;   (setq elpy-modules (delq 'elpy-module-highlight-indentation elpy-modules)))
-
-;; (use-package flycheck-mypy
-;;   :ensure t
-;;   :after (flycheck elpy)
-;;   :config
-;;   (flycheck-add-next-checker 'python-flake8 'python-mypy))
+  :defer t)
 
 (use-package lua-mode
   :ensure t
   :defer t
-  :mode "\\.lua\\'"
-  :interpreter "lua"
   :custom
   (lua-indent-level 4))
 
 (use-package haskell-mode
   :ensure t
-  :defer t
-  :mode "\\.hs\\'")
+  :defer t)
 
 (use-package lsp-haskell
   :ensure t
-  :after lsp
+  :defer t
   :hook (haskell-mode . lsp))
 
 (use-package idris-mode
   :ensure t
-  :defer t
-  :mode "\\.idr\\'")
+  :defer t)
 
 (use-package sml-mode
   :ensure t
-  :defer t
-  :mode "\\.sml\\'")
+  :defer t)
 
 (use-package racket-mode
   :ensure t
-  :defer t
-  :mode "\\.rkt\\'")
+  :defer t)
 
 (use-package elixir-mode
   :ensure t
   :defer t
-  :mode "\\.ex\\'"
   :hook (elixir-mode . lsp)
   :custom
-  (lsp-clients-elixir-server-executable "elixir-ls"))
+  (lsp-clients-elixir-server-executable "/usr/lib/elixir-ls/language_server.sh"))
 
 (use-package glsl-mode
   :ensure t
   :defer t
-  :mode (("\\.glsl\\'" . glsl-mode)
-         ("\\.vert\\'" . glsl-mode)
-         ("\\.frag\\'" . glsl-mode)
-         ("\\.vs\\'" . glsl-mode)
-         ("\\.fs\\'" . glsl-mode)))
+  :mode ("\\.vs\\'" "\\.fs\\'"))
 
 (use-package evil-org
   :ensure t
   :defer t
   :after org
-  :hook ((org-mode . evil-org-mode)
-         (evil-org-mode . evil-org-set-key-theme)))
+  :hook
+  ((org-mode . evil-org-mode)
+   (evil-org-mode . evil-org-set-key-theme)))
 
 (use-package latex
   :ensure auctex
@@ -301,13 +237,11 @@
 
 (use-package yaml-mode
   :ensure t
-  :defer t
-  :mode "\\.yaml\\'")
+  :defer t)
 
 (use-package csv-mode
   :ensure t
-  :defer t
-  :mode "\\.csv\\'")
+  :defer t)
 
 (use-package ess
   :ensure t)
@@ -330,13 +264,11 @@
 
 (use-package dockerfile-mode
   :ensure t
-  :defer t
-  :mode "Dockerfile\\'")
+  :defer t)
 
 (use-package protobuf-mode
   :ensure t
-  :defer t
-  :mode "\\.proto\\'")
+  :defer t)
 
 (provide 'my-lang)
 

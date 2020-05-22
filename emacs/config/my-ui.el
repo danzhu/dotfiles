@@ -52,9 +52,7 @@
   (("C-x C-b" . buffer-menu)))
 
 (use-package dired
-  :defer t
-  :bind
-  (("C-x d" . dired)))
+  :defer t)
 
 (use-package gdb-mi
   :defer t
@@ -111,7 +109,7 @@
   (undo-tree-history-directory-alist
    `((".*" . ,(expand-file-name "undo-history/" user-emacs-directory))))
   :config
-  (global-undo-tree-mode))
+  (global-undo-tree-mode 1))
 
 (use-package shackle
   :ensure t
@@ -119,42 +117,43 @@
   (shackle-rules '())
   ;; (shackle-default-rule '(:select t))
   :config
-  (shackle-mode))
+  (shackle-mode 1))
 
 (use-package ivy
   :ensure t
   :diminish ivy-mode
   :custom
   (ivy-count-format "%d/%d ")
+  (ivy-extra-directories '())
   (ivy-format-functions-alist
    '((t . ivy-format-function-arrow)))
-  (ivy-use-virtual-buffers t)
   (ivy-use-selectable-prompt t)
+  (ivy-use-virtual-buffers t)
   :config
   (ivy-mode 1)
   :bind
-  (:map ivy-minibuffer-map
-        ("<escape>" . keyboard-escape-quit)
-        ("C-u" . ivy-scroll-down-command)
-        ("C-d" . ivy-scroll-up-command)
-        ("C-w" . ivy-backward-kill-word)))
+  (
+   :map ivy-minibuffer-map
+   ("<escape>" . minibuffer-keyboard-quit)
+   ("TAB" . ivy-partial)
+   ("C-u" . ivy-scroll-down-command)
+   ("C-d" . ivy-scroll-up-command)
+   ("C-w" . ivy-backward-kill-word)))
 
 (use-package ivy-hydra
   :ensure t)
 
 (use-package counsel
   :ensure t
-  :defer t
+  :diminish counsel-mode
+  :config
+  (counsel-mode 1)
   :bind
-  (("M-x" . counsel-M-x)
-   ("C-c b" . counsel-projectile-switch-to-buffer)
+  (("C-c b" . counsel-projectile-switch-to-buffer)
    ("C-c d" . counsel-projectile-find-dir)
    ("C-c f" . counsel-projectile-find-file)
    ("C-c s" . counsel-projectile-rg)
    ("C-c p" . counsel-projectile-switch-project)
-   ("C-h f" . counsel-describe-function)
-   ("C-h v" . counsel-describe-variable)
-   ("C-x C-f" . counsel-find-file)
    ("C-x b" . counsel-switch-buffer)
    ("C-x d" . counsel-dired)))
 
@@ -180,7 +179,7 @@
   :ensure t
   :diminish which-key-mode
   :config
-  (which-key-mode))
+  (which-key-mode 1))
 
 (use-package elfeed
   :ensure t

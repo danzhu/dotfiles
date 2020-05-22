@@ -60,6 +60,7 @@
   (
    :map company-mode-map
    ("C-SPC" . company-complete)
+   ("C-@" . company-complete)
    :map company-active-map
    ("<tab>" . company-complete-selection)
    ("C-n" . company-select-next)
