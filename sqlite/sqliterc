@@ -1,0 +1,4 @@
+-- -*- mode: sql; sql-product: sqlite -*-
+
+.mode column
+.headers on
