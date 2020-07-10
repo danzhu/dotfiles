@@ -73,7 +73,7 @@
         "data": "/mnt/data"
     },
     "terminal": "termite",
-    "terminal_run": "-e '{}'",
+    "terminal_run": "-e \"{}\"",
     "window_manager": "i3",
     "launcher": "rofi -show drun -show-icons",
     "runner": "rofi -show run",

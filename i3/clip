@@ -6,7 +6,7 @@ SCREENSHOT_MIME='image/png'
 msg() {
     local title="$1"
     local msg="$2"
-    notify-send --urgency=low --app-name="$(basename $0)" "$title" "$msg"
+    notify-send --urgency=low --app-name="$(basename "$0")" "$title" "$msg"
 }
 
 die() {
@@ -29,24 +29,21 @@ case "$cmd" in
         msg screenshot 'copied to clipboard'
         ;;
     exec)
-        links=$(xclip -selection clipboard -o)
+        link=$(xclip -selection clipboard -o)
 
-        case "$links" in
+        case "$link" in
             https://www.youtube.com/watch\?v=*|https://youtu.be/*|https://www.twitch.tv/*)
                 msg video
-                exec mpv "$links"
+                exec mpv "$link"
                 ;;
             magnet:\?*)
-                for link in $links; do
-                    res="$(transmission-remote -a "$link")"
-                    if [[ $? -ne 0 ]]; then
-                        die "$res"
-                    fi
-                done
+                if ! res="$(transmission-remote -a "$link")"; then
+                    die "$res"
+                fi
                 msg magnet
                 ;;
             *)
-                die "unknown link '$links'"
+                die "unknown link '$link'"
                 ;;
         esac
         ;;
