@@ -66,9 +66,9 @@ hide_edge_borders smart_no_gaps
 focus_on_window_activation focus
 # show_marks yes
 
-gaps inner 6
-gaps outer 0
-smart_gaps on
+# gaps inner 6
+# gaps outer 0
+# smart_gaps on
 
 # rules
 # for_window [workspace="$ws1|$ws4"] layout tabbed
@@ -77,13 +77,13 @@ smart_gaps on
 # assign
 assign [class="^Zeal$"] workspace $ws3
 assign [class="^Thunderbird$"] workspace $ws5
-assign [class="^Riot$"] workspace $ws6
+assign [class="^Element$"] workspace $ws6
 assign [class="^discord$"] workspace $ws6
 # assign [class="^mpv$"] workspace $ws9
 
 # auto scratchpad
 for_window [class="^scratch$"] move scratchpad
-exec --no-startup-id {{terminal}} --class scratch {{ format terminal_run [ }}$HOME/.config/i3/scratch{{ ] }}
+exec {{terminal}} --class scratch {{ format terminal_run [ }}$HOME/.config/i3/scratch{{ ] }}
 
 # background
 exec --no-startup-id ~/.fehbg
@@ -267,10 +267,12 @@ bindsym $mod+r mode "run"
 
 mode "run" {
     bindsym $mod+o exec osu; mode "default"
-    bindsym $mod+t exec {{terminal}} {{ format terminal_run [ }}tmux new -As tox toxic{{ ] }}; mode "default"
+    bindsym $mod+t exec {{terminal}} {{ format terminal_run [ }}tmux new -As dev{{ ] }}; mode "default"
     bindsym $mod+r exec {{runner}}; mode "default"
     bindsym $mod+e exec --no-startup-id {{editor_gui}}; mode "default"
     bindsym $mod+b exec {{browser_gui}}; mode "default"
+    bindsym $mod+m exec thunderbird; mode "default"
+    bindsym $mod+i exec element-desktop; mode "default"
     bindsym $mod+f exec {{file_manager_gui}}; mode "default"
     bindsym $mod+d exec {{doc_viewer}}; mode "default"
     bindsym $mod+w exec {{window_switcher}}; mode "default"

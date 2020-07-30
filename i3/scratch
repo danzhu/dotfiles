@@ -5,5 +5,6 @@ IFS=$'\n'
 
 tmux new-session -d -s scratch
 tmux new-window -d newsboat
-tmux new-window -d -c ~/projects/devdocs rackup
+tmux new-window -d -c ~/projects/devdocs ~/.rbenv/shims/rackup
+tmux new-window -d mpv --shuffle --no-audio-display --volume=50 --pause ~/music/osu
 tmux attach-session
