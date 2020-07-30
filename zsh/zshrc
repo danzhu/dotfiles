@@ -1,5 +1,9 @@
 #!/bin/zsh
 
+# --- safety ---
+setopt noclobber
+
+
 # --- history ---
 setopt appendhistory histignorealldups histignorespace sharehistory
 
