@@ -1,2 +1,8 @@
+# state
 /dot/.snapshot.json
+
+# python
 __pycache__/
+
+# javascript
+.log/
