@@ -135,7 +135,7 @@
   (lsp-ui-doc-include-signature t)
   (lsp-ui-doc-max-height 20)
   (lsp-ui-doc-max-width 80)
-  (lsp-ui-doc-position 'top)
+  (lsp-ui-doc-position 'bottom)
   (lsp-ui-doc-use-childframe t))
 
 (use-package company-lsp

@@ -154,6 +154,7 @@
 (use-package typescript-mode
   :ensure t
   :defer t
+  :mode "\\.tsx\\'"
   :interpreter "ts-node"
   :hook (typescript-mode . lsp))
 
@@ -194,6 +195,19 @@
   :hook (elixir-mode . lsp)
   :custom
   (lsp-clients-elixir-server-executable "/usr/lib/elixir-ls/language_server.sh"))
+
+(use-package purescript-mode
+  :ensure t
+  :defer t
+  :init
+  (defun my-purescript-mode-hook ()
+    (turn-on-purescript-indentation)
+    (lsp))
+  (add-hook 'purescript-mode-hook 'my-purescript-mode-hook))
+
+(use-package dhall-mode
+  :ensure t
+  :defer t)
 
 (use-package glsl-mode
   :ensure t

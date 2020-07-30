@@ -27,6 +27,7 @@
 ;; (customize-set-variable 'tab-width 4)
 
 ;; editor
+(customize-set-variable 'create-lockfiles nil)
 ;; (customize-set-variable 'focus-follows-mouse t)
 (customize-set-variable 'gc-cons-percentage 0.5)
 (customize-set-variable 'gc-cons-threshold (* 256 1024 1024))
