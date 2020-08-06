@@ -88,7 +88,7 @@
     "file_manager_gui": "termite -e ranger",
     "file_manager_tui": "ranger",
     "tty_login": "startx",
-    "ssh_login": "tmux new -As dev",
+    "ssh_login": "tmux new -As ssh",
     "name": "Daniel Zhu",
     "email": "danzhu24@hotmail.com",
     "github": "danzhu",
