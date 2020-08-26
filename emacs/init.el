@@ -13,7 +13,6 @@
    ("org" . "https://orgmode.org/elpa/")
    ("gnu" . "https://elpa.gnu.org/packages/")))
 (customize-set-variable 'package-enable-at-startup nil)
-(package-initialize)
 
 (unless (package-installed-p 'use-package)
   (package-refresh-contents)
