@@ -162,6 +162,11 @@
   :ensure t
   :defer t)
 
+(use-package prettier
+  :ensure t
+  :init
+  (global-prettier-mode))
+
 (use-package lua-mode
   :ensure t
   :defer t
@@ -175,7 +180,9 @@
 (use-package lsp-haskell
   :ensure t
   :defer t
-  :hook (haskell-mode . lsp))
+  :hook (haskell-mode . lsp)
+  :custom
+  (lsp-haskell-process-path-hie "haskell-language-server-wrapper"))
 
 (use-package idris-mode
   :ensure t
@@ -204,6 +211,14 @@
     (turn-on-purescript-indentation)
     (lsp))
   (add-hook 'purescript-mode-hook 'my-purescript-mode-hook))
+
+(use-package csharp-mode
+  :ensure t
+  :defer t)
+
+(use-package json-mode
+  :ensure t
+  :defer t)
 
 (use-package dhall-mode
   :ensure t
