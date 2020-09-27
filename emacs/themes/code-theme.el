@@ -33,6 +33,7 @@
   (italic (:italic t))
   (bold-italic (:bold t :italic t))
   (underline (:underline t))
+  (fixed-pitch-serif ())
   (shadow (:foreground code-gray))
   (highlight (:foreground code-white :background code-dark :bold t))
   (link (:foreground code-light-blue :underline t))
@@ -183,6 +184,7 @@
 
   ;; lsp-ui
   (lsp-ui-doc-background (:background code-bg))
+  (lsp-ui-sideline-code-action (:foreground code-yellow))
 
   ;; company
   (company-template-field (:background code-dark))

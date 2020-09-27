@@ -36,8 +36,7 @@
 (use-package isearch
   :when (>= emacs-major-version 26)
   :bind
-  (
-   :map isearch-mode-map
+  (:map isearch-mode-map
    ("<escape>" . isearch-abort)))
 
 (use-package eldoc
@@ -57,8 +56,7 @@
   (global-company-mode 1)
   ;; (company-tng-configure-default)
   :bind
-  (
-   :map company-mode-map
+  (:map company-mode-map
    ("C-SPC" . company-complete)
    ("C-@" . company-complete)
    :map company-active-map
@@ -76,8 +74,7 @@
 (use-package company-template
   :after company
   :bind
-  (
-   :map company-template-nav-map
+  (:map company-template-nav-map
    ("M-n" . company-template-forward-field)
    ("<tab>" . nil)
    ("TAB" . nil)))
@@ -88,8 +85,7 @@
   :config
   (yas-global-mode 1)
   :bind
-  (
-   :map yas-minor-mode-map
+  (:map yas-minor-mode-map
    ("M-SPC" . yas-expand)
    ("<tab>" . nil)
    ("TAB" . nil)
@@ -118,13 +114,15 @@
   :ensure t
   :defer t
   :commands lsp
-  :hook (lsp-mode . lsp-enable-which-key-integration)
+  :hook
+  ((lsp-mode . lsp-enable-which-key-integration)
+   (lsp-mode . lsp-lens-mode))
   :custom
   (lsp-eldoc-enable-hover nil)
   (lsp-keep-workspace-alive nil)
   (lsp-keymap-prefix "C-l")
-  ;; (lsp-log-io t)
-  )
+  (lsp-modeline-code-actions-enable nil)
+  (lsp-restart 'ignore))
 
 (use-package lsp-ui
   :ensure t
@@ -137,6 +135,10 @@
   (lsp-ui-doc-max-width 80)
   (lsp-ui-doc-position 'bottom)
   (lsp-ui-doc-use-childframe t))
+
+(use-package lsp-ivy
+  :ensure t
+  :defer t)
 
 (use-package company-lsp
   :ensure t
@@ -162,6 +164,13 @@
   :diminish editorconfig-mode
   :config
   (editorconfig-mode 1))
+
+(use-package prettier
+  :ensure t
+  :custom
+  (prettier-mode-sync-config-flag nil)
+  :init
+  (global-prettier-mode 1))
 
 (use-package ws-butler
   :ensure t

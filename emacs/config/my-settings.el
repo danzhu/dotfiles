@@ -32,6 +32,7 @@
 (customize-set-variable 'gc-cons-percentage 0.5)
 (customize-set-variable 'gc-cons-threshold (* 256 1024 1024))
 (customize-set-variable 'mouse-autoselect-window t)
+(setq read-process-output-max (* 1024 1024))
 (defalias 'yes-or-no-p 'y-or-n-p)
 
 ;; features

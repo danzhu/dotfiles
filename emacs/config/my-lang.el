@@ -21,9 +21,54 @@
   (defun my-python-mode-hook ()
     (setq-local flycheck-checker 'python-mypy)
     (lsp))
-  (add-hook 'python-mode-hook 'my-python-mode-hook)
+  :hook (python-mode . my-python-mode-hook)
   :custom
   (python-indent-guess-indent-offset-verbose nil))
+
+(use-package lisp-mode
+  :defer t
+  :init
+  (defun my-lisp-indent-function (indent-point state)
+    "Customized `lisp-indent-function' to properly deal with keyword lists."
+    (let ((normal-indent (current-column)))
+      (goto-char (1+ (elt state 1)))
+      (parse-partial-sexp (point) calculate-lisp-indent-last-sexp 0 t)
+      (if (and (elt state 2)
+               (or (not (looking-at "\\sw\\|\\s_"))
+                   ;; don't indent keyword lists
+                   (looking-at ":")))
+          ;; car of form doesn't seem to be a symbol
+          (progn
+            (if (not (> (save-excursion (forward-line 1) (point))
+                        calculate-lisp-indent-last-sexp))
+                (progn (goto-char calculate-lisp-indent-last-sexp)
+                       (beginning-of-line)
+                       (parse-partial-sexp (point)
+                                           calculate-lisp-indent-last-sexp 0 t)))
+            ;; Indent under the list or under the first sexp on the same
+            ;; line as calculate-lisp-indent-last-sexp.  Note that first
+            ;; thing on that line has to be complete sexp since we are
+            ;; inside the innermost containing sexp.
+            (backward-prefix-chars)
+            (current-column))
+        (let ((function (buffer-substring (point)
+                                          (progn (forward-sexp 1) (point))))
+              method)
+          (setq method (or (function-get (intern-soft function)
+                                         'lisp-indent-function)
+                           (get (intern-soft function) 'lisp-indent-hook)))
+          (cond ((or (eq method 'defun)
+                     (and (null method)
+                          (> (length function) 3)
+                          (string-match "\\`def" function)))
+                 (lisp-indent-defform state indent-point))
+                ((integerp method)
+                 (lisp-indent-specform method state
+                                       indent-point normal-indent))
+                (method
+		 (funcall method indent-point state)))))))
+  :custom
+  (lisp-indent-function #'my-lisp-indent-function))
 
 (use-package conf-mode
   :defer t
@@ -81,8 +126,7 @@
   :config
   (rtags-enable-standard-keybindings)
   :bind
-  (
-   :map c-mode-base-map
+  (:map c-mode-base-map
    ("M-." . rtags-find-symbol-at-point)
    ("M-," . rtags-find-references-at-point)))
 
@@ -162,11 +206,6 @@
   :ensure t
   :defer t)
 
-(use-package prettier
-  :ensure t
-  :init
-  (global-prettier-mode))
-
 (use-package lua-mode
   :ensure t
   :defer t
@@ -182,7 +221,11 @@
   :defer t
   :hook (haskell-mode . lsp)
   :custom
-  (lsp-haskell-process-path-hie "haskell-language-server-wrapper"))
+  (lsp-haskell-process-path-hie "haskell-language-server-wrapper")
+  :config
+  ;; TODO: figure out why it doesn't work (ExitFailure 1)
+  ;; (lsp-haskell-set-config "formattingProvider" "brittany")
+  )
 
 (use-package idris-mode
   :ensure t
@@ -206,11 +249,9 @@
 (use-package purescript-mode
   :ensure t
   :defer t
-  :init
-  (defun my-purescript-mode-hook ()
-    (turn-on-purescript-indentation)
-    (lsp))
-  (add-hook 'purescript-mode-hook 'my-purescript-mode-hook))
+  :hook
+  ((purescript-mode . turn-on-purescript-indentation)
+   (purescript-mode . lsp)))
 
 (use-package csharp-mode
   :ensure t

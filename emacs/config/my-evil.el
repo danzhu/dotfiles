@@ -12,13 +12,13 @@
   (evil-want-change-word-to-end nil)
 
   :config
-  (setq evil-normal-state-tag (propertize "<N>" 'face 'font-lock-keyword-face))
-  (setq evil-visual-state-tag (propertize "<V>" 'face 'font-lock-type-face))
-  (setq evil-insert-state-tag (propertize "<I>" 'face 'font-lock-constant-face))
-  (setq evil-replace-state-tag (propertize "<R>" 'face 'font-lock-variable-name-face))
-  (setq evil-motion-state-tag (propertize "<M>" 'face 'font-lock-string-face))
-  (setq evil-operator-state-tag (propertize "<O>" 'face 'font-lock-preprocessor-face))
-  (setq evil-emacs-state-tag (propertize "<E>" 'face 'font-lock-function-name-face))
+  (setq evil-normal-state-tag (propertize "N" 'face 'font-lock-keyword-face))
+  (setq evil-visual-state-tag (propertize "V" 'face 'font-lock-type-face))
+  (setq evil-insert-state-tag (propertize "I" 'face 'font-lock-constant-face))
+  (setq evil-replace-state-tag (propertize "R" 'face 'font-lock-variable-name-face))
+  (setq evil-motion-state-tag (propertize "M" 'face 'font-lock-string-face))
+  (setq evil-operator-state-tag (propertize "O" 'face 'font-lock-preprocessor-face))
+  (setq evil-emacs-state-tag (propertize "E" 'face 'font-lock-function-name-face))
 
   (evil-mode 1)
 
@@ -104,8 +104,7 @@
   :defer t
   :after evil
   :bind
-  (
-   :map evil-normal-state-map
+  (:map evil-normal-state-map
    ("s" . evil-surround-region)
    ("S" . evil-Surround-region)
    :map evil-visual-state-map
@@ -145,8 +144,7 @@
   :defer t
   :after evil
   :bind
-  (
-   :map evil-normal-state-map
+  (:map evil-normal-state-map
    ("gx" . evil-exchange)
    ("gX" . evil-exchange-cancel)
    :map evil-visual-state-map
@@ -158,8 +156,7 @@
   :defer t
   :after evil
   :bind
-  (
-   :map evil-inner-text-objects-map
+  (:map evil-inner-text-objects-map
    ("a" . evil-inner-arg)
    :map evil-outer-text-objects-map
    ("a" . evil-outer-arg)
@@ -176,8 +173,7 @@
   ;; :config
   ;; (evil-ex-define-cmd "ie[dit]" #'evil-multiedit-ex-match)
   :bind
-  (
-   :map evil-normal-state-map
+  (:map evil-normal-state-map
    ("M-d" . evil-multiedit-match-symbol-and-next)
    ("M-D" . evil-multiedit-match-symbol-and-prev)
    :map evil-visual-state-map

@@ -54,6 +54,14 @@
 (use-package dired
   :defer t)
 
+(use-package term
+  :defer t
+  :init
+  (defun my-term-mode-hook ()
+    (setq-local global-hl-line-mode nil)
+    (setq-local scroll-margin 0))
+  :hook (term-mode . my-term-mode-hook))
+
 (use-package gdb-mi
   :defer t
   :commands gdb
@@ -132,8 +140,7 @@
   :config
   (ivy-mode 1)
   :bind
-  (
-   :map ivy-minibuffer-map
+  (:map ivy-minibuffer-map
    ("<escape>" . minibuffer-keyboard-quit)
    ("TAB" . ivy-partial)
    ("C-u" . ivy-scroll-down-command)

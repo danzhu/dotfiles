@@ -1,5 +1,7 @@
 (use-package powerline
-  :ensure t)
+  :ensure t
+  :custom
+  (powerline-default-separator 'box))
 
 (use-package spaceline
   :ensure t
@@ -17,6 +19,24 @@
       (file-relative-name (file-name-directory buffer-file-truename)
                           (projectile-project-root)))
     :tight t)
+
+  (spaceline-define-segment my-projectile
+    "projectile project"
+    ;; lazily create menu map
+    (when (boundp 'projectile-project-name)
+      (unless (boundp 'my-projectile-menu-map)
+        (defvar my-projectile-menu-map
+          (let ((map (make-sparse-keymap)))
+            (define-key map [mode-line mouse-1] projectile-mode-menu)
+            map)))
+      (propertize
+       (let ((project-name (projectile-project-name)))
+         (if (string= project-name "-")
+             ""
+           project-name))
+       'mouse-face 'mode-line-highlight
+       'help-echo "Projectile\nmouse-1: Projectile menu"
+       'local-map my-projectile-menu-map)))
 
   (spaceline-define-segment my-vc
     "shortened version control information"
@@ -47,9 +67,9 @@
          ('finished
           (let-alist (flycheck-count-errors flycheck-current-errors)
             (cond
-             (.error (propertize (format ":[ %s" .error) 'face 'error))
-             (.warning (propertize (format ":/ %s" .warning) 'face 'warning))
-             (t (propertize ":]" 'face 'success)))))
+             (.error (propertize (format "%s" .error) 'face 'error))
+             (.warning (propertize (format "%s" .warning) 'face 'warning))
+             (t (propertize "-" 'face 'success)))))
          ('interrupted (propertize "interrupt" 'face 'warning))
          ('suspicious (propertize "suspicious" 'face 'error)))
        'mouse-face 'mode-line-highlight
@@ -68,7 +88,7 @@
 
   (spaceline-compile
     `((buffer-modified ((my-buffer-relative-path buffer-id) :separator ""))
-      (projectile-root my-vc)
+      (my-projectile my-vc)
       ((my-line-ending my-flycheck) :face line-face))
     `(((selection-info my-narrow my-evil-state line ":" column) :face line-face)
       (minor-modes global)

@@ -1,12 +1,13 @@
 (use-package projectile
   :ensure t
   :diminish projectile-mode
+  :init
+  (defun my-ignore-project-p (p)
+    (s-prefix? (expand-file-name "~/.local/share/pikaur/aur_repos") p))
   :custom
   (projectile-completion-system 'ivy)
+  (projectile-ignored-project-function #'my-ignore-project-p)
   :config
-  (customize-set-variable
-   'projectile-globally-ignored-directories
-   (append '("~/.local") projectile-globally-ignored-directories))
   (projectile-mode 1))
 
 (use-package counsel-projectile
