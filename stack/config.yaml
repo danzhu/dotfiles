@@ -11,6 +11,7 @@ templates:
     author-name: {{name}}
     author-email: {{email}}
     github-username: {{github}}
+recommend-stack-upgrade: false
 # system-ghc: true
 # allow-newer: true
 ghc-options:
