@@ -25,7 +25,8 @@ def sha256(f: Path) -> bytes:
     return hashlib.sha256(f.read_bytes()).digest()
 
 
-for size, same_size in group_by(map(Path, sys.argv[1:]), filesize).items():
+files = filter(Path.is_file, map(Path, sys.argv[1:]))
+for size, same_size in group_by(files, filesize).items():
     if len(same_size) == 1:
         continue
     for sha, same_hash in group_by(same_size, sha256).items():
