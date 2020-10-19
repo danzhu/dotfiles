@@ -44,6 +44,7 @@
         "gdc": "git diff --cached",
         "gdu": "git diff @ @{upstream}",
         "gs": "git status",
+        "gsl": "git show",
         "gf": "git fetch",
         "gm": "git merge --no-edit",
         "gmu": "git merge --ff-only @{upstream}",

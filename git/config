@@ -13,6 +13,7 @@
 	branch = true
 [diff]
 	tool = {{diff_tool}}
+	renames = copies
 [commit]
 	verbose = true
 [pull]
