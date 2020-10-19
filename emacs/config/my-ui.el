@@ -36,6 +36,11 @@
   :config
   (show-paren-mode 1))
 
+(use-package mouse
+  :bind
+  (;; ("<down-mouse-1>" . nil)
+   ("<drag-mouse-1>" . nil)))
+
 (use-package xt-mouse
   :config
   (xterm-mouse-mode 1))

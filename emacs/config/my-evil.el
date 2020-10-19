@@ -82,6 +82,7 @@
    ("SPC" . nil)
    ("RET" . nil)
    ("C-e" . nil)
+   ("<down-mouse-1>" . nil)
 
    :map evil-normal-state-map
    ("RET" . save-buffer)
