@@ -34,7 +34,6 @@
   (ispell-silently-savep t))
 
 (use-package isearch
-  :when (>= emacs-major-version 26)
   :bind
   (:map isearch-mode-map
    ("<escape>" . isearch-abort)))
@@ -61,11 +60,12 @@
    ("C-@" . company-complete)
    :map company-active-map
    ("<tab>" . company-complete-selection)
+   ("TAB" . company-complete-selection)
    ("C-n" . company-select-next)
    ("C-p" . company-select-previous)
    ("M-c" . company-complete-common)
-   ("RET" . nil)
    ("<return>" . nil)
+   ("RET" . nil)
    ("C-w" . nil)
    ("C-h" . nil)
    ("M-n" . nil)
@@ -167,9 +167,10 @@
 
 (use-package prettier
   :ensure t
-  :custom
-  (prettier-mode-sync-config-flag nil)
+  ;; :custom
+  ;; (prettier-mode-sync-config-flag nil)
   :init
+  (setenv "NODE_PATH" "/usr/lib")
   (global-prettier-mode 1))
 
 (use-package ws-butler

@@ -59,31 +59,34 @@ filename="$1"
 shift
 args=("$@")
 
-execname="${filename%.*}"
-execpath="$(readlink -f "$execname")"
-cmd=("$execpath")
+exe="$(readlink -f "${filename%.*}")"
+cmd=("$exe")
 
 case "$filename" in
     *.s)
-        gcc "$filename" -o "$execpath"
+        gcc "$filename" -o "$exe"
         ;;
     *.c)
-        gcc -Wall -Wextra -g "$filename" -o "$execpath"
+        gcc -Wall -Wextra -g "$filename" -o "$exe"
         ;;
     *.cc|*.cpp|*.C)
-        g++ -std=c++17 -Wall -Wextra -g "$filename" -o "$execpath"
+        g++ -std=c++20 -Wall -Wextra -g "$filename" -o "$exe"
         ;;
     *.rs)
-        rustc -g "$filename" -o "$execpath"
+        rustc -g "$filename" -o "$exe"
         ;;
     *.hs)
-        stack ghc -- -g "$filename" -o "$execpath"
+        ghc -- -g "$filename" -o "$exe"
         ;;
     *.idr)
-        idris "$filename" -o "$execpath"
+        idris "$filename" -o "$exe"
+        ;;
+    *.cs)
+        cmd=(mono "$exe.exe")
+        mcs "$filename"
         ;;
     *.java)
-        cmd=(java "$execname")
+        cmd=(java "${filename%.*}")
         javac -g "$filename"
         ;;
     *.py)

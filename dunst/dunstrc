@@ -31,7 +31,7 @@
     # the top and down respectively.
     # The width can be negative.  In this case the actual width is the
     # screen width minus the width defined in within the geometry option.
-    geometry = "600x5-0+200"
+    geometry = "300x5-0+100"
 
     # Show how many messages are currently hidden (because of geometry).
     indicate_hidden = yes
@@ -53,7 +53,7 @@
     # Draw a line of "separator_height" pixel height between two
     # notifications.
     # Set to 0 to disable.
-    separator_height = 3
+    separator_height = 1
 
     # Padding between text and separator.
     padding = 8
@@ -63,7 +63,7 @@
 
     # Defines width in pixels of frame around the notification window.
     # Set to 0 to disable.
-    frame_width = 3
+    frame_width = 1
 
     # Defines color of the frame around the notification window.
     # frame_color = "#{{light_blue}}"
@@ -102,7 +102,7 @@
     #        <u>underline</u>
     #
     #        For a complete reference see
-    #        <http://developer.gnome.org/pango/stable/PangoMarkupFormat.html>.
+    #        <https://developer.gnome.org/pango/stable/pango-Markup.html>.
     #
     # strip: This setting is provided for compatibility with some broken
     #        clients that send markup even though it's not enabled on the
@@ -134,6 +134,10 @@
     # Possible values are "left", "center" and "right".
     alignment = left
 
+    # Vertical alignment of message text and icon.
+    # Possible values are "top", "center" and "bottom".
+    vertical_alignment = top
+
     # Show age of message if message is older than show_age_threshold
     # seconds.
     # Set to -1 to disable.
@@ -162,7 +166,12 @@
     ### Icons ###
 
     # Align icons left/right/off
-    icon_position = off
+    icon_position = left
+
+    # Scale small icons up to this size, set to 0 to disable. Helpful
+    # for e.g. small files or high-dpi screens. In case of conflict,
+    # max_icon_size takes precedence over this.
+    min_icon_size = 0
 
     # Scale larger icons down to this size, set to 0 to disable
     max_icon_size = 32
@@ -217,6 +226,12 @@
     # notification height to avoid clipping text and/or icons.
     corner_radius = 0
 
+    # Ignore the dbus closeNotification message.
+    # Useful to enforce the timeout set by dunst configuration. Without this
+    # parameter, an application may close the notification sent before the
+    # user defined timeout.
+    ignore_dbusclose = false
+
     ### Legacy
 
     # Use the Xinerama extension instead of RandR for multi-monitor support.
@@ -231,13 +246,15 @@
 
     ### mouse
 
-    # Defines action of mouse event
+    # Defines list of actions for each mouse event
     # Possible values are:
     # * none: Don't do anything.
     # * do_action: If the notification has exactly one action, or one is marked as default,
     #              invoke it. If there are multiple and no default, open the context menu.
     # * close_current: Close current notification.
     # * close_all: Close all notifications.
+    # These values can be strung together for each mouse event, and
+    # will be executed in sequence.
     mouse_left_click = do_action
     mouse_middle_click = close_all
     mouse_right_click = close_current
@@ -260,19 +277,19 @@
     # Xev might be helpful to find names for keys.
 
     # Close notification.
-    close = mod4+BackSpace
+    # close = mod4+BackSpace
 
     # Close all notifications.
-    close_all = mod4+ctrl+BackSpace
+    # close_all = mod4+ctrl+BackSpace
 
     # Redisplay last message(s).
     # On the US keyboard layout "grave" is normally above TAB and left
     # of "1". Make sure this key actually exists on your keyboard layout,
     # e.g. check output of 'xmodmap -pke'
-    history = mod4+shift+BackSpace
+    # history = mod4+shift+BackSpace
 
     # Context menu.
-    context = mod4+grave
+    # context = mod4+grave
 
 [urgency_low]
     # IMPORTANT: colors have to be defined in quotation marks.

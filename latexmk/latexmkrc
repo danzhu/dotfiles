@@ -2,5 +2,5 @@
 
 $pdf_mode = 1;
 $pdflatex = 'pdflatex --shell-escape';
-$pdf_previewer = '{{pdf_viewer}}';
+$pdf_previewer = 'zathura';
 $preview_continuous_mode = 1;

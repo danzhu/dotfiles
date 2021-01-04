@@ -266,7 +266,7 @@ set completeopt=menuone,preview " completion options
 set encoding=utf-8              " UI and default encoding
 set formatoptions+=j            " remove comment leader when joining lines
 set hidden                      " don't unload buffer when switching to another
-set mouse=a                     " enable all mouse operations
+set mouse=n                     " enable mouse in normal mode
 set mousefocus                  " mouse focus on hover
 set mousemodel=extend           " right mouse extends selection
 set nrformats=bin,hex           " zero-prefixed numbers aren't octal
@@ -301,41 +301,43 @@ set tabstop=4     " spaces of a tab
 " }}}
 
 " Display {{{
-set breakindent         " display indent when lines are wrapped
-set colorcolumn=+1      " highlight textwidth
-set conceallevel=2      " use symbols for conceal
-set cursorline          " highlight current cursor line
-set display=lastline    " show partial lines when too long
-set fillchars=fold:-    " text for filling separators
-set foldclose=all       " auto close folds
-set foldcolumn=0        " column to display folds
-set foldlevel=10        " level of folds auto expanded
-set foldmethod=syntax   " method to detect folds
-set foldnestmax=10      " max level of folds
-set foldtext=FoldText() " custom text to display on folded lines
-set laststatus=2        " always show status line
-set lazyredraw          " reduce redraw
-set linebreak           " break at special chars
-set nonumber            " line numbers
-set noshowmatch         " don't jump cursor at matching brackets
-set numberwidth=3       " width of line numbers
-set previewheight=9     " height of preview window
-set relativenumber      " relative line numbers
-set ruler               " show status in status line
-set scrolloff=5         " lines to always show before / after current line
-set shortmess+=I        " no start screen
-set showcmd             " show entered partial commands
-set showmode            " show current editing mode
-set showtabline=2       " always show tabline
-set sidescrolloff=5     " columns to show in advance
-set signcolumn=yes      " always show sign column
-set spell               " enables spell check by default
-set spelllang=en_ca     " use Canadian English for spell checking
-set splitbelow          " open horizontal splits to the bottom
-set splitright          " open new split to the right by default
-set title               " change terminal titles
-set ttyfast             " send more escape sequences for better display
-set wildmenu            " list completions in command mode
+set breakindent               " display indent when lines are wrapped
+set colorcolumn=+1            " highlight textwidth
+set conceallevel=2            " use symbols for conceal
+set cursorline                " highlight current cursor line
+set display=lastline          " show partial lines when too long
+set fillchars=fold:-          " text for filling separators
+set foldclose=all             " auto close folds
+set foldcolumn=0              " column to display folds
+set foldlevel=10              " level of folds auto expanded
+set foldmethod=syntax         " method to detect folds
+set foldnestmax=10            " max level of folds
+set foldtext=FoldText()       " custom text to display on folded lines
+set laststatus=2              " always show status line
+set lazyredraw                " reduce redraw
+set linebreak                 " break at special chars
+set list                      " display special chars
+set listchars=tab:>\ ,trail:- " style for special chars
+set nonumber                  " line numbers
+set noshowmatch               " don't jump cursor at matching brackets
+set numberwidth=3             " width of line numbers
+set previewheight=9           " height of preview window
+set relativenumber            " relative line numbers
+set ruler                     " show status in status line
+set scrolloff=5               " lines to always show before / after current line
+set shortmess+=I              " no start screen
+set showcmd                   " show entered partial commands
+set showmode                  " show current editing mode
+set showtabline=2             " always show tabline
+set sidescrolloff=5           " columns to show in advance
+set signcolumn=yes            " always show sign column
+set spell                     " enables spell check by default
+set spelllang=en_ca           " use Canadian English for spell checking
+set splitbelow                " open horizontal splits to the bottom
+set splitright                " open new split to the right by default
+set title                     " change terminal titles
+set ttyfast                   " send more escape sequences for better display
+set wildmenu                  " list completions in command mode
 " }}}
 
 " Statusline and tabline {{{

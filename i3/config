@@ -2,6 +2,8 @@
 #
 # Please see http://i3wm.org/docs/userguide.html for a complete reference!
 
+
+# === variables ===
 set $mod Mod4
 
 # colours
@@ -25,13 +27,13 @@ set $c14 "#{{light_cyan}}"
 set $c15 "#{{light_white}}"
 
 # workspace names
-set $ws0 0:tmp
+set $ws0 0:tor
 set $ws1 1:web
 set $ws2 2:dev
-set $ws3 3:doc
-set $ws4 4:dir
+set $ws3 3:dir
+set $ws4 4:com
 set $ws5 5:mai
-set $ws6 6:com
+set $ws6 6
 set $ws7 7
 set $ws8 8
 set $ws9 9:ext
@@ -48,11 +50,44 @@ set $mute_toggle exec --no-startup-id pactl set-sink-mute @DEFAULT_SINK@ toggle
 set $brightness_up exec --no-startup-id xbacklight -inc 5
 set $brightness_down exec --no-startup-id xbacklight -dec 5
 
+
+# === startup ===
+assign [class="^Tor Browser$"] workspace $ws0
+exec --no-startup-id torbrowser-launcher
+
+exec {{browser_gui}}
+
+assign [class="^dev$"] workspace $ws2
+exec {{terminal}} --class dev {{ format terminal_run [ }}tmux new -As dev{{ ] }}
+assign [class="^Emacs$"] workspace $ws2
+exec --no-startup-id {{editor_gui}}
+
+assign [class="^file$"] workspace $ws3
+exec {{terminal}} --class file {{ format terminal_run [ }}tmux new -As file ranger{{ ] }}
+
+assign [class="^Element$"] workspace $ws4
+exec --no-startup-id element-desktop
+
+assign [class="^Thunderbird$"] workspace $ws5
+exec --no-startup-id thunderbird
+
+# auto scratchpad
+for_window [class="^scratch$"] move scratchpad
+exec {{terminal}} --class scratch {{ format terminal_run [ }}$HOME/.config/i3/scratch{{ ] }}
+
+# background
+exec --no-startup-id ~/.fehbg
+
+# notification daemon
+exec --no-startup-id dunst
+
+
+# === config ===
 font pango:monospace {{font_size}}
 
 floating_modifier $mod
 # default_orientation auto
-workspace_layout tabbed
+# workspace_layout tabbed
 # title_align left
 default_border pixel 1
 default_floating_border pixel 1
@@ -74,20 +109,6 @@ focus_on_window_activation focus
 # for_window [workspace="$ws1|$ws4"] layout tabbed
 # no_focus []
 
-# assign
-assign [class="^Zeal$"] workspace $ws3
-assign [class="^Thunderbird$"] workspace $ws5
-assign [class="^Element$"] workspace $ws6
-assign [class="^discord$"] workspace $ws6
-# assign [class="^mpv$"] workspace $ws9
-
-# auto scratchpad
-for_window [class="^scratch$"] move scratchpad
-exec {{terminal}} --class scratch {{ format terminal_run [ }}$HOME/.config/i3/scratch{{ ] }}
-
-# background
-exec --no-startup-id ~/.fehbg
-
 workspace "$ws1" output $primary
 workspace "$ws2" output $primary
 workspace "$ws3" output $primary
@@ -107,6 +128,8 @@ client.placeholder      $c00    $c00    $c03    $c00    $c03
 
 client.background       $cbg
 
+
+# === keybinds ===
 # mouse buttons
 # The middle button over a titlebar kills the window
 bindsym --release button2 kill
@@ -138,13 +161,19 @@ bindsym Shift+XF86AudioMute exec --no-startup-id tmux send-keys -t $mpv_pane 'm'
 bindsym XF86TouchpadToggle nop
 bindsym XF86Calculator nop
 
+# notification
+bindsym $mod+BackSpace exec --no-startup-id dunstctl close
+bindsym $mod+Ctrl+BackSpace exec --no-startup-id dunstctl close-all
+bindsym $mod+Shift+BackSpace exec --no-startup-id dunstctl history-pop
+bindsym $mod+grave exec --no-startup-id dunstctl context
+
 # screenshot
 bindsym --release Print exec --no-startup-id ~/.config/i3/clip screenshot root
 bindsym --release Shift+Print exec --no-startup-id ~/.config/i3/clip screenshot rect
 
 # commonly-used programs
 bindsym $mod+Return exec {{terminal}}
-bindsym $mod+d exec {{launcher}}
+bindsym $mod+d exec rofi -show drun -show-icons
 
 # change focus
 bindsym $mod+h focus left
@@ -267,15 +296,11 @@ bindsym $mod+r mode "run"
 
 mode "run" {
     bindsym $mod+o exec osu; mode "default"
-    bindsym $mod+t exec {{terminal}} {{ format terminal_run [ }}tmux new -As dev{{ ] }}; mode "default"
-    bindsym $mod+r exec {{runner}}; mode "default"
+    bindsym $mod+r exec rofi -show run; mode "default"
     bindsym $mod+e exec --no-startup-id {{editor_gui}}; mode "default"
     bindsym $mod+b exec {{browser_gui}}; mode "default"
-    bindsym $mod+m exec thunderbird; mode "default"
-    bindsym $mod+i exec element-desktop; mode "default"
-    bindsym $mod+f exec {{file_manager_gui}}; mode "default"
-    bindsym $mod+d exec {{doc_viewer}}; mode "default"
-    bindsym $mod+w exec {{window_switcher}}; mode "default"
+    bindsym $mod+t exec --no-startup-id torbrowser-launcher; mode "default"
+    bindsym $mod+w exec rofi -show window -show-icons; mode "default"
     bindsym $mod+c exec --no-startup-id ~/.config/i3/clip exec; mode "default"
 
     bindsym Escape mode "default"

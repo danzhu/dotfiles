@@ -1,6 +1,6 @@
 #!/bin/sh
 
-xrandr --setprovideroutputsource modesetting NVIDIA-0
+# xrandr --setprovideroutputsource modesetting NVIDIA-0
 xrandr --dpi {{dpi}}
 xrandr --auto
 autorandr -c

@@ -37,14 +37,13 @@
   :when (or (display-graphic-p) (daemonp))
   :config
   (global-git-gutter-mode 1)
+  ;; TODO: find way to update on active window change
   (add-hook 'focus-in-hook 'git-gutter:update-all-windows)
   (fringe-helper-define 'git-gutter-fr:added '(center repeated)
-    "....XXXX")
+    "......XX")
   (fringe-helper-define 'git-gutter-fr:modified '(center repeated)
-    "....XXXX")
+    "......XX")
   (fringe-helper-define 'git-gutter-fr:deleted 'bottom
-    "XXXXXXXX"
-    "XXXXXXXX"
     "XXXXXXXX"
     "XXXXXXXX"))
 

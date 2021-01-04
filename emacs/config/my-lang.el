@@ -2,7 +2,11 @@
   :mode ("\\.h\\'" . c++-mode)
   :custom
   (c-basic-offset 4)
-  (c-default-style "bsd")
+  ;; csharp-mode breaks if string is used instead of alist
+  ;; TODO: report bug upstream
+  (c-default-style
+   '((csharp-mode . "csharp")
+     (other . "bsd")))
   (c-tab-always-indent nil))
 
 (use-package asm-mode
@@ -83,6 +87,12 @@
   :defer t
   :mode ("\\.m\\'" . octave-mode))
 
+(use-package ninja-mode
+  :load-path "/usr/share/emacs/site-lisp/"
+  :defer t
+  :commands ninja-mode
+  :mode "\\.ninja\\'")
+
 (use-package irony
   :ensure t
   :defer t
@@ -137,6 +147,7 @@
 (use-package rust-mode
   :ensure t
   :defer t
+  :hook (rust-mode . lsp)
   :custom
   (rust-format-on-save t)
   (rust-match-angle-brackets nil))
@@ -146,12 +157,12 @@
   :defer t
   :hook (rust-mode . cargo-minor-mode))
 
-(use-package racer
-  :ensure t
-  :defer t
-  :hook
-  ((rust-mode . racer-mode)
-   (racer-mode . eldoc-mode)))
+;; (use-package racer
+;;   :ensure t
+;;   :defer t
+;;   :hook
+;;   ((rust-mode . racer-mode)
+;;    (racer-mode . eldoc-mode)))
 
 (use-package flycheck-rust
   :ensure t
@@ -222,9 +233,8 @@
   :hook (haskell-mode . lsp)
   :custom
   (lsp-haskell-process-path-hie "haskell-language-server-wrapper")
-  :config
-  ;; TODO: figure out why it doesn't work (ExitFailure 1)
-  ;; (lsp-haskell-set-config "formattingProvider" "brittany")
+  ;; TODO: figure out why fourmolu doesn't respect indent option
+  ;; (lsp-haskell-formatting-provider "fourmolu")
   )
 
 (use-package idris-mode
@@ -255,7 +265,8 @@
 
 (use-package csharp-mode
   :ensure t
-  :defer t)
+  :defer t
+  :hook (csharp-mode . lsp))
 
 (use-package json-mode
   :ensure t

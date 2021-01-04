@@ -107,6 +107,11 @@
   (show-paren-match-expression (:inherit 'show-paren-match))
   (show-paren-mismatch (:foreground code-light-red :background code-dark :bold t))
 
+  ;; whitespace
+  (whitespace-empty (:background code-dark))
+  (whitespace-indentation (:background code-dark))
+  (whitespace-trailing (:background code-dark))
+
   ;; isearch
   (isearch (:background code-dark))
   (isearch-fail (:foreground code-light-red :bold t))

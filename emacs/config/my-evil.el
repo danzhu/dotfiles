@@ -6,6 +6,7 @@
   (evil-flash-delay 5)
   (evil-split-window-below t)
   (evil-symbol-word-search t)
+  (evil-undo-system 'undo-tree)
   (evil-vsplit-window-right t)
   (evil-want-C-u-scroll t)
   (evil-want-Y-yank-to-eol t)

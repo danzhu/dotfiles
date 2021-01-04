@@ -75,7 +75,7 @@ function prompt-precmd() {
 
         if [[ "$branch" = '(detached)' ]]; then
             # detached head
-            branch="$(git rev-parse --short HEAD)"
+            branch="$(git describe --contains --all HEAD)"
             print -nP '%3F'
         elif [[ -f "$(git rev-parse --git-dir)/MERGE_HEAD" ]]; then
             # merging

@@ -1,0 +1,9 @@
+include ../i3/config
+
+exec mako
+
+input '*' {
+    xkb_layout '{{xkb_layout}}'
+    xkb_variant '{{xkb_variant}}'
+    xkb_options '{{xkb_options}}'
+}

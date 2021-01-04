@@ -17,7 +17,6 @@
   (blink-cursor-mode 1))
 
 (use-package display-line-numbers
-  :when (boundp 'display-line-numbers)
   :defer t
   :hook ((text-mode prog-mode conf-mode) . display-line-numbers-mode)
   :custom
@@ -35,6 +34,14 @@
   (show-paren-delay 0)
   :config
   (show-paren-mode 1))
+
+(use-package whitespace
+  :diminish global-whitespace-mode
+  :custom
+  (whitespace-style
+   '(face empty indentation))
+  :config
+  (global-whitespace-mode))
 
 (use-package mouse
   :bind
@@ -120,7 +127,8 @@
   (undo-tree-auto-save-history t)
   (undo-tree-enable-undo-in-region nil)
   (undo-tree-history-directory-alist
-   `((".*" . ,(expand-file-name "undo-history/" user-emacs-directory))))
+   `(("/(tmp|dev)/.*" . "/dev/null")
+     (".*" . ,(expand-file-name "undo-history/" user-emacs-directory))))
   :config
   (global-undo-tree-mode 1))
 

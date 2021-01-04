@@ -1,3 +1,10 @@
 tabWidth: 4
 semi: false
 singleQuote: true
+
+overrides:
+  - files:
+      - '*.html'
+      - '*.yaml'
+    options:
+      tabWidth: 2

@@ -12,10 +12,8 @@
 	short = true
 	branch = true
 [diff]
-	tool = {{diff_tool}}
+	tool = emerge
 	renames = copies
-[commit]
-	verbose = true
 [pull]
 	ff = only
 [log]

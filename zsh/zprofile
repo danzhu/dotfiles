@@ -2,7 +2,7 @@
 
 # auto start X
 if [[ ! "$DISPLAY" && "$XDG_VTNR" -eq 1 ]]; then
-    exec {{tty_login}}
+    startx && exit
 fi
 
 if [[ -f ~/.profile ]]; then
@@ -12,11 +12,13 @@ fi
 path=({{ for path dir [ }}{{dir}} {{ ] }}$path)
 export PATH
 
+if [[ "$(tty)" = /dev/tty1 ]]; then
+    sway && exit
+fi
+
 # ssh login
 if [[ -n "$SSH_CONNECTION" && -z "$TMUX" ]]; then
-    if {{ssh_login}}; then
-        exit
-    fi
+    tmux new -As ssh && exit
 fi
 
 # vim: ft=zsh
