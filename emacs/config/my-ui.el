@@ -35,13 +35,13 @@
   :config
   (show-paren-mode 1))
 
-(use-package whitespace
-  :diminish global-whitespace-mode
-  :custom
-  (whitespace-style
-   '(face empty indentation))
-  :config
-  (global-whitespace-mode))
+;; (use-package whitespace
+;;   :diminish global-whitespace-mode
+;;   :custom
+;;   (whitespace-style
+;;    '(face empty indentation))
+;;   :config
+;;   (global-whitespace-mode))
 
 (use-package mouse
   :bind

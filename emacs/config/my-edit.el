@@ -153,11 +153,10 @@
 
 (use-package dumb-jump
   :ensure t
-  :defer t
   :custom
   (dumb-jump-selector 'ivy)
-  :bind
-  ("C-M-g" . dumb-jump-go))
+  :config
+  (add-hook 'xref-backend-functions #'dumb-jump-xref-activate))
 
 (use-package editorconfig
   :ensure t
@@ -171,7 +170,8 @@
   ;; (prettier-mode-sync-config-flag nil)
   :init
   (setenv "NODE_PATH" "/usr/lib")
-  (global-prettier-mode 1))
+  ;; (global-prettier-mode 1)
+  )
 
 (use-package ws-butler
   :ensure t

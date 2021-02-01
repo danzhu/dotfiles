@@ -26,21 +26,9 @@ set $c13 "#{{light_magenta}}"
 set $c14 "#{{light_cyan}}"
 set $c15 "#{{light_white}}"
 
-# workspace names
-set $ws0 0:tor
-set $ws1 1:web
-set $ws2 2:dev
-set $ws3 3:dir
-set $ws4 4:com
-set $ws5 5:mai
-set $ws6 6
-set $ws7 7
-set $ws8 8
-set $ws9 9:ext
-
 # VGA-1 DP1 eDP1
 set $primary primary
-set $secondary HDMI-1-1
+set $secondary HDMI-1
 
 set $mpv_pane scratch:mpv
 set $screen_lock exec --no-startup-id i3lock -c 000000
@@ -50,12 +38,36 @@ set $mute_toggle exec --no-startup-id pactl set-sink-mute @DEFAULT_SINK@ toggle
 set $brightness_up exec --no-startup-id xbacklight -inc 5
 set $brightness_down exec --no-startup-id xbacklight -dec 5
 
+# workspace names
+set $ws0 0:tmp
+set $ws1 1:web
+set $ws2 2:dev
+set $ws3 3:dir
+set $ws4 4:com
+set $ws5 5:mai
+set $ws6 6:gam
+set $ws7 7
+set $ws8 8
+set $ws9 9:ext
+
+
+# === workspace ===
+workspace "$ws1" output $primary
+workspace "$ws2" output $primary
+workspace "$ws3" output $primary
+workspace "$ws4" output $primary
+workspace "$ws5" output $primary
+workspace "$ws6" output $primary
+workspace "$ws7" output $primary
+workspace "$ws8" output $primary
+workspace "$ws9" output $secondary $primary
+
 
 # === startup ===
-assign [class="^Tor Browser$"] workspace $ws0
-exec --no-startup-id torbrowser-launcher
-
 exec {{browser_gui}}
+
+assign [class="^Tor Browser$"] workspace $ws1
+exec --no-startup-id torbrowser-launcher
 
 assign [class="^dev$"] workspace $ws2
 exec {{terminal}} --class dev {{ format terminal_run [ }}tmux new -As dev{{ ] }}
@@ -70,6 +82,8 @@ exec --no-startup-id element-desktop
 
 assign [class="^Thunderbird$"] workspace $ws5
 exec --no-startup-id thunderbird
+
+assign [class="^Steam$"] workspace $ws6
 
 # auto scratchpad
 for_window [class="^scratch$"] move scratchpad
@@ -95,7 +109,7 @@ hide_edge_borders smart_no_gaps
 # focus_follow_mouse yes
 # mouse_warping output
 # popup_during_fullscreen smart
-# focus_wrapping workspace
+focus_wrapping workspace
 # workspace_auto_back_and_forth no
 # force_display_urgency_hint 500 ms
 focus_on_window_activation focus
@@ -108,16 +122,6 @@ focus_on_window_activation focus
 # rules
 # for_window [workspace="$ws1|$ws4"] layout tabbed
 # no_focus []
-
-workspace "$ws1" output $primary
-workspace "$ws2" output $primary
-workspace "$ws3" output $primary
-workspace "$ws4" output $primary
-workspace "$ws5" output $primary
-workspace "$ws6" output $primary
-workspace "$ws7" output $primary
-workspace "$ws8" output $primary
-workspace "$ws9" output $secondary $primary
 
 # class                 border  bg      text    ind     child_border
 client.focused          $c00    $c00    $c12    $c00    $c12
@@ -184,10 +188,7 @@ bindsym $mod+Left focus left
 bindsym $mod+Down focus down
 bindsym $mod+Up focus up
 bindsym $mod+Right focus right
-bindsym $mod+Ctrl+h focus output left
-bindsym $mod+Ctrl+l focus output right
-bindsym $mod+Ctrl+j focus output down
-bindsym $mod+Ctrl+k focus output up
+bindsym $mod+m focus output right
 
 bindsym $mod+u [urgent=latest] focus
 
@@ -200,10 +201,7 @@ bindsym $mod+Shift+Left move left
 bindsym $mod+Shift+Down move down
 bindsym $mod+Shift+Up move up
 bindsym $mod+Shift+Right move right
-bindsym $mod+Ctrl+Shift+h move container to output left
-bindsym $mod+Ctrl+Shift+l move container to output right
-bindsym $mod+Ctrl+Shift+j move container to output down
-bindsym $mod+Ctrl+Shift+k move container to output up
+bindsym $mod+Shift+m move container to output right
 
 # focus parent / child container
 bindsym $mod+o focus parent

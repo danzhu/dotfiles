@@ -76,10 +76,10 @@ case "$filename" in
         rustc -g "$filename" -o "$exe"
         ;;
     *.hs)
-        ghc -- -g "$filename" -o "$exe"
+        ghc -g "$filename" -o "$exe"
         ;;
     *.idr)
-        idris "$filename" -o "$exe"
+        idris2 "$filename" -o "$exe"
         ;;
     *.cs)
         cmd=(mono "$exe.exe")
@@ -92,6 +92,9 @@ case "$filename" in
     *.py)
         cmd=(python "$filename")
         ;;
+    *.js)
+        cmd=(node "$filename")
+        ;;
     *.rb)
         cmd=(ruby "$filename")
         ;;
@@ -102,7 +105,7 @@ case "$filename" in
 esac
 
 if [[ $MEM = true ]]; then
-    cmd=(valgrind "--leak-check=full" "${cmd[@]}")
+    cmd=(valgrind --leak-check=full "${cmd[@]}")
 fi
 
 "${cmd[@]}" "${args[@]}"
