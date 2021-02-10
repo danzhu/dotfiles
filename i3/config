@@ -169,7 +169,7 @@ bindsym XF86Calculator nop
 bindsym $mod+BackSpace exec --no-startup-id dunstctl close
 bindsym $mod+Ctrl+BackSpace exec --no-startup-id dunstctl close-all
 bindsym $mod+Shift+BackSpace exec --no-startup-id dunstctl history-pop
-bindsym $mod+grave exec --no-startup-id dunstctl context
+bindsym $mod+backslash exec --no-startup-id dunstctl context
 
 # screenshot
 bindsym --release Print exec --no-startup-id ~/.config/i3/clip screenshot root
@@ -188,7 +188,7 @@ bindsym $mod+Left focus left
 bindsym $mod+Down focus down
 bindsym $mod+Up focus up
 bindsym $mod+Right focus right
-bindsym $mod+m focus output right
+bindsym $mod+grave focus output right
 
 bindsym $mod+u [urgent=latest] focus
 
@@ -201,7 +201,7 @@ bindsym $mod+Shift+Left move left
 bindsym $mod+Shift+Down move down
 bindsym $mod+Shift+Up move up
 bindsym $mod+Shift+Right move right
-bindsym $mod+Shift+m move container to output right
+bindsym $mod+Shift+grave move container to output right
 
 # focus parent / child container
 bindsym $mod+o focus parent
@@ -313,6 +313,10 @@ mode "resize" {
     bindsym j resize grow height 10 px or 10 ppt
     bindsym k resize shrink height 10 px or 10 ppt
     bindsym l resize grow width 10 px or 10 ppt
+    bindsym Shift+h resize shrink width 2 px or 2 ppt
+    bindsym Shift+j resize grow height 2 px or 2 ppt
+    bindsym Shift+k resize shrink height 2 px or 2 ppt
+    bindsym Shift+l resize grow width 2 px or 2 ppt
 
     # same bindings, but for the arrow keys
     bindsym Left resize shrink width 10 px or 10 ppt

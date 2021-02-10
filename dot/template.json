@@ -1,6 +1,6 @@
 {
     "autostart": ["udiskie", "transmission-daemon"],
-    "path": ["$HOME/bin", "$HOME/.local/bin"],
+    "path": ["$HOME/bin", "$HOME/.local/bin", "$HOME/.config/emacs/bin"],
     "env": {
         "DOT": "$HOME/.dotfiles",
         "EDITOR": "emacsclient --tty",
