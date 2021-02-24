@@ -132,20 +132,11 @@ if exists('g:cpp_plugins') && (has('python') || has('python3'))
 endif
 
 Plug 'prabirshrestha/asyncomplete.vim'
-Plug 'prabirshrestha/async.vim'
 Plug 'prabirshrestha/vim-lsp'
 Plug 'prabirshrestha/asyncomplete-lsp.vim'
+Plug 'mattn/vim-lsp-settings'
 " {{{
 Map! i <c-space> <Plug>(asyncomplete_force_refresh)
-
-if executable('pyls')
-    " pip install python-language-server
-    au User lsp_setup call lsp#register_server({
-                \ 'name': 'pyls',
-                \ 'cmd': {server_info->['pyls']},
-                \ 'whitelist': ['python'],
-                \ })
-endif
 " }}}
 " }}}
 

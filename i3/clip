@@ -37,7 +37,7 @@ case "$cmd" in
         case "$link" in
             https://www.youtube.com/watch\?v=*|https://youtu.be/*|https://www.twitch.tv/*)
                 msg video
-                exec mpv "$link"
+                mpv "$link" || die "mpv failed"
                 ;;
             magnet:\?*)
                 res="$(transmission-remote -a "$link")" || die "$res"

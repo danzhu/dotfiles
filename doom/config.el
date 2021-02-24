@@ -53,11 +53,17 @@
 ;; You can also try 'gd' (or 'C-c c d') to jump to their definition and see how
 ;; they are implemented.
 
+;; emacs
 (setq! focus-follows-mouse t
        ;; mouse-autoselect-window t
        mouse-wheel-progressive-speed nil
        mouse-wheel-scroll-amount '(5 ((shift) . hscroll))
        scroll-margin 5)
+
+;; doom
+(setq! +lookup-provider-url-alist '())
+(setq-hook! 'typescript-mode-hook +format-with-lsp nil)
+(setq-hook! 'typescript-tsx-mode-hook +format-with-lsp nil)
 
 ;; flycheck
 (after! flycheck-popup-tip
@@ -78,7 +84,7 @@
 ;; yasnippets
 (map! :map yas-keymap
       :after yasnippet
-      "M-SPC" #'yas-maybe-expand
+      "M-SPC" #'yas-expand
       "M-n" #'yas-next-field
       "M-p" #'yas-prev-field
       "<tab>" nil
@@ -94,8 +100,14 @@
        evil-want-change-word-to-end nil)
 (map! :n "RET" #'save-buffer)
 
+;; modes
+(global-subword-mode +1)
 (+global-word-wrap-mode +1)
 
-(setq! +lookup-provider-url-alist '())
+;; interactive functions
+(defun +sort-words ()
+  "Sort words in region."
+  (interactive)
+  (sort-regexp-fields nil "\\_<.*?\\_>" "" (point) (mark)))
 
 ;; end
