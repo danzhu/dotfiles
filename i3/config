@@ -27,7 +27,7 @@ set $c14 "#{{light_cyan}}"
 set $c15 "#{{light_white}}"
 
 # VGA-1 DP1 eDP1
-set $primary primary
+set $primary DP-2
 set $secondary HDMI-1
 
 set $mpv_pane scratch:mpv
@@ -269,7 +269,7 @@ mode "system" {
     # reset resolution / fix i3status freeze
     bindsym s exec --no-startup-id ~/.config/i3/reset; mode "default"
 
-    bindsym i exec --no-startup-id xinput --map-to-output 'HUION 420 Pen Pen (0)' eDP-1-1; mode "default"
+    bindsym i exec --no-startup-id xinput --map-to-output 'HUION 420 Pen Pen (0)' $primary; mode "default"
 
     # lock screen
     bindsym l $screen_lock; mode "default"
