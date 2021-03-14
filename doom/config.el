@@ -96,14 +96,31 @@
 ;; evil
 (setq! evil-echo-state nil
        evil-ex-substitute-global t
+       evil-respect-visual-line-mode nil
        ;; evil-split-window-below t
        ;; evil-vsplit-window-right t
        evil-want-change-word-to-end nil)
-(map! :n "RET" #'save-buffer)
+(map! ;; :m "j" #'next-line
+      ;; :m "k" #'previous-line
+      :n "RET" #'save-buffer)
 
-;; modes
+;; lsp
+(setq! lsp-enable-file-watchers nil)
+(after! lsp-ui
+  (setq! lsp-ui-doc-border "dim gray"
+         lsp-ui-doc-enable t
+         lsp-ui-doc-include-signature t
+         lsp-ui-doc-max-height 20
+         lsp-ui-doc-max-width 80
+         lsp-ui-doc-position 'bottom))
+
+;; global modes
 (global-subword-mode +1)
 (+global-word-wrap-mode +1)
+
+;; lang modes
+(add-to-list 'auto-mode-alist '("\\.in\\'" . text-mode))
+(add-to-list 'auto-mode-alist '("\\.out\\'" . text-mode))
 
 ;; interactive functions
 (defun +sort-words ()
