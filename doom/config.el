@@ -96,13 +96,14 @@
 ;; evil
 (setq! evil-echo-state nil
        evil-ex-substitute-global t
-       evil-respect-visual-line-mode nil
        ;; evil-split-window-below t
        ;; evil-vsplit-window-right t
        evil-want-change-word-to-end nil)
-(map! ;; :m "j" #'next-line
-      ;; :m "k" #'previous-line
-      :n "RET" #'save-buffer)
+(map! :n "RET" #'save-buffer
+      :nv "s" #'evil-surround-region
+      :nv "S" #'evil-Surround-region
+      :o "s" #'evil-surround-edit
+      :o "S" #'evil-Surround-edit)
 
 ;; lsp
 (setq! lsp-enable-file-watchers nil)

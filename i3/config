@@ -47,8 +47,8 @@ set $ws4 4:com
 set $ws5 5:mai
 set $ws6 6:gam
 set $ws7 7
-set $ws8 8
-set $ws9 9:ext
+set $ws8 8:ext
+set $ws9 9:alt
 
 
 # === workspace ===
@@ -59,7 +59,7 @@ workspace "$ws4" output $primary
 workspace "$ws5" output $primary
 workspace "$ws6" output $primary
 workspace "$ws7" output $primary
-workspace "$ws8" output $primary
+workspace "$ws8" output $secondary $primary
 workspace "$ws9" output $secondary $primary
 
 
