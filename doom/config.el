@@ -59,6 +59,7 @@
        mouse-wheel-progressive-speed nil
        mouse-wheel-scroll-amount '(5 ((shift) . hscroll))
        scroll-margin 5)
+(setq! browse-url-browser-function #'browse-url-firefox)
 
 ;; doom
 (setq! +lookup-provider-url-alist '())
@@ -114,6 +115,10 @@
          lsp-ui-doc-max-height 20
          lsp-ui-doc-max-width 80
          lsp-ui-doc-position 'bottom))
+
+;; tabs
+;; (setq! centaur-tabs-set-bar 'over)
+(setq! centaur-tabs-buffer-groups-function #'centaur-tabs-projectile-buffer-groups)
 
 ;; global modes
 (global-subword-mode +1)

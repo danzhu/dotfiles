@@ -6,5 +6,6 @@ overrides:
   - files:
       - '*.html'
       - '*.yaml'
+      - '*.md'
     options:
       tabWidth: 2

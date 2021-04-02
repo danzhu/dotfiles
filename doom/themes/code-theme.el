@@ -100,6 +100,20 @@
   (custom-state (:foreground green))
   (widget-field (:background black))
 
+  ;; tab bar
+  (tab-bar (:foreground black :background black))
+  (tab-bar-tab (:foreground fg :background bg))
+  (tab-bar-tab-inactive (:foreground white :background black))
+
+  ;; tab line
+  (tab-line (:foreground black :background black))
+  (centaur-tabs-default (:foreground black :background black))
+  (centaur-tabs-selected (:foreground fg :background bg))
+  (centaur-tabs-unselected (:foreground white :background black))
+  (centaur-tabs-selected-modified (:foreground light-red :background bg))
+  (centaur-tabs-unselected-modified (:foreground light-red :background black))
+  (centaur-tabs-active-bar-face (:background light-blue))
+
   ;; line number
   (linum (:foreground white :background bg :bold nil :italic nil :underline nil :strike-through nil))
   (line-number (:foreground white :background bg :bold nil :italic nil :underline nil :strike-through nil))
