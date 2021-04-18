@@ -85,6 +85,9 @@ exec --no-startup-id thunderbird
 
 assign [class="^Steam$"] workspace $ws6
 
+assign [class="^mpv$"] workspace $ws8
+assign [class="^qutebrowser$"] workspace $ws8
+
 # auto scratchpad
 for_window [class="^scratch$"] move scratchpad
 exec {{terminal}} --class scratch {{ format terminal_run [ }}$HOME/.config/i3/scratch{{ ] }}
