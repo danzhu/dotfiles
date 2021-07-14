@@ -17,11 +17,8 @@ bindkey -v '^[[Z' reverse-menu-complete
 bindkey -v ' ' magic-space
 
 
-autoload -Uz history-search-end
-zle -N history-beginning-search-backward-end history-search-end
-zle -N history-beginning-search-forward-end history-search-end
-bindkey -v '^P' history-beginning-search-backward-end
-bindkey -v '^N' history-beginning-search-forward-end
+bindkey -v '^P' history-beginning-search-backward
+bindkey -v '^N' history-beginning-search-forward
 
 
 autoload -Uz edit-command-line

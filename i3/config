@@ -46,7 +46,7 @@ set $ws3 3:dir
 set $ws4 4:com
 set $ws5 5:mai
 set $ws6 6:gam
-set $ws7 7
+set $ws7 7:aud
 set $ws8 8:ext
 set $ws9 9:alt
 
@@ -85,7 +85,7 @@ exec --no-startup-id thunderbird
 
 assign [class="^Steam$"] workspace $ws6
 
-assign [class="^tv$"] workspace $ws8
+assign [class="^mpv$" instance="^tv$"] workspace $ws8
 assign [class="^qutebrowser$"] workspace $ws8
 
 # auto scratchpad
@@ -106,8 +106,8 @@ floating_modifier $mod
 # default_orientation auto
 # workspace_layout tabbed
 # title_align left
-default_border pixel 1
-default_floating_border pixel 1
+# default_border pixel 1
+# default_floating_border pixel 1
 hide_edge_borders smart_no_gaps
 # focus_follow_mouse yes
 # mouse_warping output
