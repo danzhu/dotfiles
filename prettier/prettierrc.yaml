@@ -5,6 +5,7 @@ singleQuote: true
 overrides:
   - files:
       - '*.html'
+      - '*.yml'
       - '*.yaml'
       - '*.md'
     options:
