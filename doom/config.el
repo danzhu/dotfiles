@@ -124,6 +124,7 @@
 ;; global modes
 (global-subword-mode +1)
 (+global-word-wrap-mode +1)
+(global-display-fill-column-indicator-mode +1)
 
 ;; lang modes
 (add-to-list 'auto-mode-alist '("\\.in\\'" . text-mode))

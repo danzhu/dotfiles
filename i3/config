@@ -158,8 +158,8 @@ bindsym XF86ScreenSaver $screen_lock
 # playback controls
 bindsym XF86AudioPlay exec --no-startup-id tmux send-keys -t $mpv_pane 'p'
 bindsym XF86AudioStop nop
-bindsym XF86AudioPrev exec --no-startup-id tmux send-keys -t $mpv_pane '<'
-bindsym XF86AudioNext exec --no-startup-id tmux send-keys -t $mpv_pane '>'
+bindsym XF86AudioPrev exec --no-startup-id tmux send-keys -t $mpv_pane 'Left'
+bindsym XF86AudioNext exec --no-startup-id tmux send-keys -t $mpv_pane 'Right'
 bindsym Shift+XF86AudioLowerVolume exec --no-startup-id tmux send-keys -t $mpv_pane '/'
 bindsym Shift+XF86AudioRaiseVolume exec --no-startup-id tmux send-keys -t $mpv_pane '*'
 bindsym Shift+XF86AudioMute exec --no-startup-id tmux send-keys -t $mpv_pane 'm'
