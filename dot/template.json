@@ -100,6 +100,8 @@
     "xkb_layout": "us",
     "xkb_variant": "dvorak",
     "xkb_options": "ctrl:nocaps",
+    "display_primary": "DisplayPort-0",
+    "display_secondary": "HDMI-A-0",
     "foreground": "d3d7d8",
     "background": "232425",
     "black": "323539",

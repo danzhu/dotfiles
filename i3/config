@@ -26,9 +26,8 @@ set $c13 "#{{light_magenta}}"
 set $c14 "#{{light_cyan}}"
 set $c15 "#{{light_white}}"
 
-# VGA-1 DP1 eDP1
-set $primary DP-1
-set $secondary HDMI-1
+set $primary {{display_primary}}
+set $secondary {{display_secondary}}
 
 set $mpv_pane scratch:mpv
 set $screen_lock exec --no-startup-id i3lock -c 000000
