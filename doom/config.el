@@ -102,11 +102,12 @@
        ;; evil-split-window-below t
        ;; evil-vsplit-window-right t
        evil-want-change-word-to-end nil)
-(map! :n "RET" #'save-buffer
-      :nv "s" #'evil-surround-region
+(map! :nv "s" #'evil-surround-region
       :nv "S" #'evil-Surround-region
       :o "s" #'evil-surround-edit
       :o "S" #'evil-Surround-edit)
+(map! :map general-override-mode-map
+      :n "RET" #'save-buffer)
 
 ;; lsp
 (setq! lsp-enable-file-watchers nil)
