@@ -78,18 +78,37 @@
   (header-line-highlight (:inherit 'highlight))
 
   ;; font lock
-  (font-lock-builtin-face (:foreground magenta))
-  (font-lock-comment-delimiter-face (:foreground light-black))
   (font-lock-comment-face (:foreground white))
-  (font-lock-constant-face (:foreground light-green))
-  (font-lock-function-name-face (:foreground light-magenta :bold t))
+  (font-lock-comment-delimiter-face (:foreground light-black))
+  (font-lock-string-face (:foreground yellow))
+  (font-lock-doc-face (:inherit font-lock-string-face :italic t))
+  (font-lock-doc-markup-face (:inherit 'font-lock-comment-face))
   (font-lock-keyword-face (:foreground light-blue))
-  (font-lock-negation-char-face (:foreground light-blue :bold t))
-  (font-lock-preprocessor-face (:foreground blue))
-  (font-lock-string-face (:foreground light-yellow))
-  (font-lock-type-face (:foreground light-cyan))
+  (font-lock-builtin-face (:foreground magenta))
+  (font-lock-function-name-face (:foreground light-magenta))
   (font-lock-variable-name-face (:foreground light-red))
-  (font-lock-warning-face (:foreground yellow))
+  (font-lock-type-face (:foreground cyan))
+  (font-lock-constant-face (:foreground green))
+
+  ;; (font-lock-warning-face (:foreground red))
+  ;; (font-lock-negation-char-face (:foreground light-white :bold t))
+  (font-lock-preprocessor-face (:foreground blue))
+  ;; (font-lock-regexp-grouping-backslash ())
+  ;; (font-lock-regexp-grouping-construct ())
+
+  ;; tree-sitter
+  (tree-sitter-hl-face:function.call (:inherit 'tree-sitter-hl-face:function))
+  (tree-sitter-hl-face:function.builtin (:inherit 'tree-sitter-hl-face:function.call))
+
+  (tree-sitter-hl-face:type.builtin (:inherit 'tree-sitter-hl-face:type))
+
+  (tree-sitter-hl-face:property ())
+  (tree-sitter-hl-face:property.definition ())
+
+  ;; (tree-sitter-hl-face:operator (:inherit 'tree-sitter-hl-face:function.call))
+  (tree-sitter-hl-face:constant.builtin (:inherit 'tree-sitter-hl-face:constant))
+
+  (tree-sitter-hl-face:noise (:foreground white))
 
   ;; customize
   (custom-variable-tag (:foreground light-cyan :bold t))
@@ -144,17 +163,23 @@
   (flyspell-duplicate (:underline (:style 'wave :color yellow)))
   (flyspell-incorrect (:underline (:style 'wave :color red)))
 
-  ;; term
-  (term-color-black (:foreground black :background black))
-  (term-color-red (:foreground light-red :background light-red))
-  (term-color-green (:foreground light-green :background light-green))
-  (term-color-yellow (:foreground light-yellow :background light-yellow))
-  (term-color-blue (:foreground light-blue :background light-blue))
-  (term-color-magenta (:foreground light-magenta :background light-magenta))
-  (term-color-cyan (:foreground light-cyan :background light-cyan))
-  (term-color-white (:foreground white :background white))
-  (term-default-fg-color (:foreground fg))
-  (term-default-bg-color (:foreground bg))
+  ;; ansi term
+  (ansi-color-black (:foreground black :background black))
+  (ansi-color-red (:foreground red :background red))
+  (ansi-color-green (:foreground green :background green))
+  (ansi-color-yellow (:foreground yellow :background yellow))
+  (ansi-color-blue (:foreground blue :background blue))
+  (ansi-color-magenta (:foreground magenta :background magenta))
+  (ansi-color-cyan (:foreground cyan :background cyan))
+  (ansi-color-white (:foreground white :background white))
+  (ansi-color-bright-black (:foreground light-black :background light-black))
+  (ansi-color-bright-red (:foreground light-red :background light-red))
+  (ansi-color-bright-green (:foreground light-green :background light-green))
+  (ansi-color-bright-yellow (:foreground light-yellow :background light-yellow))
+  (ansi-color-bright-blue (:foreground light-blue :background light-blue))
+  (ansi-color-bright-magenta (:foreground light-magenta :background light-magenta))
+  (ansi-color-bright-cyan (:foreground light-cyan :background light-cyan))
+  (ansi-color-bright-white (:foreground light-white :background light-white))
 
   ;; compilation
   (compilation-info (:foreground blue))
@@ -162,10 +187,11 @@
 
   ;; sh mode
   (sh-heredoc (:inherit 'font-lock-string-face))
+  (sh-quoted-exec (:inherit 'font-lock-function-name-face))
 
   ;; evil
-  (evil-ex-info (:foreground light-blue :slant 'italic))
-  (evil-ex-commands (:slant 'italic :underline t))
+  (evil-ex-info (:foreground light-blue :italic t))
+  (evil-ex-commands (:italic t :underline t))
   (evil-ex-search (:inherit 'isearch))
   (evil-ex-lazy-highlight (:inherit 'lazy-highlight))
   (evil-ex-substitute-matches (:foreground light-red :background black :bold t :strike-through t))
@@ -280,7 +306,7 @@
 
   ;; latex
   (font-latex-bold-face (:bold t))
-  (font-latex-italic-face (:slant 'italic))
+  (font-latex-italic-face (:italic t))
   (font-latex-script-char-face (:foreground white))
   (font-latex-verbatim-face (:inherit 'fixed-pitch :background black))
   (font-latex-warning-face (:foreground red :bold t))
@@ -307,8 +333,11 @@
   (js2-error (:inherit 'error))
   (js2-warning (:inherit 'warning))
 
+  ;; haskell mode
+  (haskell-operator-face (:inherit 'font-lock-keyword-face))
+
   ;; idris mode
-  (idris-operator-face (:inherit 'font-lock-comment-face))
+  (idris-operator-face (:inherit 'font-lock-keyword-face))
   (idris-semantic-bound-face (:inherit 'font-lock-variable-name-face))
   (idris-semantic-data-face (:foreground cyan))
   (idris-semantic-function-face (:foreground light-magenta))
@@ -317,20 +346,6 @@
 
   ;; markdown
   (markdown-face (:inherit 'fixed-pitch :background black))
-  )
-
- (custom-theme-set-variables
-  'code
-  `(ansi-color-names-vector
-    [
-     ,black
-     ,red
-     ,green
-     ,yellow
-     ,blue
-     ,magenta
-     ,cyan
-     ,white
-     ])))
+  ))
 
 ;;; code-theme.el ends here

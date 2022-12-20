@@ -1,5 +1,4 @@
 # -*- mode: yaml -*-
-
 ---
 AccessModifierOffset: -4
 AlignTrailingComments: false
@@ -12,6 +11,5 @@ IncludeCategories:
     Priority: 2
 IndentWidth: 4
 PenaltyBreakAssignment: 100
-...
-
+---
 # vim: ft=yaml

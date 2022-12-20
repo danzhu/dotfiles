@@ -171,7 +171,7 @@ bindsym XF86Calculator nop
 bindsym $mod+BackSpace exec --no-startup-id dunstctl close
 bindsym $mod+Ctrl+BackSpace exec --no-startup-id dunstctl close-all
 bindsym $mod+Shift+BackSpace exec --no-startup-id dunstctl history-pop
-bindsym $mod+backslash exec --no-startup-id dunstctl context
+bindsym $mod+backslash exec --no-startup-id dunstctl action 0
 
 # screenshot
 bindsym --release Print exec --no-startup-id ~/.config/i3/clip screenshot root
@@ -269,9 +269,9 @@ bindsym $mod+x mode "system"
 
 mode "system" {
     # reset resolution / fix i3status freeze
-    bindsym s exec --no-startup-id ~/.config/i3/reset; mode "default"
+    # bindsym s exec --no-startup-id ~/.config/i3/reset; mode "default"
 
-    bindsym i exec --no-startup-id xinput --map-to-output 'HUION 420 Pen Pen (0)' $primary; mode "default"
+    bindsym i exec --no-startup-id xinput --map-to-output 'HUION 420 Pen (0)' $primary; mode "default"
 
     # lock screen
     bindsym l $screen_lock; mode "default"
@@ -282,12 +282,16 @@ mode "system" {
     # i3)
     bindsym r restart
 
+    # suspend (sleep)
+    bindsym s exec --no-startup-id systemctl suspend; mode "default"
     # exit i3 (logs you out of your X session)
     bindsym Shift+e exit
-    # poweroff
-    bindsym Shift+s exec --no-startup-id poweroff
+    # poweroff (shutdown)
+    bindsym Shift+s exec --no-startup-id systemctl poweroff
     # reboot
-    bindsym Shift+r exec --no-startup-id reboot
+    bindsym Shift+r exec --no-startup-id systemctl reboot
+    # reboot to windows
+    bindsym Shift+w exec --no-startup-id systemctl reboot --boot-loader-entry=auto-windows
 
     bindsym Escape mode "default"
 }

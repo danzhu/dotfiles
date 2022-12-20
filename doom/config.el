@@ -106,11 +106,17 @@
       :nv "S" #'evil-Surround-region
       :o "s" #'evil-surround-edit
       :o "S" #'evil-Surround-edit)
+
+;; extra keys
+(defun buffer-writable-filter (cmd)
+  (unless buffer-read-only
+    cmd))
 (map! :map general-override-mode-map
-      :n "RET" #'save-buffer)
+      :n "RET" '(menu-item "" save-buffer :filter buffer-writable-filter))
 
 ;; lsp
-(setq! lsp-enable-file-watchers nil)
+(setq! lsp-enable-file-watchers nil
+       lsp-lens-enable nil)
 (after! lsp-ui
   (setq! lsp-ui-doc-border "dim gray"
          lsp-ui-doc-enable t
@@ -125,7 +131,8 @@
 
 ;; global modes
 (global-subword-mode +1)
-(+global-word-wrap-mode +1)
+;; NOTE: disabled due to performance issues in rust
+;; (+global-word-wrap-mode +1)
 (global-display-fill-column-indicator-mode +1)
 
 ;; lang modes

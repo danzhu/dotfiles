@@ -1,0 +1,21 @@
+#!/usr/bin/env bash
+
+for rev in {normal,rev}; do
+    for bg in -1 0 8; do
+        printf ' %02d ' "$bg"
+        if [[ "$bg" != -1 ]]; then
+            tput setab "$bg"
+        fi
+        if [[ "$rev" != normal ]]; then
+            tput "$rev"
+        fi
+        for fg in -1 {1..7} {9..15}; do
+            if [[ "$fg" != -1 ]]; then
+                tput setaf "$fg"
+            fi
+            printf ' %02d ' "$fg"
+        done
+        tput sgr0
+        echo
+    done
+done

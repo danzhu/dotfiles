@@ -27,6 +27,7 @@ Xft.antialias: 1
 Xft.rgba: rgb
 
 URxvt.font: xft:monospace:size={{font_size}}
+! URxvt.intensityStyles: false
 URxvt.letterSpace: -1
 URxvt.perl-ext-common:
 URxvt.perl-ext:
