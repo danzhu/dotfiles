@@ -8,8 +8,8 @@ NAME=scratch
 sleep 1
 
 tmux new-session -d -s "$NAME"
-tmux new-window -d -t "$NAME:" newsboat
+# tmux new-window -d -t "$NAME:" newsboat
 # tmux new-window -d -c ~/projects/devdocs ~/.rbenv/shims/rackup
 # tmux new-window -d mpv --shuffle --no-audio-display --volume=50 --pause ~/music/osu
-tmux new-window -d -t "$NAME:" -c ~/projects/mpv-chat make start
+# tmux new-window -d -t "$NAME:" -c ~/projects/mpv-chat make start
 tmux attach-session -t "$NAME"

@@ -1,5 +1,7 @@
 # -*- mode: conf -*-
 
-prefix = ~/.npm
+prefix = ~/.local/share/npm
+cache = ~/.cache/npm
+init-module = ~/.config/npm/npm-init.js
 
 # vim: ft=conf

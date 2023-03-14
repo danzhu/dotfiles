@@ -63,6 +63,7 @@
 
 ;; doom
 (setq! +lookup-provider-url-alist '())
+(setq-hook! 'python-mode-hook +format-with-lsp nil)
 (setq-hook! 'typescript-mode-hook +format-with-lsp nil)
 (setq-hook! 'typescript-tsx-mode-hook +format-with-lsp nil)
 (setq-hook! 'js2-mode-hook +format-with-lsp nil)
