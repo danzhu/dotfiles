@@ -19,8 +19,8 @@
 ;;
 ;; They all accept either a font-spec, font string ("Input Mono-12"), or xlfd
 ;; font string. You generally only need these two:
-(setq doom-font (font-spec :family "monospace" :size 12)
-      doom-variable-pitch-font (font-spec :family "sans" :size 12))
+;; (setq doom-font (font-spec :family "{{font_mono}}" :size 12)
+;;       doom-variable-pitch-font (font-spec :family "sans" :size 12))
 
 ;; There are two ways to load a theme. Both assume the theme is installed and
 ;; available. You can either set `doom-theme' or manually load a theme with the
@@ -100,6 +100,7 @@
 ;; evil
 (setq! evil-echo-state nil
        evil-ex-substitute-global t
+       evil-move-cursor-back nil
        ;; evil-split-window-below t
        ;; evil-vsplit-window-right t
        evil-want-change-word-to-end nil)
@@ -125,6 +126,9 @@
          lsp-ui-doc-max-height 20
          lsp-ui-doc-max-width 80
          lsp-ui-doc-position 'bottom))
+(setq! lsp-diagnostics-attributes
+       `((unnecessary :inherit 'font-lock-comment-face)
+         (deprecated  :strike-through t)))
 
 ;; tabs
 ;; (setq! centaur-tabs-set-bar 'over)

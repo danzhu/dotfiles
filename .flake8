@@ -1,0 +1,11 @@
+# -*- mode: conf -*-
+
+[flake8]
+# (black)
+max-line-length = 88
+extend-ignore =
+    # (black)
+    # whitespace before ':'
+    E203
+
+# vim: ft=dosini

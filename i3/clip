@@ -35,7 +35,7 @@ case "$cmd" in
         link=$(xclip -selection clipboard -o)
 
         case "$link" in
-            https://www.youtube.com/watch\?v=*|https://youtu.be/*|https://www.twitch.tv/*)
+            https://www.youtube.com/watch\?v=*|https://youtu.be/*|https://www.twitch.tv/*|/*)
                 msg video
                 mpv "$link" || die "mpv failed"
                 ;;
