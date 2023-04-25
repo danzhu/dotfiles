@@ -53,5 +53,7 @@
 
 (package! autothemer)
 (package! ninja-mode)
+(package! idris2-mode
+  :recipe (:host github :repo "idris-community/idris2-mode"))
 
 ;; end
