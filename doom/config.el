@@ -100,7 +100,7 @@
 ;; evil
 (setq! evil-echo-state nil
        evil-ex-substitute-global t
-       evil-move-cursor-back nil
+       ;; evil-move-cursor-back nil
        ;; evil-split-window-below t
        ;; evil-vsplit-window-right t
        evil-want-change-word-to-end nil)

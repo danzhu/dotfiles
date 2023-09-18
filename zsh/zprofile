@@ -9,7 +9,12 @@ if [[ -f ~/.profile ]]; then
     source ~/.profile
 fi
 
-path=({{ for path dir [ }}{{dir}} {{ ] }}$path)
+path=(
+%% for path dir [
+    {{dir}}
+%% ]
+    $path
+)
 export PATH
 
 if [[ "$(tty)" = /dev/tty1 ]]; then

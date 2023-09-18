@@ -299,6 +299,7 @@ mode "system" {
 bindsym $mod+r mode "run"
 
 mode "run" {
+    bindsym $mod+f exec --no-startup-id ffxiv; mode "default"
     bindsym $mod+o exec osu; mode "default"
     bindsym $mod+r exec rofi -show run; mode "default"
     bindsym $mod+e exec --no-startup-id {{editor_gui}}; mode "default"
