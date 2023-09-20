@@ -334,21 +334,6 @@ mode "resize" {
     bindsym Escape mode "default"
 }
 
-bindsym $mod+y exec --no-startup-id setxkbmap -layout us; mode "keyboard"
-
-mode "keyboard" {
-    # volume controls
-    bindsym XF86AudioRaiseVolume $volume_up
-    bindsym XF86AudioLowerVolume $volume_down
-    bindsym XF86AudioMute $mute_toggle
-
-    # brightness controls
-    bindsym XF86MonBrightnessUp $brightness_up
-    bindsym XF86MonBrightnessDown $brightness_down
-
-    bindsym $mod+Escape exec --no-startup-id setxkbmap -layout {{xkb_layout}} -variant {{xkb_variant}}; mode "default"
-}
-
 bar {
     status_command i3status
     position top

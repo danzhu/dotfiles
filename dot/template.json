@@ -1,6 +1,11 @@
 {
   "autostart": ["udiskie", "transmission-daemon"],
-  "path": ["$HOME/bin", "$HOME/.local/bin", "$HOME/.config/emacs/bin"],
+  "path": [
+    "$HOME/bin",
+    "$HOME/.local/bin",
+    "$HOME/.config/emacs/bin",
+    "$HOME/.local/share/npm/bin"
+  ],
   "env": {
     "DOT": "$HOME/.dotfiles",
     "EDITOR": "emacs -nw",
