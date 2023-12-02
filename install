@@ -39,7 +39,7 @@ def copy(out: Path, src: str) -> None:
 @action
 def render(out: Path, src: str) -> None:
     templ = Template(Path(src))
-    Path(out).write_text(templ.format(TEMPL_DATA))
+    Path(out).write_text(templ.format(TEMPL_DATA), 'utf-8')
 
 
 @action
@@ -72,7 +72,7 @@ def main() -> None:
 
     # load past outputs from snapshot file
     try:
-        snap = SNAP.read_text()
+        snap = SNAP.read_text('utf-8')
     except FileNotFoundError:
         old_outs = set()
     else:
@@ -124,7 +124,7 @@ def main() -> None:
     # save outputs to snapshot file
     print(':: saving installation state')
     snap = json.dumps(sorted(map(str, new_outs)), indent=2)
-    SNAP.write_text(snap)
+    SNAP.write_text(snap, 'utf-8')
 
 
 if __name__ == '__main__':

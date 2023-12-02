@@ -164,7 +164,7 @@ class Parser:
 
 class Template:
     def __init__(self, path: Path) -> None:
-        templ = path.read_text()
+        templ = path.read_text('utf-8')
         parser = Parser(templ)
         self.root = parser.parse()
 
