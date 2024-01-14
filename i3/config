@@ -30,7 +30,7 @@ set $primary {{display_primary}}
 set $secondary {{display_secondary}}
 
 set $mpv_pane scratch:mpv
-set $screen_lock exec --no-startup-id i3lock -c 000000
+set $screen_lock exec --no-startup-id xset dpms force off; exec --no-startup-id i3lock -c 000000
 set $volume_down exec --no-startup-id pactl set-sink-volume @DEFAULT_SINK@ -2%
 set $volume_up exec --no-startup-id pactl set-sink-volume @DEFAULT_SINK@ +2%
 set $mute_toggle exec --no-startup-id pactl set-sink-mute @DEFAULT_SINK@ toggle
@@ -83,6 +83,7 @@ assign [class="^Thunderbird$"] workspace $ws5
 exec --no-startup-id thunderbird
 
 assign [class="^Steam$"] workspace $ws6
+assign [class="^ffxiv_dx11\.exe$"] workspace $ws6
 
 assign [class="^mpv$" instance="^tv$"] workspace $ws8
 assign [class="^qutebrowser$"] workspace $ws8
@@ -105,7 +106,7 @@ floating_modifier $mod
 # default_orientation auto
 # workspace_layout tabbed
 # title_align left
-# default_border pixel 1
+default_border normal 1
 # default_floating_border pixel 1
 hide_edge_borders smart_no_gaps
 # focus_follow_mouse yes
@@ -114,23 +115,24 @@ hide_edge_borders smart_no_gaps
 focus_wrapping workspace
 # workspace_auto_back_and_forth no
 # force_display_urgency_hint 500 ms
-focus_on_window_activation focus
+# focus_on_window_activation smart
 # show_marks yes
 
-# gaps inner 6
+# gaps inner 10
 # gaps outer 0
-# smart_gaps on
+smart_gaps on
 
 # rules
+for_window [all] title_window_icon yes
 # for_window [workspace="$ws1|$ws4"] layout tabbed
 # no_focus []
 
 # class                 border  bg      text    ind     child_border
-client.focused          $c00    $c00    $c12    $c00    $c12
-client.focused_inactive $c00    $c00    $cfg    $c00    $cfg
-client.unfocused        $c00    $c00    $c07    $c00    $c08
-client.urgent           $c00    $c00    $c09    $c00    $c09
-client.placeholder      $c00    $c00    $c03    $c00    $c03
+client.focused          $c12    $c00    $c12    $c00    $c12
+client.focused_inactive $c07    $c00    $cfg    $c00    $c07
+client.unfocused        $c08    $c00    $c07    $c00    $c08
+client.urgent           $c09    $c00    $c09    $c00    $c09
+client.placeholder      $c03    $c00    $c03    $c00    $c03
 
 client.background       $cbg
 
@@ -152,7 +154,7 @@ bindsym XF86AudioMute $mute_toggle
 # screen controls
 bindsym XF86MonBrightnessUp $brightness_up
 bindsym XF86MonBrightnessDown $brightness_down
-bindsym XF86ScreenSaver $screen_lock
+bindsym --release XF86ScreenSaver $screen_lock
 
 # playback controls
 bindsym XF86AudioPlay exec --no-startup-id tmux send-keys -t $mpv_pane 'p'
@@ -274,7 +276,7 @@ mode "system" {
     bindsym i exec --no-startup-id xinput --map-to-output 'HUION 420 Pen (0)' $primary; mode "default"
 
     # lock screen
-    bindsym l $screen_lock; mode "default"
+    bindsym --release l $screen_lock; mode "default"
 
     # reload the configuration file
     bindsym c reload; mode "default"

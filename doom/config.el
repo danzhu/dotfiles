@@ -63,16 +63,17 @@
 
 ;; doom
 (setq! +lookup-provider-url-alist '())
-(setq-hook! 'python-mode-hook +format-with-lsp nil)
-(setq-hook! 'typescript-mode-hook +format-with-lsp nil)
-(setq-hook! 'typescript-tsx-mode-hook +format-with-lsp nil)
-(setq-hook! 'js2-mode-hook +format-with-lsp nil)
-(setq-hook! 'yaml-mode-hook +format-with-lsp nil)
-(setq-hook! 'json-mode-hook +format-with-lsp nil)
+(dolist (hook '(;; python-mode-hook
+                typescript-mode-hook
+                typescript-tsx-mode-hook
+                js2-mode-hook
+                yaml-mode-hook
+                json-mode-hook))
+  (setq-hook! hook +format-with-lsp nil))
 
 ;; flycheck
-(after! flycheck-popup-tip
-  (setq! flycheck-popup-tip-error-prefix "- "))
+;; (after! flycheck-popup-tip
+;;   (setq! flycheck-popup-tip-error-prefix "- "))
 
 ;; company
 (setq! company-idle-delay 0.1)

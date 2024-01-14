@@ -76,7 +76,7 @@ case "$filename" in
         rustc -g "$filename" -o "$exe"
         ;;
     *.hs)
-        ghc -g "$filename" -o "$exe"
+        ghc -dynamic -g "$filename" -o "$exe"
         ;;
     *.idr)
         idris2 "$filename" -o "$exe"

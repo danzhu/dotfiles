@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-set -o errexit -o noclobber -o noglob -o nounset -o pipefail
+set -o noclobber -o noglob -o nounset -o pipefail
 IFS=$'\n'
 
 SCREENSHOT_PATH="$HOME/pictures/screenshot.png"
@@ -32,21 +32,25 @@ case "$cmd" in
         msg screenshot 'copied to clipboard'
         ;;
     exec)
-        link=$(xclip -selection clipboard -o)
+        IFS=$' \n' read -r -d '' -a links <<< "$(xclip -selection clipboard -o)"
 
-        case "$link" in
-            https://www.youtube.com/watch\?v=*|https://youtu.be/*|https://www.twitch.tv/*|/*.mpv)
+        case "${links[0]}" in
+            https://www.youtube.com/watch\?v=*|https://youtu.be/*|https://www.twitch.tv/*)
                 msg video
-                mpv "$link" || die "mpv failed"
+                mpv "${links[@]}" || die "mpv failed"
                 ;;
-            magnet:\?*|/*.torrent)
-                for url in $link; do
-                    res="$(transmission-remote -a "$url")" || die "$res"
+            magnet:\?*)
+                args=()
+                for link in "${links[@]}"; do
+                    # XXX: transmission manpage is wrong,
+                    # '--add' must be prepended to every link/file
+                    args+=(--add "$link")
                 done
-                msg magnet
+                res="$(transmission-remote "${args[@]}")" || die "$res"
+                msg magnet "downloading ${#links[@]} files"
                 ;;
             *)
-                die "unknown link '$link'"
+                die "unknown link '${links[0]}'"
                 ;;
         esac
         ;;
