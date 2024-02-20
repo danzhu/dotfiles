@@ -1,0 +1,33 @@
+[window]
+dynamic_padding = true
+resize_increments = true
+
+[font]
+size = {{font_size}}
+
+[colors]
+draw_bold_text_with_bright_colors = true
+
+[colors.primary]
+background = '0x{{background}}'
+foreground = '0x{{foreground}}'
+
+[colors.normal]
+black =   '0x{{black}}'
+red =     '0x{{red}}'
+green =   '0x{{green}}'
+yellow =  '0x{{yellow}}'
+blue =    '0x{{blue}}'
+magenta = '0x{{magenta}}'
+cyan =    '0x{{cyan}}'
+white =   '0x{{white}}'
+
+[colors.bright]
+black =   '0x{{light_black}}'
+red =     '0x{{light_red}}'
+green =   '0x{{light_green}}'
+yellow =  '0x{{light_yellow}}'
+blue =    '0x{{light_blue}}'
+magenta = '0x{{light_magenta}}'
+cyan =    '0x{{light_cyan}}'
+white =   '0x{{light_white}}'

@@ -68,13 +68,13 @@ exec {{browser_gui}}
 assign [class="^Tor Browser$"] workspace $ws1
 exec --no-startup-id torbrowser-launcher
 
-assign [title="^dev$"] workspace $ws2
-exec {{terminal}} -title dev {{ format terminal_run [ }}tmux new -As dev{{ ] }}
+assign [class="^dev$"] workspace $ws2
+exec --no-startup-id {{terminal}} --class dev {{ format terminal_run [ }}tmux new -As dev{{ ] }}
 assign [class="^Emacs$"] workspace $ws2
 exec --no-startup-id {{editor_gui}}
 
-assign [title="^file$"] workspace $ws3
-exec {{terminal}} -title file {{ format terminal_run [ }}tmux new -As file ranger{{ ] }}
+assign [class="^file$"] workspace $ws3
+exec --no-startup-id {{terminal}} --class file {{ format terminal_run [ }}tmux new -As file ranger{{ ] }}
 
 assign [class="^Element$"] workspace $ws4
 exec --no-startup-id element-desktop
@@ -89,8 +89,8 @@ assign [class="^mpv$" instance="^tv$"] workspace $ws8
 assign [class="^qutebrowser$"] workspace $ws8
 
 # auto scratchpad
-for_window [title="^scratch$"] move scratchpad
-exec {{terminal}} -title scratch {{ format terminal_run [ }}$HOME/.config/i3/scratch{{ ] }}
+for_window [class="^scratch$"] move scratchpad
+exec --no-startup-id {{terminal}} --class scratch {{ format terminal_run [ }}$HOME/.config/i3/scratch{{ ] }}
 
 # background
 exec --no-startup-id ~/.fehbg
@@ -180,7 +180,7 @@ bindsym --release Print exec --no-startup-id ~/.config/i3/clip screenshot root
 bindsym --release Shift+Print exec --no-startup-id ~/.config/i3/clip screenshot rect
 
 # commonly-used programs
-bindsym $mod+Return exec {{terminal}}
+bindsym $mod+Return exec --no-startup-id {{terminal}}
 bindsym $mod+d exec rofi -show drun -show-icons
 
 # change focus

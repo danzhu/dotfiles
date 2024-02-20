@@ -103,7 +103,7 @@
     "root": "/",
     "win": "/win"
   },
-  "terminal": "urxvt",
+  "terminal": "alacritty",
   "terminal_run": "-e {}",
   "window_manager": "i3",
   "editor_gui": "emacs",

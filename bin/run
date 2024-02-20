@@ -89,6 +89,9 @@ case "$filename" in
         cmd=(java "${filename%.*}")
         javac -g "$filename"
         ;;
+    *.go)
+        go build "$filename"
+        ;;
     *.py)
         cmd=(python "$filename")
         ;;
