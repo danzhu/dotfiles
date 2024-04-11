@@ -1,7 +1,9 @@
+local mp = require 'mp'
+
 local path = mp.command_native({ "expand-path", "~/pictures/mpv.png" })
 local mime = "image/png"
 
-function screenshot(args)
+local function screenshot(args)
   return function()
     mp.commandv("screenshot-to-file", path, unpack(args))
     local cmd = { "run", "xclip", "-selection", "clipboard", "-target", mime, path }

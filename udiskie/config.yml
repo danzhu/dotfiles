@@ -3,3 +3,4 @@ program_options:
   menu: flat
   automount: true
   notify: true
+  terminal: '{{terminal}} --working-directory'

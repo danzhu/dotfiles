@@ -31,3 +31,6 @@ blue =    '0x{{light_blue}}'
 magenta = '0x{{light_magenta}}'
 cyan =    '0x{{light_cyan}}'
 white =   '0x{{light_white}}'
+
+[hints]
+alphabet = "hutenosadigpc.r,l'"

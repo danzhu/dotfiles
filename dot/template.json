@@ -11,7 +11,7 @@
     "EDITOR": "emacs -nw",
     "VISUAL": "emacs -nw",
     "LESS": "R",
-    "TERMINAL": "urxvt",
+    "TERMINAL": "alacritty",
     "ALTERNATE_EDITOR": "",
     "QT_QPA_PLATFORMTHEME": "qt5ct",
     "GTK_IM_MODULE": "fcitx",
