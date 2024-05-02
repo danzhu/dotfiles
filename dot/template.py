@@ -55,14 +55,20 @@ class Text(Node):
 
 
 class Expr(Node):
-    def __init__(self, key: str) -> None:
+    def __init__(self, key: str, fmt: str | None = None) -> None:
         self.key = key
+        self.fmt = fmt
 
     def format(self, data: Dict[str, object]) -> Iterator[str]:
         val = data[self.key]
         if not isinstance(val, str):
             raise TypeError(f'expected string for key {self.key},'
                             f' got {type(val)}')
+        if self.fmt == "rgb":
+            if len(val) != 6:
+                raise ValueError(f'expected rrggbb for key {self.key},'
+                                 f' got {val!r}')
+            val = ','.join(str(int(val[i:i + 2], 16)) for i in range(0, 6, 2))
         yield val
 
 
@@ -153,10 +159,7 @@ class Parser:
             cls = STATEMENTS[name]
             node = cls(blocks)
         else:
-            if len(self.segs) != 1:
-                raise SyntaxError('multi-segment expr not allowed')
-            expr = self.segs[0]
-            node = Expr(expr)
+            node = Expr(*self.segs)
         self._next()
         succ = self.parse()
         return Join(text, Join(node, succ))

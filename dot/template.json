@@ -24,6 +24,7 @@
     "XDG_CACHE_HOME": "$HOME/.cache",
     "XDG_DATA_HOME": "$HOME/.local/share",
     "CARGO_HOME": "$XDG_DATA_HOME/cargo",
+    "GHCUP_USE_XDG_DIRS": "1",
     "GOPATH": "$XDG_DATA_HOME/go",
     "INPUTRC": "$XDG_CONFIG_HOME/readline/inputrc",
     "NPM_CONFIG_USERCONFIG": "$XDG_CONFIG_HOME/npm/npmrc",

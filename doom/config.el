@@ -130,6 +130,16 @@
 (setq! lsp-diagnostics-attributes
        `((unnecessary :inherit 'font-lock-comment-face)
          (deprecated  :strike-through t)))
+(after! lsp-haskell
+  (setq! lsp-haskell-formatting-provider "fourmolu"
+         lsp-haskell-plugin-stan-global-on nil))
+
+;; tree-sitter
+;; https://github.com/emacs-tree-sitter/elisp-tree-sitter/issues/155
+(define-advice tree-sitter-langs--hl-query-path
+    (:before-until (lang-symbol &optional mode) override-default-patterns)
+  (pcase lang-symbol
+    ('haskell "~/.dotfiles/doom/tree-sitter/haskell.scm")))
 
 ;; tabs
 ;; (setq! centaur-tabs-set-bar 'over)

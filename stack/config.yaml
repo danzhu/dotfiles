@@ -13,6 +13,7 @@ templates:
     github-username: {{github}}
 recommend-stack-upgrade: false
 # system-ghc: true
+install-ghc: false
 # allow-newer: true
 ghc-options:
   "$locals": -Wall -Wextra

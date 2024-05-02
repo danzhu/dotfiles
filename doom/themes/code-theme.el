@@ -86,29 +86,44 @@
   (font-lock-keyword-face (:foreground light-blue))
   (font-lock-builtin-face (:foreground magenta))
   (font-lock-function-name-face (:foreground light-magenta))
+  ;; (font-lock-function-call-face ())
   (font-lock-variable-name-face (:foreground light-red))
+  ;; (font-lock-variable-use-face ())
   (font-lock-type-face (:foreground cyan))
   (font-lock-constant-face (:foreground green))
-
   ;; (font-lock-warning-face (:foreground red))
   ;; (font-lock-negation-char-face (:foreground light-white :bold t))
   (font-lock-preprocessor-face (:foreground blue))
   ;; (font-lock-regexp-grouping-backslash ())
   ;; (font-lock-regexp-grouping-construct ())
+  ;; (font-lock-escape-face ())
+  (font-lock-number-face (:inherit 'font-lock-constant-face))
+  (font-lock-operator-face (:inherit 'font-lock-keyword-face))
+  (font-lock-property-name-face (:foreground light-yellow))
+  ;; (font-lock-property-use-face ())
+  (font-lock-punctuation-face (:foreground fg))
+  ;; (font-lock-bracket-face ())
+  ;; (font-lock-delimiter-face ())
+  ;; (font-lock-misc-punctuation-face ())
 
   ;; tree-sitter
-  (tree-sitter-hl-face:function.call (:inherit 'tree-sitter-hl-face:function))
+  (tree-sitter-hl-face:function.call (:inherit 'font-lock-function-call-face))
   (tree-sitter-hl-face:function.builtin (:inherit 'tree-sitter-hl-face:function.call))
 
+  (tree-sitter-hl-face:type.argument (:foreground light-green))
   (tree-sitter-hl-face:type.builtin (:inherit 'tree-sitter-hl-face:type))
+  ;; (tree-sitter-hl-face:constructor (:inherit 'tree-sitter-hl-face:type :bold t))
 
-  (tree-sitter-hl-face:property ())
-  (tree-sitter-hl-face:property.definition ())
+  (tree-sitter-hl-face:property (:inherit 'font-lock-property-use-face))
+  (tree-sitter-hl-face:property.definition (:inherit 'font-lock-property-name-face))
 
-  ;; (tree-sitter-hl-face:operator (:inherit 'tree-sitter-hl-face:function.call))
+  (tree-sitter-hl-face:operator (:inherit 'font-lock-operator-face))
   (tree-sitter-hl-face:constant.builtin (:inherit 'tree-sitter-hl-face:constant))
+  (tree-sitter-hl-face:number (:inherit 'font-lock-number-face))
 
-  (tree-sitter-hl-face:noise (:foreground white))
+  (tree-sitter-hl-face:punctuation (:inherit 'font-lock-punctuation-face))
+  (tree-sitter-hl-face:punctuation.bracket (:inherit 'font-lock-bracket-face))
+  (tree-sitter-hl-face:punctuation.delimiter (:inherit 'font-lock-delimiter-face))
 
   ;; customize
   (custom-variable-tag (:foreground light-cyan :bold t))

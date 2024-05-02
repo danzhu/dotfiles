@@ -534,10 +534,10 @@ elseif has('nvim') " Neovim
     " tnoremap <Esc> <C-\><C-n>
 
     " Cursor styling
-    set guicursor=n-v-c-sm:block
-                \,i-ci-ve:ver25
-                \,r-cr-o:hor20
-                \,a:blinkon500-blinkoff500
+    " set guicursor=n-v-c-sm:block
+    "             \,i-ci-ve:ver25
+    "             \,r-cr-o:hor20
+    "             \,a:blinkon500-blinkoff500
 elseif has('win32') " Windows
     " ignore terminal escape sequences
 elseif &term=~'linux' " Linux Console
