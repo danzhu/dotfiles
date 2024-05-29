@@ -79,7 +79,7 @@ exec --no-startup-id {{terminal}} --class file {{ format terminal_run [ }}tmux n
 assign [class="^Element$"] workspace $ws4
 exec --no-startup-id element-desktop
 
-assign [class="^Thunderbird$"] workspace $ws5
+assign [class="^thunderbird$"] workspace $ws5
 exec --no-startup-id thunderbird
 
 assign [class="^Steam$"] workspace $ws6
@@ -117,6 +117,7 @@ focus_wrapping workspace
 # force_display_urgency_hint 500 ms
 # focus_on_window_activation smart
 # show_marks yes
+tiling_drag modifier titlebar
 
 # gaps inner 10
 # gaps outer 0

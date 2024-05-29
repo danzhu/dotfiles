@@ -518,7 +518,9 @@ if has('gui_running') " GUI
     set guioptions-=T                   " toolbar
     set guioptions-=e                   " tabline
 
-    set guiheadroom=0                   " don't leave space for gui
+    if !has('nvim')
+        set guiheadroom=0               " don't leave space for gui
+    endif
     set linespace=0                     " no space between lines
 
     if has('win32')
@@ -527,6 +529,8 @@ if has('gui_running') " GUI
 
         set lines=50                    " height
         set columns=160                 " width
+    elseif has('nvim')
+        set guifont=Monospace:h{{font_size}}
     else
         set guifont=Monospace\ {{font_size}}
     endif
