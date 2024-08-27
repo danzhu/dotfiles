@@ -93,6 +93,9 @@ Plug 'tpope/vim-commentary'
 
 Plug 'tpope/vim-surround'
 
+Map! n s <Plug>Ysurround
+Map! x s <Plug>VSurround
+
 Plug 'jiangmiao/auto-pairs'
 
 Plug 'tpope/vim-endwise'

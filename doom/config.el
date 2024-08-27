@@ -155,6 +155,9 @@
 (add-to-list 'auto-mode-alist '("\\.in\\'" . text-mode))
 (add-to-list 'auto-mode-alist '("\\.out\\'" . text-mode))
 
+(setq-hook! 'sql-mode-hook
+  sql-product 'sqlite)
+
 ;; interactive functions
 (defun +sort-words ()
   "Sort words in region."

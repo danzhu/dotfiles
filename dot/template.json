@@ -81,6 +81,7 @@
     "gmu": "git merge --ff-only @{upstream}",
     "gr": "git reset",
     "gl": "git log --graph",
+    "gla": "git log --graph --all",
     "glu": "git log --graph @{upstream}",
     "grt": "git rev-parse --show-toplevel",
     "gcl": "git clone",
