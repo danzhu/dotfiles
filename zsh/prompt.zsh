@@ -2,7 +2,7 @@ function prompt-grab() {
     echo "$1" | sed -nE "s/^$2\$/\\1/p"
 }
 
-function prompt-diverge() {
+function prompt-header() {
     local count="$(prompt-grab "$1" "$2")"
     if [[ $count -ne 0 ]]; then
         print -nP " $3$count%f"
@@ -67,15 +67,15 @@ function prompt-precmd() {
 
     # git prompt
     local gs
-    if gs="$(git status --porcelain=v2 --branch --untracked-files=all \
-            2> /dev/null)"; then
+    if gs="$(git status --porcelain=v2 --branch --show-stash \
+            --untracked-files=all 2> /dev/null)"; then
         local branch="$(prompt-grab "$gs" '# branch\.head (.*)')"
 
         print -nP ' %K '
 
         if [[ "$branch" = '(detached)' ]]; then
             # detached head
-            branch="$(git describe --contains --all HEAD)"
+            branch="$(git describe --contains --all --always)"
             print -nP '%3F'
         elif [[ -f "$(git rev-parse --git-dir)/MERGE_HEAD" ]]; then
             # merging
@@ -96,9 +96,9 @@ function prompt-precmd() {
         fi
 
         # ahead
-        prompt-diverge "$gs" '# branch\.ab \+(.*) -.*' '%2FA'
+        prompt-header "$gs" '# branch\.ab \+(.*) -.*' '%2FA'
         # behind
-        prompt-diverge "$gs" '# branch\.ab \+.* -(.*)' '%3FB'
+        prompt-header "$gs" '# branch\.ab \+.* -(.*)' '%3FB'
 
         print -nP ' %k'
 
@@ -112,10 +112,7 @@ function prompt-precmd() {
         prompt-count "$gs" '^\?' '%4F?'
 
         # stashes
-        local stash="$(git stash list | wc -l)"
-        if [[ $stash -ne 0 ]]; then
-            print -nP " %5F&$stash%f"
-        fi
+        prompt-header "$gs" '# stash (.*)' '%5F&'
     fi
 
     print -P '%b'
