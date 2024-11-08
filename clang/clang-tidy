@@ -1,10 +1,14 @@
 # -*- mode: yaml -*-
 ---
 Checks: >-
-  clang-diagnostic-*,
-  clang-analyzer-*,
   bugprone-*,
+  cert-*,
+  clang-analyzer-*,
+  clang-diagnostic-*,
   concurrency-*,
+  cppcoreguidelines-*,
+  google-*,
+  misc-*,
   modernize-*,
   performance-*,
   portability-*,

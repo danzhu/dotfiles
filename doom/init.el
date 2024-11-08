@@ -21,8 +21,8 @@
        ;;layout            ; auie,ctsrnm is the superior home row
 
        :completion
-       company           ; the ultimate code completion backend
-       ;;(corfu +orderless)  ; complete with cap(f), cape and a flying feather!
+       ;;company           ; the ultimate code completion backend
+       (corfu +icons +orderless)  ; complete with cap(f), cape and a flying feather!
        ;;helm              ; the *other* search engine for love and life
        ;;ido               ; the other *other* search engine...
        ;;ivy               ; a search engine for love and life
@@ -67,7 +67,7 @@
        word-wrap         ; soft wrapping with language-aware indent
 
        :emacs
-       (dired +ranger)   ; making dired pretty [functional]
+       (dired +dirvish +icons)   ; making dired pretty [functional]
        electric          ; smarter, keyword-based electric-indent
        ;;ibuffer           ; interactive buffer management
        (undo +tree)      ; persistent, smarter undo for your inevitable mistakes
@@ -154,6 +154,7 @@
        org               ; organize your plain life in plain text
        ;;php               ; perl's insecure younger brother
        ;;plantuml          ; diagrams for confusing people more
+       graphviz          ; diagrams for confusing yourself even more
        (purescript +lsp) ; javascript, but functional
        (python +lsp +tree-sitter +pyright) ; beautiful is better than ugly
        ;;qt                ; the 'cutest' gui framework ever

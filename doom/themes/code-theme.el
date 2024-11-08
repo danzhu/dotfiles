@@ -74,7 +74,7 @@
   (mode-line-emphasis (:foreground light-green))
 
   ;; header line
-  (header-line (:inherit 'mode-line :underline t))
+  (header-line (:inherit 'mode-line))
   (header-line-highlight (:inherit 'highlight))
 
   ;; font lock
@@ -232,20 +232,17 @@
   (powerline-inactive2 (:foreground white :background bg))
 
   ;; git gutter
-  (git-gutter:added (:foreground green))
-  (git-gutter:modified (:foreground yellow))
-  (git-gutter:deleted (:foreground red))
-  (git-gutter:unchanged (:background black))
-  (git-gutter:separator (:foreground black))
+  (diff-hl-insert (:foreground green))
+  (diff-hl-change (:foreground yellow))
+  (diff-hl-delete (:foreground red))
 
-  ;; git gutter fringe
-  (git-gutter-fr:deleted (:inherit ('git-gutter:deleted 'fringe)))
-  (git-gutter-fr:added (:inherit ('git-gutter:added 'fringe)))
-  (git-gutter-fr:modified (:inherit ('git-gutter:modified 'fringe)))
-
-  ;; highlight indentation
-  (highlight-indentation-current-column-face (:background light-black))
-  (highlight-indentation-face (:background black))
+  ;; highlight indent guides
+  (highlight-indent-guides-odd-face (:background black))
+  (highlight-indent-guides-even-face (:background black))
+  (highlight-indent-guides-character-face (:foreground black))
+  (highlight-indent-guides-top-odd-face (:background light-black))
+  (highlight-indent-guides-top-even-face (:background light-black))
+  (highlight-indent-guides-top-character-face (:foreground light-black))
 
   ;; popup
   (popup-face (:inherit 'tooltip))
@@ -278,6 +275,11 @@
   (company-tooltip-common-selection (:inherit 'company-tooltip-common))
   (company-tooltip-search-selection (:inherit 'company-tooltip-search))
   (company-tooltip-annotation-selection (:inherit 'company-tooltip-annotation))
+
+  ;; corfu
+  (corfu-bar (:background white))
+  (corfu-current (:background bg))
+  (corfu-default (:background black))
 
   ;; flycheck
   (flycheck-info (:underline (:style 'line :color light-blue)))
