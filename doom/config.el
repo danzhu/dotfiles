@@ -115,7 +115,7 @@
         "M-p" nil))
 
 ;; corfu
-(setq! +corfu-want-ret-to-confirm nil)
+(setq! +corfu-want-ret-to-confirm 'both)
 (after! corfu
   (map! :map corfu-map
         "C-e" #'corfu-insert))

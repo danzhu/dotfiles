@@ -42,12 +42,12 @@ set $ws0 0:tmp
 set $ws1 1:web
 set $ws2 2:dev
 set $ws3 3:dir
-set $ws4 4:com
-set $ws5 5:mai
+set $ws4 4:mis
+set $ws5 5:mng
 set $ws6 6:gam
-set $ws7 7:aud
-set $ws8 8:ext
-set $ws9 9:alt
+set $ws7 7:pro
+set $ws8 8:com
+set $ws9 9:vid
 
 
 # === workspace ===
@@ -57,7 +57,7 @@ workspace "$ws3" output $primary
 workspace "$ws4" output $primary
 workspace "$ws5" output $primary
 workspace "$ws6" output $primary
-workspace "$ws7" output $primary
+workspace "$ws7" output $secondary $primary
 workspace "$ws8" output $secondary $primary
 workspace "$ws9" output $secondary $primary
 
@@ -68,6 +68,9 @@ exec {{browser_gui}}
 assign [class="^Tor Browser$"] workspace $ws1
 exec --no-startup-id torbrowser-launcher
 
+assign [class="^thunderbird$"] workspace $ws1
+exec --no-startup-id thunderbird
+
 assign [class="^dev$"] workspace $ws2
 exec --no-startup-id {{terminal}} --class dev {{ format terminal_run [ }}tmux new -As dev{{ ] }}
 assign [class="^Emacs$"] workspace $ws2
@@ -76,17 +79,15 @@ exec --no-startup-id {{editor_gui}}
 assign [class="^file$"] workspace $ws3
 exec --no-startup-id {{terminal}} --class file {{ format terminal_run [ }}tmux new -As file ranger{{ ] }}
 
-assign [class="^Element$"] workspace $ws4
-exec --no-startup-id element-desktop
+assign [class="^steam$"] workspace $ws5
 
-assign [class="^thunderbird$"] workspace $ws5
-exec --no-startup-id thunderbird
-
-assign [class="^Steam$"] workspace $ws6
 assign [class="^ffxiv_dx11\.exe$"] workspace $ws6
 
-assign [class="^mpv$" instance="^tv$"] workspace $ws8
-assign [class="^qutebrowser$"] workspace $ws8
+assign [class="^Element$"] workspace $ws8
+exec --no-startup-id element-desktop
+
+assign [class="^mpv$" instance="^tv$"] workspace $ws9
+assign [class="^qutebrowser$"] workspace $ws9
 
 # auto scratchpad
 for_window [class="^scratch$"] move scratchpad
