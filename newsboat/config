@@ -2,17 +2,29 @@
 auto-reload yes
 browser {{browser_gui}}
 confirm-exit yes
+datetime-format "%b %d %Y"
+ignore-mode "display"
 prepopulate-query-feeds yes
 reload-threads 4
-reload-time 10
+# reload-time 10
+scrolloff 5
 
 # notification
-notify-format "%n unread articles"
+notify-format "%d new (%n unread)"
 notify-program "~/.config/newsboat/notify"
+
+# killfiles
+ignore-article "regex:https://twitchrss\\.appspot\\.com/vod/.*" "title =~ \"- LIVE$\""
 
 # key binds
 bind-key j down
 bind-key k up
+bind-key d halfpagedown
+bind-key u halfpageup
+bind-key g home
+bind-key G end
+bind-key h quit
+bind-key l open
 
 # color
 color info color12 black

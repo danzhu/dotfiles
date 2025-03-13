@@ -15,9 +15,19 @@
 	branch = true
 [diff]
 	tool = emerge
+	algorithm = histogram
+	colorMoved = true
+	mnemonicPrefix = true
 	renames = copies
+[merge]
+	conflictStyle = zdiff3
+[fetch]
+	prune = true
+	pruneTags = true
 [pull]
 	ff = only
+[push]
+	autoSetupRemote = true
 [log]
 	abbrevCommit = true
 	decorate = short
