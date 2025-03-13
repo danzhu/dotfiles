@@ -1,38 +1,35 @@
 #!/usr/bin/env python3
 
-from typing import (
-    Callable, Dict, Iterable, Iterator, List, Sequence, TypeVar,
-)
-from pathlib import Path
 import re
 import shlex
-
-SRC_DIR = Path(__file__).parent.resolve(strict=True)
-DOT_DIR = SRC_DIR.parent
-DATA = DOT_DIR / 'template.json'
+from collections.abc import Callable, Iterable, Iterator, Sequence
+from pathlib import Path
+from typing import TypeVar
 
 
 class Node:
-    def format(self, data: Dict[str, object]) -> Iterator[str]:
-        raise NotImplementedError()
+    def format(self, data: dict[str, object]) -> Iterator[str]:
+        del data
+        raise NotImplementedError
 
 
 class Block:
-    def __init__(self, segs: List[str], node: Node) -> None:
+    def __init__(self, segs: list[str], node: Node) -> None:
         self.segs = segs
         self.node = node
 
 
-Blocks = List[Block]
+Blocks = list[Block]
 StmtCtor = Callable[[Blocks], Node]
-STATEMENTS: Dict[str, StmtCtor] = {}
-T = TypeVar('T', bound=StmtCtor)
+STATEMENTS: dict[str, StmtCtor] = {}
+T = TypeVar("T", bound=StmtCtor)
 
 
 def statement(name: str) -> Callable[[T], T]:
     def dec(cls: T) -> T:
         STATEMENTS[name] = cls
         return cls
+
     return dec
 
 
@@ -41,7 +38,7 @@ class Join(Node):
         self.left = left
         self.right = right
 
-    def format(self, data: Dict[str, object]) -> Iterator[str]:
+    def format(self, data: dict[str, object]) -> Iterator[str]:
         yield from self.left.format(data)
         yield from self.right.format(data)
 
@@ -50,7 +47,8 @@ class Text(Node):
     def __init__(self, text: str) -> None:
         self.text = text
 
-    def format(self, data: Dict[str, object]) -> Iterator[str]:
+    def format(self, data: dict[str, object]) -> Iterator[str]:
+        del data
         yield self.text
 
 
@@ -59,27 +57,25 @@ class Expr(Node):
         self.key = key
         self.fmt = fmt
 
-    def format(self, data: Dict[str, object]) -> Iterator[str]:
+    def format(self, data: dict[str, object]) -> Iterator[str]:
         val = data[self.key]
         if not isinstance(val, str):
-            raise TypeError(f'expected string for key {self.key},'
-                            f' got {type(val)}')
+            raise TypeError(f"expected string for key {self.key}, got {type(val)}")
         if self.fmt == "rgb":
             if len(val) != 6:
-                raise ValueError(f'expected rrggbb for key {self.key},'
-                                 f' got {val!r}')
-            val = ','.join(str(int(val[i:i + 2], 16)) for i in range(0, 6, 2))
+                raise ValueError(f"expected rrggbb for key {self.key}, got {val!r}")
+            val = ",".join(str(int(val[i : i + 2], 16)) for i in range(0, 6, 2))
         yield val
 
 
-@statement('for')
+@statement("for")
 class For(Node):
     def __init__(self, blocks: Blocks) -> None:
         [block] = blocks
         _, self.key, *self.vrs = block.segs
         self.body = block.node
 
-    def format(self, data: Dict[str, object]) -> Iterator[str]:
+    def format(self, data: dict[str, object]) -> Iterator[str]:
         container = data[self.key]
         items: Iterable[Sequence[object]]
         if isinstance(container, list):
@@ -87,53 +83,52 @@ class For(Node):
         elif isinstance(container, dict):
             items = container.items()
         else:
-            raise TypeError(f'expected list or dict for key {self.key},'
-                            f' got {type(container)}')
+            raise TypeError(
+                f"expected list or dict for key {self.key}, got {type(container)}"
+            )
         for item in items:
             if len(self.vrs) != len(item):
-                raise TypeError(f'length mismatch for vars {self.vrs}')
-            sub_data = dict(data, **dict(zip(self.vrs, item)))
+                raise TypeError(f"length mismatch for vars {self.vrs}")
+            sub_data = dict(data, **dict(zip(self.vrs, item, strict=True)))
             yield from self.body.format(sub_data)
 
 
-@statement('format')
+@statement("format")
 class Format(Node):
     def __init__(self, blocks: Blocks) -> None:
         [block] = blocks
         _, self.key = block.segs
         self.arg = block.node
 
-    def format(self, data: Dict[str, object]) -> Iterator[str]:
+    def format(self, data: dict[str, object]) -> Iterator[str]:
         fmt = data[self.key]
         if not isinstance(fmt, str):
-            raise TypeError(f'expected string for key {self.key},'
-                            f' got {type(fmt)}')
-        arg = ''.join(self.arg.format(data))
+            raise TypeError(f"expected string for key {self.key}, got {type(fmt)}")
+        arg = "".join(self.arg.format(data))
         yield fmt.format(arg)
 
 
 class Parser:
-    TEMPL_RE = re.compile(r'\{\{(.*?)\}\}|^[ \t]*%%(.*)\n', re.MULTILINE)
+    TEMPL_RE = re.compile(r"\{\{(.*?)\}\}|^[ \t]*%%(.*)\n", re.MULTILINE)
 
     def __init__(self, templ: str) -> None:
         self._rest = templ
         self._next()
 
-    def _next(self):
-        segs = [s for s in self.TEMPL_RE.split(self._rest, maxsplit=1)
-                if s is not None]
+    def _next(self) -> None:
+        segs = [s for s in self.TEMPL_RE.split(self._rest, maxsplit=1) if s is not None]
         if len(segs) == 1:
             self.text = segs[0]
-            self._rest = ''
+            self._rest = ""
             self.segs = None
             self.opening = self.closing = False
         else:
             self.text, line, self._rest = segs
             self.segs = shlex.split(line)
             if len(self.segs) == 0:
-                raise SyntaxError('empty expr')
-            self.opening = self.segs[-1] == '['
-            self.closing = self.segs[0] == ']'
+                raise SyntaxError("empty expr")
+            self.opening = self.segs[-1] == "["
+            self.closing = self.segs[0] == "]"
             if self.opening:
                 self.segs.pop()
             if self.closing:
@@ -151,8 +146,7 @@ class Parser:
                 body = self.parse()
                 blocks.append(Block(stmt, body))
                 if not self.closing:
-                    raise SyntaxError('missing closing bracket at '
-                                      f'{self.segs}')
+                    raise SyntaxError(f"missing closing bracket at {self.segs}")
                 if not self.opening:
                     break
             name = blocks[0].segs[0]
@@ -167,9 +161,9 @@ class Parser:
 
 class Template:
     def __init__(self, path: Path) -> None:
-        templ = path.read_text('utf-8')
+        templ = path.read_text("utf-8")
         parser = Parser(templ)
         self.root = parser.parse()
 
-    def format(self, data: Dict[str, object]) -> str:
-        return ''.join(self.root.format(data))
+    def format(self, data: dict[str, object]) -> str:
+        return "".join(self.root.format(data))

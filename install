@@ -1,28 +1,30 @@
 #!/usr/bin/env python3
 
-from dot.template import Template
-from pathlib import Path
-from typing import Callable, TypeVar
-from urllib import request
 import json
 import os
 import shlex
 import shutil
 import subprocess
+from collections.abc import Callable
+from pathlib import Path
+from typing import TypeVar
+from urllib import request
 
-T = TypeVar('T', bound=Callable[..., None])
+from dot.template import Template
+
+T = TypeVar("T", bound=Callable[..., None])
 
 NETWORK = False
 DOT_DIR = Path(__file__).parent.resolve(strict=True)
-LIB_DIR = DOT_DIR / 'dot'
-CONF = LIB_DIR / 'install.conf'
-SNAP = LIB_DIR / '.snapshot.json'
-DATA = LIB_DIR / 'template.json'
-with DATA.open() as f:
+LIB_DIR = DOT_DIR / "dot"
+CONF = LIB_DIR / "install.conf"
+SNAP = LIB_DIR / ".snapshot.json"
+DATA = LIB_DIR / "template.json"
+with DATA.open(encoding="utf-8") as f:
     TEMPL_DATA = json.load(f)
 
 
-ACTIONS = {}
+ACTIONS: dict[str, Callable[..., None]] = {}
 
 
 def action(f: T) -> T:
@@ -39,7 +41,7 @@ def copy(out: Path, src: str) -> None:
 @action
 def render(out: Path, src: str) -> None:
     templ = Template(Path(src))
-    Path(out).write_text(templ.format(TEMPL_DATA), 'utf-8')
+    Path(out).write_text(templ.format(TEMPL_DATA), "utf-8")
 
 
 @action
@@ -51,20 +53,20 @@ def fetch(out: Path, url: str) -> None:
 @action
 def clone(out: Path, url: str) -> None:
     if not out.exists():
-        subprocess.run(['git', 'clone', url, out], check=True)
+        subprocess.run(["git", "clone", url, out], check=True)
     elif NETWORK:
-        subprocess.run(['git', 'pull', url], cwd=out, check=True)
+        subprocess.run(["git", "pull", url], cwd=out, check=True)
 
 
 def main() -> None:
     os.chdir(DOT_DIR)
 
     # load tasks from config file
-    tasks = {}
-    with CONF.open() as f:
+    tasks: dict[Path, list[str]] = {}
+    with CONF.open(encoding="utf-8") as f:
         for line in f:
             line = line.strip()
-            if line == '' or line.startswith('#'):
+            if line == "" or line.startswith("#"):
                 continue
             key, _, *val = shlex.split(line)
             tasks[Path(key)] = val
@@ -72,41 +74,40 @@ def main() -> None:
 
     # load past outputs from snapshot file
     try:
-        snap = SNAP.read_text('utf-8')
+        snap = SNAP.read_text("utf-8")
     except FileNotFoundError:
-        old_outs = set()
+        old_outs: set[Path] = set()
     else:
         old_outs = set(map(Path, json.loads(snap)))
 
     confirm = False
 
     # check overwrites
-    overwrites = sorted(out for out in new_outs - old_outs
-                        if out.expanduser().exists())
+    overwrites = sorted(out for out in new_outs - old_outs if out.expanduser().exists())
     if len(overwrites) > 0:
         confirm = True
-        print('these files will be overwritten:')
+        print("these files will be overwritten:")
         for out in overwrites:
-            print(f' {out}')
+            print(f" {out}")
 
     # check excessive files
     excessive = old_outs - new_outs
     if len(excessive) > 0:
         confirm = True
-        print('these files will be removed:')
+        print("these files will be removed:")
         for out in excessive:
-            print(f' {out}')
+            print(f" {out}")
 
-    if confirm and input('continue? [y/N] ') != 'y':
+    if confirm and input("continue? [y/N] ") != "y":
         return
 
     if len(excessive) > 0:
-        print(':: removing excessive files')
+        print(":: removing excessive files")
         for out in excessive:
-            print(f' {out}')
+            print(f" {out}")
             out = out.expanduser()
             if not out.exists():
-                print(f' skipping {out}')
+                print(f" skipping {out}")
                 continue
             if not out.is_symlink() and out.is_dir():
                 shutil.rmtree(out)
@@ -114,18 +115,18 @@ def main() -> None:
                 out.unlink()
 
     # execute tasks
-    print(':: updating target files')
+    print(":: updating target files")
     for out, [cmd, *args] in tasks.items():
-        print(f' {out}')
+        print(f" {out}")
         out = out.expanduser()
         out.parent.mkdir(parents=True, exist_ok=True)
         ACTIONS[cmd](out, *args)
 
     # save outputs to snapshot file
-    print(':: saving installation state')
+    print(":: saving installation state")
     snap = json.dumps(sorted(map(str, new_outs)), indent=2)
-    SNAP.write_text(snap, 'utf-8')
+    SNAP.write_text(snap, "utf-8")
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     main()
