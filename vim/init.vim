@@ -20,8 +20,8 @@ if has('nvim')
     let $VIMDIR = $CONFIG . '/nvim'
     let $VIMRC = $VIMDIR . '/init.vim'
 else
-    let $VIMDIR = expand('~/.vim')
-    let $VIMRC = expand('~/.vimrc')
+    let $VIMDIR = $CONFIG . '/vim'
+    let $VIMRC = $VIMDIR . '/vimrc'
 endif
 " }}}
 " }}}
