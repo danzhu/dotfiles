@@ -96,12 +96,6 @@
     "+x": "chmod +x",
     "-x": "chmod -x"
   },
-  "ssh": {
-    "se": {
-      "Hostname": "ubuntu1604-006.student.cs.uwaterloo.ca",
-      "User": "h94zhu"
-    }
-  },
   "partition": {
     "root": "/",
     "win": "/win",

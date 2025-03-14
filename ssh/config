@@ -1,9 +1,4 @@
+Include config.local
+
 Host *
     ServerAliveInterval 60
-%% for ssh host info [
-
-Host {{host}}
-    %% for info key val [
-    {{key}} {{val}}
-    %% ]
-%% ]
