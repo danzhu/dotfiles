@@ -113,6 +113,11 @@ def main() -> None:
                 shutil.rmtree(out)
             else:
                 out.unlink()
+            # remove empty parent directories
+            parent = out.parent
+            while not any(parent.iterdir()):
+                parent.rmdir()
+                parent = parent.parent
 
     # execute tasks
     print(":: updating target files")
