@@ -85,13 +85,13 @@
 
 ;; doom
 (setq! +lookup-provider-url-alist '())
-(dolist (hook '(;; python-mode-hook
-                typescript-mode-hook
-                typescript-tsx-mode-hook
-                js2-mode-hook
-                yaml-mode-hook
-                json-mode-hook))
-  (setq-hook! hook +format-with-lsp nil))
+;; (dolist (hook '(;; python-mode-hook
+;;                 typescript-mode-hook
+;;                 typescript-tsx-mode-hook
+;;                 js2-mode-hook
+;;                 yaml-mode-hook
+;;                 json-mode-hook))
+;;   (setq-hook! hook +format-with-lsp nil))
 
 ;; indent-guides
 (setq! highlight-indent-guides-auto-enabled nil
@@ -173,8 +173,8 @@
          `((unnecessary :inherit 'font-lock-comment-face)
            (deprecated  :strike-through t))))
 (after! lsp-haskell
-  (setq! lsp-haskell-formatting-provider "fourmolu"
-         lsp-haskell-plugin-stan-global-on nil))
+  (setq! lsp-haskell-plugin-stan-global-on nil))
+(setq! lsp-pyright-multi-root nil)
 
 ;; tree-sitter
 ;; https://github.com/emacs-tree-sitter/elisp-tree-sitter/issues/155
@@ -196,6 +196,9 @@
 ;; lang modes
 (add-to-list 'auto-mode-alist '("\\.in\\'" . text-mode))
 (add-to-list 'auto-mode-alist '("\\.out\\'" . text-mode))
+
+(setq-hook! 'haskell-mode-hook
+  +format-with 'ormolu)
 
 (setq-hook! 'sql-mode-hook
   sql-product 'sqlite)
