@@ -1,5 +1,8 @@
 # state
 /dot/.snapshot.json
+*.db
+*.db-shm
+*.db-wal
 
 # python
 __pycache__/

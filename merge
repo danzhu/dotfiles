@@ -1,0 +1,330 @@
+#!/usr/bin/env python3
+
+import argparse
+import difflib
+import hashlib
+import os
+import re
+import shlex
+import sqlite3
+import subprocess
+from collections.abc import Iterable, Sequence
+from contextlib import closing
+from dataclasses import dataclass
+from pathlib import Path
+from tempfile import TemporaryDirectory
+
+DOT_DIR = Path(__file__).parent.resolve(strict=True)
+LIB_DIR = DOT_DIR / "dot"
+CONF = LIB_DIR / "merge.conf"
+DB_PATH = LIB_DIR / "state.db"
+DB_VERSION = 1
+DB_SCHEMA = """
+CREATE TABLE merge(
+    id INTEGER PRIMARY KEY,
+    path TEXT NOT NULL UNIQUE,
+    upstream BLOB NOT NULL
+) STRICT;
+"""
+SECTION_RE = re.compile(r"\[.*]")
+EDITOR = shlex.split(os.environ["EDITOR"])
+
+
+@dataclass
+class Entry:
+    path: Path
+    upstream: bytes | None
+
+
+def diff(path: Path, current: str, upstream: str) -> None:
+    for line in difflib.unified_diff(
+        upstream.splitlines(),
+        current.splitlines(),
+        fromfile=f"{path} [upstream]",
+        tofile=f"{path}",
+        lineterm="",
+    ):
+        print(line)
+
+
+def scan_conf() -> Iterable[Entry]:
+    with CONF.open(encoding="utf-8") as f:
+        for line in f:
+            line = line.rstrip("\n")
+            if not line or SECTION_RE.fullmatch(line):
+                continue
+            path, _, upstream_path = shlex.split(line)
+            cur_f = Path(path)
+            upstream_f = Path(upstream_path).expanduser()
+            try:
+                upstream = upstream_f.read_bytes()
+            except FileNotFoundError:
+                upstream = None
+            yield Entry(cur_f, upstream)
+
+
+def parse_pacman_conf(*keys: str) -> dict[str, list[str]]:
+    proc = subprocess.run(
+        ["pacman-conf", "--verbose", *keys],
+        stdout=subprocess.PIPE,
+        check=True,
+        text=True,
+    )
+    conf: dict[str, list[str]] = {}
+    for line in proc.stdout.splitlines():
+        key, val = line.split(" = ", maxsplit=2)
+        conf.setdefault(key, []).append(val)
+    return conf
+
+
+def parse_pacman_db(path: Path) -> dict[str, list[str]]:
+    res: dict[str, list[str]] = {}
+    section: list[str] = []
+    with path.open(encoding="utf-8") as f:
+        for line in f:
+            line = line.rstrip("\n")
+            if line.startswith("%"):
+                res[line.strip("%")] = section = []
+            elif line:
+                section.append(line)
+    return res
+
+
+def scan_pacman() -> Iterable[Entry]:
+    try:
+        conf = parse_pacman_conf("CacheDir", "DBPath")
+    except FileNotFoundError:
+        return
+    cache_dirs = list(map(Path, conf["CacheDir"]))
+    local_db_dir = Path(conf["DBPath"][0], "local")
+
+    for pkg_dir in local_db_dir.iterdir():
+        if not pkg_dir.is_dir():
+            continue
+        files = parse_pacman_db(pkg_dir / "files")
+        backup = files.get("BACKUP")
+        if not backup:
+            continue
+        desc = parse_pacman_db(pkg_dir / "desc")
+        (arch,) = desc["ARCH"]
+        for d in cache_dirs:
+            pkg_file = d / f"{pkg_dir.name}-{arch}.pkg.tar.zst"
+            if pkg_file.exists():
+                break
+        else:
+            pkg_file = None
+        for line in backup:
+            path, hash = line.split(maxsplit=2)
+            if hash == "(null)":  # TODO: what is this?
+                continue
+            cur_path = Path("/", path)
+            try:
+                cur_bytes = cur_path.read_bytes()
+            except PermissionError:
+                continue
+            other_hash = bytes.fromhex(hash)
+            cur_hash = hashlib.md5(cur_bytes, usedforsecurity=False).digest()
+            if cur_hash == other_hash:
+                continue
+            other_text = None
+            if pkg_file:
+                proc = subprocess.run(
+                    ["bsdtar", "-xOf", pkg_file, path],
+                    stdout=subprocess.PIPE,
+                    check=False,
+                )
+                if proc.returncode == 0:
+                    other_text = proc.stdout
+            yield Entry(cur_path, other_text)
+
+
+def migrate_schema(db: sqlite3.Connection) -> None:
+    (ver,) = db.execute("PRAGMA user_version").fetchone()
+    if ver == DB_VERSION:
+        return
+    if ver != 0:
+        raise RuntimeError(f"incompatible db version {ver}")
+
+    db.execute("BEGIN IMMEDIATE")
+    try:
+        db.execute(f"PRAGMA user_version = {DB_VERSION}")
+        for stmt in DB_SCHEMA.split(";"):
+            stmt = stmt.strip()
+            if stmt:
+                db.execute(stmt)
+        db.execute("COMMIT")
+    except Exception:
+        db.execute("ROLLBACK")
+        raise
+
+
+@dataclass
+class Config:
+    temp_dir: Path
+    show_all: bool
+
+
+@dataclass
+class Merge:
+    path: Path
+    base: bytes | None
+    upstream: bytes
+    changed: bool
+    sudo: bool
+
+
+def merge_file(conf: Config, merge: Merge) -> bool:
+    cur_f = merge.path
+    base = merge.base
+    upstream = merge.upstream
+    upstream_f = conf.temp_dir / f"{cur_f.name}.upstream"
+    upstream_f.write_bytes(upstream)
+    merged_f = conf.temp_dir / cur_f.name
+    cur = cur_f.read_bytes()
+    base_f = None
+    if base is None:
+        merged_f.write_bytes(cur)
+        status = "new file"
+    else:
+        base_f = conf.temp_dir / f"{cur_f.name}.base"
+        base_f.write_bytes(base)
+        proc = subprocess.run(
+            ["git", "merge-file", "-p", cur_f, base_f, upstream_f],
+            stdout=subprocess.PIPE,
+            check=False,
+        )
+        if not (0 <= proc.returncode <= 127):
+            raise RuntimeError(f"merge returned {proc.returncode}")
+        merged_f.write_bytes(proc.stdout)
+        if proc.returncode > 0:
+            status = "conflict"
+        else:
+            status = "auto merged"
+
+    versions = {
+        "c": (cur_f, cur),
+        "b": (base_f, base),
+        "u": (upstream_f, upstream),
+    }
+    print(f"{cur_f}: {status}")
+    while True:
+        action = input("[a/s/e/n/D/o/?][c/b/U] ") or "d"
+        path, content = versions.get(action[1:] or "u", (None, None))
+        match action[0]:
+            case "a":
+                break
+            case "s":
+                return False
+            case "e":
+                subprocess.run([*EDITOR, merged_f], check=False)
+            case "n" if path:
+                subprocess.run(["nvim", "-d", merged_f, path], check=False)
+            case "d" if path:
+                proc = subprocess.run(
+                    ["git", "diff", "--no-index", path, merged_f],
+                    check=False,
+                )
+            case "o" if content is not None:
+                merged_f.write_bytes(content)
+                print(f"overwrote with {path}")
+            case "?":
+                print("add, skip, edit, nvim, diff, overwrite")
+            case _:
+                pass
+
+    merged = merged_f.read_bytes()
+    print("saving changes")
+    if not merge.sudo:
+        cur_f.write_bytes(merged)
+    else:
+        subprocess.run(
+            ["sudo", "tee", cur_f],
+            input=merged,
+            stdout=subprocess.DEVNULL,
+            check=True,
+        )
+        pacnew = cur_f.with_name(f"{cur_f.name}.pacnew")
+        if pacnew.exists():
+            print(f"removing {pacnew}")
+            subprocess.run(["sudo", "rm", pacnew], check=True)
+    return True
+
+
+def select_merge(
+    conf: Config, db: sqlite3.Connection, entries: Sequence[Entry]
+) -> None:
+    bases = {
+        Path(path): base
+        for path, base in db.execute("SELECT path, upstream FROM merge")
+    }
+    merges: list[Merge] = []
+    for entry in entries:
+        if entry.upstream is None:
+            print(f"skipping {entry.path}: upstream not found")
+            continue
+        base = bases.get(entry.path)
+        merge = Merge(
+            path=entry.path,
+            base=base,
+            upstream=entry.upstream,
+            changed=entry.upstream != base,
+            sudo=entry.path.stat().st_uid == 0,
+        )
+        merges.append(merge)
+
+    print(":: status")
+    for merge in merges:
+        status = "M" if merge.changed else " "
+        print(f"{status} {merge.path}")
+
+    # TODO; selector
+
+    for merge in merges:
+        if not conf.show_all and not merge.changed:
+            continue
+        ok = merge_file(conf, merge)
+        if ok:
+            db.execute(
+                "INSERT INTO merge(path, upstream) VALUES(?, ?)"
+                " ON CONFLICT(path) DO UPDATE SET upstream = excluded.upstream",
+                (str(merge.path), merge.upstream),
+            )
+
+
+def main() -> None:
+    parser = argparse.ArgumentParser()
+    parser.add_argument(
+        "--all",
+        "-a",
+        action=argparse.BooleanOptionalAction,
+        default=False,
+        help="show all files including non-conflict ones",
+    )
+    args = parser.parse_args()
+
+    os.chdir(DOT_DIR)
+
+    print(":: scanning")
+    entries = [*scan_conf(), *scan_pacman()]
+
+    with (
+        closing(sqlite3.connect(DB_PATH, isolation_level=None)) as db,
+        TemporaryDirectory() as temp_dir,
+    ):
+        conf = Config(temp_dir=Path(temp_dir), show_all=args.all)
+        db.execute("PRAGMA journal_mode = WAL")
+        db.execute("PRAGMA synchronous = NORMAL")
+        migrate_schema(db)
+        db.execute("PRAGMA foreign_keys = ON")
+        db.execute("BEGIN IMMEDIATE")
+        try:
+            select_merge(conf, db, entries)
+        finally:
+            db.execute("COMMIT")
+
+
+if __name__ == "__main__":
+    try:
+        main()
+    except (KeyboardInterrupt, EOFError):
+        print()
