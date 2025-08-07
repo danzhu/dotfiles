@@ -50,6 +50,9 @@ source $DOT/shell/completions
 
 
 # --- third-party tools init ---
+if type fzf &> /dev/null; then
+    source <(fzf --zsh)
+fi
 if type rbenv &> /dev/null; then
     eval "$(rbenv init -)"
 fi

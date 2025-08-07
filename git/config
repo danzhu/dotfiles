@@ -13,6 +13,8 @@
 [status]
 	short = true
 	branch = true
+[branch]
+	sort = committerdate
 [diff]
 	tool = emerge
 	algorithm = histogram

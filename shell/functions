@@ -28,6 +28,18 @@ alias mkcd='mk cd'
 alias mkcp='mk cp'
 alias mkmv='mk mv'
 
+pacq() {
+    pacman -Qq | fzf --multi --preview-window=down --preview 'pacman -Qi {1}' | xargs -ro pacman -Qi
+}
+
+pacs() {
+    pacman -Slq | fzf --multi --preview-window=down --preview 'pacman -Si {1}' | xargs -ro sudo pacman -S
+}
+
+fman() {
+    man -k . | fzf -q "$1" --prompt='man> '  --preview $'echo {} | tr -d \'()\' | awk \'{printf "%s ", $2} {print $1}\' | xargs -r man' | tr -d '()' | awk '{printf "%s ", $2} {print $1}' | xargs -r man
+}
+
 if [[ -f $DOT/shell/functions.local ]]; then
     source $DOT/shell/functions.local
 fi
