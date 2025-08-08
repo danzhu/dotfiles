@@ -1,3 +1,6 @@
+# local
+/dot/template.local.json
+
 # state
 /dot/.snapshot.json
 *.db

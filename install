@@ -6,8 +6,9 @@ import shlex
 import shutil
 import subprocess
 from collections.abc import Callable
+from contextlib import suppress
 from pathlib import Path
-from typing import TypeVar
+from typing import Any, TypeVar
 from urllib import request
 
 from dot.template import Template
@@ -20,8 +21,25 @@ LIB_DIR = DOT_DIR / "dot"
 CONF = LIB_DIR / "install.conf"
 SNAP = LIB_DIR / ".snapshot.json"
 DATA = LIB_DIR / "template.json"
+LOCAL_DATA = LIB_DIR / "template.local.json"
+
+
+def update_rec(a: Any, b: Any) -> Any:
+    match a, b:
+        case dict(), dict():
+            for k, v in b.items():
+                a[k] = update_rec(a.get(k), v)
+        case list(), list():
+            a.extend(b)
+        case _:
+            a = b
+    return a
+
+
 with DATA.open(encoding="utf-8") as f:
     TEMPL_DATA = json.load(f)
+with suppress(FileNotFoundError), LOCAL_DATA.open(encoding="utf-8") as f:
+    update_rec(TEMPL_DATA, json.load(f))
 
 
 ACTIONS: dict[str, Callable[..., None]] = {}
