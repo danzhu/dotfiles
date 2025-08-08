@@ -233,20 +233,24 @@ def merge_file(conf: Config, merge: Merge) -> bool:
                 pass
 
     merged = merged_f.read_bytes()
-    print("saving changes")
-    if not merge.sudo:
-        cur_f.write_bytes(merged)
-    else:
-        subprocess.run(
-            ["sudo", "tee", cur_f],
-            input=merged,
-            stdout=subprocess.DEVNULL,
-            check=True,
-        )
+    if merged != cur:
+        print("saving changes")
+        if not merge.sudo:
+            cur_f.write_bytes(merged)
+        else:
+            subprocess.run(
+                ["sudo", "tee", cur_f],
+                input=merged,
+                stdout=subprocess.DEVNULL,
+                check=True,
+            )
+
+    if merge.sudo:
         pacnew = cur_f.with_name(f"{cur_f.name}.pacnew")
         if pacnew.exists():
             print(f"removing {pacnew}")
             subprocess.run(["sudo", "rm", pacnew], check=True)
+
     return True
 
 
