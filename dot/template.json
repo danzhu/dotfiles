@@ -99,9 +99,7 @@
     "-x": "chmod -x"
   },
   "partition": {
-    "root": "/",
-    "win": "/win",
-    "hdd": "/hdd"
+    "root": "/"
   },
   "terminal": "alacritty",
   "terminal_run": "-e {}",
