@@ -1,4 +1,5 @@
 *dpi: {{dpi}}
+Xcursor.size: {{cursor_size}}
 
 *.foreground: #{{foreground}}
 *.background: #{{background}}
