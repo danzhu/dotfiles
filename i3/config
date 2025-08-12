@@ -31,11 +31,11 @@ set $secondary {{display_secondary}}
 
 set $mpv_pane scratch:mpv
 set $screen_lock exec --no-startup-id xset dpms force off; exec --no-startup-id i3lock -c 000000
-set $volume_down exec --no-startup-id pactl set-sink-volume @DEFAULT_SINK@ -2%
-set $volume_up exec --no-startup-id pactl set-sink-volume @DEFAULT_SINK@ +2%
+set $volume_down exec --no-startup-id pactl set-sink-volume @DEFAULT_SINK@ -5%
+set $volume_up exec --no-startup-id pactl set-sink-volume @DEFAULT_SINK@ +5%
 set $mute_toggle exec --no-startup-id pactl set-sink-mute @DEFAULT_SINK@ toggle
-set $brightness_up exec --no-startup-id xbacklight -inc 5
-set $brightness_down exec --no-startup-id xbacklight -dec 5
+set $brightness_up exec --no-startup-id brightnessctl set +5%
+set $brightness_down exec --no-startup-id brightnessctl set 5%-
 
 # workspace names
 set $ws0 0:tmp
@@ -84,7 +84,6 @@ assign [class="^steam$"] workspace $ws5
 assign [class="^ffxiv_dx11\.exe$"] workspace $ws6
 
 assign [class="^Element$"] workspace $ws8
-exec --no-startup-id element-desktop
 
 assign [class="^mpv$" instance="^tv$"] workspace $ws9
 assign [class="^qutebrowser$"] workspace $ws9
