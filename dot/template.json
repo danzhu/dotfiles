@@ -9,7 +9,7 @@
   "env": {
     "DOT": "$HOME/.dotfiles",
     "EDITOR": "emacs -nw",
-    "VISUAL": "emacs -nw",
+    "VISUAL": "$EDITOR",
     "LESS": "R",
     "TERMINAL": "alacritty",
     "ALTERNATE_EDITOR": "",

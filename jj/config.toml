@@ -6,3 +6,6 @@ email = "{{email}}"
 
 [ui]
 default-command = "log"
+
+[snapshot]
+auto-track = "none()"
