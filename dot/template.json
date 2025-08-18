@@ -6,6 +6,7 @@
     "$HOME/.config/emacs/bin",
     "$HOME/.local/share/npm/bin"
   ],
+  "scratch": [],
   "env": {
     "DOT": "$HOME/.dotfiles",
     "EDITOR": "emacs -nw",
